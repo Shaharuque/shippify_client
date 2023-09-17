@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-import { Flex, Box, FormControl, Input, InputGroup, InputLeftElement, FormErrorMessage, Icon } from '@chakra-ui/react';
+import { Center, Flex, Box, FormControl, Input, InputGroup, InputLeftElement, FormErrorMessage, Icon } from '@chakra-ui/react';
 import BottomText from '../Bottom text/bottomText';
 import SubmitButton from '../Buttons/submitButton';
 import Greeting from '../Greetings texts/greeting';
@@ -7,6 +7,7 @@ import Logo from '../Logo/logo';
 import { HiOutlineMail } from 'react-icons/hi';
 import { AiOutlineLock, AiOutlineUser, AiOutlineMobile } from 'react-icons/ai';
 import FormHelperText from '../Form helper text/formHelperText';
+import { signUp } from '../../services/apis/authApi';
 
 export type RegistrationFormData = {
 	name: string;
@@ -23,7 +24,14 @@ const RegisterForm = () => {
 	} = useForm<RegistrationFormData>();
 
 	const onSubmit = async (values: RegistrationFormData) => {
-		console.log(values);
+		try {
+			// console.log(values);
+			const result = await signUp(values);
+			console.log(result);
+			// console.log(`${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}`);
+		} catch (error) {
+			console.error('Error message from register form:', error);
+		}
 	};
 
 	return (
@@ -35,15 +43,14 @@ const RegisterForm = () => {
 				p={'1rem'}
 				m={'0 auto'}
 				w={'25rem'}>
-				<Box
+				<Center
 					pos={'relative'}
-					top={'-3rem'}
-					left={'-.5rem'}>
+					top={'-4rem'}>
 					<Logo />
-				</Box>
+				</Center>
 
 				<>
-					<Greeting text={'Simplify Your Shipping, Join Us Today!'} />
+					<Greeting text={'Simplify Shipping, Join Us Today!'} />
 				</>
 				<>
 					<FormHelperText text={'Fill the form below to create an account '} />

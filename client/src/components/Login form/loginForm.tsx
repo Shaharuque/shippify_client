@@ -1,4 +1,4 @@
-import { FormControl, InputGroup, InputLeftElement, Icon, Input, Box, Text, FormErrorMessage, Flex } from '@chakra-ui/react';
+import { Center, FormControl, InputGroup, InputLeftElement, Icon, Input, Box, Text, FormErrorMessage, Flex } from '@chakra-ui/react';
 import { HiOutlineMail } from 'react-icons/hi';
 import { AiOutlineLock } from 'react-icons/ai';
 import { useForm } from 'react-hook-form';
@@ -40,12 +40,11 @@ const LoginForm = () => {
 				p={'1rem'}
 				m={'0 auto'}
 				w={'25rem'}>
-				<Box
+				<Center
 					pos={'relative'}
-					top={'-3rem'}
-					left={'-.5rem'}>
+					top={'-4rem'}>
 					<Logo />
-				</Box>
+				</Center>
 
 				<>
 					<Greeting
