@@ -1,7 +1,6 @@
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LoginPage from './pages/Login/login.page';
-import { ChakraProvider } from '@chakra-ui/react';
 
 function App() {
 	return (
@@ -9,11 +8,7 @@ function App() {
 			<Routes>
 				<Route
 					path="/login"
-					element={
-						<ChakraProvider>
-							<LoginPage />
-						</ChakraProvider>
-					}></Route>
+					element={<LoginPage />}></Route>
 			</Routes>
 		</Router>
 	);
