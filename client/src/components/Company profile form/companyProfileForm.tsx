@@ -1,36 +1,33 @@
 import { useForm } from 'react-hook-form';
-import { Center, Flex, Box, FormControl, Input, InputGroup, InputLeftElement, FormErrorMessage, Icon } from '@chakra-ui/react';
-import BottomText from '../Bottom text/bottomText';
-import SubmitButton from '../Buttons/submitButton';
-import Greeting from '../Greetings texts/greeting';
+import { Flex, Box, Center, FormControl, FormErrorMessage, Input, InputGroup, InputLeftElement, Icon, Select } from '@chakra-ui/react';
 import Logo from '../Logo/logo';
-import { HiOutlineMail } from 'react-icons/hi';
-import { AiOutlineLock, AiOutlineUser, AiOutlineMobile } from 'react-icons/ai';
+import Greeting from '../Greetings texts/greeting';
 import FormHelperText from '../Form helper text/formHelperText';
-import { signUp } from '../../services/apis/authApi';
+import { MdOutlineBusinessCenter } from 'react-icons/md';
+import { HiOutlineMail } from 'react-icons/hi';
+import { BsTelephone, BsGlobe } from 'react-icons/bs';
+import SubmitButton from '../Buttons/submitButton';
 
-export type RegistrationFormData = {
+export type CompanyProfileFormData = {
 	name: string;
+	monthlyShipment: string;
 	email: string;
-	password: string;
+	website?: string;
 	phone: string;
 };
 
-const RegisterForm = () => {
+const CompanyProfileForm = () => {
 	const {
 		handleSubmit,
 		register,
 		formState: { errors },
-	} = useForm<RegistrationFormData>();
+	} = useForm<CompanyProfileFormData>();
 
-	const onSubmit = async (values: RegistrationFormData) => {
+	const onSubmit = async (values: CompanyProfileFormData) => {
 		try {
 			console.log(values);
-			// const result = await signUp(values);
-			// console.log(result);
-			// console.log(`${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}`);
 		} catch (error) {
-			console.error('Error message from user registration form:', error);
+			console.error('Error message from company setup form:', error);
 		}
 	};
 
@@ -46,15 +43,16 @@ const RegisterForm = () => {
 				<Center
 					pos={'relative'}
 					top={'-4rem'}
-					left={'-1rem'}>
+					left={'-.75rem'}>
 					<Logo />
 				</Center>
 
 				<>
-					<Greeting text={'Simplify Shipping, Join Us Today!'} />
+					<Greeting text={'Kick off with an easy step!'} />
 				</>
+
 				<>
-					<FormHelperText text={'Fill the form below to create an account '} />
+					<FormHelperText text={'Fill up the form below to setup your company profile'} />
 				</>
 
 				<form onSubmit={handleSubmit(onSubmit)}>
@@ -63,11 +61,11 @@ const RegisterForm = () => {
 						mt={'1.20rem'}>
 						<InputGroup>
 							<InputLeftElement>
-								<Icon as={AiOutlineUser} />
+								<Icon as={MdOutlineBusinessCenter} />
 							</InputLeftElement>
 							<Input
 								id="name"
-								placeholder="John Doe"
+								placeholder="Company Name"
 								_placeholder={{ color: 'black' }}
 								border={'1px solid'}
 								{...register('name')}
@@ -85,7 +83,7 @@ const RegisterForm = () => {
 							</InputLeftElement>
 							<Input
 								id="email"
-								placeholder="example@example.com"
+								placeholder="Company Email"
 								_placeholder={{ color: 'black' }}
 								border={'1px solid'}
 								{...register('email')}
@@ -99,7 +97,7 @@ const RegisterForm = () => {
 						mt={'1.20rem'}>
 						<InputGroup>
 							<InputLeftElement>
-								<Icon as={AiOutlineMobile} />
+								<Icon as={BsTelephone} />
 							</InputLeftElement>
 							<Input
 								id="phone"
@@ -112,53 +110,43 @@ const RegisterForm = () => {
 						<FormErrorMessage>{errors.phone && errors.phone.message}</FormErrorMessage>
 					</FormControl>
 
-					<FormControl
-						isRequired
-						mt={'1.5rem'}>
+					<FormControl mt={'1.20rem'}>
 						<InputGroup>
 							<InputLeftElement>
-								<Icon as={AiOutlineLock} />
+								<Icon as={BsGlobe} />
 							</InputLeftElement>
 							<Input
-								id="password"
-								placeholder="Password"
+								id="website"
+								placeholder="www.example.com"
 								_placeholder={{ color: 'black' }}
 								border={'1px solid'}
-								{...register('password')}
+								{...register('website')}
 							/>
 						</InputGroup>
-						<FormErrorMessage>{errors.password && errors.password.message}</FormErrorMessage>
+						<FormErrorMessage>{errors.website && errors.website.message}</FormErrorMessage>
 					</FormControl>
 
 					<FormControl
 						isRequired
-						mt={'1.5rem'}>
-						<InputGroup>
-							<InputLeftElement>
-								<Icon as={AiOutlineLock} />
-							</InputLeftElement>
-							<Input
-								id="confirmPassword"
-								placeholder="Confirm Password"
-								_placeholder={{ color: 'black' }}
-								border={'1px solid'}
-								{...register('password')}
-							/>
-						</InputGroup>
-						<FormErrorMessage>{errors.password && errors.password.message}</FormErrorMessage>
+						mt={'1.20rem'}>
+						<Select
+							id="monthlyShipment"
+							placeholder="Monthly Shipment Volume"
+							_placeholder={{ color: 'black' }}
+							border={'1px solid'}
+							{...register('monthlyShipment')}>
+							<option>0 - 30 kg</option>
+							<option>30 - 70 kg</option>
+							<option> 70kg+ </option>
+						</Select>
 					</FormControl>
-
 					<>
-						<SubmitButton text={'Get Started'} />
+						<SubmitButton text={'Submit'} />
 					</>
 				</form>
-				<BottomText
-					text={'Already'}
-					link={'login'}
-				/>
 			</Box>
 		</Flex>
 	);
 };
 
-export default RegisterForm;
+export default CompanyProfileForm;

@@ -2,6 +2,8 @@ import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LoginPage from './pages/Login/login.page';
 import RegisterPage from './pages/Register/register.page';
+import PageNotFound from './components/Page not found/pageNotFound';
+import Multistep from './components/Multi stepper form/multiStepperForm';
 
 function App() {
 	return (
@@ -13,6 +15,14 @@ function App() {
 				<Route
 					path="/login"
 					element={<LoginPage />}></Route>
+
+				<Route
+					path="/multi"
+					element={<Multistep />}></Route>
+
+				<Route
+					path="*"
+					element={<PageNotFound />}></Route>
 			</Routes>
 		</Router>
 	);

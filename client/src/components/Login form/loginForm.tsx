@@ -23,8 +23,9 @@ const LoginForm = () => {
 
 	const onSubmit = async (values: LoginFormData) => {
 		try {
-			const result = await signIn(values);
-			console.log(result);
+			console.log(values);
+			// const result = await signIn(values);
+			// console.log(result);
 			// console.log(`${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}`);
 		} catch (error) {
 			console.error('Error message from login form:', error);
@@ -42,7 +43,8 @@ const LoginForm = () => {
 				w={'25rem'}>
 				<Center
 					pos={'relative'}
-					top={'-4rem'}>
+					top={'-4rem'}
+					left={'-.75rem'}>
 					<Logo />
 				</Center>
 
