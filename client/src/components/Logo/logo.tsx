@@ -6,7 +6,7 @@ const Logo = () => {
 		<Flex align={'center'}>
 			<Image
 				src={logo}
-				boxSize={'7.5rem'}></Image>
+				boxSize={'8rem'}></Image>
 			<Text
 				fontWeight={'700'}
 				fontSize={'1.25rem'}>

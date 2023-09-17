@@ -1,9 +1,13 @@
-import { FormControl, InputGroup, InputLeftElement, Icon, Input, Box, Text, FormErrorMessage, Flex, Button, Heading, Image } from '@chakra-ui/react';
+import { FormControl, InputGroup, InputLeftElement, Icon, Input, Box, Text, FormErrorMessage, Flex } from '@chakra-ui/react';
 import { HiOutlineMail } from 'react-icons/hi';
 import { AiOutlineLock } from 'react-icons/ai';
 import { useForm } from 'react-hook-form';
-import wavingHand from './../../assets/waving-hand.png';
+
 import Logo from '../Logo/logo';
+import BottomText from '../Bottom text/bottomText';
+import SubmitButton from '../Buttons/submitButton';
+import LoginGreeting from '../Greetings texts/loginGreeting';
+import { signIn } from '../../services/apis/authApi';
 
 export type LoginFormData = {
 	email: string;
@@ -17,8 +21,14 @@ const LoginForm = () => {
 		formState: { errors },
 	} = useForm<LoginFormData>();
 
-	const onSubmit = async (data: LoginFormData) => {
-		console.log(data);
+	const onSubmit = async (values: LoginFormData) => {
+		try {
+			const result = await signIn(values);
+			console.log(result);
+			// console.log(`${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}`);
+		} catch (error) {
+			console.error('Error message from login form:', error);
+		}
 	};
 
 	return (
@@ -29,25 +39,17 @@ const LoginForm = () => {
 			<Box
 				p={'1rem'}
 				m={'0 auto'}
-				w={'24rem'}>
+				w={'25rem'}>
 				<Box
 					pos={'relative'}
 					top={'-3rem'}
 					left={'-.5rem'}>
 					<Logo />
 				</Box>
-				<Flex align={'center'}>
-					<Heading
-						mb={'3rem'}
-						fontWeight={'600'}>
-						Good To See You Again!
-					</Heading>
-					<Image
-						pos={'relative'}
-						left={'-11rem'}
-						src={wavingHand}
-						boxSize={'3rem'}></Image>
-				</Flex>
+
+				<>
+					<LoginGreeting />
+				</>
 
 				<Text
 					fontSize={'1rem'}
@@ -68,9 +70,7 @@ const LoginForm = () => {
 								placeholder="example@example.com"
 								_placeholder={{ color: 'black' }}
 								border={'1px solid'}
-								{...register('email', {
-									minLength: { value: 4, message: 'Minimum length should be 4' },
-								})}
+								{...register('email')}
 							/>
 						</InputGroup>
 						<FormErrorMessage>{errors.email && errors.email.message}</FormErrorMessage>
@@ -88,9 +88,7 @@ const LoginForm = () => {
 								placeholder="Password"
 								_placeholder={{ color: 'black' }}
 								border={'1px solid'}
-								{...register('password', {
-									minLength: { value: 8, message: 'Minimum length should be 8' },
-								})}
+								{...register('password')}
 							/>
 						</InputGroup>
 						<FormErrorMessage>{errors.password && errors.password.message}</FormErrorMessage>
@@ -102,22 +100,11 @@ const LoginForm = () => {
 						fontWeight={'500'}>
 						Forgot Password?
 					</Text>
-
-					<Button
-						mt={'2rem'}
-						color={'primary'}
-						bg={'cta'}
-						borderRadius={'2rem'}
-						w={'full'}>
-						Sign In
-					</Button>
+					<>
+						<SubmitButton />
+					</>
 				</form>
-				<Text mt={'1rem'}>
-					Don't have an account?
-					<span>
-						<a style={{ marginLeft: '.75rem', color: '#264653', textDecoration: 'underline' }}>Register</a>
-					</span>
-				</Text>
+				<BottomText />
 			</Box>
 		</Flex>
 	);
