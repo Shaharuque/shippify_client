@@ -4,6 +4,7 @@ import { Progress, Box, ButtonGroup, Button, Heading, Flex, FormControl, GridIte
 import { useToast } from '@chakra-ui/react';
 import RegisterForm from '../Register form/registerForm';
 import CompanyProfileForm from '../Company profile form/companyProfileForm';
+import AddressSetupForm from '../Address setup form/addressSetupForm';
 
 const Form1 = () => {
 	const [show, setShow] = useState(false);
@@ -305,7 +306,7 @@ const Form3 = () => {
 
 export default function Multistep() {
 	const toast = useToast();
-	const [step, setStep] = useState(1);
+	const [step, setStep] = useState(3);
 	const [progress, setProgress] = useState(33.33);
 
 	return (
@@ -320,7 +321,7 @@ export default function Multistep() {
 					mb="5%"
 					mx="5%"
 					isAnimated></Progress>
-				{step === 1 ? <RegisterForm /> : step === 2 ? <CompanyProfileForm /> : <Form3 />}
+				{step === 1 ? <RegisterForm /> : step === 2 ? <CompanyProfileForm /> : <AddressSetupForm />}
 				<ButtonGroup
 					mt="5%"
 					w="100%">

@@ -7,13 +7,14 @@ import { MdOutlineBusinessCenter } from 'react-icons/md';
 import { HiOutlineMail } from 'react-icons/hi';
 import { BsTelephone, BsGlobe } from 'react-icons/bs';
 import SubmitButton from '../Buttons/submitButton';
+import { setUpCompany } from '../../services/apis/setupApi';
 
 export type CompanyProfileFormData = {
-	name: string;
+	companyName: string;
 	monthlyShipment: string;
-	email: string;
-	website?: string;
-	phone: string;
+	companyEmail: string;
+	companyWebsite?: string;
+	companyPhone: string;
 };
 
 const CompanyProfileForm = () => {
@@ -25,7 +26,9 @@ const CompanyProfileForm = () => {
 
 	const onSubmit = async (values: CompanyProfileFormData) => {
 		try {
-			console.log(values);
+			// console.log(values);
+			const result = await setUpCompany(values);
+			console.log(result);
 		} catch (error) {
 			console.error('Error message from company setup form:', error);
 		}
@@ -64,14 +67,14 @@ const CompanyProfileForm = () => {
 								<Icon as={MdOutlineBusinessCenter} />
 							</InputLeftElement>
 							<Input
-								id="name"
+								id="companyName"
 								placeholder="Company Name"
 								_placeholder={{ color: 'black' }}
 								border={'1px solid'}
-								{...register('name')}
+								{...register('companyName')}
 							/>
 						</InputGroup>
-						<FormErrorMessage>{errors.name && errors.name.message}</FormErrorMessage>
+						<FormErrorMessage>{errors.companyName && errors.companyName.message}</FormErrorMessage>
 					</FormControl>
 
 					<FormControl
@@ -82,14 +85,14 @@ const CompanyProfileForm = () => {
 								<Icon as={HiOutlineMail} />
 							</InputLeftElement>
 							<Input
-								id="email"
+								id="companyEmail"
 								placeholder="Company Email"
 								_placeholder={{ color: 'black' }}
 								border={'1px solid'}
-								{...register('email')}
+								{...register('companyEmail')}
 							/>
 						</InputGroup>
-						<FormErrorMessage>{errors.email && errors.email.message}</FormErrorMessage>
+						<FormErrorMessage>{errors.companyEmail && errors.companyEmail.message}</FormErrorMessage>
 					</FormControl>
 
 					<FormControl
@@ -100,14 +103,14 @@ const CompanyProfileForm = () => {
 								<Icon as={BsTelephone} />
 							</InputLeftElement>
 							<Input
-								id="phone"
+								id="companyPhone"
 								placeholder="Contact Number"
 								_placeholder={{ color: 'black' }}
 								border={'1px solid'}
-								{...register('phone')}
+								{...register('companyPhone')}
 							/>
 						</InputGroup>
-						<FormErrorMessage>{errors.phone && errors.phone.message}</FormErrorMessage>
+						<FormErrorMessage>{errors.companyPhone && errors.companyPhone.message}</FormErrorMessage>
 					</FormControl>
 
 					<FormControl mt={'1.20rem'}>
@@ -116,14 +119,14 @@ const CompanyProfileForm = () => {
 								<Icon as={BsGlobe} />
 							</InputLeftElement>
 							<Input
-								id="website"
+								id="companyWebsite"
 								placeholder="www.example.com"
 								_placeholder={{ color: 'black' }}
 								border={'1px solid'}
-								{...register('website')}
+								{...register('companyWebsite')}
 							/>
 						</InputGroup>
-						<FormErrorMessage>{errors.website && errors.website.message}</FormErrorMessage>
+						<FormErrorMessage>{errors.companyWebsite && errors.companyWebsite.message}</FormErrorMessage>
 					</FormControl>
 
 					<FormControl
@@ -139,6 +142,7 @@ const CompanyProfileForm = () => {
 							<option>30 - 70 kg</option>
 							<option> 70kg+ </option>
 						</Select>
+						<FormErrorMessage>{errors.monthlyShipment && errors.monthlyShipment.message}</FormErrorMessage>
 					</FormControl>
 					<>
 						<SubmitButton text={'Submit'} />
