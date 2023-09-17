@@ -1,6 +1,12 @@
 import { Flex, Text } from '@chakra-ui/react';
+import { Link } from 'react-router-dom';
 
-const BottomText = () => {
+type BottomTextProps = {
+	text: string;
+	link: string;
+};
+
+const BottomText = ({ text, link }: BottomTextProps) => {
 	return (
 		<Flex
 			mt={'1rem'}
@@ -9,13 +15,16 @@ const BottomText = () => {
 			<Text
 				fontWeight={'500'}
 				fontSize={'1.05rem'}>
-				Don't have an account?
+				{text} have an account?
 			</Text>
-			<Text
-				color={'#264653'}
-				textDecoration={'underline'}>
-				Register
-			</Text>
+			<Link to={`/${link}`}>
+				<Text
+					color={'#264653'}
+					textDecoration={'underline'}
+					textTransform={'capitalize'}>
+					{link}
+				</Text>
+			</Link>
 		</Flex>
 	);
 };

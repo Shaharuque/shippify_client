@@ -1,6 +1,10 @@
 import { Button } from '@chakra-ui/react';
 
-const SubmitButton = () => {
+type SubmitButtonProps = {
+	text: string;
+};
+
+const SubmitButton = ({ text }: SubmitButtonProps) => {
 	return (
 		<Button
 			type="submit"
@@ -9,7 +13,7 @@ const SubmitButton = () => {
 			bg={'cta'}
 			borderRadius={'2rem'}
 			w={'full'}>
-			Sign In
+			{text}
 		</Button>
 	);
 };

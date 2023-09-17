@@ -2,12 +2,12 @@ import { FormControl, InputGroup, InputLeftElement, Icon, Input, Box, Text, Form
 import { HiOutlineMail } from 'react-icons/hi';
 import { AiOutlineLock } from 'react-icons/ai';
 import { useForm } from 'react-hook-form';
-
 import Logo from '../Logo/logo';
 import BottomText from '../Bottom text/bottomText';
 import SubmitButton from '../Buttons/submitButton';
-import LoginGreeting from '../Greetings texts/loginGreeting';
+import Greeting from '../Greetings texts/greeting';
 import { signIn } from '../../services/apis/authApi';
+import FormHelperText from '../Form helper text/formHelperText';
 
 export type LoginFormData = {
 	email: string;
@@ -48,15 +48,15 @@ const LoginForm = () => {
 				</Box>
 
 				<>
-					<LoginGreeting />
+					<Greeting
+						text={'Good To See You Again!'}
+						emoji={true}
+					/>
+				</>
+				<>
+					<FormHelperText text={'	Sign in to your account to continue'} />
 				</>
 
-				<Text
-					fontSize={'1rem'}
-					color={'#808080'}
-					fontWeight={'500'}>
-					Sign in to your account to continue
-				</Text>
 				<form onSubmit={handleSubmit(onSubmit)}>
 					<FormControl
 						isRequired
@@ -101,10 +101,13 @@ const LoginForm = () => {
 						Forgot Password?
 					</Text>
 					<>
-						<SubmitButton />
+						<SubmitButton text={'Sign In'} />
 					</>
 				</form>
-				<BottomText />
+				<BottomText
+					text={"Don't"}
+					link={'register'}
+				/>
 			</Box>
 		</Flex>
 	);
