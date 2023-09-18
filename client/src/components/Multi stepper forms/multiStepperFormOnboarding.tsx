@@ -11,6 +11,8 @@ export default function Multistep() {
 	const toast = useToast();
 	const [step, setStep] = useState(1);
 
+	console.log('step', step);
+
 	const nextStep = () => {
 		setStep(step + 1);
 	};

@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import RegisterPage from './pages/Register/register.page';
 import LoginPage from './pages/Login/login.page';
 import PageNotFound from './components/Page not found/pageNotFound';
-import CountDownTimer from './components/Countdown timer/countDown';
+import HomePage from './pages/Home/home.page';
 
 function App() {
 	return (
@@ -17,8 +17,8 @@ function App() {
 					element={<LoginPage />}></Route>
 
 				<Route
-					path="/timer"
-					element={<CountDownTimer />}></Route>
+					path="/home"
+					element={<HomePage />}></Route>
 
 				<Route
 					path="*"

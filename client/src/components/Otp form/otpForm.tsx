@@ -1,55 +1,80 @@
-import { Flex, Center, PinInput, HStack, PinInputField, Box, Button } from '@chakra-ui/react';
+import { Flex, PinInput, HStack, PinInputField, Button, VStack, Box } from '@chakra-ui/react';
 import FormHelperText from '../Form helper text/formHelperText';
 import Logo from '../Logo/logo';
-import Greeting from '../Greetings texts/greeting';
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 import SubmitButton from '../Buttons/submitButton';
 import BackButton from '../Buttons/backButton';
-import CountdownTimer from '../Countdown timer/countDown';
+import CountdownTimer from '../Countdown timer/countDownTimer';
+import { sendOTP, signUp } from '../../services/apis/authApi';
 
+export type OtpFormData = {
+	code: string;
+};
 const OtpForm = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () => void }) => {
 	const [pin, setPin] = useState('');
+	const [reset, setReset] = useState(59);
 
-	const handlePinSubmit = () => {
-		console.log('Pin:', pin);
-		nextStep();
+	const handlePinSubmit = async (event: FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
+		try {
+			const result = await sendOTP({ code: pin });
+			console.log('OTP form:', result);
+			if (result?.status === 200) nextStep();
+			else setReset(59);
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
-	const handleResetTimer = () => {};
+	const handleResetTimer = async () => {
+		const userTempData = localStorage.getItem('userTempData');
+		if (userTempData) {
+			const user = JSON.parse(userTempData);
+			console.log('User from localstorage after resending OTP:', user);
+			const result = await signUp(user);
+			console.log('Resend OTP', result);
+			setReset(59);
+		}
+	};
 
-	const handleTimeRunout = () => {};
+	const handleTimeRunout = () => {
+		prevStep();
+	};
 
 	const handleBackButton = () => {
 		prevStep();
 	};
 
 	return (
-		<>
-			<Center
+		<VStack>
+			<Box
 				pos={'relative'}
 				top={'-6rem'}
 				left={'-.75rem'}>
 				<Logo />
-			</Center>
-			<Center
+			</Box>
+			<Box
 				pos={'relative'}
 				top={'-4rem'}>
-				<CountdownTimer />
-			</Center>
-			<Center mb={'1.5rem'}>
-				<Button>Resend OTP</Button>
-			</Center>
+				<CountdownTimer
+					duration={reset}
+					runOutFunction={handleTimeRunout}
+				/>
+			</Box>
+			<Box mb={'1.5rem'}>
+				<Button onClick={handleResetTimer}>Resend OTP</Button>
+			</Box>
 
-			<Center>
+			<>
 				<FormHelperText text={'Check the email you provided for OTP'} />
-			</Center>
+			</>
 
 			<form
 				onSubmit={handlePinSubmit}
 				style={{ marginTop: '2.5rem' }}>
 				<HStack
 					justify={'center'}
-					gap={'2rem'}
+					gap={'1.5rem'}
 					mb={'2rem'}>
 					<PinInput
 						otp
@@ -60,16 +85,21 @@ const OtpForm = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () =>
 						<PinInputField />
 						<PinInputField />
 						<PinInputField />
+						<PinInputField />
+						<PinInputField />
 					</PinInput>
 				</HStack>
 				<Flex
 					gap={'1rem'}
 					mt={'3rem'}>
 					<BackButton onClick={handleBackButton} />
-					<SubmitButton text={'Verify'} />
+
+					<>
+						<SubmitButton text={'Verify'} />
+					</>
 				</Flex>
 			</form>
-		</>
+		</VStack>
 	);
 };
 

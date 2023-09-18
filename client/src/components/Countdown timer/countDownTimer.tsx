@@ -1,9 +1,9 @@
-import { Box, Text, VStack } from '@chakra-ui/react';
+import { Text, VStack } from '@chakra-ui/react';
 import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 
 type CountdownTimerProps = {
 	duration: number;
-	onClick: () => void;
+	runOutFunction: () => void;
 };
 
 const renderTime = ({ remainingTime }: { remainingTime: number }) => {
@@ -24,17 +24,17 @@ const renderTime = ({ remainingTime }: { remainingTime: number }) => {
 	);
 };
 
-const CountdownTimer = () => {
+const CountdownTimer = ({ duration, runOutFunction }: CountdownTimerProps) => {
 	return (
 		<>
 			<CountdownCircleTimer
 				size={160}
 				strokeWidth={10}
 				isPlaying
-				duration={59}
+				duration={duration}
 				colors={['#004777', '#F7B801', '#A30000', '#A30000']}
 				colorsTime={[45, 30, 15, 0]}
-				onComplete={() => ({ shouldRepeat: true, delay: 1 })}>
+				onComplete={runOutFunction}>
 				{renderTime}
 			</CountdownCircleTimer>
 		</>

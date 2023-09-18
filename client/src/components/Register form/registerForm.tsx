@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-import { Center, Flex, Box, FormControl, Input, InputGroup, InputLeftElement, FormErrorMessage, Icon } from '@chakra-ui/react';
+import { Center, Box, FormControl, Input, InputGroup, InputLeftElement, FormErrorMessage, Icon } from '@chakra-ui/react';
 import BottomText from '../Bottom text/bottomText';
 import SubmitButton from '../Buttons/submitButton';
 import Greeting from '../Greetings texts/greeting';
@@ -25,11 +25,12 @@ const RegisterForm = ({ nextStep }: { nextStep: () => void }) => {
 
 	const onSubmit = async (values: RegistrationFormData) => {
 		try {
-			console.log(values);
-			nextStep();
-
-			// const result = await signUp(values);
-			// console.log(result);
+			const result = await signUp(values);
+			console.log('Registration form:', result);
+			if (result?.status === 200) {
+				localStorage.setItem('userTempData', JSON.stringify(result?.data));
+				nextStep();
+			}
 		} catch (error) {
 			console.error('Error message from user registration form:', error);
 		}

@@ -27,10 +27,9 @@ const CompanyProfileForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 
 	const onSubmit = async (values: CompanyProfileFormData) => {
 		try {
-			console.log(values);
-			nextStep();
-			// const result = await setUpCompany(values);
-			// console.log(result);
+			const result = await setUpCompany(values);
+			console.log('Company profile setup:', result);
+			if (result?.status === 200) nextStep();
 		} catch (error) {
 			console.error('Error message from company setup form:', error);
 		}
@@ -139,7 +138,7 @@ const CompanyProfileForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 						{...register('monthlyShipment')}>
 						<option>0 - 30 kg</option>
 						<option>30 - 70 kg</option>
-						<option> 70kg+ </option>
+						<option> 70 kg+ </option>
 					</Select>
 					<FormErrorMessage>{errors.monthlyShipment && errors.monthlyShipment.message}</FormErrorMessage>
 				</FormControl>

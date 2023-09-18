@@ -4,7 +4,7 @@ import { axiosInstance } from '../axios';
 
 export const setUpCompany = async (data: CompanyProfileFormData) => {
 	try {
-		return axiosInstance.post('http://192.168.68.53:5000/user/registration-request', data, {
+		return axiosInstance.post(`${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}/user/registration-request`, data, {
 			headers: { 'Content-Type': 'application/json' },
 		});
 	} catch (error) {
@@ -14,7 +14,7 @@ export const setUpCompany = async (data: CompanyProfileFormData) => {
 
 export const setUpCompanyAddress = async (data: AddressSetupFormData) => {
 	try {
-		return axiosInstance.post('http://192.168.68.53:5000/user/registration-request', data, {
+		return axiosInstance.post(`${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}/user/registration-request`, data, {
 			headers: { 'Content-Type': 'application/json' },
 		});
 	} catch (error) {

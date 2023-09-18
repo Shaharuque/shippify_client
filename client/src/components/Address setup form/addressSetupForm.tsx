@@ -8,6 +8,8 @@ import { FaRegAddressCard } from 'react-icons/fa';
 import { BiSolidCity } from 'react-icons/bi';
 import SubmitButton from '../Buttons/submitButton';
 import BackButton from '../Buttons/backButton';
+import { setUpCompanyAddress } from '../../services/apis/setupApi';
+import { useNavigate } from 'react-router-dom';
 
 export type AddressSetupFormData = {
 	countryCode: string;
@@ -19,6 +21,7 @@ export type AddressSetupFormData = {
 };
 
 const AddressSetupForm = ({ prevStep }: { prevStep: () => void }) => {
+	const navigate = useNavigate();
 	const {
 		handleSubmit,
 		register,
@@ -27,7 +30,9 @@ const AddressSetupForm = ({ prevStep }: { prevStep: () => void }) => {
 
 	const onSubmit = async (values: AddressSetupFormData) => {
 		try {
-			console.log(values);
+			const result = await setUpCompanyAddress(values);
+			console.log('Address profile setup:', result);
+			if (result?.status === 200) navigate('/home');
 		} catch (error) {
 			console.error('Error from address setup form:', error);
 		}
