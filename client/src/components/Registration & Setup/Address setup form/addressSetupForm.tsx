@@ -1,23 +1,23 @@
 import { useForm } from 'react-hook-form';
 import { Center, FormControl, InputGroup, InputLeftElement, Icon, Input, FormErrorMessage, Flex, Select } from '@chakra-ui/react';
-import Logo from '../Logo/logo';
-import FormHelperText from '../Form helper text/formHelperText';
-import Greeting from '../Greetings texts/greeting';
+import Logo from '../../Logo/logo';
+import FormHelperText from '../../Form helper text/formHelperText';
+import Greeting from '../../Greetings texts/greeting';
 import { BsPostcard } from 'react-icons/bs';
 import { FaRegAddressCard } from 'react-icons/fa';
 import { BiSolidCity } from 'react-icons/bi';
-import SubmitButton from '../Buttons/submitButton';
-import BackButton from '../Buttons/backButton';
-import { setUpCompanyAddress } from '../../services/apis/setupApi';
+import SubmitButton from '../../Buttons/submitButton';
+import BackButton from '../../Buttons/backButton';
+import { setUpCompanyAddress } from '../../../services/apis/setupApi';
 import { useNavigate } from 'react-router-dom';
 
 export type AddressSetupFormData = {
-	countryCode: string;
-	addressOne: string;
-	addressTwo: string;
-	state: string;
-	city: string;
-	zipCode: number;
+	country_code: string;
+	address_line1: string;
+	address_line2: string;
+	state_province: string;
+	city_locality: string;
+	postal_code: number;
 };
 
 const AddressSetupForm = ({ prevStep }: { prevStep: () => void }) => {
@@ -30,9 +30,12 @@ const AddressSetupForm = ({ prevStep }: { prevStep: () => void }) => {
 
 	const onSubmit = async (values: AddressSetupFormData) => {
 		try {
-			const result = await setUpCompanyAddress(values);
+			const token: any = localStorage.getItem('token');
+			const data = { address: values };
+
+			const result = await setUpCompanyAddress(data, token);
 			console.log('Address profile setup:', result);
-			if (result?.status === 200) navigate('/home');
+			if (result?.data?.status === 'success') navigate('/home');
 		} catch (error) {
 			console.error('Error from address setup form:', error);
 		}
@@ -71,10 +74,10 @@ const AddressSetupForm = ({ prevStep }: { prevStep: () => void }) => {
 							placeholder="First Address"
 							_placeholder={{ color: 'black' }}
 							border={'1px solid'}
-							{...register('addressOne')}
+							{...register('address_line1')}
 						/>
 					</InputGroup>
-					<FormErrorMessage>{errors.addressOne && errors.addressOne.message}</FormErrorMessage>
+					<FormErrorMessage>{errors.address_line1 && errors.address_line1.message}</FormErrorMessage>
 				</FormControl>
 
 				<FormControl
@@ -89,10 +92,10 @@ const AddressSetupForm = ({ prevStep }: { prevStep: () => void }) => {
 							placeholder="Second Address"
 							_placeholder={{ color: 'black' }}
 							border={'1px solid'}
-							{...register('addressTwo')}
+							{...register('address_line2')}
 						/>
 					</InputGroup>
-					<FormErrorMessage>{errors.addressTwo && errors.addressTwo.message}</FormErrorMessage>
+					<FormErrorMessage>{errors.address_line2 && errors.address_line2.message}</FormErrorMessage>
 				</FormControl>
 
 				<FormControl
@@ -107,10 +110,10 @@ const AddressSetupForm = ({ prevStep }: { prevStep: () => void }) => {
 							placeholder="State/Province"
 							_placeholder={{ color: 'black' }}
 							border={'1px solid'}
-							{...register('state')}
+							{...register('state_province')}
 						/>
 					</InputGroup>
-					<FormErrorMessage>{errors.state && errors.state.message}</FormErrorMessage>
+					<FormErrorMessage>{errors.state_province && errors.state_province.message}</FormErrorMessage>
 				</FormControl>
 
 				<FormControl
@@ -125,10 +128,10 @@ const AddressSetupForm = ({ prevStep }: { prevStep: () => void }) => {
 							placeholder="City"
 							_placeholder={{ color: 'black' }}
 							border={'1px solid'}
-							{...register('city')}
+							{...register('city_locality')}
 						/>
 					</InputGroup>
-					<FormErrorMessage>{errors.city && errors.city.message}</FormErrorMessage>
+					<FormErrorMessage>{errors.city_locality && errors.city_locality.message}</FormErrorMessage>
 				</FormControl>
 
 				<FormControl
@@ -143,10 +146,10 @@ const AddressSetupForm = ({ prevStep }: { prevStep: () => void }) => {
 							placeholder="Zip/Postal Code"
 							_placeholder={{ color: 'black' }}
 							border={'1px solid'}
-							{...register('zipCode')}
+							{...register('postal_code')}
 						/>
 					</InputGroup>
-					<FormErrorMessage>{errors.zipCode && errors.zipCode.message}</FormErrorMessage>
+					<FormErrorMessage>{errors.postal_code && errors.postal_code.message}</FormErrorMessage>
 				</FormControl>
 
 				<FormControl
@@ -157,12 +160,12 @@ const AddressSetupForm = ({ prevStep }: { prevStep: () => void }) => {
 						placeholder="Country/Region"
 						_placeholder={{ color: 'black' }}
 						border={'1px solid'}
-						{...register('countryCode')}>
+						{...register('country_code')}>
 						<option value={'US'}>United States</option>
 						<option value={'CA'}>Canada</option>
 						<option value={'MX'}>Mexico</option>
 					</Select>
-					<FormErrorMessage>{errors.countryCode && errors.countryCode.message}</FormErrorMessage>
+					<FormErrorMessage>{errors.country_code && errors.country_code.message}</FormErrorMessage>
 				</FormControl>
 
 				<Flex

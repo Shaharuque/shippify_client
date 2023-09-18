@@ -8,7 +8,7 @@ import SubmitButton from '../Buttons/submitButton';
 import Greeting from '../Greetings texts/greeting';
 import { signIn } from '../../services/apis/authApi';
 import FormHelperText from '../Form helper text/formHelperText';
-import OnboardingSteppers from '../Steppers/onboardingSteppers';
+import { useNavigate } from 'react-router-dom';
 
 export type LoginFormData = {
 	email: string;
@@ -16,6 +16,7 @@ export type LoginFormData = {
 };
 
 const LoginForm = () => {
+	const navigate = useNavigate();
 	const {
 		handleSubmit,
 		register,
@@ -24,10 +25,9 @@ const LoginForm = () => {
 
 	const onSubmit = async (values: LoginFormData) => {
 		try {
-			console.log(values);
-			// const result = await signIn(values);
-			// console.log(result);
-			// console.log(`${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}`);
+			const result = await signIn(values);
+			console.log(result);
+			if (result?.status === 200) navigate('/home');
 		} catch (error) {
 			console.error('Error message from login form:', error);
 		}
@@ -111,10 +111,6 @@ const LoginForm = () => {
 						text={"Don't"}
 						link={'register'}
 					/>
-				</>
-
-				<>
-					<OnboardingSteppers step={0} />
 				</>
 			</Box>
 		</Flex>

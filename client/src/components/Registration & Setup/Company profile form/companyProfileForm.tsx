@@ -1,18 +1,18 @@
 import { useForm } from 'react-hook-form';
 import { Flex, Center, FormControl, FormErrorMessage, Input, InputGroup, InputLeftElement, Icon, Select } from '@chakra-ui/react';
-import Logo from '../Logo/logo';
-import Greeting from '../Greetings texts/greeting';
-import FormHelperText from '../Form helper text/formHelperText';
+import Logo from '../../Logo/logo';
+import Greeting from '../../Greetings texts/greeting';
+import FormHelperText from '../../Form helper text/formHelperText';
 import { MdOutlineBusinessCenter } from 'react-icons/md';
 import { HiOutlineMail } from 'react-icons/hi';
 import { BsTelephone, BsGlobe } from 'react-icons/bs';
-import SubmitButton from '../Buttons/submitButton';
-import { setUpCompany } from '../../services/apis/setupApi';
-import BackButton from '../Buttons/backButton';
+import SubmitButton from '../../Buttons/submitButton';
+import { setUpCompany } from '../../../services/apis/setupApi';
+import BackButton from '../../Buttons/backButton';
 
 export type CompanyProfileFormData = {
 	companyName: string;
-	monthlyShipment: string;
+	monthlyShipmentValue: string;
 	companyEmail: string;
 	companyWebsite?: string;
 	companyPhone: string;
@@ -27,9 +27,10 @@ const CompanyProfileForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 
 	const onSubmit = async (values: CompanyProfileFormData) => {
 		try {
-			const result = await setUpCompany(values);
+			const token: any = localStorage.getItem('token');
+			const result = await setUpCompany(values, token);
 			console.log('Company profile setup:', result);
-			if (result?.status === 200) nextStep();
+			if (result?.data?.status === 'success') nextStep();
 		} catch (error) {
 			console.error('Error message from company setup form:', error);
 		}
@@ -131,16 +132,16 @@ const CompanyProfileForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 					isRequired
 					mt={'1.20rem'}>
 					<Select
-						id="monthlyShipment"
+						id="monthlyShipmentValue"
 						placeholder="Monthly Shipment Volume"
 						_placeholder={{ color: 'black' }}
 						border={'1px solid'}
-						{...register('monthlyShipment')}>
-						<option>0 - 30 kg</option>
-						<option>30 - 70 kg</option>
-						<option> 70 kg+ </option>
+						{...register('monthlyShipmentValue')}>
+						<option value={'0-30'}>0 - 30 kg</option>
+						<option value={'30-70'}>30 - 70 kg</option>
+						<option value={'70+'}> 70 kg+ </option>
 					</Select>
-					<FormErrorMessage>{errors.monthlyShipment && errors.monthlyShipment.message}</FormErrorMessage>
+					<FormErrorMessage>{errors.monthlyShipmentValue && errors.monthlyShipmentValue.message}</FormErrorMessage>
 				</FormControl>
 				<Flex
 					gap={'1rem'}

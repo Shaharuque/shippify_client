@@ -1,5 +1,5 @@
 import { LoginFormData } from '../../components/Login form/loginForm';
-import { OtpFormData } from '../../components/Otp form/otpForm';
+import { OtpFormData } from '../../components/Registration & Setup/Otp form/otpForm';
 import { axiosInstance } from '../axios';
 
 export const signUp = async (data: LoginFormData) => {

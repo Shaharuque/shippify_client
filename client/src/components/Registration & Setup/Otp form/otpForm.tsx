@@ -1,11 +1,11 @@
 import { Flex, PinInput, HStack, PinInputField, Button, VStack, Box } from '@chakra-ui/react';
-import FormHelperText from '../Form helper text/formHelperText';
-import Logo from '../Logo/logo';
+import FormHelperText from '../../Form helper text/formHelperText';
+import Logo from '../../Logo/logo';
 import { FormEvent, useState } from 'react';
-import SubmitButton from '../Buttons/submitButton';
-import BackButton from '../Buttons/backButton';
-import CountdownTimer from '../Countdown timer/countDownTimer';
-import { sendOTP, signUp } from '../../services/apis/authApi';
+import SubmitButton from '../../Buttons/submitButton';
+import BackButton from '../../Buttons/backButton';
+import CountdownTimer from '../../Countdown timer/countDownTimer';
+import { sendOTP, signUp } from '../../../services/apis/authApi';
 
 export type OtpFormData = {
 	code: string;
@@ -19,8 +19,10 @@ const OtpForm = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () =>
 		try {
 			const result = await sendOTP({ code: pin });
 			console.log('OTP form:', result);
-			if (result?.status === 200) nextStep();
-			else setReset(59);
+			if (result?.data?.status === 'success') {
+				localStorage.setItem('token', result?.data?.token);
+				nextStep();
+			} else setReset(59);
 		} catch (error) {
 			console.error(error);
 		}
@@ -33,7 +35,10 @@ const OtpForm = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () =>
 			console.log('User from localstorage after resending OTP:', user);
 			const result = await signUp(user);
 			console.log('Resend OTP', result);
-			setReset(59);
+			if (result?.data?.status === 'success') {
+				localStorage.removeItem('userTempData');
+				setReset(59);
+			}
 		}
 	};
 

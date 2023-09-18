@@ -1,14 +1,12 @@
 import { useState } from 'react';
 import { Flex, Box } from '@chakra-ui/react';
-import { useToast } from '@chakra-ui/react';
 import RegisterForm from '../Register form/registerForm';
 import CompanyProfileForm from '../Company profile form/companyProfileForm';
 import AddressSetupForm from '../Address setup form/addressSetupForm';
 import OtpForm from '../Otp form/otpForm';
-import OnboardingSteppers from '../Steppers/onboardingSteppers';
+import OnboardingSteppers from '../../Steppers/onboardingSteppers';
 
 export default function Multistep() {
-	const toast = useToast();
 	const [step, setStep] = useState(1);
 
 	console.log('step', step);
@@ -20,16 +18,6 @@ export default function Multistep() {
 	const prevStep = () => {
 		setStep(step - 1);
 	};
-
-	// const handleSubmit = () => {
-	// 	toast({
-	// 		title: 'Account created.',
-	// 		description: "We've created your account for you.",
-	// 		status: 'success',
-	// 		duration: 3000,
-	// 		isClosable: true,
-	// 	});
-	// };
 
 	return (
 		<>

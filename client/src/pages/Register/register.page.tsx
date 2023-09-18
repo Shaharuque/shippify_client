@@ -1,6 +1,6 @@
 import { Flex } from '@chakra-ui/react';
 import BackgroundImage from '../../components/Background image/backgroundImage';
-import Multistep from '../../components/Multi stepper forms/multiStepperFormOnboarding';
+import Multistep from '../../components/Registration & Setup/Multi stepper forms/multiStepperFormOnboarding';
 
 const RegisterPage = () => {
 	return (

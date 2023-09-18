@@ -1,13 +1,13 @@
 import { useForm } from 'react-hook-form';
 import { Center, Box, FormControl, Input, InputGroup, InputLeftElement, FormErrorMessage, Icon } from '@chakra-ui/react';
-import BottomText from '../Bottom text/bottomText';
-import SubmitButton from '../Buttons/submitButton';
-import Greeting from '../Greetings texts/greeting';
-import Logo from '../Logo/logo';
+import BottomText from '../../Bottom text/bottomText';
+import SubmitButton from '../../Buttons/submitButton';
+import Greeting from '../../Greetings texts/greeting';
+import Logo from '../../Logo/logo';
 import { HiOutlineMail } from 'react-icons/hi';
 import { AiOutlineLock, AiOutlineUser, AiOutlineMobile } from 'react-icons/ai';
-import FormHelperText from '../Form helper text/formHelperText';
-import { signUp } from '../../services/apis/authApi';
+import FormHelperText from '../../Form helper text/formHelperText';
+import { signUp } from '../../../services/apis/authApi';
 
 export type RegistrationFormData = {
 	name: string;
@@ -27,7 +27,7 @@ const RegisterForm = ({ nextStep }: { nextStep: () => void }) => {
 		try {
 			const result = await signUp(values);
 			console.log('Registration form:', result);
-			if (result?.status === 200) {
+			if (result?.data?.status === 'success') {
 				localStorage.setItem('userTempData', JSON.stringify(result?.data));
 				nextStep();
 			}
