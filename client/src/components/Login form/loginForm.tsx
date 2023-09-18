@@ -101,9 +101,9 @@ const LoginForm = () => {
 						fontWeight={'500'}>
 						Forgot Password?
 					</Text>
-					<>
+					<Box mt={'2rem'}>
 						<SubmitButton text={'Sign In'} />
-					</>
+					</Box>
 				</form>
 				<BottomText
 					text={"Don't"}

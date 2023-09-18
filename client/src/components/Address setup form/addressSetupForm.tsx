@@ -7,6 +7,7 @@ import { BsPostcard } from 'react-icons/bs';
 import { FaRegAddressCard } from 'react-icons/fa';
 import { BiSolidCity } from 'react-icons/bi';
 import SubmitButton from '../Buttons/submitButton';
+import BackButton from '../Buttons/backButton';
 
 export type AddressSetupFormData = {
 	countryCode: string;
@@ -17,7 +18,7 @@ export type AddressSetupFormData = {
 	zipCode: number;
 };
 
-const AddressSetupForm = () => {
+const AddressSetupForm = ({ prevStep }: { prevStep: () => void }) => {
 	const {
 		handleSubmit,
 		register,
@@ -30,6 +31,11 @@ const AddressSetupForm = () => {
 		} catch (error) {
 			console.error('Error from address setup form:', error);
 		}
+	};
+
+	const handleBackButton = () => {
+		console.log('Getting back from Address form');
+		prevStep();
 	};
 	return (
 		<Flex
@@ -161,9 +167,12 @@ const AddressSetupForm = () => {
 						<FormErrorMessage>{errors.countryCode && errors.countryCode.message}</FormErrorMessage>
 					</FormControl>
 
-					<>
-						<SubmitButton text={'Submit'} />
-					</>
+					<Flex
+						gap={'1rem'}
+						mt={'3rem'}>
+						<BackButton onClick={handleBackButton} />
+						<SubmitButton text={'Verify'} />
+					</Flex>
 				</form>
 			</Box>
 		</Flex>

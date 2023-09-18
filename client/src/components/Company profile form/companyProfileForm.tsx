@@ -8,6 +8,7 @@ import { HiOutlineMail } from 'react-icons/hi';
 import { BsTelephone, BsGlobe } from 'react-icons/bs';
 import SubmitButton from '../Buttons/submitButton';
 import { setUpCompany } from '../../services/apis/setupApi';
+import BackButton from '../Buttons/backButton';
 
 export type CompanyProfileFormData = {
 	companyName: string;
@@ -17,7 +18,7 @@ export type CompanyProfileFormData = {
 	companyPhone: string;
 };
 
-const CompanyProfileForm = () => {
+const CompanyProfileForm = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () => void }) => {
 	const {
 		handleSubmit,
 		register,
@@ -26,12 +27,18 @@ const CompanyProfileForm = () => {
 
 	const onSubmit = async (values: CompanyProfileFormData) => {
 		try {
-			// console.log(values);
-			const result = await setUpCompany(values);
-			console.log(result);
+			console.log(values);
+			nextStep();
+			// const result = await setUpCompany(values);
+			// console.log(result);
 		} catch (error) {
 			console.error('Error message from company setup form:', error);
 		}
+	};
+
+	const handleBackButton = () => {
+		console.log('Getting back from company form');
+		prevStep();
 	};
 
 	return (
@@ -51,7 +58,7 @@ const CompanyProfileForm = () => {
 				</Center>
 
 				<>
-					<Greeting text={'Kick off with an easy step!'} />
+					<Greeting text={'Onboarding Your Company is Crucial!'} />
 				</>
 
 				<>
@@ -144,9 +151,12 @@ const CompanyProfileForm = () => {
 						</Select>
 						<FormErrorMessage>{errors.monthlyShipment && errors.monthlyShipment.message}</FormErrorMessage>
 					</FormControl>
-					<>
-						<SubmitButton text={'Submit'} />
-					</>
+					<Flex
+						gap={'1rem'}
+						mt={'3rem'}>
+						<BackButton onClick={handleBackButton} />
+						<SubmitButton text={'Verify'} />
+					</Flex>
 				</form>
 			</Box>
 		</Flex>
