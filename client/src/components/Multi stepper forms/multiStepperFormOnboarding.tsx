@@ -1,28 +1,22 @@
 import { useState } from 'react';
-import { Progress, Flex, Box } from '@chakra-ui/react';
+import { Flex, Box } from '@chakra-ui/react';
 import { useToast } from '@chakra-ui/react';
 import RegisterForm from '../Register form/registerForm';
 import CompanyProfileForm from '../Company profile form/companyProfileForm';
 import AddressSetupForm from '../Address setup form/addressSetupForm';
 import OtpForm from '../Otp form/otpForm';
+import OnboardingSteppers from '../Steppers/onboardingSteppers';
 
 export default function Multistep() {
 	const toast = useToast();
 	const [step, setStep] = useState(1);
-	const [progress, setProgress] = useState(25);
 
 	const nextStep = () => {
 		setStep(step + 1);
-		if (step === 4) {
-			setProgress(100);
-		} else {
-			setProgress(progress + 25);
-		}
 	};
 
 	const prevStep = () => {
 		setStep(step - 1);
-		setProgress(progress - 25);
 	};
 
 	// const handleSubmit = () => {
@@ -45,13 +39,6 @@ export default function Multistep() {
 					p={'1rem'}
 					m={'0 auto'}
 					w={'25rem'}>
-					<Progress
-						hasStripe
-						value={progress}
-						mb="5%"
-						mx="5%"
-						isAnimated
-					/>
 					{step === 1 ? (
 						<RegisterForm nextStep={nextStep} />
 					) : step === 2 ? (
@@ -67,6 +54,9 @@ export default function Multistep() {
 					) : (
 						<AddressSetupForm prevStep={prevStep} />
 					)}
+					<Box m={'0 auto'}>
+						<OnboardingSteppers step={step} />
+					</Box>
 				</Box>
 			</Flex>
 		</>

@@ -3,8 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LoginPage from './pages/Login/login.page';
 import RegisterPage from './pages/Register/register.page';
 import PageNotFound from './components/Page not found/pageNotFound';
-import Multistep from './components/Multi stepper form/multiStepperForm';
-import OtpForm from './components/Otp form/otpForm';
+import Multistep from './components/Multi stepper forms/multiStepperFormOnboarding';
 
 function App() {
 	return (
@@ -20,10 +19,6 @@ function App() {
 				<Route
 					path="/multi"
 					element={<Multistep />}></Route>
-
-				<Route
-					path="/otp"
-					element={<OtpForm />}></Route>
 
 				<Route
 					path="*"

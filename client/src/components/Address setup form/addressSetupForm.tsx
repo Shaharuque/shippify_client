@@ -34,7 +34,6 @@ const AddressSetupForm = ({ prevStep }: { prevStep: () => void }) => {
 	};
 
 	const handleBackButton = () => {
-		console.log('Getting back from Address form');
 		prevStep();
 	};
 	return (

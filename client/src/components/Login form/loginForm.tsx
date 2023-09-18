@@ -105,10 +105,12 @@ const LoginForm = () => {
 						<SubmitButton text={'Sign In'} />
 					</Box>
 				</form>
-				<BottomText
-					text={"Don't"}
-					link={'register'}
-				/>
+				<>
+					<BottomText
+						text={"Don't"}
+						link={'register'}
+					/>
+				</>
 			</Box>
 		</Flex>
 	);

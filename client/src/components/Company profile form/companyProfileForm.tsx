@@ -37,7 +37,6 @@ const CompanyProfileForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 	};
 
 	const handleBackButton = () => {
-		console.log('Getting back from company form');
 		prevStep();
 	};
 

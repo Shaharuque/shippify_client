@@ -15,7 +15,6 @@ const OtpForm = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () =>
 	};
 
 	const handleBackButton = () => {
-		console.log('Getting back from OTP form');
 		prevStep();
 	};
 
