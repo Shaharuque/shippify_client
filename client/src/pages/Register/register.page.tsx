@@ -1,11 +1,11 @@
 import { Flex } from '@chakra-ui/react';
-import RegisterForm from '../../components/Register form/registerForm';
 import BackgroundImage from '../../components/Background image/backgroundImage';
+import Multistep from '../../components/Multi stepper forms/multiStepperFormOnboarding';
 
 const RegisterPage = () => {
 	return (
 		<Flex h={'100vh'}>
-			<RegisterForm />
+			<Multistep />
 			<BackgroundImage />
 		</Flex>
 	);

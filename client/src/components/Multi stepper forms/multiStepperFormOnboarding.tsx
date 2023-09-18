@@ -54,7 +54,9 @@ export default function Multistep() {
 					) : (
 						<AddressSetupForm prevStep={prevStep} />
 					)}
-					<Box m={'0 auto'}>
+					<Box
+						pos={'fixed'}
+						bottom={'4rem'}>
 						<OnboardingSteppers step={step} />
 					</Box>
 				</Box>

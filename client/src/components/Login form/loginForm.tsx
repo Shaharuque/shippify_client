@@ -8,6 +8,7 @@ import SubmitButton from '../Buttons/submitButton';
 import Greeting from '../Greetings texts/greeting';
 import { signIn } from '../../services/apis/authApi';
 import FormHelperText from '../Form helper text/formHelperText';
+import OnboardingSteppers from '../Steppers/onboardingSteppers';
 
 export type LoginFormData = {
 	email: string;
@@ -110,6 +111,10 @@ const LoginForm = () => {
 						text={"Don't"}
 						link={'register'}
 					/>
+				</>
+
+				<>
+					<OnboardingSteppers step={0} />
 				</>
 			</Box>
 		</Flex>

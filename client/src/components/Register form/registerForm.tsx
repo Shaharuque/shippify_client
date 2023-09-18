@@ -36,129 +36,121 @@ const RegisterForm = ({ nextStep }: { nextStep: () => void }) => {
 	};
 
 	return (
-		<Flex
-			flex={0.5}
-			direction={'column'}
-			justify={'center'}>
-			<Box
-				p={'1rem'}
-				m={'0 auto'}
-				w={'25rem'}>
-				<Center
-					pos={'relative'}
-					top={'-4rem'}
-					left={'-1rem'}>
-					<Logo />
-				</Center>
+		<>
+			<Center
+				pos={'relative'}
+				top={'-4rem'}
+				left={'-1rem'}>
+				<Logo />
+			</Center>
 
-				<>
-					<Greeting text={'Simplify Shipping, Join Us Today!'} />
-				</>
-				<>
-					<FormHelperText text={'Fill the form below to create an account '} />
-				</>
+			<>
+				<Greeting text={'Simplify Shipping, Join Us Today!'} />
+			</>
+			<>
+				<FormHelperText text={'Fill the form below to create an account '} />
+			</>
 
-				<form onSubmit={handleSubmit(onSubmit)}>
-					<FormControl
-						isRequired
-						mt={'1.20rem'}>
-						<InputGroup>
-							<InputLeftElement>
-								<Icon as={AiOutlineUser} />
-							</InputLeftElement>
-							<Input
-								id="name"
-								placeholder="John Doe"
-								_placeholder={{ color: 'black' }}
-								border={'1px solid'}
-								{...register('name')}
-							/>
-						</InputGroup>
-						<FormErrorMessage>{errors.name && errors.name.message}</FormErrorMessage>
-					</FormControl>
+			<form onSubmit={handleSubmit(onSubmit)}>
+				<FormControl
+					isRequired
+					mt={'1.20rem'}>
+					<InputGroup>
+						<InputLeftElement>
+							<Icon as={AiOutlineUser} />
+						</InputLeftElement>
+						<Input
+							id="name"
+							placeholder="John Doe"
+							_placeholder={{ color: 'black' }}
+							border={'1px solid'}
+							{...register('name')}
+						/>
+					</InputGroup>
+					<FormErrorMessage>{errors.name && errors.name.message}</FormErrorMessage>
+				</FormControl>
 
-					<FormControl
-						isRequired
-						mt={'1.20rem'}>
-						<InputGroup>
-							<InputLeftElement>
-								<Icon as={HiOutlineMail} />
-							</InputLeftElement>
-							<Input
-								id="email"
-								placeholder="example@example.com"
-								_placeholder={{ color: 'black' }}
-								border={'1px solid'}
-								{...register('email')}
-							/>
-						</InputGroup>
-						<FormErrorMessage>{errors.email && errors.email.message}</FormErrorMessage>
-					</FormControl>
+				<FormControl
+					isRequired
+					mt={'1.20rem'}>
+					<InputGroup>
+						<InputLeftElement>
+							<Icon as={HiOutlineMail} />
+						</InputLeftElement>
+						<Input
+							id="email"
+							placeholder="example@example.com"
+							_placeholder={{ color: 'black' }}
+							border={'1px solid'}
+							{...register('email')}
+						/>
+					</InputGroup>
+					<FormErrorMessage>{errors.email && errors.email.message}</FormErrorMessage>
+				</FormControl>
 
-					<FormControl
-						isRequired
-						mt={'1.20rem'}>
-						<InputGroup>
-							<InputLeftElement>
-								<Icon as={AiOutlineMobile} />
-							</InputLeftElement>
-							<Input
-								id="phone"
-								placeholder="Contact Number"
-								_placeholder={{ color: 'black' }}
-								border={'1px solid'}
-								{...register('phone')}
-							/>
-						</InputGroup>
-						<FormErrorMessage>{errors.phone && errors.phone.message}</FormErrorMessage>
-					</FormControl>
+				<FormControl
+					isRequired
+					mt={'1.20rem'}>
+					<InputGroup>
+						<InputLeftElement>
+							<Icon as={AiOutlineMobile} />
+						</InputLeftElement>
+						<Input
+							id="phone"
+							placeholder="Contact Number"
+							_placeholder={{ color: 'black' }}
+							border={'1px solid'}
+							{...register('phone')}
+						/>
+					</InputGroup>
+					<FormErrorMessage>{errors.phone && errors.phone.message}</FormErrorMessage>
+				</FormControl>
 
-					<FormControl
-						isRequired
-						mt={'1.5rem'}>
-						<InputGroup>
-							<InputLeftElement>
-								<Icon as={AiOutlineLock} />
-							</InputLeftElement>
-							<Input
-								id="password"
-								placeholder="Password"
-								_placeholder={{ color: 'black' }}
-								border={'1px solid'}
-								{...register('password')}
-							/>
-						</InputGroup>
-						<FormErrorMessage>{errors.password && errors.password.message}</FormErrorMessage>
-					</FormControl>
+				<FormControl
+					isRequired
+					mt={'1.5rem'}>
+					<InputGroup>
+						<InputLeftElement>
+							<Icon as={AiOutlineLock} />
+						</InputLeftElement>
+						<Input
+							id="password"
+							placeholder="Password"
+							_placeholder={{ color: 'black' }}
+							border={'1px solid'}
+							{...register('password')}
+						/>
+					</InputGroup>
+					<FormErrorMessage>{errors.password && errors.password.message}</FormErrorMessage>
+				</FormControl>
 
-					<FormControl
-						isRequired
-						mt={'1.5rem'}>
-						<InputGroup>
-							<InputLeftElement>
-								<Icon as={AiOutlineLock} />
-							</InputLeftElement>
-							<Input
-								id="confirmPassword"
-								placeholder="Confirm Password"
-								_placeholder={{ color: 'black' }}
-								border={'1px solid'}
-								{...register('password')}
-							/>
-						</InputGroup>
-						<FormErrorMessage>{errors.password && errors.password.message}</FormErrorMessage>
-					</FormControl>
+				<FormControl
+					isRequired
+					mt={'1.5rem'}>
+					<InputGroup>
+						<InputLeftElement>
+							<Icon as={AiOutlineLock} />
+						</InputLeftElement>
+						<Input
+							id="confirmPassword"
+							placeholder="Confirm Password"
+							_placeholder={{ color: 'black' }}
+							border={'1px solid'}
+							{...register('password')}
+						/>
+					</InputGroup>
+					<FormErrorMessage>{errors.password && errors.password.message}</FormErrorMessage>
+				</FormControl>
 
-					<Box mt={'2rem'}>
-						<SubmitButton text={'Get OTP'} />
-					</Box>
-				</form>
-				<BottomText
-					text={'Already'}
-					link={'login'}
-				/>
-			</Box>
-		</Flex>
+				<Box mt={'2rem'}>
+					<SubmitButton text={'Get OTP'} />
+				</Box>
+			</form>
+			<BottomText
+				text={'Already'}
+				link={'login'}
+			/>
+		</>
 	);
 };
 

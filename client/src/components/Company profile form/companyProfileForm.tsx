@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-import { Flex, Box, Center, FormControl, FormErrorMessage, Input, InputGroup, InputLeftElement, Icon, Select } from '@chakra-ui/react';
+import { Flex, Center, FormControl, FormErrorMessage, Input, InputGroup, InputLeftElement, Icon, Select } from '@chakra-ui/react';
 import Logo from '../Logo/logo';
 import Greeting from '../Greetings texts/greeting';
 import FormHelperText from '../Form helper text/formHelperText';
@@ -41,124 +41,116 @@ const CompanyProfileForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 	};
 
 	return (
-		<Flex
-			flex={0.5}
-			direction={'column'}
-			justify={'center'}>
-			<Box
-				p={'1rem'}
-				m={'0 auto'}
-				w={'25rem'}>
-				<Center
-					pos={'relative'}
-					top={'-4rem'}
-					left={'-.75rem'}>
-					<Logo />
-				</Center>
+		<>
+			<Center
+				pos={'relative'}
+				top={'-4rem'}
+				left={'-.75rem'}>
+				<Logo />
+			</Center>
 
-				<>
-					<Greeting text={'Onboarding Your Company is Crucial!'} />
-				</>
+			<>
+				<Greeting text={'Onboarding Your Company is Crucial!'} />
+			</>
 
-				<>
-					<FormHelperText text={'Fill up the form below to setup your company profile'} />
-				</>
+			<>
+				<FormHelperText text={'Fill up the form below to setup your company profile'} />
+			</>
 
-				<form onSubmit={handleSubmit(onSubmit)}>
-					<FormControl
-						isRequired
-						mt={'1.20rem'}>
-						<InputGroup>
-							<InputLeftElement>
-								<Icon as={MdOutlineBusinessCenter} />
-							</InputLeftElement>
-							<Input
-								id="companyName"
-								placeholder="Company Name"
-								_placeholder={{ color: 'black' }}
-								border={'1px solid'}
-								{...register('companyName')}
-							/>
-						</InputGroup>
-						<FormErrorMessage>{errors.companyName && errors.companyName.message}</FormErrorMessage>
-					</FormControl>
-
-					<FormControl
-						isRequired
-						mt={'1.20rem'}>
-						<InputGroup>
-							<InputLeftElement>
-								<Icon as={HiOutlineMail} />
-							</InputLeftElement>
-							<Input
-								id="companyEmail"
-								placeholder="Company Email"
-								_placeholder={{ color: 'black' }}
-								border={'1px solid'}
-								{...register('companyEmail')}
-							/>
-						</InputGroup>
-						<FormErrorMessage>{errors.companyEmail && errors.companyEmail.message}</FormErrorMessage>
-					</FormControl>
-
-					<FormControl
-						isRequired
-						mt={'1.20rem'}>
-						<InputGroup>
-							<InputLeftElement>
-								<Icon as={BsTelephone} />
-							</InputLeftElement>
-							<Input
-								id="companyPhone"
-								placeholder="Contact Number"
-								_placeholder={{ color: 'black' }}
-								border={'1px solid'}
-								{...register('companyPhone')}
-							/>
-						</InputGroup>
-						<FormErrorMessage>{errors.companyPhone && errors.companyPhone.message}</FormErrorMessage>
-					</FormControl>
-
-					<FormControl mt={'1.20rem'}>
-						<InputGroup>
-							<InputLeftElement>
-								<Icon as={BsGlobe} />
-							</InputLeftElement>
-							<Input
-								id="companyWebsite"
-								placeholder="www.example.com"
-								_placeholder={{ color: 'black' }}
-								border={'1px solid'}
-								{...register('companyWebsite')}
-							/>
-						</InputGroup>
-						<FormErrorMessage>{errors.companyWebsite && errors.companyWebsite.message}</FormErrorMessage>
-					</FormControl>
-
-					<FormControl
-						isRequired
-						mt={'1.20rem'}>
-						<Select
-							id="monthlyShipment"
-							placeholder="Monthly Shipment Volume"
+			<form onSubmit={handleSubmit(onSubmit)}>
+				<FormControl
+					isRequired
+					mt={'1.20rem'}>
+					<InputGroup>
+						<InputLeftElement>
+							<Icon as={MdOutlineBusinessCenter} />
+						</InputLeftElement>
+						<Input
+							id="companyName"
+							placeholder="Company Name"
 							_placeholder={{ color: 'black' }}
 							border={'1px solid'}
-							{...register('monthlyShipment')}>
-							<option>0 - 30 kg</option>
-							<option>30 - 70 kg</option>
-							<option> 70kg+ </option>
-						</Select>
-						<FormErrorMessage>{errors.monthlyShipment && errors.monthlyShipment.message}</FormErrorMessage>
-					</FormControl>
-					<Flex
-						gap={'1rem'}
-						mt={'3rem'}>
-						<BackButton onClick={handleBackButton} />
-						<SubmitButton text={'Verify'} />
-					</Flex>
-				</form>
-			</Box>
-		</Flex>
+							{...register('companyName')}
+						/>
+					</InputGroup>
+					<FormErrorMessage>{errors.companyName && errors.companyName.message}</FormErrorMessage>
+				</FormControl>
+
+				<FormControl
+					isRequired
+					mt={'1.20rem'}>
+					<InputGroup>
+						<InputLeftElement>
+							<Icon as={HiOutlineMail} />
+						</InputLeftElement>
+						<Input
+							id="companyEmail"
+							placeholder="Company Email"
+							_placeholder={{ color: 'black' }}
+							border={'1px solid'}
+							{...register('companyEmail')}
+						/>
+					</InputGroup>
+					<FormErrorMessage>{errors.companyEmail && errors.companyEmail.message}</FormErrorMessage>
+				</FormControl>
+
+				<FormControl
+					isRequired
+					mt={'1.20rem'}>
+					<InputGroup>
+						<InputLeftElement>
+							<Icon as={BsTelephone} />
+						</InputLeftElement>
+						<Input
+							id="companyPhone"
+							placeholder="Contact Number"
+							_placeholder={{ color: 'black' }}
+							border={'1px solid'}
+							{...register('companyPhone')}
+						/>
+					</InputGroup>
+					<FormErrorMessage>{errors.companyPhone && errors.companyPhone.message}</FormErrorMessage>
+				</FormControl>
+
+				<FormControl mt={'1.20rem'}>
+					<InputGroup>
+						<InputLeftElement>
+							<Icon as={BsGlobe} />
+						</InputLeftElement>
+						<Input
+							id="companyWebsite"
+							placeholder="www.example.com"
+							_placeholder={{ color: 'black' }}
+							border={'1px solid'}
+							{...register('companyWebsite')}
+						/>
+					</InputGroup>
+					<FormErrorMessage>{errors.companyWebsite && errors.companyWebsite.message}</FormErrorMessage>
+				</FormControl>
+
+				<FormControl
+					isRequired
+					mt={'1.20rem'}>
+					<Select
+						id="monthlyShipment"
+						placeholder="Monthly Shipment Volume"
+						_placeholder={{ color: 'black' }}
+						border={'1px solid'}
+						{...register('monthlyShipment')}>
+						<option>0 - 30 kg</option>
+						<option>30 - 70 kg</option>
+						<option> 70kg+ </option>
+					</Select>
+					<FormErrorMessage>{errors.monthlyShipment && errors.monthlyShipment.message}</FormErrorMessage>
+				</FormControl>
+				<Flex
+					gap={'1rem'}
+					mt={'3rem'}>
+					<BackButton onClick={handleBackButton} />
+					<SubmitButton text={'Verify'} />
+				</Flex>
+			</form>
+		</>
 	);
 };
 
