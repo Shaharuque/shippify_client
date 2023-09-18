@@ -1,15 +1,20 @@
 import { Image, Text, Flex } from '@chakra-ui/react';
 import logo from './../../assets/logo design.svg';
 
-const Logo = () => {
+type LogoProps = {
+	boxSize: string;
+	fontSize: string;
+};
+
+const Logo = ({ boxSize, fontSize }: LogoProps) => {
 	return (
 		<Flex align={'center'}>
 			<Image
 				src={logo}
-				boxSize={'8rem'}></Image>
+				boxSize={boxSize}></Image>
 			<Text
 				fontWeight={'700'}
-				fontSize={'1.25rem'}>
+				fontSize={fontSize}>
 				Shi
 				<Text
 					as="span"

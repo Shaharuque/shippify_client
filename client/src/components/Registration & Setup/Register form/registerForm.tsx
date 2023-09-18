@@ -42,7 +42,10 @@ const RegisterForm = ({ nextStep }: { nextStep: () => void }) => {
 				pos={'relative'}
 				top={'-4rem'}
 				left={'-1rem'}>
-				<Logo />
+				<Logo
+					boxSize={'8rem'}
+					fontSize={'1.25rem'}
+				/>
 			</Center>
 
 			<>

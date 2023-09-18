@@ -56,7 +56,10 @@ const OtpForm = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () =>
 				pos={'relative'}
 				top={'-6rem'}
 				left={'-.75rem'}>
-				<Logo />
+				<Logo
+					boxSize={'8rem'}
+					fontSize={'1.25rem'}
+				/>
 			</Box>
 			<Box
 				pos={'relative'}

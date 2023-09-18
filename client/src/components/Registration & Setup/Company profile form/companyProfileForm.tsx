@@ -46,7 +46,10 @@ const CompanyProfileForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 				pos={'relative'}
 				top={'-4rem'}
 				left={'-.75rem'}>
-				<Logo />
+				<Logo
+					boxSize={'8rem'}
+					fontSize={'1.25rem'}
+				/>
 			</Center>
 
 			<>
