@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-import { Center, FormControl, InputGroup, InputLeftElement, Icon, Input, Box, FormErrorMessage, Flex, Select } from '@chakra-ui/react';
+import { Center, FormControl, InputGroup, InputLeftElement, Icon, Input, FormErrorMessage, Flex, Select } from '@chakra-ui/react';
 import Logo from '../Logo/logo';
 import FormHelperText from '../Form helper text/formHelperText';
 import Greeting from '../Greetings texts/greeting';
@@ -164,7 +164,7 @@ const AddressSetupForm = ({ prevStep }: { prevStep: () => void }) => {
 					gap={'1rem'}
 					mt={'3rem'}>
 					<BackButton onClick={handleBackButton} />
-					<SubmitButton text={'Verify'} />
+					<SubmitButton text={'Submit'} />
 				</Flex>
 			</form>
 		</>

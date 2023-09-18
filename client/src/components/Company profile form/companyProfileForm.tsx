@@ -147,7 +147,7 @@ const CompanyProfileForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 					gap={'1rem'}
 					mt={'3rem'}>
 					<BackButton onClick={handleBackButton} />
-					<SubmitButton text={'Verify'} />
+					<SubmitButton text={'Next'} />
 				</Flex>
 			</form>
 		</>

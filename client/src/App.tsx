@@ -1,9 +1,9 @@
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import LoginPage from './pages/Login/login.page';
 import RegisterPage from './pages/Register/register.page';
+import LoginPage from './pages/Login/login.page';
 import PageNotFound from './components/Page not found/pageNotFound';
-import Multistep from './components/Multi stepper forms/multiStepperFormOnboarding';
+import CountDownTimer from './components/Countdown timer/countDown';
 
 function App() {
 	return (
@@ -17,8 +17,8 @@ function App() {
 					element={<LoginPage />}></Route>
 
 				<Route
-					path="/multi"
-					element={<Multistep />}></Route>
+					path="/timer"
+					element={<CountDownTimer />}></Route>
 
 				<Route
 					path="*"
