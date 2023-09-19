@@ -6,13 +6,11 @@ const HomePageSidebar = () => {
 	return (
 		<Flex
 			p={'.25rem'}
-			flex={0.2}
-			minH={'87vh'}
+			flex={0.1}
 			direction={'column'}
 			align={'center'}
 			gap={'2rem'}>
 			<CreateBasicShipment />
-			<CreateLTLShipment />
 			<CreateLTLShipment />
 		</Flex>
 	);
