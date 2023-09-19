@@ -1,10 +1,10 @@
 import { Flex } from '@chakra-ui/react';
-import StatCards from '../Cards/statCards';
+import StatCards from '../Home page components/Cards/statCards';
 import { RiShipLine } from 'react-icons/ri';
 import { TbPackageOff } from 'react-icons/tb';
 import { LuBadgeDollarSign } from 'react-icons/lu';
 
-const HomePageRightSidebar = () => {
+const StatCardList = () => {
 	return (
 		<Flex
 			p={'.25rem'}
@@ -34,4 +34,4 @@ const HomePageRightSidebar = () => {
 	);
 };
 
-export default HomePageRightSidebar;
+export default StatCardList;

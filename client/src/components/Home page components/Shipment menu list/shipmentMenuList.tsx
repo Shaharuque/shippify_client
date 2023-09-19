@@ -2,7 +2,7 @@ import { Flex } from '@chakra-ui/react';
 import CreateBasicShipment from '../Cards/createBasicShipment';
 import CreateLTLShipment from '../Cards/createLTLShipment';
 
-const HomePageLeftSidebar = () => {
+const ShipmentMenuList = () => {
 	return (
 		<Flex
 			p={'.25rem'}
@@ -16,4 +16,4 @@ const HomePageLeftSidebar = () => {
 	);
 };
 
-export default HomePageLeftSidebar;
+export default ShipmentMenuList;
