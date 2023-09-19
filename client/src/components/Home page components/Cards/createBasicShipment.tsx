@@ -1,4 +1,4 @@
-import { Badge, Box, Center, Flex, Stack, Text, Tooltip } from '@chakra-ui/react';
+import { Badge, Box, Center, Flex, Text, Tooltip } from '@chakra-ui/react';
 import { useLottie } from 'lottie-react';
 import parcelLottie from '../../../assets/parcel (lottie).json';
 

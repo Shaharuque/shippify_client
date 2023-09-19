@@ -1,8 +1,8 @@
 import { Flex } from '@chakra-ui/react';
-import CreateBasicShipment from './../Cards/createBasicShipment';
-import CreateLTLShipment from './../Cards/createLTLShipment';
+import CreateBasicShipment from '../Cards/createBasicShipment';
+import CreateLTLShipment from '../Cards/createLTLShipment';
 
-const HomePageSidebar = () => {
+const HomePageLeftSidebar = () => {
 	return (
 		<Flex
 			p={'.25rem'}
@@ -16,4 +16,4 @@ const HomePageSidebar = () => {
 	);
 };
 
-export default HomePageSidebar;
+export default HomePageLeftSidebar;

@@ -1,10 +1,12 @@
 import { Flex } from '@chakra-ui/react';
-import HomePageSidebar from '../../components/Home page components/Home page sidebar/homePageSidebar';
+import HomePageLeftSidebar from '../../components/Home page components/Home page sidebar/homePageLeftSidebar';
+import HomePageRightSidebar from '../../components/Home page components/Home page sidebar/homePageRightSidebar';
 
 const HomePage = () => {
 	return (
-		<Flex>
-			<HomePageSidebar />
+		<Flex gap={'1rem'}>
+			<HomePageLeftSidebar />
+			<HomePageRightSidebar />
 		</Flex>
 	);
 };
