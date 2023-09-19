@@ -1,4 +1,4 @@
-import { Box, Text, Flex, Center, Badge, Stack } from '@chakra-ui/react';
+import { Text, Flex, Badge, Stack } from '@chakra-ui/react';
 import { useLottie } from 'lottie-react';
 import truckLottie from '../../../assets/Truck.json';
 
@@ -8,6 +8,7 @@ const CreateLTLShipment = () => {
 		loop: true,
 	};
 	const { View } = useLottie(options);
+
 	return (
 		<Flex
 			bg={'#f1f1f1 '}

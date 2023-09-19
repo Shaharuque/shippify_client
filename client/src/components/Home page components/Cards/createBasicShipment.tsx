@@ -1,4 +1,4 @@
-import { Badge, Box, Center, Flex, Stack, Text } from '@chakra-ui/react';
+import { Badge, Flex, Stack, Text } from '@chakra-ui/react';
 import { useLottie } from 'lottie-react';
 import parcelLottie from '../../../assets/parcel (lottie).json';
 
@@ -7,7 +7,9 @@ const CreateBasicShipment = () => {
 		animationData: parcelLottie,
 		loop: true,
 	};
+
 	const { View } = useLottie(options);
+
 	return (
 		<Flex
 			bg={'#f1f1f1'}

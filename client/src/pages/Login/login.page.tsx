@@ -4,7 +4,7 @@ import LoginForm from '../../components/Login form/loginForm';
 
 const LoginPage = () => {
 	return (
-		<Flex h={'100vh'}>
+		<Flex minHeight={'100vh'}>
 			<LoginForm />
 			<BackgroundImage />
 		</Flex>

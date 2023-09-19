@@ -1,5 +1,4 @@
 import { Flex } from '@chakra-ui/react';
-
 import CreateBasicShipment from './../Cards/createBasicShipment';
 import CreateLTLShipment from './../Cards/createLTLShipment';
 
@@ -13,6 +12,7 @@ const HomePageSidebar = () => {
 			align={'center'}
 			gap={'2rem'}>
 			<CreateBasicShipment />
+			<CreateLTLShipment />
 			<CreateLTLShipment />
 		</Flex>
 	);

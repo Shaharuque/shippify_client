@@ -36,10 +36,7 @@ const Navbar = () => {
 				justify={'space-between'}
 				align={'center'}
 				p={'.25rem'}>
-				<Logo
-					boxSize={'5rem'}
-					fontSize={'1.125rem'}
-				/>
+				<Logo />
 				<>
 					<Menus />
 				</>
@@ -47,7 +44,8 @@ const Navbar = () => {
 			<Box
 				p={'1rem'}
 				bg={'#e6e6e6'}
-				minH={'91vh'}>
+				// minH={'80vh'}
+			>
 				<Outlet></Outlet>
 			</Box>
 		</>

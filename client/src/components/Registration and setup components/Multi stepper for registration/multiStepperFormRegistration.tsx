@@ -42,9 +42,7 @@ export default function MultistepRegistration() {
 					) : (
 						<AddressSetupForm prevStep={prevStep} />
 					)}
-					<Box
-						pos={'fixed'}
-						bottom={'4rem'}>
+					<Box m={'2rem 0'}>
 						<OnboardingSteppers step={step} />
 					</Box>
 				</Box>

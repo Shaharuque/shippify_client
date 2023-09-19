@@ -52,18 +52,10 @@ const OtpForm = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () =>
 
 	return (
 		<VStack>
-			<Box
-				pos={'relative'}
-				top={'-6rem'}
-				left={'-.75rem'}>
-				<Logo
-					boxSize={'8rem'}
-					fontSize={'1.25rem'}
-				/>
+			<Box>
+				<Logo />
 			</Box>
-			<Box
-				pos={'relative'}
-				top={'-4rem'}>
+			<Box m={'.5rem 0'}>
 				<CountdownTimer
 					duration={reset}
 					runOutFunction={handleTimeRunout}

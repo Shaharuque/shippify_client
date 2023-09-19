@@ -4,7 +4,7 @@ import MultistepRegistration from '../../components/Registration and setup compo
 
 const RegisterPage = () => {
 	return (
-		<Flex h={'100vh'}>
+		<Flex minH={'100vh'}>
 			<MultistepRegistration />
 			<BackgroundImage />
 		</Flex>

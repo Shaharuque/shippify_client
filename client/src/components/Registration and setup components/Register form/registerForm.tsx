@@ -38,14 +38,8 @@ const RegisterForm = ({ nextStep }: { nextStep: () => void }) => {
 
 	return (
 		<>
-			<Center
-				pos={'relative'}
-				top={'-4rem'}
-				left={'-1rem'}>
-				<Logo
-					boxSize={'8rem'}
-					fontSize={'1.25rem'}
-				/>
+			<Center>
+				<Logo />
 			</Center>
 
 			<>
