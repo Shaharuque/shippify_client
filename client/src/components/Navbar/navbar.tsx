@@ -42,7 +42,10 @@ const Navbar = () => {
 				/>
 				<Menus />
 			</Flex>
-			<Box p={'1rem'}>
+			<Box
+				p={'1rem'}
+				bg={'#e6e6e6'}
+				minH={'91vh'}>
 				<Outlet></Outlet>
 			</Box>
 		</>

@@ -38,6 +38,7 @@ const Menus = () => {
 					<Icon
 						as={RxDashboard}
 						boxSize={'1.5rem'}
+						color={'#28231D'}
 					/>
 				</Link>
 			</Box>
@@ -48,6 +49,7 @@ const Menus = () => {
 					<Icon
 						as={IoAnalyticsOutline}
 						boxSize={'1.5rem'}
+						color={'#28231D'}
 					/>
 				</Link>
 			</Box>
@@ -56,6 +58,7 @@ const Menus = () => {
 					<Icon
 						as={IoSettings}
 						boxSize={'1.5rem'}
+						color={'#28231D'}
 					/>
 				</MenuButton>
 				<MenuList>

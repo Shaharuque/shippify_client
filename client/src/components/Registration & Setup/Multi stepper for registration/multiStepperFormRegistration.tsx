@@ -6,10 +6,8 @@ import AddressSetupForm from '../Address setup form/addressSetupForm';
 import OtpForm from '../Otp form/otpForm';
 import OnboardingSteppers from '../../Steppers/onboardingSteppers';
 
-export default function Multistep() {
+export default function MultistepRegistration() {
 	const [step, setStep] = useState(1);
-
-	console.log('step', step);
 
 	const nextStep = () => {
 		setStep(step + 1);
