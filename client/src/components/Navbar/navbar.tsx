@@ -40,7 +40,9 @@ const Navbar = () => {
 					boxSize={'5rem'}
 					fontSize={'1.125rem'}
 				/>
-				<Menus />
+				<>
+					<Menus />
+				</>
 			</Flex>
 			<Box
 				p={'1rem'}

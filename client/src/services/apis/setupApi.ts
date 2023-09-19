@@ -1,5 +1,5 @@
-import { AddressSetupFormData } from '../../components/Registration & Setup/Address setup form/addressSetupForm';
-import { CompanyProfileFormData } from '../../components/Registration & Setup/Company profile form/companyProfileForm';
+import { AddressSetupFormData } from '../../components/Registration and setup components/Address setup form/addressSetupForm';
+import { CompanyProfileFormData } from '../../components/Registration and setup components/Company profile form/companyProfileForm';
 import { axiosInstance } from '../axios';
 
 export const setUpCompany = async (data: CompanyProfileFormData, token: string) => {
