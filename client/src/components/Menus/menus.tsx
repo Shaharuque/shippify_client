@@ -1,10 +1,17 @@
-import { Flex, Box, Text, Icon } from '@chakra-ui/react';
+import { Flex, Box, Icon, Menu, IconButton, MenuButton, MenuList, MenuItem } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import { RxDashboard } from 'react-icons/rx';
 import { BiSolidHome } from 'react-icons/bi';
-import { IoAnalyticsOutline } from 'react-icons/io5';
+import { IoAnalyticsOutline, IoSettings } from 'react-icons/io5';
 
 const Menus = () => {
+	const boxStyles = {
+		boxShadow: '0 10px 10px rgba(0, 0, 0, 0.1)',
+		borderRadius: '0.5rem',
+		padding: '0.5rem',
+		backgroundColor: 'white',
+	};
+
 	return (
 		<Flex
 			as="nav"
@@ -13,33 +20,49 @@ const Menus = () => {
 			fontSize={'1.15rem'}
 			fontWeight={'600'}
 			p={'1rem'}>
-			<Box p={'.5rem'}>
+			<Box
+				p={'.5rem'}
+				style={boxStyles}>
 				<Link to={'/home'}>
-					{/* <Text>Home</Text> */}{' '}
 					<Icon
 						as={BiSolidHome}
 						boxSize={'1.5rem'}
+						color={'#28231D'}
 					/>
 				</Link>
 			</Box>
-			<Box p={'.5rem'}>
+			<Box
+				p={'.5rem'}
+				style={boxStyles}>
 				<Link to={'/dashboard'}>
-					{/* <Text>Dashboard</Text> */}{' '}
 					<Icon
 						as={RxDashboard}
 						boxSize={'1.5rem'}
 					/>
 				</Link>
 			</Box>
-			<Box p={'.5rem'}>
+			<Box
+				p={'.5rem'}
+				style={boxStyles}>
 				<Link to={'/analytics'}>
-					{/* <Text>Analytics</Text> */}{' '}
 					<Icon
 						as={IoAnalyticsOutline}
 						boxSize={'1.5rem'}
 					/>
 				</Link>
 			</Box>
+			<Menu>
+				<MenuButton style={{ ...boxStyles }}>
+					<Icon
+						as={IoSettings}
+						boxSize={'1.5rem'}
+					/>
+				</MenuButton>
+				<MenuList>
+					<MenuItem>Preferences</MenuItem>
+					<MenuItem>Logout</MenuItem>
+				</MenuList>
+			</Menu>
 		</Flex>
 	);
 };
