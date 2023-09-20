@@ -3,16 +3,17 @@ import { FaArrowLeft } from 'react-icons/fa';
 
 type BackButtonProps = {
 	onClick: () => void;
+	width?: string;
 };
 
-const BackButton = ({ onClick }: BackButtonProps) => {
+const BackButton = ({ onClick, width }: BackButtonProps) => {
 	return (
 		<Button
 			type="button"
 			color={'#0E1420'}
 			bg={'#E3F4ED'}
 			borderRadius={'2rem'}
-			w={'full'}
+			w={width ? width : 'full'}
 			onClick={onClick}>
 			<Icon as={FaArrowLeft} />
 		</Button>

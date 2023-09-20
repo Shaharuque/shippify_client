@@ -15,7 +15,9 @@ const Navbar = () => {
 				justify={'space-between'}
 				align={'center'}
 				p={'.25rem'}>
-				<Logo />
+				<Box ml={'1rem'}>
+					<Logo />
+				</Box>
 				<>
 					<Menus />
 				</>
