@@ -15,7 +15,7 @@ const PieChart = () => {
 					legend: {
 						position: 'right' as 'right',
 						fontSize: '16px',
-						gap: '1rem',
+
 						itemMargin: {
 							horizontal: 0,
 							vertical: 10,
@@ -29,7 +29,13 @@ const PieChart = () => {
 					chart: {
 						width: 350,
 					},
-					legend: { position: 'bottom' as 'bottom' },
+					legend: {
+						position: 'bottom' as 'bottom',
+						itemMargin: {
+							horizontal: 10,
+							vertical: 0,
+						},
+					},
 				},
 			},
 		],

@@ -36,7 +36,7 @@ const StatCards = ({ title, value, icon, color }: StatCardsProps) => {
 			</Flex>
 			<Text
 				as="b"
-				fontSize={'3rem'}
+				fontSize={'2.5rem'}
 				fontWeight={'600'}>
 				{formatMonetaryValue(value)}
 			</Text>

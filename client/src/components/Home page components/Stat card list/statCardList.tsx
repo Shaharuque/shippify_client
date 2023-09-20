@@ -11,7 +11,7 @@ const StatCardList = () => {
 			flex={0.1}
 			direction={'column'}
 			align={'center'}
-			gap={'2rem'}>
+			gap={'1rem'}>
 			<StatCards
 				title={'Total Shipment'}
 				value={18}
