@@ -1,29 +1,37 @@
 import Chart from 'react-apexcharts';
-import { Box } from '@chakra-ui/react';
 
 const TimeSeriesChart = () => {
 	const series = [
 		{
 			name: 'Sales',
-			data: [30, 40, 50, 10, 15],
+			data: [30, 40, 50, 10, 15, 40, 70, 30, 60],
 		},
 	];
 
 	const options = {
 		chart: { id: 'bar-chart' },
 		xaxis: {
-			categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+			categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
 		},
+		responsive: [
+			{
+				breakpoint: 1367,
+				options: {
+					chart: {
+						height: '170',
+					},
+				},
+			},
+		],
 	};
 	return (
-		<Box>
-			<Chart
-				options={options} //x-axis
-				series={series} //y-axis
-				type="bar"
-				width="450"
-			/>
-		</Box>
+		<Chart
+			options={options} //x-axis
+			series={series} //y-axis
+			type="bar"
+			width="100%"
+			height={'350'}
+		/>
 	);
 };
 

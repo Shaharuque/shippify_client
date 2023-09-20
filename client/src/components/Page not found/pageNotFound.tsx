@@ -7,7 +7,7 @@ const PageNotFound = () => {
 			<Image
 				m={'2rem auto'}
 				src={pageNotFound}
-				boxSize={'50rem'}
+				boxSize={'35rem'}
 			/>
 		</Box>
 	);

@@ -1,5 +1,5 @@
 import { Flex } from '@chakra-ui/react';
-import StatCards from '../Home page components/Cards/statCards';
+import StatCards from '../../Home page components/Cards/statCards';
 import { RiShipLine } from 'react-icons/ri';
 import { TbPackageOff } from 'react-icons/tb';
 import { LuBadgeDollarSign } from 'react-icons/lu';
