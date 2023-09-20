@@ -1,11 +1,13 @@
-import { Flex } from '@chakra-ui/react';
+import { Box, Flex } from '@chakra-ui/react';
 import ShipmentMenu from '../Cards/shipmentMenu';
 import truckLottie from '../../../assets/Truck.json';
 import parcelLottie from '../../../assets/Parcel.json';
 import trackingLottie from '../../../assets/Tracking-2.json';
 import { useLottie } from 'lottie-react';
+import { useNavigate } from 'react-router-dom';
 
 const ShipmentMenuList = () => {
+	const navigate = useNavigate();
 	const parcelLottieOptions = {
 		animationData: parcelLottie,
 		loop: true,
@@ -32,14 +34,18 @@ const ShipmentMenuList = () => {
 			direction={'column'}
 			align={'center'}
 			gap={'1rem'}>
-			<ShipmentMenu
-				title={'Create Basic Shipment'}
-				lottie={parcelLottieView}
-			/>
-			<ShipmentMenu
-				title={'Create LTL Shipment'}
-				lottie={truckLottieView}
-			/>
+			<Box onClick={() => navigate('/create')}>
+				<ShipmentMenu
+					title={'Create Basic Shipment'}
+					lottie={parcelLottieView}
+				/>
+			</Box>
+			<Box onClick={() => navigate('')}>
+				<ShipmentMenu
+					title={'Create LTL Shipment'}
+					lottie={truckLottieView}
+				/>
+			</Box>
 
 			<ShipmentMenu
 				title={'Track Shipment'}

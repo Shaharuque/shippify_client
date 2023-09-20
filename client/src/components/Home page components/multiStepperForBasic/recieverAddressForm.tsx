@@ -2,6 +2,8 @@ import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { Box, FormControl, FormLabel, Input, Flex, Text, Select } from '@chakra-ui/react';
 import SubmitButton from '../../Buttons/submitButton';
 import BackButton from '../../Buttons/backButton';
+import { useEffect } from 'react';
+import axios from 'axios';
 
 type BillingFormData = {
 	name: string;
@@ -15,6 +17,80 @@ type BillingFormData = {
 };
 
 const ReceiverAddressForm = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () => void }) => {
+	//api hit for rates
+	// useEffect(() => {
+	// 	const fetcRates = async () => {
+	// 		const formData = {
+	// 			shipments: [
+	// 				{
+	// 					ship_from: {
+	// 						name: 'John Doe',
+	// 						company_name: 'Example Corp.',
+	// 						address_line1: 'Exebridge',
+	// 						city_locality: 'Dulverton',
+	// 						state_province: 'LD',
+	// 						postal_code: 'TA22 9AZ',
+	// 						country_code: 'GB',
+	// 						phone: '512-555-5555',
+	// 					},
+	// 					ship_to: {
+	// 						name: 'Amanda Miller',
+	// 						address_line1: 'Newcastle-under-Lyme',
+	// 						city_locality: 'Staffordshire',
+	// 						state_province: 'LJ',
+	// 						postal_code: 'ST5 2RN',
+	// 						country_code: 'GB',
+	// 					},
+	// 					packages: [
+	// 						{
+	// 							weight: {
+	// 								value: 30,
+	// 								unit: 'pound',
+	// 							},
+	// 							// package_code: 'custom_laptop_box',
+	// 							dimensions: {
+	// 								unit: 'inch',
+	// 								length: 8.0,
+	// 								width: 8.0,
+	// 								height: 8.0,
+	// 							},
+	// 						},
+
+	// 						// {
+	// 						// 	weight: {
+	// 						// 		value: 60,
+	// 						// 		unit: 'pound',
+	// 						// 	},
+	// 						// 	// package_code: 'custom_laptop_box',
+	// 						// 	dimensions: {
+	// 						// 		unit: 'inch',
+	// 						// 		length: 20.0,
+	// 						// 		width: 9.1,
+	// 						// 		height: 6.0,
+	// 						// 	},
+	// 						// },
+	// 					],
+	// 				},
+	// 			],
+	// 		};
+
+	// 		try {
+	// 			const response = await axios.post('http://192.168.68.78:5000/shipment/rates', formData, {
+	// 				headers: {
+	// 					'Content-Type': 'application/json', // Example header
+	// 					// Add other headers as needed
+	// 				},
+	// 			});
+
+	// 			console.log('Response:', response.data);
+	// 		} catch (error) {
+	// 			console.error('Error:', error);
+	// 		}
+	// 	};
+
+	// 	fetcRates();
+	// }, []);
+
 	const { control, handleSubmit } = useForm<BillingFormData>({
 		defaultValues: {
 			name: 'Jane Doe',
@@ -28,6 +104,7 @@ const ReceiverAddressForm = ({ nextStep, prevStep }: { nextStep: () => void; pre
 
 	const onSubmit: SubmitHandler<BillingFormData> = (data) => {
 		console.log(data);
+		nextStep();
 	};
 
 	return (
