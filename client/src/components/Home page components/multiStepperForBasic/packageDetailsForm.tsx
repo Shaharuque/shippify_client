@@ -1,11 +1,13 @@
 import { Box, Text, FormControl, Button, Select, Flex, NumberInputField, NumberIncrementStepper, NumberDecrementStepper, NumberInput, NumberInputStepper } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import SubmitButton from '../../Buttons/submitButton';
 import BackButton from '../../Buttons/backButton';
 import RegularButton from '../../Buttons/regularButton';
+import { useAppDispatch } from '../../../store/hooks';
+import { updateField } from '../../../store/features/shipmentsSlice';
 
-export type PackageDetailsForm = {
+export type TPackageDetailsForm = {
 	weight: {
 		unit: string;
 		value: number;
@@ -19,7 +21,7 @@ export type PackageDetailsForm = {
 	package_code: string;
 };
 
-const defaultValues: PackageDetailsForm = {
+const defaultValues: TPackageDetailsForm = {
 	weight: {
 		unit: 'inch',
 		value: 0.0,
@@ -35,18 +37,21 @@ const defaultValues: PackageDetailsForm = {
 
 const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () => void }) => {
 	const [isCustom, setIsCustom] = useState(false);
-	const [packages, setPackages] = useState<PackageDetailsForm[]>([]);
+	const [packages, setPackages] = useState<TPackageDetailsForm[]>([]);
 
-	const { control, handleSubmit } = useForm<PackageDetailsForm>({ defaultValues });
+	const { control, handleSubmit, setValue } = useForm<TPackageDetailsForm>({ defaultValues });
 
-	const onSubmit: SubmitHandler<PackageDetailsForm> = (data) => {
-		console.log(data);
+	const dispatch = useAppDispatch();
+
+	const onSubmit: SubmitHandler<TPackageDetailsForm> = (data) => {
+		// console.log(data);
 		setPackages([...packages, data]);
+		setValue('weight.value', defaultValues.weight.value);
 		setIsCustom(!isCustom);
 	};
 
 	const handleSaveAndContinue = () => {
-		console.log('packages:', packages);
+		dispatch(updateField({ packages: packages }));
 	};
 
 	return (

@@ -4,16 +4,24 @@ import SubmitButton from '../../Buttons/submitButton';
 import BackButton from '../../Buttons/backButton';
 import { useEffect } from 'react';
 import axios from 'axios';
+import { updateField } from '../../../store/features/shipmentsSlice';
+import { useAppDispatch } from '../../../store/hooks';
 
-type RecieverAddressFormData = {
+export type TRecieverAddressFormData = {
 	name: string;
-	company_name: string;
 	address_line1: string;
 	city_locality: string;
 	state_province: string;
 	postal_code: string;
 	country_code: string;
-	phone: string;
+};
+const defaultValues = {
+	name: 'Jane Doe',
+	city_locality: 'Glendale',
+	address_line1: '620 Milford street',
+	state_province: 'CA',
+	postal_code: '91203',
+	country_code: 'US',
 };
 
 const ReceiverAddressForm = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () => void }) => {
@@ -91,19 +99,14 @@ const ReceiverAddressForm = ({ nextStep, prevStep }: { nextStep: () => void; pre
 	// 	fetcRates();
 	// }, []);
 
-	const { control, handleSubmit } = useForm<RecieverAddressFormData>({
-		defaultValues: {
-			name: 'Jane Doe',
-			city_locality: 'Glendale',
-			address_line1: '620 Milford street',
-			state_province: 'CA',
-			postal_code: '91203',
-			country_code: 'US',
-		},
+	const { control, handleSubmit } = useForm<TRecieverAddressFormData>({
+		defaultValues,
 	});
 
-	const onSubmit: SubmitHandler<RecieverAddressFormData> = (data) => {
-		console.log(data);
+	const dispatch = useAppDispatch();
+
+	const onSubmit: SubmitHandler<TRecieverAddressFormData> = (data) => {
+		dispatch(updateField({ ship_to: data }));
 		nextStep();
 	};
 
