@@ -23,7 +23,10 @@ const MultiStepperForBasic = () => {
 					nextStep={nextStep}
 				/>
 			) : step === 3 ? (
-				<PackageDetailsForm />
+				<PackageDetailsForm
+					nextStep={nextStep}
+					prevStep={prevStep}
+				/>
 			) : null}
 		</>
 	);

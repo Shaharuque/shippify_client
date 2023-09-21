@@ -13,6 +13,7 @@ const BackButton = ({ onClick, width }: BackButtonProps) => {
 			color={'#0E1420'}
 			bg={'#E3F4ED'}
 			borderRadius={'2rem'}
+			p={'.5rem'}
 			w={width ? width : 'full'}
 			onClick={onClick}>
 			<Icon as={FaArrowLeft} />

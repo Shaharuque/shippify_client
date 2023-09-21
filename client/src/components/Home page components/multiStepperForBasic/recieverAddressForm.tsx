@@ -5,7 +5,7 @@ import BackButton from '../../Buttons/backButton';
 import { useEffect } from 'react';
 import axios from 'axios';
 
-type BillingFormData = {
+type RecieverAddressFormData = {
 	name: string;
 	company_name: string;
 	address_line1: string;
@@ -91,7 +91,7 @@ const ReceiverAddressForm = ({ nextStep, prevStep }: { nextStep: () => void; pre
 	// 	fetcRates();
 	// }, []);
 
-	const { control, handleSubmit } = useForm<BillingFormData>({
+	const { control, handleSubmit } = useForm<RecieverAddressFormData>({
 		defaultValues: {
 			name: 'Jane Doe',
 			city_locality: 'Glendale',
@@ -102,7 +102,7 @@ const ReceiverAddressForm = ({ nextStep, prevStep }: { nextStep: () => void; pre
 		},
 	});
 
-	const onSubmit: SubmitHandler<BillingFormData> = (data) => {
+	const onSubmit: SubmitHandler<RecieverAddressFormData> = (data) => {
 		console.log(data);
 		nextStep();
 	};

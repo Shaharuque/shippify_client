@@ -2,7 +2,7 @@ import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { Box, FormControl, FormLabel, Input, Flex, Text, Select } from '@chakra-ui/react';
 import SubmitButton from '../../Buttons/submitButton';
 
-type BillingFormData = {
+type SenderAddressFormData = {
 	name: string;
 	company_name: string;
 	address_line1: string;
@@ -14,7 +14,7 @@ type BillingFormData = {
 };
 
 const SenderAddressForm = ({ nextStep }: { nextStep: () => void }) => {
-	const { control, handleSubmit } = useForm<BillingFormData>({
+	const { control, handleSubmit } = useForm<SenderAddressFormData>({
 		defaultValues: {
 			name: 'John Doe',
 			company_name: 'Example Corp.',
@@ -27,7 +27,7 @@ const SenderAddressForm = ({ nextStep }: { nextStep: () => void }) => {
 		},
 	});
 
-	const onSubmit: SubmitHandler<BillingFormData> = (data) => {
+	const onSubmit: SubmitHandler<SenderAddressFormData> = (data) => {
 		console.log(data);
 		nextStep();
 	};
