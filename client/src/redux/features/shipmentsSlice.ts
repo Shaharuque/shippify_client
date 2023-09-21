@@ -3,13 +3,13 @@ import { TSenderAddressFormData } from '../../components/Home page components/mu
 import { TRecieverAddressFormData } from '../../components/Home page components/multiStepperForBasic/recieverAddressForm';
 import { TPackageDetailsForm } from '../../components/Home page components/multiStepperForBasic/packageDetailsForm';
 
-export interface Ishipment {
+export interface IShipment {
 	ship_from: TSenderAddressFormData;
 	ship_to: TRecieverAddressFormData;
 	packages: TPackageDetailsForm[];
 }
 
-export const initialShipmentsState: Ishipment = {
+export const initialShipmentsState: IShipment = {
 	ship_from: {
 		name: '',
 		company_name: '',

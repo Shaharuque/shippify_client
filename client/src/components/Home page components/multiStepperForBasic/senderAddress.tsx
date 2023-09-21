@@ -1,8 +1,8 @@
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { Box, FormControl, FormLabel, Input, Flex, Text, Select } from '@chakra-ui/react';
 import SubmitButton from '../../Buttons/submitButton';
-import { useAppDispatch } from '../../../store/hooks';
-import { updateField } from '../../../store/features/shipmentsSlice';
+import { useAppDispatch } from '../../../redux/hooks';
+import { updateField } from '../../../redux/features/shipmentsSlice';
 
 export type TSenderAddressFormData = {
 	name: string;

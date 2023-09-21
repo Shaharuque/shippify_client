@@ -1,11 +1,12 @@
-import { Box, Text, FormControl, Button, Select, Flex, NumberInputField, NumberIncrementStepper, NumberDecrementStepper, NumberInput, NumberInputStepper } from '@chakra-ui/react';
-import { useState } from 'react';
+import { Box, Text, FormControl, Button, Select, Flex, NumberInputField, NumberIncrementStepper, NumberDecrementStepper, NumberInput, NumberInputStepper, Heading } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import SubmitButton from '../../Buttons/submitButton';
 import BackButton from '../../Buttons/backButton';
 import RegularButton from '../../Buttons/regularButton';
-import { useAppDispatch } from '../../../store/hooks';
-import { updateField } from '../../../store/features/shipmentsSlice';
+import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
+import { updateField } from '../../../redux/features/shipmentsSlice';
+import { RootState } from '../../../redux/store';
 
 export type TPackageDetailsForm = {
 	weight: {
@@ -23,11 +24,11 @@ export type TPackageDetailsForm = {
 
 const defaultValues: TPackageDetailsForm = {
 	weight: {
-		unit: 'inch',
+		unit: 'pound',
 		value: 0.0,
 	},
 	dimensions: {
-		unit: 'pound',
+		unit: 'inch',
 		length: 0.0,
 		width: 0.0,
 		height: 0.0,
@@ -37,27 +38,33 @@ const defaultValues: TPackageDetailsForm = {
 
 const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () => void }) => {
 	const [isCustom, setIsCustom] = useState(false);
-	const [packages, setPackages] = useState<TPackageDetailsForm[]>([]);
-
-	const { control, handleSubmit, setValue } = useForm<TPackageDetailsForm>({ defaultValues });
-
 	const dispatch = useAppDispatch();
+	const packages = useAppSelector((state: RootState) => state.shipments.packages);
+	// const [packages, setPackages] = useState<TPackageDetailsForm[]>([]);
+
+	const { control, handleSubmit } = useForm<TPackageDetailsForm>({ defaultValues });
 
 	const onSubmit: SubmitHandler<TPackageDetailsForm> = (data) => {
-		// console.log(data);
-		setPackages([...packages, data]);
-		setValue('weight.value', defaultValues.weight.value);
+		const updatedPackages = [...packages, data];
+		dispatch(updateField({ packages: updatedPackages }));
+
 		setIsCustom(!isCustom);
 	};
 
-	const handleSaveAndContinue = () => {
-		dispatch(updateField({ packages: packages }));
+	const handleContinue = () => {
+		nextStep();
 	};
 
 	return (
 		<Box
 			p={'2vw'}
 			w={'40rem'}>
+			<Heading
+				fontSize={'1.5rem'}
+				m={'1rem 0'}>
+				Packages added: {packages.length}
+			</Heading>
+
 			<Text
 				as="b"
 				fontSize={'1.25rem'}
@@ -238,20 +245,20 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 						/>
 					</FormControl>
 
-					<SubmitButton text="Add another" />
+					<SubmitButton text="Save Details" />
 				</Flex>
 				<Flex
 					justify={'flex-end'}
 					m={'2rem 0'}
 					gap={'1rem'}>
 					<BackButton
-						onClick={() => prevStep}
+						onClick={() => prevStep()}
 						width="8rem"
 					/>
 					<RegularButton
-						text="Save and Continue"
+						text="Continue"
 						width="12rem"
-						onClick={handleSaveAndContinue}
+						onClick={handleContinue}
 					/>
 				</Flex>
 			</form>

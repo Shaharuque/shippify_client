@@ -4,7 +4,7 @@ import App from './App.tsx';
 import './index.css';
 import { ChakraProvider } from '@chakra-ui/react';
 import { chakraTheme } from './chakraTheme.ts';
-import { store } from './store/index.ts';
+import { store } from './redux/store.ts';
 import { Provider } from 'react-redux';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
