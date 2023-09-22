@@ -5,8 +5,8 @@ import { useFetchRatesMutation } from '../../../redux/api/shipmentsApi';
 import { Box, Flex } from '@chakra-ui/react';
 import BackButton from '../../Buttons/backButton';
 import { IRateDetail, updateRates } from '../../../redux/features/rateDetailsSlice';
-import RateCard from './rateCard';
-import { dummyRateCardData } from '../../../data/dummyRateCardData';
+import RateCardList from './rateCardList';
+import { dummyRateCardData } from '../../../data/dummyRateCardsData';
 
 const RateSelectionForm = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () => void }) => {
 	const shipmentInfo = useAppSelector((state: RootState) => state.shipments);
@@ -35,7 +35,7 @@ const RateSelectionForm = ({ nextStep, prevStep }: { nextStep: () => void; prevS
 	return (
 		<Box>
 			<>
-				<RateCard {...dummyRateCardData} />
+				<RateCardList rates={dummyRateCardData} />
 			</>
 			<Flex
 				justify={'flex-end'}
