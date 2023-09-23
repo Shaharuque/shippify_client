@@ -1,34 +1,31 @@
-import { useState } from 'react';
 import SenderAddressForm from './senderAddress';
 import ReceiverAddressForm from './recieverAddressForm';
 import PackageDetailsForm from './packageDetailsForm';
 import RateSelectionForm from './rateSelectionForm';
 
-const MultiStepperForBasic = () => {
-	const [step, setStep] = useState(1);
-
+const MultiStepperForBasic = ({ activeStep, handleStepChange }: { activeStep: number; handleStepChange: (step: number) => void }) => {
 	const nextStep = () => {
-		setStep(step + 1);
+		handleStepChange(activeStep + 1);
 	};
 
 	const prevStep = () => {
-		setStep(step - 1);
+		handleStepChange(activeStep - 1);
 	};
 	return (
 		<>
-			{step === 1 ? (
+			{activeStep === 1 ? (
 				<SenderAddressForm nextStep={nextStep} />
-			) : step === 2 ? (
+			) : activeStep === 2 ? (
 				<ReceiverAddressForm
 					prevStep={prevStep}
 					nextStep={nextStep}
 				/>
-			) : step === 3 ? (
+			) : activeStep === 3 ? (
 				<PackageDetailsForm
 					nextStep={nextStep}
 					prevStep={prevStep}
 				/>
-			) : step === 4 ? (
+			) : activeStep === 4 ? (
 				<RateSelectionForm
 					prevStep={prevStep}
 					nextStep={nextStep}

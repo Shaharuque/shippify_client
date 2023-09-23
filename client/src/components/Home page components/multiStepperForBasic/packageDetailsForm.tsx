@@ -1,5 +1,5 @@
-import { Box, Text, FormControl, Button, Select, Flex, NumberInputField, NumberIncrementStepper, NumberDecrementStepper, NumberInput, NumberInputStepper, Heading } from '@chakra-ui/react';
-import { useState } from 'react';
+import { Box, Text, FormControl, Button, Select, Flex, NumberInputField, NumberIncrementStepper, NumberDecrementStepper, NumberInput, NumberInputStepper } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import SubmitButton from '../../Buttons/submitButton';
 import BackButton from '../../Buttons/backButton';
@@ -7,6 +7,7 @@ import RegularButton from '../../Buttons/regularButton';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { updateField } from '../../../redux/features/shipmentsSlice';
 import { RootState } from '../../../redux/store';
+import PackageNumbers from '../../Package circles/packageNumbers';
 
 export type TPackageDetailsForm = {
 	weight: {
@@ -41,7 +42,9 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 	const dispatch = useAppDispatch();
 	const packages = useAppSelector((state: RootState) => state.shipments.packages);
 
-	const { control, handleSubmit } = useForm<TPackageDetailsForm>({ defaultValues });
+	const [defaultPackageValues, setDefaultPackageValues] = useState(defaultValues);
+
+	const { control, handleSubmit, reset } = useForm<TPackageDetailsForm>({ defaultValues: defaultPackageValues });
 
 	const onSubmit: SubmitHandler<TPackageDetailsForm> = (data) => {
 		const updatedPackages = [...packages, data];
@@ -50,19 +53,30 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 		setIsCustom(!isCustom);
 	};
 
+	useEffect(() => {
+		reset(defaultPackageValues);
+	}, [defaultPackageValues]);
+
 	const handleContinue = () => {
 		nextStep();
+	};
+
+	const handleSelectPackage = (index: number) => {
+		const selectedPackage = packages[index];
+		console.log('selected package:', selectedPackage);
+		if (selectedPackage.package_code.length === 0) setIsCustom(true);
+
+		setDefaultPackageValues(selectedPackage);
 	};
 
 	return (
 		<Box
 			p={'2vw'}
 			w={'40rem'}>
-			<Heading
-				fontSize={'1.5rem'}
-				m={'1rem 0'}>
-				Packages added: {packages.length}
-			</Heading>
+			<PackageNumbers
+				packages={packages}
+				onSelectPackage={handleSelectPackage}
+			/>
 
 			<Text
 				as="b"

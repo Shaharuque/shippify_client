@@ -6,7 +6,6 @@ import { Box, Flex } from '@chakra-ui/react';
 import BackButton from '../../Buttons/backButton';
 import { IRateDetail, updateRates } from '../../../redux/features/rateDetailsSlice';
 import RateCardList from './rateCardList';
-import { dummyRateCardData } from '../../../data/dummyRateCardsData';
 
 const RateSelectionForm = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () => void }) => {
 	const shipmentInfo = useAppSelector((state: RootState) => state.shipments);
@@ -17,10 +16,10 @@ const RateSelectionForm = ({ nextStep, prevStep }: { nextStep: () => void; prevS
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				// const result = await fetchRates({ shipments: [shipmentInfo] });
-				// console.log('Response:', result.data);
-				// setRates(result.data?.rateDetail?.rates);
-				// dispatch(updateRates(result.data?.rateDetail?.rates));
+				const result = await fetchRates({ shipments: [shipmentInfo] });
+				console.log('Response:', result.data);
+				setRates(result.data?.rateDetail?.rates);
+				dispatch(updateRates(result.data?.rateDetail?.rates));
 			} catch (error) {
 				console.error(error);
 			}
@@ -34,9 +33,21 @@ const RateSelectionForm = ({ nextStep, prevStep }: { nextStep: () => void; prevS
 
 	return (
 		<Box>
-			<>
-				<RateCardList rates={dummyRateCardData} />
-			</>
+			<Box
+				height="80vh"
+				overflowY="auto"
+				css={{
+					'&::-webkit-scrollbar': {
+						width: '0',
+					},
+					'&::-webkit-scrollbar-thumb': {
+						backgroundColor: 'rgba(0, 0, 0, 0.5)',
+						borderRadius: '0.25em',
+					},
+				}}>
+				<RateCardList rates={rates} />
+			</Box>
+
 			<Flex
 				justify={'flex-end'}
 				m={'1rem 0'}>

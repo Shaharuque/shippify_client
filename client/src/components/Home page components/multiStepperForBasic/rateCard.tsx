@@ -1,4 +1,4 @@
-import { Badge, Box, Flex, Icon, Image, Text, VStack } from '@chakra-ui/react';
+import { Badge, Box, Flex, Icon, Image, Text } from '@chakra-ui/react';
 import ups from '../../../assets/ups.svg';
 import fedex from '../../../assets/fedex-express-6.svg';
 import stamps from '../../../assets/stamps_com.png';
@@ -22,7 +22,8 @@ const RateCard = ({ props, isSelected, onSelect }: { props: IRateDetail; isSelec
 			bg="white"
 			boxShadow="lg"
 			pos={'relative'}
-			onClick={handleClick}>
+			onClick={handleClick}
+			_hover={{ backgroundColor: '#BDBDBD' }}>
 			{isSelected && (
 				<Image
 					src={checked}
@@ -52,7 +53,7 @@ const RateCard = ({ props, isSelected, onSelect }: { props: IRateDetail; isSelec
 								{props.carrier_friendly_name}
 							</Text>
 							<Text
-								fontSize="sm"
+								fontSize=".65rem"
 								color="gray.500">
 								{props.service_type}
 							</Text>
@@ -87,20 +88,20 @@ const RateCard = ({ props, isSelected, onSelect }: { props: IRateDetail; isSelec
 						</Text>
 					</Flex>
 					<Text
-						fontSize="md"
+						fontSize=".9rem"
 						color="gray.500"
 						textTransform={'uppercase'}>
-						{props.insurance_amount?.amount} ({props.insurance_amount?.currency})
+						{props.insurance_amount?.amount} (insurance)
 					</Text>
 					<Text
-						fontSize="md"
+						fontSize=".9rem"
 						color="gray.500"
 						textTransform={'uppercase'}>
-						{props.other_amount?.amount} ({props.other_amount?.currency})
+						{props.other_amount?.amount} (tax)
 					</Text>
 					<Text
-						fontSize="md"
-						color="gray.800"
+						fontSize=".85rem"
+						color="gray.500"
 						textTransform={'capitalize'}
 						mt={'.5rem'}>
 						{props.carrier_delivery_days}

@@ -9,10 +9,14 @@ const RateCardList = ({ rates }: RateCardListProps) => {
 	const [selectedRateId, setSelectedRateId] = useState('');
 
 	const handleSelectCard = (rateId: string) => {
-		setSelectedRateId(rateId);
+		if (selectedRateId === rateId) {
+			setSelectedRateId('');
+		} else {
+			setSelectedRateId(rateId);
+		}
 	};
 	return (
-		<div>
+		<>
 			{rates.map((rate: IRateDetail, index: number) => (
 				<RateCard
 					key={index}
@@ -21,7 +25,7 @@ const RateCardList = ({ rates }: RateCardListProps) => {
 					onSelect={handleSelectCard}
 				/>
 			))}
-		</div>
+		</>
 	);
 };
 
