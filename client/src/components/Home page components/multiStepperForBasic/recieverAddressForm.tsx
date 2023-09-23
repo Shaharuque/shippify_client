@@ -143,7 +143,7 @@ const ReceiverAddressForm = ({ nextStep, prevStep }: { nextStep: () => void; pre
 									variant={'flushed'}
 									borderBottom={'1px solid #314866'}
 									transition={'all 0.30s ease-in-out;'}
-									_focusVisible={{ borderColor: '#002855', boxShadow: '0px 1px 0px 0px #002855 ' }}>
+									_focusVisible={{ borderColor: '#002855' }}>
 									<option value={'US'}>United State of America</option>
 									<option value={'CA'}>Canada</option>
 									<option value={'MX'}>Mexico</option>

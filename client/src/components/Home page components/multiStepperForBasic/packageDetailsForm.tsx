@@ -1,6 +1,6 @@
 import { Box, Text, FormControl, Button, Select, Flex, NumberInputField, NumberIncrementStepper, NumberDecrementStepper, NumberInput, NumberInputStepper } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-import { useForm, Controller, SubmitHandler, useFieldArray } from 'react-hook-form';
+import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import SubmitButton from '../../Buttons/submitButton';
 import BackButton from '../../Buttons/backButton';
 import RegularButton from '../../Buttons/regularButton';
@@ -47,7 +47,7 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 
 	const [defaultPackageValues, setDefaultPackageValues] = useState(defaultValues);
 
-	const { control, register, handleSubmit, reset, setValue, getValues } = useForm<TPackageDetailsForm>({
+	const { control, register, handleSubmit, reset, setValue } = useForm<TPackageDetailsForm>({
 		defaultValues: defaultPackageValues,
 	});
 
@@ -56,6 +56,7 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 		dispatch(updateField({ packages: updatedPackages }));
 
 		setIsCustom((prev) => !prev);
+		setValue('weight.value', 0);
 	};
 
 	useEffect(() => {
@@ -70,15 +71,19 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 		const selectedPackage = packages[index];
 		console.log('selected package:', selectedPackage);
 		if (selectedPackage.package_code.length === 0) setIsCustom(true);
+
 		setValue('dimensions.length', selectedPackage.dimensions.length);
 		setValue('dimensions.width', selectedPackage.dimensions.width);
 		setValue('dimensions.height', selectedPackage.dimensions.height);
+		setValue('dimensions.unit', selectedPackage.dimensions.unit);
+		setValue('weight.value', selectedPackage.weight.value);
+		setValue('weight.unit', selectedPackage.weight.unit);
 		setDefaultPackageValues(selectedPackage);
 	};
 
 	return (
 		<Box
-			p={'2vw'}
+			p={'.25vw'}
 			w={'40rem'}>
 			{sender?.country_code !== reciever?.country_code ? <CustomsInfoForm /> : null}
 			<PackageNumbers
@@ -194,12 +199,12 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 									control={control}
 									render={({ field }) => (
 										<Select
-											{...field}
+											// {...field}
+											{...register('dimensions.unit')}
 											border={'1px solid #314866'}
 											transition={'all 0.30s ease-in-out;'}
 											_focusVisible={{
 												borderColor: '#002855',
-												boxShadow: '0 0 3px #002855 ',
 											}}>
 											<option value={'inch'}>inch</option>
 											<option value={'cm'}>cm</option>
@@ -221,7 +226,6 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 								placeholder="Choose Dimension"
 								_focusVisible={{
 									borderColor: '#002855',
-									boxShadow: '0 0 3px #002855 ',
 								}}>
 								<option>4 x 4 x 4 inches</option>
 								<option>6 x 6 x 6 inches</option>
@@ -244,7 +248,7 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 				<Flex
 					gap={'2rem'}
 					alignItems={'center'}
-					m={'1rem 0'}>
+					m={'.5rem 0'}>
 					<FormControl isRequired>
 						<Controller
 							name="weight.value"
@@ -254,7 +258,8 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 									precision={2}
 									max={150}>
 									<NumberInputField
-										{...field}
+										// {...field}
+										{...register('weight.value')}
 										placeholder="Weight"
 										border={'1px solid #314866'}
 										transition={'all 0.30s ease-in-out;'}
@@ -277,12 +282,12 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 							control={control}
 							render={({ field }) => (
 								<Select
-									{...field}
+									// {...field}
+									{...register('weight.unit')}
 									border={'1px solid #314866'}
 									transition={'all 0.30s ease-in-out;'}
 									_focusVisible={{
 										borderColor: '#002855',
-										boxShadow: '0 0 3px #002855 ',
 									}}>
 									<option value={'ounce'}>ounce</option>
 									<option value={'pound'}>pound</option>
@@ -296,7 +301,7 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 				</Flex>
 				<Flex
 					justify={'flex-end'}
-					m={'2rem 0'}
+					mt={'4rem'}
 					gap={'1rem'}>
 					<BackButton
 						onClick={() => prevStep()}

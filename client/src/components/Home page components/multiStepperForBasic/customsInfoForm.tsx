@@ -1,8 +1,10 @@
-import { Box, Flex, FormControl, Input, Select, Switch, Text, Button, useNumberInput, HStack } from '@chakra-ui/react';
+import { Box, Flex, FormControl, Input, Select, Text, Button, useNumberInput, HStack } from '@chakra-ui/react';
 import { Controller, SubmitHandler, useForm, useFieldArray } from 'react-hook-form';
+import { useAppDispatch } from '../../../redux/hooks';
+import { updateField } from '../../../redux/features/shipmentsSlice';
 
 export type TCustomsDetailsForm = {
-	contents: 'merchandise' | 'gift' | 'returned_goods' | 'documents' | 'sample' | 'other';
+	contents: 'merchandise' | 'gift' | 'returned_goods' | 'documents' | 'other';
 	contents_explanation?: string;
 	non_delivery: 'treat_as_abandoned' | 'return_to_sender';
 	customs_items: CustomsItem[];
@@ -57,8 +59,10 @@ const CustomsInfoForm = () => {
 	const dec = getDecrementButtonProps();
 	const input = getInputProps();
 
+	const dispatch = useAppDispatch();
 	const onSubmit: SubmitHandler<TCustomsDetailsForm> = (data) => {
 		console.log('customs info:', data);
+		dispatch(updateField({ customs: data }));
 	};
 
 	return (
@@ -99,11 +103,12 @@ const CustomsInfoForm = () => {
 							name="non_delivery"
 							control={control}
 							render={({ field }) => (
-								<Switch
+								<Select
 									{...field}
-									size={'md'}
-									colorScheme="teal"
-								/>
+									placeholder="Return policy">
+									<option value={'treat_as_abandoned'}>Abandon goods</option>
+									<option value={'return_to_sender'}>Return goods</option>
+								</Select>
 							)}
 						/>
 					</FormControl>
@@ -113,16 +118,16 @@ const CustomsInfoForm = () => {
 						<Box
 							key={item.id}
 							mb={'1rem'}>
-							<Text
+							{/* <Text
 								as="b"
 								fontSize={'1rem'}
 								letterSpacing={0.2}>
 								Customs Item {index + 1}
-							</Text>
+							</Text> */}
 							<Flex
 								gap={'1rem'}
 								mb={'1rem'}>
-								<FormControl>
+								<FormControl mt={'1rem'}>
 									<Controller
 										name={`customs_items.${index}.description`}
 										control={control}
@@ -136,7 +141,7 @@ const CustomsInfoForm = () => {
 									/>
 								</FormControl>
 
-								<FormControl>
+								<FormControl mt={'1rem'}>
 									<Controller
 										name={`customs_items.${index}.harmonized_tariff_code`}
 										control={control}
@@ -154,7 +159,7 @@ const CustomsInfoForm = () => {
 							<Flex
 								gap={'1rem'}
 								mb={'1rem'}>
-								<FormControl>
+								<FormControl mt={'1rem'}>
 									<Controller
 										name={`customs_items.${index}.country_of_origin`}
 										control={control}
@@ -170,7 +175,7 @@ const CustomsInfoForm = () => {
 									/>
 								</FormControl>
 
-								<FormControl>
+								<FormControl mt={'1rem'}>
 									<Controller
 										name={`customs_items.${index}.country_of_manufacture`}
 										control={control}
@@ -190,9 +195,9 @@ const CustomsInfoForm = () => {
 							<Flex
 								gap={'1rem'}
 								mb={'1rem'}>
-								<FormControl>
+								<FormControl mt={'1rem'}>
 									<HStack>
-										<Button {...inc}>+</Button>
+										{/* <Button {...inc}>+</Button> */}
 
 										<Controller
 											name={`customs_items.${index}.quantity`}
@@ -200,15 +205,15 @@ const CustomsInfoForm = () => {
 											render={({ field }) => (
 												<Input
 													{...field}
-													{...input}
+													// {...input}
 												/>
 											)}
 										/>
-										<Button {...dec}>-</Button>
+										{/* <Button {...dec}>-</Button> */}
 									</HStack>
 								</FormControl>
 
-								<FormControl>
+								<FormControl mt={'1rem'}>
 									<Controller
 										name={`customs_items.${index}.value.amount`}
 										control={control}
@@ -222,7 +227,7 @@ const CustomsInfoForm = () => {
 									/>
 								</FormControl>
 
-								<FormControl>
+								<FormControl mt={'1rem'}>
 									<Controller
 										name={`customs_items.${index}.value.currency`}
 										control={control}
@@ -241,26 +246,36 @@ const CustomsInfoForm = () => {
 						</Box>
 					))}
 				</>
+				<Flex
+					justify={'flex-end'}
+					gap={'1rem'}>
+					<Button
+						type="button"
+						bg={'cta'}
+						color={'primary'}
+						onClick={() =>
+							append({
+								description: '',
+								harmonized_tariff_code: '',
+								country_of_manufacture: '',
+								country_of_origin: '',
+								quantity: 0,
+								value: {
+									amount: 0,
+									currency: '',
+								},
+							})
+						}>
+						Add Customs Item
+					</Button>
 
-				<Button
-					type="button"
-					onClick={() =>
-						append({
-							description: '',
-							harmonized_tariff_code: '',
-							country_of_manufacture: '',
-							country_of_origin: '',
-							quantity: 0,
-							value: {
-								amount: 0,
-								currency: '',
-							},
-						})
-					}>
-					Add Customs Item
-				</Button>
-
-				<Button type="submit">Submit</Button>
+					<Button
+						type="submit"
+						bg={'cta'}
+						color={'primary'}>
+						Submit
+					</Button>
+				</Flex>
 			</form>
 		</Flex>
 	);

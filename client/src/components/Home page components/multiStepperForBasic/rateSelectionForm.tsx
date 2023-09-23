@@ -34,7 +34,9 @@ const RateSelectionForm = ({ nextStep, prevStep }: { nextStep: () => void; prevS
 		console.log('rates:', rates);
 	}, [rates]);
 
-	const handleContinue = () => {};
+	const handleContinue = () => {
+		nextStep();
+	};
 
 	if (isError) {
 		return (
