@@ -8,7 +8,6 @@ import HomePage from './pages/Home/home.page';
 import AnalyticsPage from './pages/Analytics/analytics.page';
 import DashboardPage from './pages/Dashboard/dashboard.page';
 import CreateBasicShipmentPage from './pages/Create shipment/createBasicShipment';
-import SpinningLoader from './components/Loader/spinningLoader';
 
 function App() {
 	return (
@@ -34,10 +33,7 @@ function App() {
 						path="/dashboard"
 						element={<DashboardPage />}
 					/>
-					<Route
-						path="/loader"
-						element={<SpinningLoader />}
-					/>
+
 					<Route
 						path="/create"
 						element={<CreateBasicShipmentPage />}

@@ -1,7 +1,7 @@
 import { Box, Step, StepDescription, StepIcon, StepIndicator, StepNumber, StepSeparator, StepStatus, StepTitle, Stepper } from '@chakra-ui/react';
 
 const ShipmentSteppers = ({ activeStep }: { activeStep: number }) => {
-	const steps = [{ title: "Sender's address" }, { title: "Reciever's address" }, { title: 'Package Details' }, { title: 'Rate Selection' }];
+	const steps = [{ title: "Sender's address" }, { title: "Reciever's address" }, { title: 'Package Details' }, { title: 'Rate Selection' }, { title: 'Insurance Details' }];
 
 	return (
 		<Stepper

@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { updateField } from '../../../redux/features/shipmentsSlice';
 import { RootState } from '../../../redux/store';
 import PackageNumbers from '../../Package circles/packageNumbers';
+import CustomsInfoForm from './customsInfoForm';
 
 export type TPackageDetailsForm = {
 	weight: {
@@ -41,6 +42,8 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 	const [isCustom, setIsCustom] = useState(false);
 	const dispatch = useAppDispatch();
 	const packages = useAppSelector((state: RootState) => state.shipments.packages);
+	const sender = useAppSelector((state: RootState) => state.shipments.ship_from);
+	const reciever = useAppSelector((state: RootState) => state.shipments.ship_to);
 
 	const [defaultPackageValues, setDefaultPackageValues] = useState(defaultValues);
 
@@ -73,6 +76,7 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 		<Box
 			p={'2vw'}
 			w={'40rem'}>
+			{sender?.country_code !== reciever?.country_code ? <CustomsInfoForm /> : null}
 			<PackageNumbers
 				packages={packages}
 				onSelectPackage={handleSelectPackage}

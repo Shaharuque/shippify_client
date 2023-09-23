@@ -4,12 +4,16 @@ import errorImage from './../../assets/Error.jpg';
 const Error = () => {
 	return (
 		<Center>
-			<Image
+			<Box
 				boxShadow={'0px 1px 2px 2px darkgrey'}
-				m={'0 auto'}
-				src={errorImage}
 				boxSize={'20rem'}
-			/>
+				borderRadius={'1rem'}>
+				<Image
+					m={'0 auto'}
+					src={errorImage}
+					borderRadius={'1rem'}
+				/>
+			</Box>
 		</Center>
 	);
 };
