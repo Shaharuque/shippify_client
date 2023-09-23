@@ -1,4 +1,4 @@
-import { Box, Flex, FormControl, Input, Select, Switch, Text, Button, useNumberInput } from '@chakra-ui/react';
+import { Box, Flex, FormControl, Input, Select, Switch, Text, Button, useNumberInput, HStack } from '@chakra-ui/react';
 import { Controller, SubmitHandler, useForm, useFieldArray } from 'react-hook-form';
 
 export type TCustomsDetailsForm = {
@@ -191,19 +191,21 @@ const CustomsInfoForm = () => {
 								gap={'1rem'}
 								mb={'1rem'}>
 								<FormControl>
-									<Button {...inc}>+</Button>
+									<HStack>
+										<Button {...inc}>+</Button>
 
-									<Controller
-										name={`customs_items.${index}.quantity`}
-										control={control}
-										render={({ field }) => (
-											<Input
-												{...field}
-												{...input}
-											/>
-										)}
-									/>
-									<Button {...dec}>-</Button>
+										<Controller
+											name={`customs_items.${index}.quantity`}
+											control={control}
+											render={({ field }) => (
+												<Input
+													{...field}
+													{...input}
+												/>
+											)}
+										/>
+										<Button {...dec}>-</Button>
+									</HStack>
 								</FormControl>
 
 								<FormControl>
