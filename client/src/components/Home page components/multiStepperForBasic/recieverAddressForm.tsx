@@ -3,7 +3,8 @@ import { Box, FormControl, FormLabel, Input, Flex, Text, Select } from '@chakra-
 import SubmitButton from '../../Buttons/submitButton';
 import BackButton from '../../Buttons/backButton';
 import { updateField } from '../../../redux/features/shipmentsSlice';
-import { useAppDispatch } from '../../../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
+import { RootState } from '../../../redux/store';
 
 export type TRecieverAddressFormData = {
 	name: string;
@@ -24,7 +25,9 @@ const defaultValues = {
 
 const ReceiverAddressForm = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () => void }) => {
 	const { control, handleSubmit } = useForm<TRecieverAddressFormData>({
-		defaultValues,
+		defaultValues: {
+			...useAppSelector((state: RootState) => state?.shipments?.ship_to),
+		},
 	});
 
 	const dispatch = useAppDispatch();

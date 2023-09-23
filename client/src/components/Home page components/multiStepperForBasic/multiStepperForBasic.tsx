@@ -2,7 +2,7 @@ import SenderAddressForm from './senderAddressForm';
 import ReceiverAddressForm from './recieverAddressForm';
 import PackageDetailsForm from './packageDetailsForm';
 import RateSelectionForm from './rateSelectionForm';
-import InsuranceDetails from './insuranceDetails';
+import InsuranceDetailsForm from './insuranceDetailsForm';
 
 const MultiStepperForBasic = ({ activeStep, handleStepChange }: { activeStep: number; handleStepChange: (step: number) => void }) => {
 	const nextStep = () => {
@@ -32,7 +32,7 @@ const MultiStepperForBasic = ({ activeStep, handleStepChange }: { activeStep: nu
 					nextStep={nextStep}
 				/>
 			) : activeStep === 5 ? (
-				<InsuranceDetails />
+				<InsuranceDetailsForm />
 			) : null}
 		</>
 	);

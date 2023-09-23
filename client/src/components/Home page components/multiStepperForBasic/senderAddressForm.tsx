@@ -1,8 +1,9 @@
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { Box, FormControl, FormLabel, Input, Flex, Text, Select } from '@chakra-ui/react';
 import SubmitButton from '../../Buttons/submitButton';
-import { useAppDispatch } from '../../../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { updateField } from '../../../redux/features/shipmentsSlice';
+import { RootState } from '../../../redux/store';
 
 export type TSenderAddressFormData = {
 	name: string;
@@ -28,7 +29,9 @@ const defaultValues = {
 
 const SenderAddressForm = ({ nextStep }: { nextStep: () => void }) => {
 	const { control, handleSubmit } = useForm<TSenderAddressFormData>({
-		defaultValues,
+		defaultValues: {
+			...useAppSelector((state: RootState) => state?.shipments?.ship_from),
+		},
 	});
 	const dispatch = useAppDispatch();
 

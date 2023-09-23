@@ -9,6 +9,7 @@ import RateCardList from './rateCardList';
 import RegularButton from '../../Buttons/regularButton';
 import SpinningLoader from '../../Loader/spinningLoader';
 import Error from '../../Error bad request/error';
+import { dummyRateCardData } from '../../../data/dummyRateCardsData';
 
 const RateSelectionForm = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () => void }) => {
 	const shipmentInfo = useAppSelector((state: RootState) => state.shipments);
@@ -19,10 +20,10 @@ const RateSelectionForm = ({ nextStep, prevStep }: { nextStep: () => void; prevS
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const result = await fetchRates({ shipments: [shipmentInfo] });
-				console.log('Response:', result.data);
-				setRates(result.data?.rateDetail?.rates);
-				dispatch(updateRates(result.data?.rateDetail?.rates));
+				// const result = await fetchRates({ shipments: [shipmentInfo] });
+				// console.log('Response:', result.data);
+				// setRates(result.data?.rateDetail?.rates);
+				// dispatch(updateRates(result.data?.rateDetail?.rates));
 			} catch (error) {
 				console.error(error);
 			}
@@ -55,7 +56,7 @@ const RateSelectionForm = ({ nextStep, prevStep }: { nextStep: () => void; prevS
 			) : (
 				<Box>
 					<Box
-						height="80vh"
+						height="fit-content"
 						overflowY="auto"
 						css={{
 							'&::-webkit-scrollbar': {
@@ -66,7 +67,10 @@ const RateSelectionForm = ({ nextStep, prevStep }: { nextStep: () => void; prevS
 								borderRadius: '0.25em',
 							},
 						}}>
-						<RateCardList rates={rates} />
+						<RateCardList
+							// rates={rates}
+							rates={dummyRateCardData}
+						/>
 					</Box>
 
 					<Flex
@@ -75,12 +79,12 @@ const RateSelectionForm = ({ nextStep, prevStep }: { nextStep: () => void; prevS
 						gap={'1rem'}>
 						<BackButton
 							onClick={() => prevStep()}
-							width="6rem"
+							width="8rem"
 						/>
 						<RegularButton
 							onClick={handleContinue}
 							text="Continue"
-							width="8rem"></RegularButton>
+							width="12rem"></RegularButton>
 					</Flex>
 				</Box>
 			)}
