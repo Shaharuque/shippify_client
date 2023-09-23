@@ -50,7 +50,7 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 		const updatedPackages = [...packages, data];
 		dispatch(updateField({ packages: updatedPackages }));
 
-		setIsCustom(!isCustom);
+		setIsCustom((prev) => !prev);
 	};
 
 	useEffect(() => {

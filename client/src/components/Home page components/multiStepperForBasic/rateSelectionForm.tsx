@@ -6,6 +6,7 @@ import { Box, Flex } from '@chakra-ui/react';
 import BackButton from '../../Buttons/backButton';
 import { IRateDetail, updateRates } from '../../../redux/features/rateDetailsSlice';
 import RateCardList from './rateCardList';
+import RegularButton from '../../Buttons/regularButton';
 
 const RateSelectionForm = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () => void }) => {
 	const shipmentInfo = useAppSelector((state: RootState) => state.shipments);
@@ -31,6 +32,8 @@ const RateSelectionForm = ({ nextStep, prevStep }: { nextStep: () => void; prevS
 		console.log('rates:', rates);
 	}, [rates]);
 
+	const handleContinue = () => {};
+
 	return (
 		<Box>
 			<Box
@@ -50,11 +53,16 @@ const RateSelectionForm = ({ nextStep, prevStep }: { nextStep: () => void; prevS
 
 			<Flex
 				justify={'flex-end'}
-				m={'1rem 0'}>
+				m={'1rem 0'}
+				gap={'1rem'}>
 				<BackButton
 					onClick={() => prevStep()}
 					width="6rem"
 				/>
+				<RegularButton
+					onClick={handleContinue}
+					text="Continue"
+					width="8rem"></RegularButton>
 			</Flex>
 		</Box>
 	);

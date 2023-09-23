@@ -1,4 +1,4 @@
-import SenderAddressForm from './senderAddress';
+import SenderAddressForm from './senderAddressForm';
 import ReceiverAddressForm from './recieverAddressForm';
 import PackageDetailsForm from './packageDetailsForm';
 import RateSelectionForm from './rateSelectionForm';

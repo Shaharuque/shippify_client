@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { TSenderAddressFormData } from '../../components/Home page components/multiStepperForBasic/senderAddress';
+import { TSenderAddressFormData } from '../../components/Home page components/multiStepperForBasic/senderAddressForm';
 import { TRecieverAddressFormData } from '../../components/Home page components/multiStepperForBasic/recieverAddressForm';
 import { TPackageDetailsForm } from '../../components/Home page components/multiStepperForBasic/packageDetailsForm';
 
