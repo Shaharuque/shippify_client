@@ -1,4 +1,4 @@
-import { Box, Text, FormControl, Button, Select, Flex, NumberInputField, NumberIncrementStepper, NumberDecrementStepper, NumberInput, NumberInputStepper } from '@chakra-ui/react';
+import { Box, Text, FormControl, Button, Select, Flex, NumberInputField, NumberIncrementStepper, NumberDecrementStepper, NumberInput, NumberInputStepper, Center } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import SubmitButton from '../../Buttons/submitButton';

@@ -32,7 +32,8 @@ const PackageNumbers = ({ packages, onSelectPackage }: { packages: TPackageDetai
 					fontWeight={'600'}
 					bg={selectedPackageIndex === index ? 'cta' : 'white'}
 					color={selectedPackageIndex === index ? 'primary' : '#28231D'}
-					border={selectedPackageIndex === index ? 'none' : ' 1px solid #BDBDBD'}>
+					border={selectedPackageIndex === index ? 'none' : ' 1px solid #BDBDBD'}
+					boxShadow={'0 10px 10px rgba(0, 0, 0, 0.1)'}>
 					{index + 1}
 				</Circle>
 			))}

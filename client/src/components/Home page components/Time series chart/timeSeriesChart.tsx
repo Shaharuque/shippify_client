@@ -4,15 +4,26 @@ const TimeSeriesChart = () => {
 	const series = [
 		{
 			name: 'Sales',
-			data: [30, 40, 50, 10, 15, 40, 70, 30, 60],
+			data: [30, 40, 50, 10, 15, 40, 70, 30, 60, 100, 70, 80],
 		},
 	];
 
 	const options = {
-		chart: { id: 'bar-chart' },
-		xaxis: {
-			categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+		chart: {
+			id: 'area-chart',
+			type: 'area' as 'area',
+			stacked: false,
+			zoom: {
+				autoScaleYaxis: true,
+			},
 		},
+		stroke: {
+			width: 2,
+		},
+		xaxis: {
+			categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+		},
+
 		responsive: [
 			{
 				breakpoint: 1367,
@@ -28,7 +39,7 @@ const TimeSeriesChart = () => {
 		<Chart
 			options={options} //x-axis
 			series={series} //y-axis
-			type="bar"
+			type="area"
 			width="100%"
 			height={'400'}
 		/>

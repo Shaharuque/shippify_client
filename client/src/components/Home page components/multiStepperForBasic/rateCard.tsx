@@ -18,12 +18,11 @@ const RateCard = ({ props, isSelected, onSelect }: { props: IRateDetail; isSelec
 			p={4}
 			marginBottom={4}
 			width="100%"
-			maxW="lg"
 			bg="white"
 			boxShadow="lg"
 			pos={'relative'}
 			onClick={handleClick}
-			_hover={{ backgroundColor: '#BDBDBD' }}>
+			_hover={{ backgroundColor: '#e8edeb' }}>
 			{isSelected && (
 				<Image
 					src={checked}

@@ -1,9 +1,10 @@
-import { Box, Button, Checkbox, Flex, Heading, Icon, ListItem, Text, UnorderedList } from '@chakra-ui/react';
+import { Box, Button, Center, Checkbox, Flex, Heading, Icon, ListItem, Text, UnorderedList } from '@chakra-ui/react';
 import SliderComponent from '../../Slider/slider';
 import { HiCurrencyDollar } from 'react-icons/hi';
 import { useState } from 'react';
+import BackButton from '../../Buttons/backButton';
 
-const InsuranceDetailsForm = () => {
+const InsuranceDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () => void }) => {
 	const [sliderValue, setSliderValue] = useState(0);
 	const handleSliderChange = (value: number) => {
 		setSliderValue(value);
@@ -22,12 +23,12 @@ const InsuranceDetailsForm = () => {
 				textAlign={'center'}>
 				Insurance amount
 			</Text>
-			<Box w={'100%'}>
+			{/* <Box w={'100%'}>
 				<SliderComponent
 					value={sliderValue}
 					onChangeEnd={handleSliderChange}
 				/>
-			</Box>
+			</Box> */}
 			<Text
 				mt={'2rem'}
 				fontWeight={'600'}
@@ -90,8 +91,11 @@ const InsuranceDetailsForm = () => {
 			</Box>
 			<Flex
 				gap={'1rem'}
-				mt={'1rem'}
+				mt={'2.5rem'}
 				justify={'center'}>
+				<BackButton
+					onClick={() => prevStep()}
+					width="5rem"></BackButton>
 				<Button>Already insured</Button>
 				<Button>Purchase insurance</Button>
 			</Flex>

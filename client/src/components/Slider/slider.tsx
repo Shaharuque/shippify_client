@@ -12,7 +12,7 @@ const SliderComponent = ({ value, onChangeEnd }: SliderProps) => {
 	return (
 		<Slider
 			id="slider"
-			defaultValue={5}
+			defaultValue={2600}
 			min={100}
 			max={5000}
 			colorScheme="teal"
@@ -48,7 +48,7 @@ const SliderComponent = ({ value, onChangeEnd }: SliderProps) => {
 				color="white"
 				placement="top"
 				isOpen={showTooltip}
-				label={`${tooltipValue}`}>
+				label={value === 0 ? 2600 : `${tooltipValue}`}>
 				<SliderThumb />
 			</Tooltip>
 		</Slider>

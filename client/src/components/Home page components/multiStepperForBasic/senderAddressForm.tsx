@@ -1,5 +1,5 @@
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
-import { Box, FormControl, FormLabel, Input, Flex, Text, Select } from '@chakra-ui/react';
+import { Box, FormControl, FormLabel, Input, Flex, Text, Select, Center } from '@chakra-ui/react';
 import SubmitButton from '../../Buttons/submitButton';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { updateField } from '../../../redux/features/shipmentsSlice';

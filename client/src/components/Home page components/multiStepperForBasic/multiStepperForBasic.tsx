@@ -32,7 +32,10 @@ const MultiStepperForBasic = ({ activeStep, handleStepChange }: { activeStep: nu
 					nextStep={nextStep}
 				/>
 			) : activeStep === 5 ? (
-				<InsuranceDetailsForm />
+				<InsuranceDetailsForm
+					prevStep={prevStep}
+					nextStep={nextStep}
+				/>
 			) : null}
 		</>
 	);
