@@ -1,14 +1,37 @@
-import { Box, Button, Center, Checkbox, Flex, Heading, Icon, ListItem, Text, UnorderedList } from '@chakra-ui/react';
-import SliderComponent from '../../Slider/slider';
+import { Box, Button, Center, Checkbox, Flex, Heading, Icon, Input, ListItem, Text, UnorderedList } from '@chakra-ui/react';
 import { HiCurrencyDollar } from 'react-icons/hi';
-import { useState } from 'react';
 import BackButton from '../../Buttons/backButton';
+import { useEffect, useState } from 'react';
+import { useAppSelector } from '../../../redux/hooks';
+import { RootState } from '../../../redux/store';
 
 const InsuranceDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () => void }) => {
-	const [sliderValue, setSliderValue] = useState(0);
-	const handleSliderChange = (value: number) => {
-		setSliderValue(value);
+	const [insurance, setInsurance] = useState(0);
+	const [productValue, setProductValue] = useState(0);
+	const [agreedToTerms, setAgreedToTerms] = useState(false);
+	const previousProductValue = useAppSelector((state: RootState) => state.shipments);
+
+	const handleProductValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const value = Math.floor(Number(event.target.value));
+		setProductValue(value);
+		setInsurance(value);
 	};
+
+	const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		setAgreedToTerms(event.target.checked);
+	};
+
+	const isButtonDisabled = productValue <= 0 || !agreedToTerms;
+
+	useEffect(() => {
+		if (previousProductValue?.customs) {
+			const customItems = previousProductValue?.customs?.customs_items;
+			const totalValue = customItems.reduce((accumulator, item) => accumulator + item.quantity * item.value?.amount, 0);
+
+			setProductValue(totalValue);
+			setInsurance(totalValue);
+		}
+	}, [previousProductValue]);
 
 	return (
 		<Flex
@@ -16,19 +39,32 @@ const InsuranceDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; pr
 			w={'30rem'}
 			gap={'1rem'}
 			p={'1vw'}>
+			<Heading
+				fontSize={'1.5rem'}
+				textAlign={'center'}>
+				Get your products insured
+			</Heading>
+
 			<Text
-				mb={'1rem'}
 				fontWeight={'600'}
 				fontSize={'1.2rem'}
-				textAlign={'center'}>
-				Insurance amount
+				textAlign={'center'}
+				whiteSpace={'nowrap'}
+				mt={'1rem'}>
+				Product value
 			</Text>
-			{/* <Box w={'100%'}>
-				<SliderComponent
-					value={sliderValue}
-					onChangeEnd={handleSliderChange}
-				/>
-			</Box> */}
+
+			<Input
+				type="number"
+				value={productValue}
+				onChange={handleProductValueChange}
+				textAlign="center"
+				w={'10rem'}
+				alignSelf={'center'}
+				border={'1px solid'}
+				_focusVisible={{ boxShadow: '0 0 0 1px #002855', borderColor: '#002855', zIndex: 1 }}
+			/>
+
 			<Text
 				mt={'2rem'}
 				fontWeight={'600'}
@@ -47,7 +83,7 @@ const InsuranceDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; pr
 				<Text
 					fontWeight={'700'}
 					fontSize={'2.5rem'}>
-					{sliderValue * 0.1}
+					{0.1 * insurance}
 				</Text>
 			</Flex>
 
@@ -97,7 +133,14 @@ const InsuranceDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; pr
 					onClick={() => prevStep()}
 					width="5rem"></BackButton>
 				<Button>Already insured</Button>
-				<Button>Purchase insurance</Button>
+				<Button
+					bg={'cta'}
+					color={'primary'}
+					isDisabled={isButtonDisabled}
+					_disabled={{ bg: '#7ea4ad' }}
+					onClick={() => console.log('YES', isButtonDisabled)}>
+					Purchase insurance
+				</Button>
 			</Flex>
 		</Flex>
 	);

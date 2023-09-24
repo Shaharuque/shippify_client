@@ -7,10 +7,10 @@ export type TCustomsDetailsForm = {
 	contents: 'merchandise' | 'gift' | 'returned_goods' | 'documents' | 'other';
 	contents_explanation?: string;
 	non_delivery: 'treat_as_abandoned' | 'return_to_sender';
-	customs_items: CustomsItem[];
+	customs_items: ICustomsItem[];
 };
 
-export interface CustomsItem {
+export interface ICustomsItem {
 	harmonized_tariff_code: string;
 	country_of_manufacture: string;
 	country_of_origin: string;
