@@ -8,6 +8,12 @@ const colors = {
 	lightTeal: '#437F8C', //light teal
 };
 
+const fonts = {
+	body: "'Inter', sans-serif",
+	heading: "'Open sans', sans-serif",
+};
+
 export const chakraTheme = extendTheme({
 	colors,
+	fonts,
 });

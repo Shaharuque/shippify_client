@@ -311,6 +311,8 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 						text="Continue"
 						width="12rem"
 						onClick={handleContinue}
+						// isDisabled={packages.length === 0}
+						error_message="You haven't added any package!"
 					/>
 				</Flex>
 			</form>

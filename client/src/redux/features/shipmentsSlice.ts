@@ -37,7 +37,7 @@ export const initialShipmentsState: IShipment = {
 		city_locality: '',
 		state_province: '',
 		postal_code: '',
-		country_code: '',
+		country_code: 'US',
 		phone: '',
 	},
 	ship_to: {
@@ -47,7 +47,7 @@ export const initialShipmentsState: IShipment = {
 		city_locality: '',
 		state_province: '',
 		postal_code: '',
-		country_code: '',
+		country_code: 'US',
 	},
 	packages: [],
 };

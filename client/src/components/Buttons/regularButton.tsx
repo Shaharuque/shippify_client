@@ -1,23 +1,42 @@
-import { Button } from '@chakra-ui/react';
+import { Button, Text, VStack } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
 
 type SubmitButtonProps = {
 	text: string;
 	width?: string;
 	onClick?: () => void;
+	isDisabled?: boolean;
+	error_message?: string;
 };
 
-const RegularButton = ({ text, width, onClick }: SubmitButtonProps) => {
+const RegularButton = ({ text, width, onClick, isDisabled, error_message }: SubmitButtonProps) => {
+	const [showErrorMessage, setShowErrorMessage] = useState(false);
+	const handleClick = () => {
+		if (!isDisabled && onClick) {
+			onClick();
+		} else if (isDisabled && onClick) setShowErrorMessage((prev) => !prev);
+	};
+
 	return (
-		<Button
-			type="button"
-			color={'primary'}
-			bg={'cta'}
-			borderRadius={'2rem'}
-			p={'.5rem'}
-			w={width ? width : 'full'}
-			onClick={onClick}>
-			{text}
-		</Button>
+		<VStack>
+			<Button
+				type="button"
+				color={'primary'}
+				bg={isDisabled ? '#7ea4ad' : 'cta'}
+				borderRadius={'2rem'}
+				p={'.5rem'}
+				w={width ? width : 'full'}
+				onClick={handleClick}>
+				{text}
+			</Button>
+			{showErrorMessage ? (
+				<Text
+					fontSize={'.75rem'}
+					color={'red'}>
+					{error_message}
+				</Text>
+			) : null}
+		</VStack>
 	);
 };
 
