@@ -21,6 +21,10 @@ const InsuranceDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; pr
 		setAgreedToTerms(event.target.checked);
 	};
 
+	const handlePurchaseInsurance = () => {
+		nextStep();
+	};
+
 	const isButtonDisabled = productValue <= 0 || !agreedToTerms;
 
 	useEffect(() => {
@@ -91,7 +95,8 @@ const InsuranceDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; pr
 				colorScheme="green"
 				size={'lg'}
 				alignItems={'center'}
-				fontWeight={'500'}>
+				fontWeight={'500'}
+				onChange={handleCheckboxChange}>
 				I agree to the
 				<Text
 					as="span"
@@ -138,7 +143,7 @@ const InsuranceDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; pr
 					color={'primary'}
 					isDisabled={isButtonDisabled}
 					_disabled={{ bg: '#7ea4ad' }}
-					onClick={() => console.log('YES', isButtonDisabled)}>
+					onClick={handlePurchaseInsurance}>
 					Purchase insurance
 				</Button>
 			</Flex>

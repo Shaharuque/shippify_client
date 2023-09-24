@@ -2,7 +2,7 @@ import ReactApexChart from 'react-apexcharts';
 
 const PieChart = () => {
 	const options = {
-		labels: ['Total Shipments', 'Active', 'Rejected'],
+		labels: ['Total Shipments', 'Active', 'Returned'],
 		legend: { position: 'right' as 'right' },
 
 		responsive: [

@@ -1,4 +1,4 @@
-import { Box, Flex, FormControl, Input, Select, Text, Button, useNumberInput, HStack } from '@chakra-ui/react';
+import { Box, Flex, FormControl, Input, Select, Text, Button, useNumberInput, HStack, FormLabel } from '@chakra-ui/react';
 import { Controller, SubmitHandler, useForm, useFieldArray } from 'react-hook-form';
 import { useAppDispatch } from '../../../redux/hooks';
 import { updateField } from '../../../redux/features/shipmentsSlice';
@@ -196,6 +196,7 @@ const CustomsInfoForm = () => {
 								gap={'1rem'}
 								mb={'1rem'}>
 								<FormControl mt={'1rem'}>
+									<FormLabel>Quantity</FormLabel>
 									<HStack>
 										{/* <Button {...inc}>+</Button> */}
 
@@ -214,6 +215,7 @@ const CustomsInfoForm = () => {
 								</FormControl>
 
 								<FormControl mt={'1rem'}>
+									<FormLabel>Price (per quanta)</FormLabel>
 									<Controller
 										name={`customs_items.${index}.value.amount`}
 										control={control}
@@ -228,6 +230,7 @@ const CustomsInfoForm = () => {
 								</FormControl>
 
 								<FormControl mt={'1rem'}>
+									<FormLabel>Currency</FormLabel>
 									<Controller
 										name={`customs_items.${index}.value.currency`}
 										control={control}

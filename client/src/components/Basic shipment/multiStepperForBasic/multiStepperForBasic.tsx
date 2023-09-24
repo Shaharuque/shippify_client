@@ -3,6 +3,7 @@ import ReceiverAddressForm from './recieverAddressForm';
 import PackageDetailsForm from './packageDetailsForm';
 import RateSelectionForm from './rateSelectionForm';
 import InsuranceDetailsForm from './insuranceDetailsForm';
+import PaymentForm from './paymentForm';
 
 const MultiStepperForBasic = ({ activeStep, handleStepChange }: { activeStep: number; handleStepChange: (step: number) => void }) => {
 	const nextStep = () => {
@@ -33,6 +34,11 @@ const MultiStepperForBasic = ({ activeStep, handleStepChange }: { activeStep: nu
 				/>
 			) : activeStep === 5 ? (
 				<InsuranceDetailsForm
+					prevStep={prevStep}
+					nextStep={nextStep}
+				/>
+			) : activeStep === 6 ? (
+				<PaymentForm
 					prevStep={prevStep}
 					nextStep={nextStep}
 				/>

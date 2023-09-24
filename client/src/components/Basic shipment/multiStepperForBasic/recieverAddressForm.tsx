@@ -15,11 +15,11 @@ export type TRecieverAddressFormData = {
 	country_code: string;
 };
 const defaultValues = {
-	name: 'Amanda Miller',
-	address_line1: '525 S Winchester Blvd',
-	city_locality: 'San Jose',
-	state_province: 'CA',
-	postal_code: '95128',
+	name: '',
+	address_line1: '',
+	city_locality: '',
+	state_province: '',
+	postal_code: '',
 	country_code: 'US',
 };
 

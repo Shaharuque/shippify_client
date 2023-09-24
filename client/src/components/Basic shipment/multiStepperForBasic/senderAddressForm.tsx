@@ -17,14 +17,14 @@ export type TSenderAddressFormData = {
 };
 
 const defaultValues = {
-	name: 'John Doe',
-	company_name: 'Example Corp.',
-	address_line1: '4009 Marathon Blvd',
-	city_locality: 'Austin',
-	state_province: 'TX',
-	postal_code: '78756',
+	name: '',
+	company_name: '',
+	address_line1: '',
+	city_locality: '',
+	state_province: '',
+	postal_code: '',
 	country_code: 'US',
-	phone: '512-555-5555',
+	phone: '',
 };
 
 const SenderAddressForm = ({ nextStep }: { nextStep: () => void }) => {
@@ -42,7 +42,7 @@ const SenderAddressForm = ({ nextStep }: { nextStep: () => void }) => {
 
 	return (
 		<Box
-			p="2vw"
+			p=".25vw"
 			width={'40rem'}>
 			<Text
 				as="b"
