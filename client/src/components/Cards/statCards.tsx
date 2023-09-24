@@ -1,6 +1,6 @@
 import { Flex, Text, Icon, Circle } from '@chakra-ui/react';
 import { IconType } from 'react-icons';
-import formatMonetaryValue from '../../../utils/addCommatoMonetaryValues';
+import formatMonetaryValue from '../../utils/addCommatoMonetaryValues';
 
 type StatCardsProps = {
 	title: string;

@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { RootState } from '../../../redux/store';
 import { useFetchRatesMutation } from '../../../redux/api/shipmentsApi';
-import { Box, Center, Flex } from '@chakra-ui/react';
+import { Box, Center, Flex, Text } from '@chakra-ui/react';
 import BackButton from '../../Buttons/backButton';
 import { IRateDetail, updateRates } from '../../../redux/features/rateDetailsSlice';
 import RateCardList from './rateCardList';
@@ -12,6 +12,7 @@ import Error from '../../Error bad request/error';
 import { dummyRateCardData } from '../../../data/dummyRateCardsData';
 import PriceAscendingDescendingFilter from '../../Filters/priceAscendingDescending';
 import DeliveryDateFilter from '../../Filters/deliveryDate';
+import PriceRangeFilter from '../../Filters/priceRange';
 
 const RateSelectionForm = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () => void }) => {
 	const shipmentInfo = useAppSelector((state: RootState) => state.shipments);
@@ -19,6 +20,7 @@ const RateSelectionForm = ({ nextStep, prevStep }: { nextStep: () => void; prevS
 	const [rates, setRates] = useState<IRateDetail[]>([]);
 	const [minRate, setMinRate] = useState(0);
 	const [maxRate, setMaxRate] = useState(0);
+	const [selectedRange, setSelectedRange] = useState([minRate, maxRate]);
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
@@ -38,12 +40,13 @@ const RateSelectionForm = ({ nextStep, prevStep }: { nextStep: () => void; prevS
 	}, [shipmentInfo, fetchRates]);
 
 	useMemo(() => {
-		const amounts = rates.map((rate) => rate.shipping_amount?.amount || 0);
-		const min = Math.min(...amounts);
-		const max = Math.max(...amounts);
+		const amounts = rates.map((rate) => rate.shipping_amount?.amount);
+		const min = Math.floor(Math.min(...amounts));
+		const max = Math.ceil(Math.max(...amounts));
 		setMinRate(min);
 		setMaxRate(max);
-	}, [rates]);
+		setSelectedRange([min, max]);
+	}, []);
 
 	const handleContinue = () => {
 		nextStep();
@@ -68,14 +71,15 @@ const RateSelectionForm = ({ nextStep, prevStep }: { nextStep: () => void; prevS
 		}
 	};
 
-	const handlePriceRangeFilterChange = (value: string) => {
+	const handlePriceRangeFilterChange = (value: number[]) => {
 		console.log('value:', value);
 
-		if (value === 'asc') {
-			setRates([...rates.sort((a: IRateDetail, b: IRateDetail) => a.delivery_days - b.delivery_days)]);
-		} else if (value === 'desc') {
-			setRates([...rates.sort((a: IRateDetail, b: IRateDetail) => b.delivery_days - a.delivery_days)]);
-		}
+		setSelectedRange(value);
+		const filteredRates = dummyRateCardData.filter((rate) => {
+			const amount = rate.shipping_amount?.amount || 0;
+			return amount >= value[0] && amount <= value[1];
+		});
+		setRates(filteredRates);
 	};
 
 	if (isError) {
@@ -100,6 +104,11 @@ const RateSelectionForm = ({ nextStep, prevStep }: { nextStep: () => void; prevS
 						alignItems="flex-start"
 						gap={'5rem'}>
 						<Box w={'12rem'}>
+							<PriceRangeFilter
+								minValue={minRate}
+								maxValue={maxRate}
+								onRangeChange={handlePriceRangeFilterChange}
+							/>
 							<PriceAscendingDescendingFilter onChange={handlePriceFilterChange} />
 							<DeliveryDateFilter onChange={handleDeliveryDateFilterChange} />
 						</Box>

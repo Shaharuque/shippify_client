@@ -1,5 +1,5 @@
 import { Box, Flex } from '@chakra-ui/react';
-import ShipmentMenu from '../Cards/shipmentMenu';
+import ShipmentMenu from '../../Cards/shipmentMenu';
 import truckLottie from '../../../assets/Truck.json';
 import parcelLottie from '../../../assets/Parcel.json';
 import trackingLottie from '../../../assets/Tracking-2.json';

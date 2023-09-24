@@ -1,7 +1,7 @@
 import { Box, Flex } from '@chakra-ui/react';
-import TimeSeriesChart from '../Time series chart/timeSeriesChart';
+import TimeSeriesChart from '../../Charts/timeSeriesChart';
 import RecentShipmentTable from '../Recent shipment table/recentShipmentTable';
-import PieChart from '../Pie chart/pieChart';
+import PieChart from '../../Charts/pieChart';
 
 const AnalyticsBox = () => {
 	return (

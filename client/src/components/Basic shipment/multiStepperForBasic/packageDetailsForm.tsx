@@ -7,7 +7,7 @@ import RegularButton from '../../Buttons/regularButton';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { updateField } from '../../../redux/features/shipmentsSlice';
 import { RootState } from '../../../redux/store';
-import PackageNumbers from '../../Package circles/packageNumbers';
+import PackageNumbers from '../../Package numbers boxes/packageNumbers';
 import CustomsInfoForm from './customsInfoForm';
 
 export type TPackageDetailsForm = {

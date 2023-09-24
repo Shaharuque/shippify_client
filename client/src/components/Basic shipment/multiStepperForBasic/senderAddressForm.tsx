@@ -36,9 +36,7 @@ const SenderAddressForm = ({ nextStep }: { nextStep: () => void }) => {
 	const dispatch = useAppDispatch();
 
 	const onSubmit: SubmitHandler<TSenderAddressFormData> = (data) => {
-		console.log('data:', data);
 		dispatch(updateField({ ship_from: data }));
-
 		nextStep();
 	};
 

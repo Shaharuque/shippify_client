@@ -1,5 +1,5 @@
 import { Box, Center, Flex } from '@chakra-ui/react';
-import MultiStepperForBasic from '../../components/Home page components/multiStepperForBasic/multiStepperForBasic';
+import MultiStepperForBasic from '../../components/Basic shipment/multiStepperForBasic/multiStepperForBasic';
 import ShipmentSteppers from '../../components/Steppers/shipmentSteppers';
 import { useState } from 'react';
 

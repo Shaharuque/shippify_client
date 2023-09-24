@@ -1,5 +1,5 @@
 import { Box, Text, Flex, Circle } from '@chakra-ui/react';
-import { TPackageDetailsForm } from '../Home page components/multiStepperForBasic/packageDetailsForm';
+import { TPackageDetailsForm } from '../Basic shipment/multiStepperForBasic/packageDetailsForm';
 import { useState } from 'react';
 
 const PackageNumbers = ({ packages, onSelectPackage }: { packages: TPackageDetailsForm[]; onSelectPackage: (index: number) => void }) => {

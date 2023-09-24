@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { TSenderAddressFormData } from '../../components/Home page components/multiStepperForBasic/senderAddressForm';
-import { TRecieverAddressFormData } from '../../components/Home page components/multiStepperForBasic/recieverAddressForm';
-import { TPackageDetailsForm } from '../../components/Home page components/multiStepperForBasic/packageDetailsForm';
-import { TCustomsDetailsForm } from '../../components/Home page components/multiStepperForBasic/customsInfoForm';
+import { TSenderAddressFormData } from '../../components/Basic shipment/multiStepperForBasic/senderAddressForm';
+import { TRecieverAddressFormData } from '../../components/Basic shipment/multiStepperForBasic/recieverAddressForm';
+import { TPackageDetailsForm } from '../../components/Basic shipment/multiStepperForBasic/packageDetailsForm';
+import { TCustomsDetailsForm } from '../../components/Basic shipment/multiStepperForBasic/customsInfoForm';
 
 export interface IShipment {
 	customs?: TCustomsDetailsForm;
