@@ -1,6 +1,6 @@
 import { Box, Text, FormControl, Button, Select, Flex, NumberInputField, NumberIncrementStepper, NumberDecrementStepper, NumberInput, NumberInputStepper } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-import { useForm, Controller, SubmitHandler } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import SubmitButton from '../../Buttons/submitButton';
 import BackButton from '../../Buttons/backButton';
 import RegularButton from '../../Buttons/regularButton';
@@ -47,11 +47,11 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 
 	const [defaultPackageValues, setDefaultPackageValues] = useState(defaultValues);
 
-	const { control, register, handleSubmit, reset, setValue } = useForm<TPackageDetailsForm>({
+	const { register, handleSubmit, reset, setValue } = useForm<TPackageDetailsForm>({
 		defaultValues: defaultPackageValues,
 	});
 
-	const onSubmit: SubmitHandler<TPackageDetailsForm> = (data) => {
+	const onSubmit = (data: TPackageDetailsForm) => {
 		const updatedPackages = [...packages, data];
 		dispatch(updateField({ packages: updatedPackages }));
 
@@ -109,108 +109,78 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 							m={'1rem 0'}
 							alignItems={'center'}>
 							<FormControl isRequired>
-								<Controller
-									name="dimensions.length"
-									control={control}
-									render={({ field }) => (
-										<>
-											<NumberInput
-												precision={2}
-												max={70}>
-												<NumberInputField
-													{...register('dimensions.length')}
-													//   {...field}
-													placeholder="Length"
-													border={'1px solid #314866'}
-													transition={'all 0.30s ease-in-out;'}
-													_focusVisible={{
-														borderColor: '#002855',
-														boxShadow: '0 0 3px #002855 ',
-													}}
-												/>
-												<NumberInputStepper>
-													<NumberIncrementStepper />
-													<NumberDecrementStepper />
-												</NumberInputStepper>
-											</NumberInput>
-										</>
-									)}
-								/>
+								<NumberInput
+									precision={2}
+									max={70}>
+									<NumberInputField
+										{...register('dimensions.length')}
+										placeholder="Length"
+										border={'1px solid #314866'}
+										transition={'all 0.30s ease-in-out;'}
+										_focusVisible={{
+											borderColor: '#002855',
+											boxShadow: '0 0 3px #002855 ',
+										}}
+									/>
+									<NumberInputStepper>
+										<NumberIncrementStepper />
+										<NumberDecrementStepper />
+									</NumberInputStepper>
+								</NumberInput>
 							</FormControl>
 							x
 							<FormControl isRequired>
-								<Controller
-									name="dimensions.width"
-									control={control}
-									render={({ field }) => (
-										<NumberInput
-											precision={2}
-											max={70}>
-											<NumberInputField
-												{...register('dimensions.width')}
-												// {...field}
-												placeholder="Width"
-												border={'1px solid #314866'}
-												transition={'all 0.30s ease-in-out;'}
-												_focusVisible={{
-													borderColor: '#002855',
-													boxShadow: '0 0 3px #002855 ',
-												}}
-											/>
-											<NumberInputStepper>
-												<NumberIncrementStepper />
-												<NumberDecrementStepper />
-											</NumberInputStepper>
-										</NumberInput>
-									)}
-								/>
+								<NumberInput
+									precision={2}
+									max={70}>
+									<NumberInputField
+										{...register('dimensions.width')}
+										placeholder="Width"
+										border={'1px solid #314866'}
+										transition={'all 0.30s ease-in-out;'}
+										_focusVisible={{
+											borderColor: '#002855',
+											boxShadow: '0 0 3px #002855 ',
+										}}
+									/>
+									<NumberInputStepper>
+										<NumberIncrementStepper />
+										<NumberDecrementStepper />
+									</NumberInputStepper>
+								</NumberInput>
 							</FormControl>
 							x
 							<FormControl isRequired>
-								<Controller
-									name="dimensions.height"
-									control={control}
-									render={({ field }) => (
-										<NumberInput
-											precision={2}
-											max={70}>
-											<NumberInputField
-												{...register('dimensions.height')}
-												// {...field}
-												placeholder="Height"
-												border={'1px solid #314866'}
-												transition={'all 0.30s ease-in-out;'}
-												_focusVisible={{
-													borderColor: '#002855',
-													boxShadow: '0 0 3px #002855 ',
-												}}
-											/>
-											<NumberInputStepper>
-												<NumberIncrementStepper />
-												<NumberDecrementStepper />
-											</NumberInputStepper>
-										</NumberInput>
-									)}
-								/>
+								<NumberInput
+									precision={2}
+									max={70}>
+									<NumberInputField
+										{...register('dimensions.height')}
+										placeholder="Height"
+										border={'1px solid #314866'}
+										transition={'all 0.30s ease-in-out;'}
+										_focusVisible={{
+											borderColor: '#002855',
+											boxShadow: '0 0 3px #002855 ',
+										}}
+									/>
+									<NumberInputStepper>
+										<NumberIncrementStepper />
+										<NumberDecrementStepper />
+									</NumberInputStepper>
+								</NumberInput>
 							</FormControl>
 							<FormControl>
-								<Controller
-									name="dimensions.unit"
-									control={control}
-									render={({ field }) => (
-										<Select
-											// {...field}
-											{...register('dimensions.unit')}
-											border={'1px solid #314866'}
-											transition={'all 0.30s ease-in-out;'}
-											_focusVisible={{
-												borderColor: '#002855',
-											}}>
-											<option value={'inch'}>inch</option>
-											<option value={'cm'}>cm</option>
-										</Select>
-									)}
-								/>
+								<Select
+									{...register('dimensions.unit')}
+									border={'1px solid #314866'}
+									transition={'all 0.30s ease-in-out;'}
+									_focusVisible={{
+										borderColor: '#002855',
+									}}>
+									<option value={'inch'}>inch</option>
+									<option value={'cm'}>cm</option>
+								</Select>
 							</FormControl>
 						</Flex>
 					</>
@@ -221,13 +191,14 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 						m={'1rem 0'}>
 						<FormControl isRequired>
 							<Select
+								{...register('package_code')}
 								border={'1px solid #314866'}
 								transition={'all 0.30s ease-in-out;'}
 								placeholder="Choose Dimension"
 								_focusVisible={{
 									borderColor: '#002855',
 								}}>
-								<option>4 x 4 x 4 inches</option>
+								<option></option>
 								<option>6 x 6 x 6 inches</option>
 								<option>8 x 8 x 8 inches</option>
 								<option>10 x 10 x 10 inches</option>
@@ -250,51 +221,38 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 					alignItems={'center'}
 					m={'.5rem 0'}>
 					<FormControl isRequired>
-						<Controller
-							name="weight.value"
-							control={control}
-							render={({ field }) => (
-								<NumberInput
-									precision={2}
-									max={150}>
-									<NumberInputField
-										// {...field}
-										{...register('weight.value')}
-										placeholder="Weight"
-										border={'1px solid #314866'}
-										transition={'all 0.30s ease-in-out;'}
-										_focusVisible={{
-											borderColor: '#002855',
-											boxShadow: '0 0 3px #002855 ',
-										}}
-									/>
-									<NumberInputStepper>
-										<NumberIncrementStepper />
-										<NumberDecrementStepper />
-									</NumberInputStepper>
-								</NumberInput>
-							)}
-						/>
+						<NumberInput
+							precision={2}
+							max={150}>
+							<NumberInputField
+								// {...field}
+								{...register('weight.value')}
+								placeholder="Weight"
+								border={'1px solid #314866'}
+								transition={'all 0.30s ease-in-out;'}
+								_focusVisible={{
+									borderColor: '#002855',
+									boxShadow: '0 0 3px #002855 ',
+								}}
+							/>
+							<NumberInputStepper>
+								<NumberIncrementStepper />
+								<NumberDecrementStepper />
+							</NumberInputStepper>
+						</NumberInput>
 					</FormControl>
 					<FormControl>
-						<Controller
-							name="weight.unit"
-							control={control}
-							render={({ field }) => (
-								<Select
-									// {...field}
-									{...register('weight.unit')}
-									border={'1px solid #314866'}
-									transition={'all 0.30s ease-in-out;'}
-									_focusVisible={{
-										borderColor: '#002855',
-									}}>
-									<option value={'ounce'}>ounce</option>
-									<option value={'pound'}>pound</option>
-									<option value={'kg'}>kg</option>
-								</Select>
-							)}
-						/>
+						<Select
+							{...register('weight.unit')}
+							border={'1px solid #314866'}
+							transition={'all 0.30s ease-in-out;'}
+							_focusVisible={{
+								borderColor: '#002855',
+							}}>
+							<option value={'ounce'}>ounce</option>
+							<option value={'pound'}>pound</option>
+							<option value={'kg'}>kg</option>
+						</Select>
 					</FormControl>
 
 					<SubmitButton text="Save Details" />
