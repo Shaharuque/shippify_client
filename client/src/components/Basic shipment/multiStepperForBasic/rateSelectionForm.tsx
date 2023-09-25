@@ -15,7 +15,7 @@ import DeliveryDateFilter from '../../Filters/deliveryDate';
 import PriceRangeFilter from '../../Filters/priceRange';
 
 const RateSelectionForm = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () => void }) => {
-	const shipmentInfo = useAppSelector((state: RootState) => state.shipments);
+	const shipmentInfo = useAppSelector((state: RootState) => state.basicShipments);
 	const [fetchRates, { isLoading, isError }] = useFetchRatesMutation();
 	const [rates, setRates] = useState<IRateDetail[]>([]);
 	const [minRate, setMinRate] = useState(0);

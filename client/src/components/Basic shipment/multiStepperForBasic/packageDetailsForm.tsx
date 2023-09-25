@@ -5,7 +5,7 @@ import SubmitButton from '../../Buttons/submitButton';
 import BackButton from '../../Buttons/backButton';
 import RegularButton from '../../Buttons/regularButton';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
-import { updateField } from '../../../redux/features/shipmentsSlice';
+import { updateField } from '../../../redux/features/basicShipmentsSlice';
 import { RootState } from '../../../redux/store';
 import PackageNumbers from '../../Package numbers boxes/packageNumbers';
 import CustomsInfoForm from './customsInfoForm';
@@ -41,9 +41,9 @@ const defaultValues: TPackageDetailsForm = {
 const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () => void }) => {
 	const [isCustom, setIsCustom] = useState(false);
 	const dispatch = useAppDispatch();
-	const packages = useAppSelector((state: RootState) => state.shipments.packages);
-	const sender = useAppSelector((state: RootState) => state.shipments.ship_from);
-	const reciever = useAppSelector((state: RootState) => state.shipments.ship_to);
+	const packages = useAppSelector((state: RootState) => state.basicShipments.packages);
+	const sender = useAppSelector((state: RootState) => state.basicShipments.ship_from);
+	const reciever = useAppSelector((state: RootState) => state.basicShipments.ship_to);
 
 	const [defaultPackageValues, setDefaultPackageValues] = useState(defaultValues);
 

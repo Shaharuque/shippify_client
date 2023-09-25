@@ -1,4 +1,4 @@
-import { IShipment } from '../features/shipmentsSlice';
+import { IShipment } from '../features/basicShipmentsSlice';
 import { apiSlice } from './apiSlice';
 
 export const shipmentsApi = apiSlice.injectEndpoints({

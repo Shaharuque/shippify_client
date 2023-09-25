@@ -1,8 +1,8 @@
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
-import { Box, FormControl, FormLabel, Input, Flex, Text, Select, Center } from '@chakra-ui/react';
+import { Box, FormControl, FormLabel, Input, Flex, Text, Select } from '@chakra-ui/react';
 import SubmitButton from '../../Buttons/submitButton';
 import BackButton from '../../Buttons/backButton';
-import { updateField } from '../../../redux/features/shipmentsSlice';
+import { updateField } from '../../../redux/features/basicShipmentsSlice';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { RootState } from '../../../redux/store';
 
@@ -14,19 +14,11 @@ export type TRecieverAddressFormData = {
 	postal_code: string;
 	country_code: string;
 };
-const defaultValues = {
-	name: '',
-	address_line1: '',
-	city_locality: '',
-	state_province: '',
-	postal_code: '',
-	country_code: 'US',
-};
 
 const ReceiverAddressForm = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () => void }) => {
 	const { control, handleSubmit } = useForm<TRecieverAddressFormData>({
 		defaultValues: {
-			...useAppSelector((state: RootState) => state?.shipments?.ship_to),
+			...useAppSelector((state: RootState) => state?.basicShipments?.ship_to),
 		},
 	});
 

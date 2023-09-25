@@ -1,4 +1,4 @@
-import { Box, Button, Center, Checkbox, Flex, Heading, Icon, Input, ListItem, Text, UnorderedList } from '@chakra-ui/react';
+import { Box, Button, Checkbox, Flex, Heading, Icon, Input, ListItem, Text, UnorderedList } from '@chakra-ui/react';
 import { HiCurrencyDollar } from 'react-icons/hi';
 import BackButton from '../../Buttons/backButton';
 import { useEffect, useState } from 'react';
@@ -9,7 +9,7 @@ const InsuranceDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; pr
 	const [insurance, setInsurance] = useState(0);
 	const [productValue, setProductValue] = useState(0);
 	const [agreedToTerms, setAgreedToTerms] = useState(false);
-	const previousProductValue = useAppSelector((state: RootState) => state.shipments);
+	const previousProductValue = useAppSelector((state: RootState) => state.basicShipments);
 
 	const handleProductValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const value = Math.floor(Number(event.target.value));

@@ -4,7 +4,7 @@ import truckLottie from '../../../assets/Truck.json';
 import parcelLottie from '../../../assets/Parcel.json';
 import trackingLottie from '../../../assets/Tracking-2.json';
 import { useLottie } from 'lottie-react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const ShipmentMenuList = () => {
 	const navigate = useNavigate();
@@ -34,13 +34,14 @@ const ShipmentMenuList = () => {
 			direction={'column'}
 			align={'center'}
 			gap={'1rem'}>
-			<Box onClick={() => navigate('/create')}>
+			<Box onClick={() => navigate('/create/basic')}>
 				<ShipmentMenu
 					title={'Create Basic Shipment'}
 					lottie={parcelLottieView}
 				/>
 			</Box>
-			<Box onClick={() => navigate('')}>
+
+			<Box onClick={() => navigate('/create/ltl')}>
 				<ShipmentMenu
 					title={'Create LTL Shipment'}
 					lottie={truckLottieView}

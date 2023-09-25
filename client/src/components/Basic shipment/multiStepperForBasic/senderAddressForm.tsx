@@ -1,8 +1,8 @@
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
-import { Box, FormControl, FormLabel, Input, Flex, Text, Select, Center } from '@chakra-ui/react';
+import { Box, FormControl, FormLabel, Input, Flex, Text, Select } from '@chakra-ui/react';
 import SubmitButton from '../../Buttons/submitButton';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
-import { updateField } from '../../../redux/features/shipmentsSlice';
+import { updateField } from '../../../redux/features/basicShipmentsSlice';
 import { RootState } from '../../../redux/store';
 
 export type TSenderAddressFormData = {
@@ -16,21 +16,10 @@ export type TSenderAddressFormData = {
 	phone: string;
 };
 
-const defaultValues = {
-	name: '',
-	company_name: '',
-	address_line1: '',
-	city_locality: '',
-	state_province: '',
-	postal_code: '',
-	country_code: 'US',
-	phone: '',
-};
-
 const SenderAddressForm = ({ nextStep }: { nextStep: () => void }) => {
 	const { control, handleSubmit } = useForm<TSenderAddressFormData>({
 		defaultValues: {
-			...useAppSelector((state: RootState) => state?.shipments?.ship_from),
+			...useAppSelector((state: RootState) => state?.basicShipments?.ship_from),
 		},
 	});
 	const dispatch = useAppDispatch();
@@ -43,7 +32,7 @@ const SenderAddressForm = ({ nextStep }: { nextStep: () => void }) => {
 	return (
 		<Box
 			p=".25vw"
-			width={'40rem'}>
+			width={'43vw'}>
 			<Text
 				as="b"
 				fontSize={'1.25rem'}
@@ -52,10 +41,10 @@ const SenderAddressForm = ({ nextStep }: { nextStep: () => void }) => {
 			</Text>
 			<form
 				onSubmit={handleSubmit(onSubmit)}
-				style={{ marginTop: '2.5rem' }}>
+				style={{ marginTop: '4vh' }}>
 				<Flex
 					gap={'3rem'}
-					mb={'2vw'}>
+					mb={'3vh'}>
 					<FormControl id="name">
 						<FormLabel fontWeight={'600'}>Contact Name</FormLabel>
 						<Controller
@@ -73,9 +62,7 @@ const SenderAddressForm = ({ nextStep }: { nextStep: () => void }) => {
 						/>
 					</FormControl>
 
-					<FormControl
-						id="company_name"
-						mb="4">
+					<FormControl id="company_name">
 						<FormLabel fontWeight={'600'}>Company Name</FormLabel>
 						<Controller
 							name="company_name"
@@ -95,10 +82,8 @@ const SenderAddressForm = ({ nextStep }: { nextStep: () => void }) => {
 
 				<Flex
 					gap={'3rem'}
-					mb={'2vw'}>
-					<FormControl
-						id="address_line1"
-						mb="4">
+					mb={'3vh'}>
+					<FormControl id="address_line1">
 						<FormLabel fontWeight={'600'}>Street</FormLabel>
 						<Controller
 							name="address_line1"
@@ -115,9 +100,7 @@ const SenderAddressForm = ({ nextStep }: { nextStep: () => void }) => {
 						/>
 					</FormControl>
 
-					<FormControl
-						id="city_locality"
-						mb="4">
+					<FormControl id="city_locality">
 						<FormLabel fontWeight={'600'}>City</FormLabel>
 						<Controller
 							name="city_locality"
@@ -136,10 +119,8 @@ const SenderAddressForm = ({ nextStep }: { nextStep: () => void }) => {
 				</Flex>
 				<Flex
 					gap={'3rem'}
-					mb={'2vw'}>
-					<FormControl
-						id="state_province"
-						mb="4">
+					mb={'3vh'}>
+					<FormControl id="state_province">
 						<FormLabel fontWeight={'600'}>State/Province</FormLabel>
 						<Controller
 							name="state_province"
@@ -156,9 +137,7 @@ const SenderAddressForm = ({ nextStep }: { nextStep: () => void }) => {
 						/>
 					</FormControl>
 
-					<FormControl
-						id="postal_code"
-						mb="4">
+					<FormControl id="postal_code">
 						<FormLabel fontWeight={'600'}>Postal Code</FormLabel>
 						<Controller
 							name="postal_code"
@@ -177,10 +156,8 @@ const SenderAddressForm = ({ nextStep }: { nextStep: () => void }) => {
 				</Flex>
 				<Flex
 					gap={'3rem'}
-					mb={'2vw'}>
-					<FormControl
-						id="country_code"
-						mb="4">
+					mb={'3vh'}>
+					<FormControl id="country_code">
 						<FormLabel fontWeight={'600'}>Country</FormLabel>
 						<Controller
 							name="country_code"
@@ -201,9 +178,7 @@ const SenderAddressForm = ({ nextStep }: { nextStep: () => void }) => {
 						/>
 					</FormControl>
 
-					<FormControl
-						id="phone"
-						mb="4">
+					<FormControl id="phone">
 						<FormLabel fontWeight={'600'}>Phone</FormLabel>
 						<Controller
 							name="phone"
@@ -223,7 +198,7 @@ const SenderAddressForm = ({ nextStep }: { nextStep: () => void }) => {
 
 				<Flex
 					justifyContent={'flex-end'}
-					mt={'5rem'}>
+					mt={'10vh'}>
 					<SubmitButton
 						text="Save and Continue"
 						width="12rem"

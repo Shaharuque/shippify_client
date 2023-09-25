@@ -1,7 +1,7 @@
 import { Box, Flex, FormControl, Input, Select, Text, Button, useNumberInput, HStack, FormLabel } from '@chakra-ui/react';
 import { Controller, SubmitHandler, useForm, useFieldArray } from 'react-hook-form';
 import { useAppDispatch } from '../../../redux/hooks';
-import { updateField } from '../../../redux/features/shipmentsSlice';
+import { updateField } from '../../../redux/features/basicShipmentsSlice';
 
 export type TCustomsDetailsForm = {
 	contents: 'merchandise' | 'gift' | 'returned_goods' | 'documents' | 'other';

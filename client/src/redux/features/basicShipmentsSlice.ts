@@ -4,14 +4,14 @@ import { TRecieverAddressFormData } from '../../components/Basic shipment/multiS
 import { TPackageDetailsForm } from '../../components/Basic shipment/multiStepperForBasic/packageDetailsForm';
 import { TCustomsDetailsForm } from '../../components/Basic shipment/multiStepperForBasic/customsInfoForm';
 
-export interface IShipment {
+export interface IBasicShipment {
 	customs?: TCustomsDetailsForm;
 	ship_from: TSenderAddressFormData;
 	ship_to: TRecieverAddressFormData;
 	packages: TPackageDetailsForm[];
 }
 
-export const initialShipmentsState: IShipment = {
+export const initialShipmentsState: IBasicShipment = {
 	customs: {
 		contents: 'merchandise',
 		contents_explanation: '',
@@ -51,8 +51,8 @@ export const initialShipmentsState: IShipment = {
 	},
 	packages: [],
 };
-const shipmentsSlice = createSlice({
-	name: 'shipments',
+const basicShipmentsSlice = createSlice({
+	name: 'basicShipments',
 	initialState: initialShipmentsState,
 	reducers: {
 		updateField: (state, action) => {
@@ -61,5 +61,5 @@ const shipmentsSlice = createSlice({
 	},
 });
 
-export const { updateField } = shipmentsSlice.actions;
-export default shipmentsSlice.reducer;
+export const { updateField } = basicShipmentsSlice.actions;
+export default basicShipmentsSlice.reducer;

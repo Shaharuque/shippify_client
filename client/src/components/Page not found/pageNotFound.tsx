@@ -5,7 +5,7 @@ const PageNotFound = () => {
 	return (
 		<Box>
 			<Image
-				m={'2rem auto'}
+				m={'0 auto'}
 				src={pageNotFound}
 				boxSize={'35rem'}
 			/>

@@ -15,8 +15,6 @@
 
 body {
 	line-height: 1.5;
-	font-family: Inter, sans-serif;
-	font-weight: 400, 500, 600, 700, 800, 900;
 	font-size: 100%;
 	-webkit-font-smoothing: antialiased;
 	background-color: linear-gradient(135deg, hsla(155, 44%, 92%, 1) 0%, hsla(191, 24%, 62%, 1) 100%);

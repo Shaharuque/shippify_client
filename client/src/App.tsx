@@ -8,6 +8,7 @@ import HomePage from './pages/Home/home.page';
 import AnalyticsPage from './pages/Analytics/analytics.page';
 import DashboardPage from './pages/Dashboard/dashboard.page';
 import CreateBasicShipmentPage from './pages/Create shipment/createBasicShipment';
+import CreateLTLShipmentPage from './pages/Create shipment/createLTLShipment';
 
 function App() {
 	return (
@@ -34,10 +35,16 @@ function App() {
 						element={<DashboardPage />}
 					/>
 
-					<Route
-						path="/create"
-						element={<CreateBasicShipmentPage />}
-					/>
+					<Route path="/create">
+						<Route
+							path="basic"
+							element={<CreateBasicShipmentPage />}
+						/>
+						<Route
+							path="ltl"
+							element={<CreateLTLShipmentPage />}
+						/>
+					</Route>
 				</Route>
 
 				<Route

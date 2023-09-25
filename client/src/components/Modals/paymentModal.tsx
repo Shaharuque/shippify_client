@@ -8,10 +8,12 @@ type PaymentModalProps = {
 };
 
 const PaymentModal = ({ onClose, isOpen }: PaymentModalProps) => {
-	const [installments, setInstallments] = useState(1);
+	const [installments, setInstallments] = useState(2);
+	const [totalShippingCost, setTotalShippingCost] = useState(1000);
+
 	const handleDropdownChange = (event: ChangeEvent<HTMLSelectElement>) => {
 		event.preventDefault();
-		console.log(event.target.value);
+
 		const value = Number(event.target.value);
 		setInstallments(value);
 	};
@@ -35,11 +37,11 @@ const PaymentModal = ({ onClose, isOpen }: PaymentModalProps) => {
 							<option value={4}>4</option>
 						</Select>
 						<Box mt={'.5vw'}>
-							Payable (per month): <Text as="span">500 USD</Text>
+							Payable (per month): <Text as="span">{Math.ceil(totalShippingCost / installments)} USD</Text>
 						</Box>
 					</ModalBody>
 					<ModalFooter gap={'1rem'}>
-						<Button> Pay 500 USD</Button>
+						<Button> Pay {Math.ceil(totalShippingCost / installments)} USD</Button>
 						<Button onClick={onClose}>Close</Button>
 					</ModalFooter>
 				</ModalContent>
