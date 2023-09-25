@@ -1,3 +1,4 @@
+import PackageDetailsFormLTL from './packageDetailsFormLTL';
 import RecieverAddressFormLTL from './recieverAddressFormLTL';
 import SenderAddressFormLTL from './senderAddressFormLTL';
 
@@ -18,6 +19,8 @@ const MultiStepperFormLTL = ({ activeStep, handleStepChange }: { activeStep: num
 					prevStep={prevStep}
 					nextStep={nextStep}
 				/>
+			) : activeStep === 3 ? (
+				<PackageDetailsFormLTL />
 			) : null}
 		</>
 	);

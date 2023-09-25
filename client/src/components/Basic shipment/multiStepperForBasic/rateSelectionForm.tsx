@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { RootState } from '../../../redux/store';
-import { useFetchRatesMutation } from '../../../redux/api/shipmentsApi';
+import { useFetchRatesMutation } from '../../../redux/api/basicShipmentsApi';
 import { Box, Center, Flex, Text } from '@chakra-ui/react';
 import BackButton from '../../Buttons/backButton';
 import { IRateDetail, updateRates } from '../../../redux/features/rateDetailsSlice';

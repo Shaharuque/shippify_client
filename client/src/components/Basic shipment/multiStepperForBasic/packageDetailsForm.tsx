@@ -89,7 +89,7 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 	return (
 		<Box
 			p={'.25vw'}
-			w={'42rem'}>
+			w={'40rem'}>
 			{sender?.country_code !== reciever?.country_code ? <CustomsInfoForm /> : null}
 			<PackageNumbers
 				packages={packages}
@@ -103,6 +103,8 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 					type="button"
 					w={'20rem'}
 					p={'.5rem'}
+					bg={isPredefined ? 'cta' : 'gray.100'}
+					color={isPredefined ? 'primary' : 'black'}
 					onClick={() => {
 						if (isCustom) setIsCustom(false);
 						setIsPredefined((prev) => !prev);
@@ -114,6 +116,8 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 					type="button"
 					w={'20rem'}
 					p={'.5rem'}
+					bg={isCustom ? 'cta' : 'gray.100'}
+					color={isCustom ? 'primary' : 'black'}
 					onClick={() => setIsCustom((prev) => !prev)}>
 					Custom Dimension
 				</Button>

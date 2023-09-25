@@ -27,7 +27,10 @@ const LoginForm = () => {
 		try {
 			const result = await signIn(values);
 			console.log(result);
-			if (result?.status === 200) navigate('/home');
+			if (result?.data?.status === 'success') {
+				localStorage.setItem('token', result?.data?.token);
+				navigate('/home');
+			}
 		} catch (error) {
 			console.error('Error message from login form:', error);
 		}

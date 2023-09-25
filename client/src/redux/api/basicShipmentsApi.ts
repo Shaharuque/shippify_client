@@ -1,10 +1,10 @@
-import { IShipment } from '../features/basicShipmentsSlice';
+import { IBasicShipment } from '../features/basicShipmentsSlice';
 import { apiSlice } from './apiSlice';
 
-export const shipmentsApi = apiSlice.injectEndpoints({
+export const basicShipmentsApi = apiSlice.injectEndpoints({
 	endpoints: (builder: any) => ({
 		fetchRates: builder.mutation({
-			query: (data: { shipments: IShipment[] }) => ({
+			query: (data: { shipments: IBasicShipment[] }) => ({
 				url: '/shipment/rates',
 				method: 'POST',
 				headers: {
@@ -16,4 +16,4 @@ export const shipmentsApi = apiSlice.injectEndpoints({
 	}),
 });
 
-export const { useFetchRatesMutation } = shipmentsApi;
+export const { useFetchRatesMutation } = basicShipmentsApi;
