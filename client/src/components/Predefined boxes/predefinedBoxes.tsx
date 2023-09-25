@@ -1,4 +1,4 @@
-import { Box, Flex, FormControl, FormLabel } from '@chakra-ui/react';
+import { Box, Button, Flex, FormControl, FormLabel, NumberInput, NumberInputField, Select } from '@chakra-ui/react';
 import smallbox from '../../assets/carton-box-removebg-preview.png';
 import mediumbox from '../../assets/medium-box.png';
 import largebox from '../../assets/large-box.png';
@@ -15,6 +15,8 @@ const predefinedBoxes = [
 
 const PredefinedBoxes = () => {
 	const [selectedPackageCode, setSelectedPackageCode] = useState<string | null>(null);
+	const [weight, setWeight] = useState(0);
+	const [unit, setUnit] = useState('pound');
 
 	const handleSelectPackage = (code: string) => {
 		if (selectedPackageCode === code) {
@@ -23,6 +25,12 @@ const PredefinedBoxes = () => {
 			setSelectedPackageCode(code);
 		}
 	};
+
+	const handleButtonClick = () => {
+		console.log('weight:', weight);
+		console.log('unit:', unit);
+	};
+
 	return (
 		<Box>
 			<Flex
@@ -41,9 +49,58 @@ const PredefinedBoxes = () => {
 					/>
 				))}
 			</Flex>
-			<FormControl>
-				<FormLabel>Weight</FormLabel>
-			</FormControl>
+
+			<Flex
+				gap={'2rem'}
+				alignItems={'center'}
+				mt={'2rem'}>
+				<FormControl>
+					<FormLabel>Weight</FormLabel>
+					<NumberInput
+						id="weight.value"
+						defaultValue={0}
+						step={1}
+						precision={2}
+						min={0}>
+						<NumberInputField
+							placeholder="Weight"
+							border={'1px solid #314866'}
+							transition={'all 0.30s ease-in-out;'}
+							_focusVisible={{
+								borderColor: '#002855',
+								boxShadow: '0 0 3px #002855 ',
+							}}
+							onChange={(e) => setWeight(Number(e.target.value))}
+						/>
+					</NumberInput>
+				</FormControl>
+
+				<FormControl mt={'2rem'}>
+					<Select
+						id="weight.unit"
+						defaultValue={'pound'}
+						border={'1px solid #314866'}
+						transition={'all 0.30s ease-in-out;'}
+						_focusVisible={{
+							borderColor: '#002855',
+						}}
+						onChange={(e) => setUnit(e.target.value)}>
+						<option value={'ounce'}>ounce</option>
+						<option value={'pound'}>pound</option>
+						<option value={'kg'}>kg</option>
+					</Select>
+				</FormControl>
+				<Button
+					onClick={handleButtonClick}
+					type="button"
+					bg={'cta'}
+					w={'25rem'}
+					color={'primary'}
+					borderRadius={'2rem'}
+					mt={'2rem'}>
+					Save Details
+				</Button>
+			</Flex>
 		</Box>
 	);
 };
