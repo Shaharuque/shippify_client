@@ -4,10 +4,10 @@ import { RootState } from '../../redux/store';
 import { countryCodeDictionary } from '../../data/countryCodeDictionary';
 
 const ShippingSummary = () => {
-	const sender = useAppSelector((state: RootState) => state.shipments.ship_from);
-	const receiver = useAppSelector((state: RootState) => state.shipments.ship_to);
-	const packages = useAppSelector((state: RootState) => state.shipments.packages);
-	const customs = useAppSelector((state: RootState) => state.shipments?.customs);
+	const sender = useAppSelector((state: RootState) => state?.basicShipments.ship_from);
+	const receiver = useAppSelector((state: RootState) => state?.basicShipments.ship_to);
+	const packages = useAppSelector((state: RootState) => state?.basicShipments.packages);
+	const customs = useAppSelector((state: RootState) => state?.basicShipments?.customs);
 
 	const swappedCountryCodeDictionary: { [key: string]: string } = {};
 	for (const key in countryCodeDictionary) {

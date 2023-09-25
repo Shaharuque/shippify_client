@@ -9,6 +9,7 @@ import { updateField } from '../../../redux/features/basicShipmentsSlice';
 import { RootState } from '../../../redux/store';
 import PackageNumbers from '../../Package numbers boxes/packageNumbers';
 import CustomsInfoForm from './customsInfoForm';
+import PredefinedBoxes from '../../Predefined boxes/predefinedBoxes';
 
 export type TPackageDetailsForm = {
 	weight: {
@@ -40,6 +41,7 @@ const defaultValues: TPackageDetailsForm = {
 
 const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () => void }) => {
 	const [isCustom, setIsCustom] = useState(false);
+	const [isPredefined, setIsPredefined] = useState(false);
 	const dispatch = useAppDispatch();
 	const packages = useAppSelector((state: RootState) => state.basicShipments.packages);
 	const sender = useAppSelector((state: RootState) => state.basicShipments.ship_from);
@@ -57,6 +59,7 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 
 		setIsCustom((prev) => !prev);
 		setValue('weight.value', 0);
+		reset(defaultPackageValues);
 	};
 
 	useEffect(() => {
@@ -70,33 +73,51 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 	const handleSelectPackage = (index: number) => {
 		const selectedPackage = packages[index];
 		console.log('selected package:', selectedPackage);
-		if (selectedPackage.package_code.length === 0) setIsCustom(true);
+		if (selectedPackage.package_code.length === 0) {
+			setIsCustom(true);
 
-		setValue('dimensions.length', selectedPackage.dimensions.length);
-		setValue('dimensions.width', selectedPackage.dimensions.width);
-		setValue('dimensions.height', selectedPackage.dimensions.height);
-		setValue('dimensions.unit', selectedPackage.dimensions.unit);
-		setValue('weight.value', selectedPackage.weight.value);
-		setValue('weight.unit', selectedPackage.weight.unit);
+			setValue('dimensions.length', selectedPackage.dimensions.length);
+			setValue('dimensions.width', selectedPackage.dimensions.width);
+			setValue('dimensions.height', selectedPackage.dimensions.height);
+			setValue('dimensions.unit', selectedPackage.dimensions.unit);
+			setValue('weight.value', selectedPackage.weight.value);
+			setValue('weight.unit', selectedPackage.weight.unit);
+		}
 		setDefaultPackageValues(selectedPackage);
 	};
 
 	return (
 		<Box
 			p={'.25vw'}
-			w={'40rem'}>
+			w={'42rem'}>
 			{sender?.country_code !== reciever?.country_code ? <CustomsInfoForm /> : null}
 			<PackageNumbers
 				packages={packages}
 				onSelectPackage={handleSelectPackage}
 			/>
-
-			<Text
-				as="b"
-				fontSize={'1.25rem'}
-				letterSpacing={0.2}>
-				Package Details
-			</Text>
+			<Flex
+				gap={'2rem'}
+				align={'center'}
+				m={'1rem 0'}>
+				<Button
+					type="button"
+					w={'20rem'}
+					p={'.5rem'}
+					onClick={() => {
+						if (isCustom) setIsCustom(false);
+						setIsPredefined((prev) => !prev);
+					}}>
+					Predefined boxes
+				</Button>
+				<Text>or</Text>
+				<Button
+					type="button"
+					w={'20rem'}
+					p={'.5rem'}
+					onClick={() => setIsCustom((prev) => !prev)}>
+					Custom Dimension
+				</Button>
+			</Flex>
 
 			<form
 				onSubmit={handleSubmit(onSubmit)}
@@ -183,80 +204,55 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 								</Select>
 							</FormControl>
 						</Flex>
+						<Text fontWeight={'600'}>Weight</Text>
+
+						<Flex
+							gap={'2rem'}
+							alignItems={'center'}
+							m={'.5rem 0'}>
+							<FormControl isRequired>
+								<NumberInput
+									precision={2}
+									max={150}>
+									<NumberInputField
+										{...register('weight.value')}
+										placeholder="Weight"
+										border={'1px solid #314866'}
+										transition={'all 0.30s ease-in-out;'}
+										_focusVisible={{
+											borderColor: '#002855',
+											boxShadow: '0 0 3px #002855 ',
+										}}
+									/>
+									<NumberInputStepper>
+										<NumberIncrementStepper />
+										<NumberDecrementStepper />
+									</NumberInputStepper>
+								</NumberInput>
+							</FormControl>
+							<FormControl>
+								<Select
+									{...register('weight.unit')}
+									border={'1px solid #314866'}
+									transition={'all 0.30s ease-in-out;'}
+									_focusVisible={{
+										borderColor: '#002855',
+									}}>
+									<option value={'ounce'}>ounce</option>
+									<option value={'pound'}>pound</option>
+									<option value={'kg'}>kg</option>
+								</Select>
+							</FormControl>
+
+							<SubmitButton text="Save Details" />
+						</Flex>
 					</>
-				) : (
-					<Flex
-						gap={'2rem'}
-						alignItems={'center'}
-						m={'1rem 0'}>
-						<FormControl isRequired>
-							<Select
-								{...register('package_code')}
-								border={'1px solid #314866'}
-								transition={'all 0.30s ease-in-out;'}
-								placeholder="Choose Dimension"
-								_focusVisible={{
-									borderColor: '#002855',
-								}}>
-								<option></option>
-								<option>6 x 6 x 6 inches</option>
-								<option>8 x 8 x 8 inches</option>
-								<option>10 x 10 x 10 inches</option>
-							</Select>
-						</FormControl>
-						<Text>or</Text>
-						<Button
-							type="button"
-							w={'20rem'}
-							p={'.5rem'}
-							onClick={() => setIsCustom((prev) => !prev)}>
-							Custom Dimension
-						</Button>
-					</Flex>
-				)}
-				<Text fontWeight={'600'}>Weight</Text>
+				) : isPredefined ? (
+					<>
+						<PredefinedBoxes />
+					</>
+				) : null}
 
-				<Flex
-					gap={'2rem'}
-					alignItems={'center'}
-					m={'.5rem 0'}>
-					<FormControl isRequired>
-						<NumberInput
-							precision={2}
-							max={150}>
-							<NumberInputField
-								// {...field}
-								{...register('weight.value')}
-								placeholder="Weight"
-								border={'1px solid #314866'}
-								transition={'all 0.30s ease-in-out;'}
-								_focusVisible={{
-									borderColor: '#002855',
-									boxShadow: '0 0 3px #002855 ',
-								}}
-							/>
-							<NumberInputStepper>
-								<NumberIncrementStepper />
-								<NumberDecrementStepper />
-							</NumberInputStepper>
-						</NumberInput>
-					</FormControl>
-					<FormControl>
-						<Select
-							{...register('weight.unit')}
-							border={'1px solid #314866'}
-							transition={'all 0.30s ease-in-out;'}
-							_focusVisible={{
-								borderColor: '#002855',
-							}}>
-							<option value={'ounce'}>ounce</option>
-							<option value={'pound'}>pound</option>
-							<option value={'kg'}>kg</option>
-						</Select>
-					</FormControl>
-
-					<SubmitButton text="Save Details" />
-				</Flex>
 				<Flex
 					justify={'flex-end'}
 					mt={'4rem'}
