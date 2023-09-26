@@ -10,7 +10,7 @@ export type TRecieverAddressFormDataLTL = {
 	contact: {
 		name: string;
 		email: string;
-		phone: string;
+		phone_number: string;
 	};
 	address: {
 		company_name: string;
@@ -26,7 +26,7 @@ const RecieverAddressFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; 
 	const dispatch = useAppDispatch();
 	const { control, handleSubmit } = useForm<TRecieverAddressFormDataLTL>({
 		defaultValues: {
-			...useAppSelector((state: RootState) => state?.ltlShipments?.ship_to),
+			...useAppSelector((state: RootState) => state?.ltlShipments?.shipment?.ship_to),
 		},
 	});
 
@@ -37,7 +37,7 @@ const RecieverAddressFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; 
 	return (
 		<Box
 			p=".25vw"
-			width={'45vw'}
+			width={'40rem'}
 			h={'87vh'}
 			overflowY={'auto'}
 			css={{
@@ -97,10 +97,10 @@ const RecieverAddressFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; 
 						</FormControl>
 					</Flex>
 					<Flex w={'20vw'}>
-						<FormControl id="contact.phone">
+						<FormControl id="contact.phone_number">
 							<FormLabel fontWeight={'600'}>Contact Number</FormLabel>
 							<Controller
-								name="contact.phone"
+								name="contact.phone_number"
 								control={control}
 								render={({ field }) => (
 									<Input

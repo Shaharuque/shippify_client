@@ -6,7 +6,17 @@ import PaymentModal from '../../Modals/paymentModal';
 const PaymentForm = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () => void }) => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	return (
-		<Box>
+		<Box
+			overflowY={'auto'}
+			css={{
+				'&::-webkit-scrollbar': {
+					width: '0',
+				},
+				'&::-webkit-scrollbar-thumb': {
+					backgroundColor: 'rgba(0, 0, 0, 0.5)',
+					borderRadius: '0.25em',
+				},
+			}}>
 			<ShippingSummary />
 			<PaymentModal
 				isOpen={isOpen}

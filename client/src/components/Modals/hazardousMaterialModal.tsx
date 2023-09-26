@@ -5,21 +5,22 @@ import { useForm } from 'react-hook-form';
 type THazardousMaterialModallProps = {
 	onClose: () => void;
 	isOpen: boolean;
+	onSave: (data: TLiableContact) => void;
 };
 
-type TLiableContact = {
+export type TLiableContact = {
 	name: string;
 	phone: string;
 };
-const defaultLiableContactValues = {
+export const defaultLiableContactValues = {
 	name: '',
 	phone: '',
 };
-
-const HazardousMaterialModal = ({ onClose, isOpen }: THazardousMaterialModallProps) => {
+const HazardousMaterialModal = ({ onClose, isOpen, onSave }: THazardousMaterialModallProps) => {
 	const { handleSubmit, register } = useForm({ defaultValues: defaultLiableContactValues });
 	const onSubmit = (data: TLiableContact) => {
-		console.log('data:', data);
+		onSave(data);
+		onClose();
 	};
 
 	return (

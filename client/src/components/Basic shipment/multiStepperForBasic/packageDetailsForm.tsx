@@ -59,7 +59,7 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 
 		setIsCustom((prev) => !prev);
 		setValue('weight.value', 0);
-		reset(defaultPackageValues);
+		// reset(defaultPackageValues);
 	};
 
 	useEffect(() => {
@@ -89,7 +89,17 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 	return (
 		<Box
 			p={'.25vw'}
-			w={'40rem'}>
+			w={'40rem'}
+			overflowY={'auto'}
+			css={{
+				'&::-webkit-scrollbar': {
+					width: '0',
+				},
+				'&::-webkit-scrollbar-thumb': {
+					backgroundColor: 'rgba(0, 0, 0, 0.5)',
+					borderRadius: '0.25em',
+				},
+			}}>
 			{sender?.country_code !== reciever?.country_code ? <CustomsInfoForm /> : null}
 			<PackageNumbers
 				packages={packages}

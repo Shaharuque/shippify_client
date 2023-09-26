@@ -32,7 +32,17 @@ const SenderAddressForm = ({ nextStep }: { nextStep: () => void }) => {
 	return (
 		<Box
 			p=".25vw"
-			width={'43vw'}>
+			width={'40rem'}
+			overflowY={'auto'}
+			css={{
+				'&::-webkit-scrollbar': {
+					width: '0',
+				},
+				'&::-webkit-scrollbar-thumb': {
+					backgroundColor: 'rgba(0, 0, 0, 0.5)',
+					borderRadius: '0.25em',
+				},
+			}}>
 			<Text
 				as="b"
 				fontSize={'1.25rem'}

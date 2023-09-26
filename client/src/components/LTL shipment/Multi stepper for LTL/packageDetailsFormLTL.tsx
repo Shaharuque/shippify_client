@@ -58,7 +58,7 @@ const PackageDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; p
 	const [packageCodes, setPackageCodes] = useState<any[]>([]);
 
 	const dispatch = useAppDispatch();
-	const packages = useAppSelector((state: RootState) => state.ltlShipments.packages);
+	const packages = useAppSelector((state: RootState) => state?.ltlShipments?.shipment?.packages);
 
 	const { handleSubmit, register, setValue } = useForm({ defaultValues: { ...packages[0] } });
 
@@ -67,8 +67,12 @@ const PackageDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; p
 		const selectedProductDetails = dummyProductDetails.find((product) => product.name === selectedProduct);
 		data.freight_class = selectedProductDetails!.freightNumber;
 		console.log('data:', data);
-		const updatedPackages = [...packages, data];
-		dispatch(updateField({ packages: updatedPackages }));
+
+		if (packages.length === 1 && packages[0].nmfc_code.length === 0) dispatch(updateField({ packages: [data] }));
+		else {
+			const updatedPackages = [...packages, data];
+			dispatch(updateField({ packages: updatedPackages }));
+		}
 	};
 
 	const handleProductSelect = (event: ChangeEvent<HTMLSelectElement>) => {
@@ -116,7 +120,17 @@ const PackageDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; p
 	return (
 		<Box
 			p={'.25vw'}
-			w={'45rem'}>
+			w={'45rem'}
+			overflowY={'auto'}
+			css={{
+				'&::-webkit-scrollbar': {
+					width: '0',
+				},
+				'&::-webkit-scrollbar-thumb': {
+					backgroundColor: 'rgba(0, 0, 0, 0.5)',
+					borderRadius: '0.25em',
+				},
+			}}>
 			<form onSubmit={handleSubmit(onSubmit)}>
 				<Flex
 					gap={'1rem'}
@@ -186,7 +200,6 @@ const PackageDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; p
 					<Input
 						h={'8vh'}
 						type="text"
-						defaultValue={packages[0].description}
 						placeholder="Product Description"
 						border={'1px solid #314866'}
 						transition={'all 0.30s ease-in-out;'}
@@ -288,7 +301,8 @@ const PackageDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; p
 					<FormControl isRequired>
 						<NumberInput
 							precision={2}
-							max={150}>
+							min={150}
+							max={1000}>
 							<NumberInputField
 								{...register('weight.value')}
 								placeholder="Weight"
