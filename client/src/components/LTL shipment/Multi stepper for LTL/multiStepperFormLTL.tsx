@@ -1,6 +1,7 @@
 import PackageDetailsFormLTL from './packageDetailsFormLTL';
 import RecieverAddressFormLTL from './recieverAddressFormLTL';
 import SenderAddressFormLTL from './senderAddressFormLTL';
+import ServicesAndBillingDetailsForm from './servicesAndBillingDetailsForm';
 
 const MultiStepperFormLTL = ({ activeStep, handleStepChange }: { activeStep: number; handleStepChange: (step: number) => void }) => {
 	const nextStep = () => {
@@ -20,7 +21,15 @@ const MultiStepperFormLTL = ({ activeStep, handleStepChange }: { activeStep: num
 					nextStep={nextStep}
 				/>
 			) : activeStep === 3 ? (
-				<PackageDetailsFormLTL />
+				<PackageDetailsFormLTL
+					prevStep={prevStep}
+					nextStep={nextStep}
+				/>
+			) : activeStep === 4 ? (
+				<ServicesAndBillingDetailsForm
+					prevStep={prevStep}
+					nextStep={nextStep}
+				/>
 			) : null}
 		</>
 	);

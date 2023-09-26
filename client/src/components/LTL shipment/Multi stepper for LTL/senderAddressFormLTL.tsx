@@ -1,12 +1,11 @@
 import { Flex, FormControl, FormLabel, Input, Select, Box, Text } from '@chakra-ui/react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import SubmitButton from '../Buttons/submitButton';
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { RootState } from '../../redux/store';
-import { updateField } from '../../redux/features/ltlShipmentSlice';
-import BackButton from '../Buttons/backButton';
+import SubmitButton from '../../Buttons/submitButton';
+import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
+import { RootState } from '../../../redux/store';
+import { updateField } from '../../../redux/features/ltlShipmentSlice';
 
-export type TRecieverAddressFormDataLTL = {
+export type TSenderAddressFormDataLTL = {
 	contact: {
 		name: string;
 		email: string;
@@ -22,16 +21,16 @@ export type TRecieverAddressFormDataLTL = {
 	};
 };
 
-const RecieverAddressFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () => void }) => {
+const SenderAddressFormLTL = ({ nextStep }: { nextStep: () => void }) => {
 	const dispatch = useAppDispatch();
-	const { control, handleSubmit } = useForm<TRecieverAddressFormDataLTL>({
+	const { control, handleSubmit } = useForm<TSenderAddressFormDataLTL>({
 		defaultValues: {
-			...useAppSelector((state: RootState) => state?.ltlShipments?.ship_to),
+			...useAppSelector((state: RootState) => state?.ltlShipments?.ship_from),
 		},
 	});
 
-	const onSubmit: SubmitHandler<TRecieverAddressFormDataLTL> = (data) => {
-		dispatch(updateField({ ship_to: data }));
+	const onSubmit: SubmitHandler<TSenderAddressFormDataLTL> = (data) => {
+		dispatch(updateField({ ship_from: data }));
 		nextStep();
 	};
 	return (
@@ -53,7 +52,7 @@ const RecieverAddressFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; 
 				as="b"
 				fontSize={'1.25rem'}
 				letterSpacing={0.2}>
-				Reciever's Address
+				Sender's Address
 			</Text>
 			<form
 				onSubmit={handleSubmit(onSubmit)}
@@ -229,11 +228,7 @@ const RecieverAddressFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; 
 
 				<Flex
 					justifyContent={'flex-end'}
-					mt={'10vh'}
-					gap={'1rem'}>
-					<BackButton
-						onClick={() => prevStep()}
-						width="8rem"></BackButton>
+					mt={'10vh'}>
 					<SubmitButton
 						text="Save and Continue"
 						width="12rem"
@@ -244,4 +239,4 @@ const RecieverAddressFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; 
 	);
 };
 
-export default RecieverAddressFormLTL;
+export default SenderAddressFormLTL;

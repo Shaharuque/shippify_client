@@ -1,8 +1,9 @@
 import { Flex, Center, Box } from '@chakra-ui/react';
-
-import MultiStepperFormLTL from '../../components/LTL shipment/multiStepperFormLTL';
+import MultiStepperFormLTL from '../../components/LTL shipment/Multi stepper for LTL/multiStepperFormLTL';
 import ShipmentSteppers from '../../components/Steppers/shipmentSteppers';
 import { useState } from 'react';
+
+const stepsForLTL = [{ title: "Sender's address" }, { title: "Reciever's address" }, { title: 'Package Details' }, { title: 'Service and Billing info' }, { title: 'Insurance Details' }, { title: 'Payment' }, { title: 'Label Creation' }];
 
 const CreateLTLShipmentPage = () => {
 	const [activeStep, setActiveStep] = useState(1);
@@ -25,7 +26,10 @@ const CreateLTLShipmentPage = () => {
 				direction={'column'}
 				flex={0.2}>
 				<Box flex={0.5}>
-					<ShipmentSteppers activeStep={activeStep} />
+					<ShipmentSteppers
+						activeStep={activeStep}
+						steps={stepsForLTL}
+					/>
 				</Box>
 				<Box flex={0.5}>Info</Box>
 			</Flex>

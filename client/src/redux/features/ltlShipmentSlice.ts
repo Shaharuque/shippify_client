@@ -1,10 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { TSenderAddressFormDataLTL } from '../../components/LTL shipment/senderAddressFormLTL';
-import { TRecieverAddressFormDataLTL } from '../../components/LTL shipment/recieverAddressFormLTL';
+import { TSenderAddressFormDataLTL } from '../../components/LTL shipment/Multi stepper for LTL/senderAddressFormLTL';
+import { TRecieverAddressFormDataLTL } from '../../components/LTL shipment/Multi stepper for LTL/recieverAddressFormLTL';
+import { TPackageDetailsFormLTL } from '../../components/LTL shipment/Multi stepper for LTL/packageDetailsFormLTL';
 
 export interface ILTLShipment {
 	ship_from: TSenderAddressFormDataLTL;
 	ship_to: TRecieverAddressFormDataLTL;
+	packages: TPackageDetailsFormLTL[];
 }
 
 export const initialLTLShipmentState: ILTLShipment = {
@@ -38,6 +40,27 @@ export const initialLTLShipmentState: ILTLShipment = {
 			country_code: 'US',
 		},
 	},
+	packages: [
+		{
+			code: 'pkg',
+			freight_class: 200,
+			nmfc_code: '',
+			description: '',
+			dimensions: {
+				width: 0,
+				height: 0,
+				length: 0,
+				unit: 'inches',
+			},
+			weight: {
+				value: 0,
+				unit: 'pounds',
+			},
+			quantity: 1,
+			stackable: false,
+			hazardous_materials: false,
+		},
+	],
 };
 
 const ltlShipmentSlice = createSlice({

@@ -3,7 +3,6 @@ import { ChangeEvent, useState } from 'react';
 
 type PaymentModalProps = {
 	onClose: () => void;
-
 	isOpen: boolean;
 };
 
