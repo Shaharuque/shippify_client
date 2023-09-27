@@ -13,6 +13,7 @@ type PackageCardProps = {
 const PackageCard = ({ text, dimension, image, code, onSelect, isSelected }: PackageCardProps) => {
 	return (
 		<Card
+			bg={'inherit'}
 			pos={'relative'}
 			_hover={{
 				backgroundColor: '#e8edeb',
@@ -41,7 +42,8 @@ const PackageCard = ({ text, dimension, image, code, onSelect, isSelected }: Pac
 					spacing="2">
 					<Heading
 						size="sm"
-						textTransform={'capitalize'}>
+						textTransform={'capitalize'}
+						whiteSpace={'nowrap'}>
 						{text}
 					</Heading>
 					<Text

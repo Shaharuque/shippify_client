@@ -36,7 +36,7 @@ const PredefinedBoxes = () => {
 			<Flex
 				gap={'.5rem'}
 				align={'center'}
-				mb={'1rem'}>
+				m={'1rem 0'}>
 				{predefinedBoxes.map((box, index) => (
 					<PackageCard
 						key={index}

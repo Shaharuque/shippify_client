@@ -1,4 +1,4 @@
-import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Button } from '@chakra-ui/react';
+import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Button, Box } from '@chakra-ui/react';
 import Calendar from 'react-calendar';
 // import 'react-calendar/dist/Calendar.css';
 import '../LTL shipment/Multi stepper for LTL/reactCalender.styles.css';
@@ -18,7 +18,9 @@ const CalendarModal = ({ onClose, isOpen, onDateSelect, value }: TCalendarModall
 			<ModalOverlay />
 			<ModalContent alignItems={'center'}>
 				<ModalHeader></ModalHeader>
-				<ModalCloseButton />
+				<Box mb={'.75rem'}>
+					<ModalCloseButton />
+				</Box>
 				<ModalBody>
 					<Calendar
 						onChange={onDateSelect}
@@ -27,7 +29,8 @@ const CalendarModal = ({ onClose, isOpen, onDateSelect, value }: TCalendarModall
 				</ModalBody>
 				<ModalFooter>
 					<Button
-						bg={'red.400'}
+						bg={'#0aa7b8'}
+						color={'primary'}
 						mr={3}
 						onClick={onClose}>
 						Close

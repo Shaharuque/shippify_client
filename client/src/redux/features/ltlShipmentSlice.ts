@@ -64,7 +64,7 @@ export const initialLTLShipmentState: ILTLShipment = {
 		packages: [],
 		service_code: 'gtd_am',
 		pickup_date: '',
-		options: [{ code: '' }],
+		options: [],
 		bill_to: {
 			type: 'prepaid',
 			payment_terms: 'prepaid',

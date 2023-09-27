@@ -68,7 +68,7 @@ export type TRequestedBy = {
 export const defaultServicesAndBillingDetailsFormLTL: TServicesAndBillingDetailsFormLTL = {
 	service_code: 'gtd_am',
 	pickup_date: '',
-	options: [{ code: '' }],
+	options: [],
 	bill_to: {
 		type: 'prepaid',
 		payment_terms: 'prepaid',
@@ -100,10 +100,10 @@ export const defaultServicesAndBillingDetailsFormLTL: TServicesAndBillingDetails
 const ServicesAndBillingDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () => void }) => {
 	const sender = useAppSelector((state: RootState) => state?.ltlShipments?.shipment?.ship_from);
 	const reciever = useAppSelector((state: RootState) => state?.ltlShipments?.shipment?.ship_to);
-	const hazardModal = useDisclosure();
-	const calendarModal = useDisclosure();
+	const dispatch = useAppDispatch();
+
 	const token = localStorage.getItem('token');
-	// const { data: fetchLTLOptions, error, isLoading } = useFetchLTLOptionsQuery(token);
+	const { data: fetchLTLOptions, error, isLoading } = useFetchLTLOptionsQuery(token);
 	const { handleSubmit, register, setValue } = useForm({ defaultValues: defaultServicesAndBillingDetailsFormLTL });
 
 	//local states
@@ -111,11 +111,13 @@ const ServicesAndBillingDetailsForm = ({ nextStep, prevStep }: { nextStep: () =>
 	const [extraServices, setExtraServices] = useState<any[]>([]);
 	const [liableContact, setLiableContact] = useState<TLiableContact>(defaultLiableContactValues);
 	const [paymentType, setpaymentType] = useState('');
-	const [options, setOptions] = useState<TOption[]>([]);
 	const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
 	const [selectedDate, setSelectedDate] = useState<any>(new Date());
 
-	const dispatch = useAppDispatch();
+	//modal hooks
+
+	const hazardModal = useDisclosure();
+	const calendarModal = useDisclosure();
 
 	const onSubmit = (data: TServicesAndBillingDetailsFormLTL) => {
 		data.bill_to.type = paymentType;
@@ -124,25 +126,28 @@ const ServicesAndBillingDetailsForm = ({ nextStep, prevStep }: { nextStep: () =>
 		else if (paymentType === 'collect') data.bill_to.contact = reciever?.contact;
 		data.requested_by.company_name = reciever?.address?.company_name;
 		data.requested_by.contact = reciever?.contact;
+		let options: TOption[] = [];
+
+		options = selectedOptions.map((code) => {
+			if (code === 'haz') return { attributes: liableContact, code, name: 'Hazardous material' };
+			else return { code };
+		});
+
 		data.options = options;
 		data.pickup_date = selectedDate.toISOString().slice(0, 10);
 
 		console.log('data:', data);
 		dispatch(updateField(data));
+
+		// nextStep();
 	};
 
 	const handleExtraServicesChange = (event: ChangeEvent<HTMLInputElement>) => {
-		event.preventDefault();
 		const value = event.target.value;
-		const checked = event.target.checked;
-		if (checked) {
-			if (selectedOptions.includes(value)) return;
-			if (value === 'haz') {
-				hazardModal.onOpen();
-			} else {
-				setSelectedOptions((prev) => [...prev, value]);
-				setOptions((prev) => [...prev, { code: value }]);
-			}
+		if (selectedOptions.includes(value)) return;
+		else {
+			if (value === 'haz' && event.target.checked) hazardModal.onOpen();
+			setSelectedOptions((prev) => [...prev, value]);
 		}
 	};
 
@@ -151,48 +156,54 @@ const ServicesAndBillingDetailsForm = ({ nextStep, prevStep }: { nextStep: () =>
 	};
 
 	useEffect(() => {
-		if (selectedOptions.includes('haz')) return;
-		else setOptions((prev) => [...prev, { attributes: liableContact, code: 'haz', name: 'Hazardous material' }]);
-	}, [liableContact]);
-
-	// useEffect(() => {
-	// 	if (fetchLTLOptions) {
-	// 		console.log('Data:', fetchLTLOptions);
-	// 		setExtraServices(fetchLTLOptions?.data?.options);
-	// 		setServiceOptions(fetchLTLOptions?.data?.services);
-	// 	}
-
-	// 	if (error) {
-	// 		console.error('Error fetching LTL rates:', error);
-	// 	}
-	// }, [fetchLTLOptions, error]);
-
-	// if (isLoading) {
-	// 	return (
-	// 		<Box>
-	// 			<SpinningLoader />
-	// 		</Box>
-	// 	);
-	// }
-
-	// if (error) {
-	// 	return (
-	// 		<Box>
-	// 			<Error />
-	// 		</Box>
-	// 	);
-	// }
-
-	useEffect(() => {
 		if (paymentType === 'prepaid') setValue('bill_to.address', sender?.address);
 		else if (paymentType === 'collect') setValue('bill_to.address', reciever?.address);
 		else setValue('bill_to.address', defaultServicesAndBillingDetailsFormLTL?.bill_to?.address);
 	}, [paymentType]);
 
+	useEffect(() => {
+		if (fetchLTLOptions) {
+			console.log('Data:', fetchLTLOptions);
+			setExtraServices(fetchLTLOptions?.data?.options);
+			setServiceOptions(fetchLTLOptions?.data?.services);
+		}
+
+		if (error) {
+			console.error('Error fetching LTL rates:', error);
+		}
+	}, [fetchLTLOptions, error]);
+
+	if (isLoading) {
+		return (
+			<Box>
+				<SpinningLoader />
+			</Box>
+		);
+	}
+
+	if (error) {
+		return (
+			<Box>
+				<Error />
+			</Box>
+		);
+	}
+
 	return (
 		<Box
 			p={'.25vw'}
-			w={'40rem'}>
+			w={'40rem'}
+			h={'87vh'}
+			overflowY={'auto'}
+			css={{
+				'&::-webkit-scrollbar': {
+					width: '0',
+				},
+				'&::-webkit-scrollbar-thumb': {
+					backgroundColor: 'rgba(0, 0, 0, 0.5)',
+					borderRadius: '0.25em',
+				},
+			}}>
 			<HazardousMaterialModal
 				onClose={hazardModal.onClose}
 				isOpen={hazardModal.isOpen}
@@ -222,15 +233,15 @@ const ServicesAndBillingDetailsForm = ({ nextStep, prevStep }: { nextStep: () =>
 								borderColor: '#002855',
 								boxShadow: '0 0 3px #002855 ',
 							}}>
-							{/* {serviceOptions.map((item: any, index: number) => (
+							{serviceOptions.map((item: any, index: number) => (
 								<option
 									key={index}
 									value={item.code}>
 									{item.name}
 								</option>
-							))} */}
-							<option value={'gtd_am'}>Guaranteed morning</option>
-							<option value={'gtd_noon'}>Guaranteed noon</option>
+							))}
+							{/* <option value={'gtd_am'}>Guaranteed morning</option>
+							<option value={'gtd_noon'}>Guaranteed noon</option> */}
 						</Select>
 					</FormControl>
 				</Flex>

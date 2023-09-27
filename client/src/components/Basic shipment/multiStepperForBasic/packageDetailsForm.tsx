@@ -41,7 +41,6 @@ const defaultValues: TPackageDetailsForm = {
 
 const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () => void }) => {
 	const [isCustom, setIsCustom] = useState(false);
-	const [isPredefined, setIsPredefined] = useState(false);
 	const dispatch = useAppDispatch();
 	const packages = useAppSelector((state: RootState) => state.basicShipments.packages);
 	const sender = useAppSelector((state: RootState) => state.basicShipments.ship_from);
@@ -113,12 +112,9 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 					type="button"
 					w={'20rem'}
 					p={'.5rem'}
-					bg={isPredefined ? 'cta' : 'gray.100'}
-					color={isPredefined ? 'primary' : 'black'}
-					onClick={() => {
-						if (isCustom) setIsCustom(false);
-						setIsPredefined((prev) => !prev);
-					}}>
+					bg={isCustom ? 'gray.100' : 'cta'}
+					color={isCustom ? 'black' : 'primary'}
+					onClick={() => setIsCustom((prev) => !prev)}>
 					Predefined boxes
 				</Button>
 				<Text>or</Text>
@@ -138,7 +134,11 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 				style={{ marginTop: '1.5rem' }}>
 				{isCustom ? (
 					<>
-						<Text fontWeight={'600'}>Custom Dimension (Length x Width x Height)</Text>
+						<Text
+							fontWeight={'600'}
+							mt={'4rem'}>
+							Custom Dimension (Length x Width x Height)
+						</Text>
 						<Flex
 							gap={'2rem'}
 							m={'1rem 0'}
@@ -261,11 +261,11 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 							<SubmitButton text="Save Details" />
 						</Flex>
 					</>
-				) : isPredefined ? (
+				) : (
 					<>
 						<PredefinedBoxes />
 					</>
-				) : null}
+				)}
 
 				<Flex
 					justify={'flex-end'}

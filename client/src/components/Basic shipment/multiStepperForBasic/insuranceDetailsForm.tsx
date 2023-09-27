@@ -1,9 +1,10 @@
-import { Box, Button, Checkbox, Flex, Heading, Icon, Input, ListItem, Text, UnorderedList } from '@chakra-ui/react';
+import { Box, Button, Checkbox, Flex, FormControl, FormLabel, Heading, Icon, Input, ListItem, NumberInput, NumberInputField, Text, UnorderedList } from '@chakra-ui/react';
 import { HiCurrencyDollar } from 'react-icons/hi';
 import BackButton from '../../Buttons/backButton';
 import { useEffect, useState } from 'react';
 import { useAppSelector } from '../../../redux/hooks';
 import { RootState } from '../../../redux/store';
+import RegularButton from '../../Buttons/regularButton';
 
 const InsuranceDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () => void }) => {
 	const [insurance, setInsurance] = useState(0);
@@ -40,37 +41,66 @@ const InsuranceDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; pr
 	return (
 		<Flex
 			direction={'column'}
-			w={'30rem'}
+			w={'40rem'}
 			gap={'1rem'}
-			p={'1vw'}>
+			p={'1vw'}
+			h={'87vh'}
+			overflowY={'auto'}
+			css={{
+				'&::-webkit-scrollbar': {
+					width: '0',
+				},
+				'&::-webkit-scrollbar-thumb': {
+					backgroundColor: 'rgba(0, 0, 0, 0.5)',
+					borderRadius: '0.25em',
+				},
+			}}>
 			<Heading
 				fontSize={'1.5rem'}
-				textAlign={'center'}>
-				Get your products insured
+				textAlign={'center'}
+				fontFamily={'Inter'}>
+				Insure your products
 			</Heading>
 
-			<Text
-				fontWeight={'600'}
-				fontSize={'1.2rem'}
-				textAlign={'center'}
-				whiteSpace={'nowrap'}
-				mt={'1rem'}>
-				Product value
-			</Text>
+			<FormControl
+				mt={'.75rem'}
+				alignItems={'center'}
+				display={'flex'}
+				flexDirection={'column'}>
+				<FormLabel
+					fontWeight={'600'}
+					fontSize={'1.2rem'}
+					textAlign={'center'}
+					whiteSpace={'nowrap'}>
+					Product value
+				</FormLabel>
+				<NumberInput>
+					<NumberInputField
+						value={productValue}
+						onChange={handleProductValueChange}
+						textAlign="center"
+						w={'10rem'}
+						h={'4vh'}
+						border={'1px solid'}
+						_focusVisible={{ boxShadow: '0 0 0 1px #002855', borderColor: '#002855' }}
+					/>
+				</NumberInput>
+			</FormControl>
 
-			<Input
+			{/* <Input
 				type="number"
 				value={productValue}
 				onChange={handleProductValueChange}
 				textAlign="center"
 				w={'10rem'}
+				h={'4vh'}
 				alignSelf={'center'}
 				border={'1px solid'}
 				_focusVisible={{ boxShadow: '0 0 0 1px #002855', borderColor: '#002855', zIndex: 1 }}
-			/>
+			/> */}
 
 			<Text
-				mt={'2rem'}
+				mt={'.75rem'}
 				fontWeight={'600'}
 				fontSize={'1.2rem'}
 				textAlign={'center'}>
@@ -107,7 +137,7 @@ const InsuranceDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; pr
 			</Checkbox>
 
 			<Box
-				h={'30vh'}
+				h={'20rem'}
 				w={'100%'}
 				overflowY={'scroll'}
 				p={'1vw'}
@@ -131,21 +161,27 @@ const InsuranceDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; pr
 				</UnorderedList>
 			</Box>
 			<Flex
-				gap={'1rem'}
 				mt={'2.5rem'}
-				justify={'center'}>
+				justify={'space-between'}>
 				<BackButton
 					onClick={() => prevStep()}
-					width="5rem"></BackButton>
-				<Button>Already insured</Button>
-				<Button
-					bg={'cta'}
-					color={'primary'}
-					isDisabled={isButtonDisabled}
-					_disabled={{ bg: '#7ea4ad' }}
-					onClick={handlePurchaseInsurance}>
-					Purchase insurance
-				</Button>
+					width="6rem"></BackButton>
+				<Flex gap={'1rem'}>
+					<Button
+						onClick={() => nextStep()}
+						w={'10rem'}
+						borderRadius={'2rem'}
+						p={'1rem'}>
+						Already insured
+					</Button>
+
+					<RegularButton
+						onClick={handlePurchaseInsurance}
+						text="Purchase insurance"
+						width="12rem"
+						isDisabled={productValue === 0}
+					/>
+				</Flex>
 			</Flex>
 		</Flex>
 	);
