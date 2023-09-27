@@ -7,6 +7,7 @@ const PaymentForm = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: (
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	return (
 		<Box
+			h={'87vh'}
 			overflowY={'auto'}
 			css={{
 				'&::-webkit-scrollbar': {

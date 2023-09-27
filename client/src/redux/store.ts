@@ -4,6 +4,7 @@ import { apiSlice } from './api/apiSlice';
 import rateDetailsSlice from './features/rateDetailsSlice';
 import ltlShipmentSlice from './features/ltlShipmentSlice';
 import basicShipmentsSlice from './features/basicShipmentsSlice';
+import quoteSlice from './features/quoteSlice';
 
 export const store = configureStore({
 	reducer: {
@@ -11,6 +12,7 @@ export const store = configureStore({
 		basicShipments: basicShipmentsSlice,
 		rateDetails: rateDetailsSlice,
 		ltlShipments: ltlShipmentSlice,
+		quote: quoteSlice,
 	},
 	middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(apiSlice.middleware),
 });

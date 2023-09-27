@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { RootState } from '../../../redux/store';
 import { useFetchRatesMutation } from '../../../redux/api/basicShipmentsApi';
-import { Box, Center, Flex, Text } from '@chakra-ui/react';
+import { Box, Center, Flex } from '@chakra-ui/react';
 import BackButton from '../../Buttons/backButton';
 import { IRateDetail, updateRates } from '../../../redux/features/rateDetailsSlice';
 import RateCardList from './rateCardList';
@@ -32,6 +32,7 @@ const RateSelectionForm = ({ nextStep, prevStep }: { nextStep: () => void; prevS
 				// dispatch(updateRates(result.data?.rateDetail?.rates));
 
 				setRates([...dummyRateCardData.sort((a: IRateDetail, b: IRateDetail) => a.shipping_amount?.amount - b.shipping_amount?.amount)]);
+				//commment out the above portion
 			} catch (error) {
 				console.error(error);
 			}
@@ -40,7 +41,7 @@ const RateSelectionForm = ({ nextStep, prevStep }: { nextStep: () => void; prevS
 	}, [shipmentInfo, fetchRates]);
 
 	useMemo(() => {
-		const amounts = rates.map((rate) => rate.shipping_amount?.amount);
+		const amounts = rates.map((rate) => rate?.shipping_amount?.amount);
 		const min = Math.floor(Math.min(...amounts));
 		const max = Math.ceil(Math.max(...amounts));
 		setMinRate(min);

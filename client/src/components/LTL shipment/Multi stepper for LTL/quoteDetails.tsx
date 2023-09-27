@@ -3,6 +3,9 @@ import { useFetchQuoteMutation } from '../../../redux/api/ltlShipmentApi';
 import { useAppSelector } from '../../../redux/hooks';
 import { RootState } from '../../../redux/store';
 import BackButton from '../../Buttons/backButton';
+import { Box, Flex } from '@chakra-ui/react';
+import QuoteSummary from '../../Cards/quoteSummary';
+import RegularButton from '../../Buttons/regularButton';
 
 const QuoteDetails = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () => void }) => {
 	const ltlShipmentInfo = useAppSelector((state: RootState) => state.ltlShipments);
@@ -26,9 +29,25 @@ const QuoteDetails = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: 
 	}, [ltlShipmentInfo, fetchQuote]);
 
 	return (
-		<div>
-			<BackButton onClick={() => prevStep()}></BackButton>
-		</div>
+		<Box>
+			<QuoteSummary />
+
+			<Flex
+				mt={'4rem'}
+				gap={'1rem'}
+				justify={'flex-end'}
+				align={'center'}>
+				<BackButton
+					onClick={() => prevStep()}
+					width="8rem"
+				/>
+				<RegularButton
+					onClick={() => nextStep()}
+					width="12rem"
+					text={'Continue'}
+				/>
+			</Flex>
+		</Box>
 	);
 };
 

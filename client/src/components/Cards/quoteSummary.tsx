@@ -1,19 +1,16 @@
-import { Card, CardHeader, Heading, CardBody, Stack, StackDivider, Text, Box, HStack } from '@chakra-ui/react';
+import { Box, Card, CardHeader, Heading, CardBody, Stack, StackDivider, HStack, Text } from '@chakra-ui/react';
 import { useAppSelector } from '../../redux/hooks';
 import { RootState } from '../../redux/store';
 import { countryCodeDictionary } from '../../data/countryCodeDictionary';
 
-const ShippingSummary = () => {
-	const sender = useAppSelector((state: RootState) => state?.basicShipments.ship_from);
-	const receiver = useAppSelector((state: RootState) => state?.basicShipments.ship_to);
-	const packages = useAppSelector((state: RootState) => state?.basicShipments.packages);
-	const customs = useAppSelector((state: RootState) => state?.basicShipments?.customs);
+const swappedCountryCodeDictionary: { [key: string]: string } = {};
+for (const key in countryCodeDictionary) {
+	const value = countryCodeDictionary[key];
+	swappedCountryCodeDictionary[value] = key;
+}
 
-	const swappedCountryCodeDictionary: { [key: string]: string } = {};
-	for (const key in countryCodeDictionary) {
-		const value = countryCodeDictionary[key];
-		swappedCountryCodeDictionary[value] = key;
-	}
+const QuoteSummary = () => {
+	const ltlShipmentInfo = useAppSelector((state: RootState) => state?.ltlShipments?.shipment);
 
 	return (
 		<Card
@@ -45,12 +42,13 @@ const ShippingSummary = () => {
 								fontSize="sm"
 								color="gray.600"
 								fontWeight={'600'}>
-								{sender.name} <br />
-								{sender.phone} <br />
-								{sender.company_name} <br />
-								{sender.address_line1} <br />
-								{sender.city_locality}, {sender.state_province} {sender.postal_code} <br />
-								{swappedCountryCodeDictionary[sender.country_code]}
+								{ltlShipmentInfo?.ship_from?.contact?.name} <br />
+								{ltlShipmentInfo?.ship_from?.contact?.email} <br />
+								{ltlShipmentInfo?.ship_from?.contact?.phone_number}
+								<br />
+								{ltlShipmentInfo?.ship_from?.address?.address_line1} <br />
+								{ltlShipmentInfo?.ship_from?.address?.city_locality}, {ltlShipmentInfo?.ship_from?.address?.state_province} {ltlShipmentInfo?.ship_from?.address?.postal_code} <br />
+								{swappedCountryCodeDictionary[ltlShipmentInfo?.ship_from?.address?.country_code]} <br />
 							</Text>
 						</Box>
 						<Box flex={0.5}>
@@ -65,29 +63,36 @@ const ShippingSummary = () => {
 								fontSize="sm"
 								color="gray.600"
 								fontWeight={'600'}>
-								{receiver.name} <br />
-								{receiver.address_line1} <br />
-								{receiver.city_locality}, {receiver.state_province} {receiver.postal_code} <br />
-								{swappedCountryCodeDictionary[receiver.country_code]}
+								{ltlShipmentInfo?.ship_to?.contact?.name} <br />
+								{ltlShipmentInfo?.ship_to?.contact?.email} <br />
+								{ltlShipmentInfo?.ship_to?.contact?.phone_number}
+								<br />
+								{ltlShipmentInfo?.ship_to?.address?.address_line1} <br />
+								{ltlShipmentInfo?.ship_to?.address?.city_locality}, {ltlShipmentInfo?.ship_to?.address?.state_province} {ltlShipmentInfo?.ship_to?.address?.postal_code} <br />
+								{swappedCountryCodeDictionary[ltlShipmentInfo?.ship_to?.address?.country_code]} <br />
 							</Text>
 						</Box>
 					</HStack>
 					<Box>
 						<Heading
 							size="sm"
-							textTransform="uppercase">
+							textTransform="uppercase"
+							color="teal.500">
 							Packages Details
 						</Heading>
-						{packages.map((item, index) => (
-							<Box key={index}>
+						{ltlShipmentInfo?.packages.map((item, index) => (
+							<Box
+								key={index}
+								color={'#0E1420'}>
 								<Text
 									pt="2"
 									fontSize="sm"
 									fontWeight="600">
 									Package {index + 1}
 								</Text>
+								<Text fontSize="sm">Package Type: {item?.code}</Text>
 								<Text fontSize="sm">
-									Weight: {item.weight.value} {item.weight.unit}
+									Weight: {item?.weight?.value} {item?.weight?.unit}
 								</Text>
 								<Text fontSize="sm">
 									Dimensions: {item.dimensions.length}x{item.dimensions.width}x{item.dimensions.height} {item.dimensions.unit}
@@ -99,7 +104,8 @@ const ShippingSummary = () => {
 					<Box>
 						<Heading
 							size="sm"
-							textTransform="uppercase">
+							textTransform="uppercase"
+							color="teal.500">
 							Cost details
 						</Heading>
 						<Text
@@ -124,4 +130,4 @@ const ShippingSummary = () => {
 	);
 };
 
-export default ShippingSummary;
+export default QuoteSummary;

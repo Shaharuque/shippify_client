@@ -256,7 +256,8 @@ const ServicesAndBillingDetailsForm = ({ nextStep, prevStep }: { nextStep: () =>
 						defaultValue={[]}>
 						<Stack
 							spacing={[1, 5]}
-							direction={['column', 'row']}>
+							direction={['column', 'row']}
+							wrap={'wrap'}>
 							{extraServices.map((item, index: number) => (
 								<Checkbox
 									borderColor={'#668bbd'}
@@ -268,7 +269,7 @@ const ServicesAndBillingDetailsForm = ({ nextStep, prevStep }: { nextStep: () =>
 								</Checkbox>
 							))}
 
-							<Checkbox
+							{/* <Checkbox
 								borderColor={'#668bbd'}
 								whiteSpace={'nowrap'}
 								value={'haz'}
@@ -281,7 +282,7 @@ const ServicesAndBillingDetailsForm = ({ nextStep, prevStep }: { nextStep: () =>
 								value={'res'}
 								onChange={(e) => handleExtraServicesChange(e)}>
 								Residential Pickup
-							</Checkbox>
+							</Checkbox> */}
 							{/* Dummy services option*/}
 						</Stack>
 					</CheckboxGroup>
