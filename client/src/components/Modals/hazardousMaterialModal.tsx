@@ -18,6 +18,7 @@ export const defaultLiableContactValues = {
 };
 const HazardousMaterialModal = ({ onClose, isOpen, onSave }: THazardousMaterialModallProps) => {
 	const { handleSubmit, register } = useForm({ defaultValues: defaultLiableContactValues });
+
 	const onSubmit = (data: TLiableContact) => {
 		onSave(data);
 		onClose();
