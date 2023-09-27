@@ -27,7 +27,7 @@ const CreateBasicShipmentPage = () => {
 				flex={0.2}>
 				<Box flex={0.5}>
 					<ShipmentSteppers
-						activeStep={activeStep}
+						activeStep={activeStep - 1}
 						steps={stepsForBasic}
 					/>
 				</Box>

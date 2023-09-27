@@ -1,5 +1,5 @@
 import PackageDetailsFormLTL from './packageDetailsFormLTL';
-import QuoteSelectionForm from './quoteSelectionForm';
+import QuoteDetails from './quoteDetails';
 import RecieverAddressFormLTL from './recieverAddressFormLTL';
 import SenderAddressFormLTL from './senderAddressFormLTL';
 import ServicesAndBillingDetailsForm from './servicesAndBillingDetailsForm';
@@ -32,7 +32,7 @@ const MultiStepperFormLTL = ({ activeStep, handleStepChange }: { activeStep: num
 					nextStep={nextStep}
 				/>
 			) : activeStep === 5 ? (
-				<QuoteSelectionForm
+				<QuoteDetails
 					prevStep={prevStep}
 					nextStep={nextStep}
 				/>

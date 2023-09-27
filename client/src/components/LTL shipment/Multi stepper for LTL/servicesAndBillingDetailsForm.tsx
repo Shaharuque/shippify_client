@@ -100,6 +100,7 @@ export const defaultServicesAndBillingDetailsFormLTL: TServicesAndBillingDetails
 const ServicesAndBillingDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () => void }) => {
 	const sender = useAppSelector((state: RootState) => state?.ltlShipments?.shipment?.ship_from);
 	const reciever = useAppSelector((state: RootState) => state?.ltlShipments?.shipment?.ship_to);
+	const third_party = useAppSelector((state: RootState) => state?.ltlShipments?.shipment?.bill_to);
 	const dispatch = useAppDispatch();
 
 	const token = localStorage.getItem('token');
@@ -110,7 +111,7 @@ const ServicesAndBillingDetailsForm = ({ nextStep, prevStep }: { nextStep: () =>
 	const [serviceOptions, setServiceOptions] = useState<any[]>([]);
 	const [extraServices, setExtraServices] = useState<any[]>([]);
 	const [liableContact, setLiableContact] = useState<TLiableContact>(defaultLiableContactValues);
-	const [paymentType, setpaymentType] = useState('');
+	const [paymentTerms, setpaymentTerms] = useState('');
 	const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
 	const [selectedDate, setSelectedDate] = useState<any>(new Date());
 
@@ -120,10 +121,10 @@ const ServicesAndBillingDetailsForm = ({ nextStep, prevStep }: { nextStep: () =>
 	const calendarModal = useDisclosure();
 
 	const onSubmit = (data: TServicesAndBillingDetailsFormLTL) => {
-		data.bill_to.type = paymentType;
-		data.bill_to.payment_terms = paymentType;
-		if (paymentType === 'prepaid') data.bill_to.contact = sender?.contact;
-		else if (paymentType === 'collect') data.bill_to.contact = reciever?.contact;
+		data.bill_to.type = 'third_party';
+		data.bill_to.payment_terms = paymentTerms;
+		if (paymentTerms === 'prepaid') data.bill_to.contact = sender?.contact;
+		else if (paymentTerms === 'collect') data.bill_to.contact = reciever?.contact;
 		data.requested_by.company_name = reciever?.address?.company_name;
 		data.requested_by.contact = reciever?.contact;
 		let options: TOption[] = [];
@@ -139,7 +140,7 @@ const ServicesAndBillingDetailsForm = ({ nextStep, prevStep }: { nextStep: () =>
 		console.log('data:', data);
 		dispatch(updateField(data));
 
-		// nextStep();
+		nextStep();
 	};
 
 	const handleExtraServicesChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -156,10 +157,10 @@ const ServicesAndBillingDetailsForm = ({ nextStep, prevStep }: { nextStep: () =>
 	};
 
 	useEffect(() => {
-		if (paymentType === 'prepaid') setValue('bill_to.address', sender?.address);
-		else if (paymentType === 'collect') setValue('bill_to.address', reciever?.address);
-		else setValue('bill_to.address', defaultServicesAndBillingDetailsFormLTL?.bill_to?.address);
-	}, [paymentType]);
+		if (paymentTerms === 'prepaid') setValue('bill_to.address', sender?.address);
+		else if (paymentTerms === 'collect') setValue('bill_to.address', reciever?.address);
+		else setValue('bill_to.address', third_party?.address);
+	}, [paymentTerms]);
 
 	useEffect(() => {
 		if (fetchLTLOptions) {
@@ -310,14 +311,14 @@ const ServicesAndBillingDetailsForm = ({ nextStep, prevStep }: { nextStep: () =>
 									borderColor={'#668bbd'}
 									key={index}
 									value={item.code}
-									onChange={(e) => setpaymentType(e.target.value)}>
+									onChange={(e) => setpaymentTerms(e.target.value)}>
 									{item.name}
 								</Radio>
 							))}
 						</Stack>
 					</RadioGroup>
 				</FormControl>
-				{paymentType && paymentType.length > 0 ? (
+				{paymentTerms && paymentTerms.length > 0 ? (
 					<Box>
 						<Flex
 							mt={'1.5rem'}

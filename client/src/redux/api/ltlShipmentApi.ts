@@ -1,3 +1,4 @@
+import { ILTLShipment } from '../features/ltlShipmentSlice';
 import { apiSlice } from './apiSlice';
 
 export const ltlShipmentsApi = apiSlice.injectEndpoints({
@@ -12,7 +13,18 @@ export const ltlShipmentsApi = apiSlice.injectEndpoints({
 				},
 			}),
 		}),
+		fetchQuote: builder.mutation({
+			query: ({ data, token }: { data: ILTLShipment; token: string }) => ({
+				url: '/ltlShipment/request-for-quote',
+				method: 'POST',
+				headers: {
+					'Content-type': 'application/json; charset=UTF-8',
+					'x-auth-token': token,
+				},
+				body: data,
+			}),
+		}),
 	}),
 });
 
-export const { useFetchLTLOptionsQuery } = ltlShipmentsApi;
+export const { useFetchLTLOptionsQuery, useFetchQuoteMutation } = ltlShipmentsApi;

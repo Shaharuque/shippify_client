@@ -1,11 +1,13 @@
 import { useEffect } from 'react';
+import { useFetchQuoteMutation } from '../../../redux/api/ltlShipmentApi';
 import { useAppSelector } from '../../../redux/hooks';
 import { RootState } from '../../../redux/store';
-import axios from 'axios';
 import BackButton from '../../Buttons/backButton';
 
-const QuoteSelectionForm = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () => void }) => {
+const QuoteDetails = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () => void }) => {
 	const ltlShipmentInfo = useAppSelector((state: RootState) => state.ltlShipments);
+
+	const [fetchQuote] = useFetchQuoteMutation();
 
 	useEffect(() => {
 		const token = localStorage.getItem('token');
@@ -13,12 +15,7 @@ const QuoteSelectionForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 
 		const fetchData = async () => {
 			try {
-				const result = await axios.post('http://192.168.68.89:5000/ltlShipment/request-for-quote', ltlShipmentInfo, {
-					headers: {
-						'Content-Type': 'application/json',
-						'x-auth-token': token,
-					},
-				});
+				const result = await fetchQuote({ data: ltlShipmentInfo, token });
 				console.log('result:', result);
 			} catch (error) {
 				console.error(error);
@@ -26,7 +23,7 @@ const QuoteSelectionForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 		};
 
 		fetchData();
-	}, [ltlShipmentInfo]);
+	}, [ltlShipmentInfo, fetchQuote]);
 
 	return (
 		<div>
@@ -35,4 +32,4 @@ const QuoteSelectionForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 	);
 };
 
-export default QuoteSelectionForm;
+export default QuoteDetails;
