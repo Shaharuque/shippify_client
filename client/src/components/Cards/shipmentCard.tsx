@@ -1,8 +1,14 @@
 import { Badge, Box, Flex, Icon, Image, Stack, Text, useBreakpointValue } from '@chakra-ui/react';
 import ups from '../../assets/ups.svg';
+import fedex from '../../assets/fedex-express-6.svg';
+import stamps from '../../assets/stamps_com.png';
 import { LuBadgeDollarSign } from 'react-icons/lu';
 
-const ShipmentCard = () => {
+export interface IShipment {
+	shipment: any;
+}
+
+const ShipmentCard = ({ shipment }: IShipment) => {
 	return (
 		<Box
 			borderWidth="1px"
@@ -18,14 +24,15 @@ const ShipmentCard = () => {
 				whiteSpace={'nowrap'}>
 				<Stack align={'center'}>
 					<Image
-						src={ups}
+						src={shipment?.rateDetail?.carrier_code === 'ups' ? ups : shipment?.rateDetail?.carrier_code === 'fedex' ? fedex : stamps}
 						boxSize={'2.5rem'}
 					/>
 
 					<Text
 						fontWeight={'md'}
-						fontSize={'sm'}>
-						UPS Next Day Air®
+						fontSize={'sm'}
+						whiteSpace={'pre-wrap'}>
+						{shipment?.rateDetail?.service_type}
 					</Text>
 				</Stack>
 				<Stack align={'center'}>
@@ -38,7 +45,7 @@ const ShipmentCard = () => {
 							color={'green.500'}
 							boxSize={'1.25rem'}
 						/>
-						<Text>490.35</Text>
+						<Text>{shipment?.rateDetail?.shipping_amount?.amount}</Text>
 					</Stack>
 				</Stack>
 				<Stack align={'center'}>
@@ -47,7 +54,7 @@ const ShipmentCard = () => {
 						fontWeight={'bold'}>
 						Total packages
 					</Text>
-					<Text fontSize={'sm'}>5 Packages</Text>
+					<Text fontSize={'sm'}>{shipment?.shipment_detail?.packages.length}</Text>
 				</Stack>
 				<Stack align={'center'}>
 					<Text fontWeight={'bold'}>Tracking Id</Text>

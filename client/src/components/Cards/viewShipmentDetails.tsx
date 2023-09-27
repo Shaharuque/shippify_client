@@ -1,5 +1,5 @@
 const ViewShipmentDetails = () => {
-	return <div>viewShipmentDetails</div>;
+	return <div>ViewShipmentDetails</div>;
 };
 
 export default ViewShipmentDetails;
