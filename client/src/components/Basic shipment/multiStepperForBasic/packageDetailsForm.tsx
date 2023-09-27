@@ -59,7 +59,7 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 
 		setIsCustom((prev) => !prev);
 		setValue('weight.value', 0);
-		// reset(defaultPackageValues);
+		reset(defaultPackageValues);
 	};
 
 	useEffect(() => {

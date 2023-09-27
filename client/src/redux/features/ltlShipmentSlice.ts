@@ -61,27 +61,7 @@ export const initialLTLShipmentState: ILTLShipment = {
 				country_code: 'US',
 			},
 		},
-		packages: [
-			{
-				code: 'pkg',
-				freight_class: 200,
-				nmfc_code: '',
-				description: '',
-				dimensions: {
-					width: 0,
-					height: 0,
-					length: 0,
-					unit: 'inches',
-				},
-				weight: {
-					value: 0,
-					unit: 'pounds',
-				},
-				quantity: 1,
-				stackable: false,
-				hazardous_materials: false,
-			},
-		],
+		packages: [],
 		service_code: 'gtd_am',
 		pickup_date: '',
 		options: [{ code: '' }],

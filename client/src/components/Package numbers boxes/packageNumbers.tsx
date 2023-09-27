@@ -2,8 +2,9 @@ import { Text, Flex, Circle } from '@chakra-ui/react';
 import { TPackageDetailsForm } from '../Basic shipment/multiStepperForBasic/packageDetailsForm';
 
 import { useState } from 'react';
+import { TPackageDetailsFormLTL } from '../LTL shipment/Multi stepper for LTL/packageDetailsFormLTL';
 
-const PackageNumbers = ({ packages, onSelectPackage }: { packages: TPackageDetailsForm[]; onSelectPackage: (index: number) => void }) => {
+const PackageNumbers = ({ packages, onSelectPackage }: { packages: TPackageDetailsForm[] | TPackageDetailsFormLTL[]; onSelectPackage: (index: number) => void }) => {
 	const [selectedPackageIndex, setSelectedPackageIndex] = useState<number | null>(null);
 
 	const handleSelectPackage = (index: number) => {
@@ -11,11 +12,13 @@ const PackageNumbers = ({ packages, onSelectPackage }: { packages: TPackageDetai
 		onSelectPackage(index);
 	};
 	return (
-		<>
+		<Flex
+			direction={'column'}
+			mb={'1rem '}>
 			{packages.length > 0 ? (
 				<Flex
 					alignItems="center"
-					mb={4}
+					mb={3}
 					gap={'1rem '}>
 					<Text
 						as="b"
@@ -42,7 +45,8 @@ const PackageNumbers = ({ packages, onSelectPackage }: { packages: TPackageDetai
 					))}
 				</Flex>
 			) : null}
-		</>
+			{packages.length >= 1 ? <Text fontSize={'.85rem'}>*You can add more packages</Text> : null}
+		</Flex>
 	);
 };
 

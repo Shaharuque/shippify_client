@@ -11,6 +11,7 @@ import RegularButton from '../../Buttons/regularButton';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { RootState } from '../../../redux/store';
 import { updateField } from '../../../redux/features/ltlShipmentSlice';
+import PackageNumbers from '../../Package numbers boxes/packageNumbers';
 
 export interface TPackageDetailsFormLTL {
 	code: string;
@@ -54,13 +55,14 @@ const defaultValues: TPackageDetailsFormLTL = {
 
 const PackageDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () => void }) => {
 	const token = localStorage.getItem('token');
-	const { data: fetchLTLOptions, error, isLoading } = useFetchLTLOptionsQuery(token);
+	// const { data: fetchLTLOptions, error, isLoading } = useFetchLTLOptionsQuery(token);
 	const [packageCodes, setPackageCodes] = useState<any[]>([]);
+	const [defaultPackageValues, setDefaultPackageValues] = useState(defaultValues);
 
 	const dispatch = useAppDispatch();
 	const packages = useAppSelector((state: RootState) => state?.ltlShipments?.shipment?.packages);
 
-	const { handleSubmit, register, setValue } = useForm({ defaultValues: { ...packages[0] } });
+	const { handleSubmit, register, setValue, reset } = useForm<TPackageDetailsFormLTL>({ defaultValues: defaultPackageValues });
 
 	const onSubmit = (data: TPackageDetailsFormLTL) => {
 		const selectedProduct = data.description;
@@ -68,12 +70,15 @@ const PackageDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; p
 		data.freight_class = selectedProductDetails!.freightNumber;
 		console.log('data:', data);
 
-		if (packages.length === 1 && packages[0].nmfc_code.length === 0) dispatch(updateField({ packages: [data] }));
-		else {
-			const updatedPackages = [...packages, data];
-			dispatch(updateField({ packages: updatedPackages }));
-		}
+		const updatedPackages = [...packages, data];
+		dispatch(updateField({ packages: updatedPackages }));
+
+		reset(defaultPackageValues);
 	};
+
+	useEffect(() => {
+		reset(defaultPackageValues);
+	}, [defaultPackageValues]);
 
 	const handleProductSelect = (event: ChangeEvent<HTMLSelectElement>) => {
 		event.preventDefault();
@@ -90,32 +95,46 @@ const PackageDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; p
 		nextStep();
 	};
 
-	useEffect(() => {
-		if (fetchLTLOptions) {
-			console.log('Data:', fetchLTLOptions);
-			setPackageCodes(fetchLTLOptions?.data?.packages);
-		}
+	// useEffect(() => {
+	// 	if (fetchLTLOptions) {
+	// 		console.log('Data:', fetchLTLOptions);
+	// 		setPackageCodes(fetchLTLOptions?.data?.packages);
+	// 	}
 
-		if (error) {
-			console.error('Error fetching LTL options:', error);
-		}
-	}, [fetchLTLOptions, error]);
+	// 	if (error) {
+	// 		console.error('Error fetching LTL options:', error);
+	// 	}
+	// }, [fetchLTLOptions, error]);
 
-	if (isLoading) {
-		return (
-			<Box>
-				<SpinningLoader />
-			</Box>
-		);
-	}
+	// if (isLoading) {
+	// 	return (
+	// 		<Box>
+	// 			<SpinningLoader />
+	// 		</Box>
+	// 	);
+	// }
 
-	if (error) {
-		return (
-			<Box>
-				<Error />
-			</Box>
-		);
-	}
+	// if (error) {
+	// 	return (
+	// 		<Box>
+	// 			<Error />
+	// 		</Box>
+	// 	);
+	// }
+
+	const handleSelectPackage = (index: number) => {
+		const selectedPackage = packages[index];
+		console.log('selected package:', selectedPackage);
+
+		setValue('dimensions.length', selectedPackage.dimensions.length);
+		setValue('dimensions.width', selectedPackage.dimensions.width);
+		setValue('dimensions.height', selectedPackage.dimensions.height);
+		setValue('dimensions.unit', selectedPackage.dimensions.unit);
+		setValue('weight.value', selectedPackage.weight.value);
+		setValue('weight.unit', selectedPackage.weight.unit);
+
+		setDefaultPackageValues(selectedPackage);
+	};
 
 	return (
 		<Box
@@ -131,6 +150,10 @@ const PackageDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; p
 					borderRadius: '0.25em',
 				},
 			}}>
+			<PackageNumbers
+				packages={packages}
+				onSelectPackage={handleSelectPackage}
+			/>
 			<form onSubmit={handleSubmit(onSubmit)}>
 				<Flex
 					gap={'1rem'}
@@ -146,15 +169,15 @@ const PackageDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; p
 								borderColor: '#002855',
 								boxShadow: '0 0 3px #002855 ',
 							}}>
-							{packageCodes.map((item: any, index: number) => (
+							{/* {packageCodes.map((item: any, index: number) => (
 								<option
 									key={index}
 									value={item.code}>
 									{item.name}
 								</option>
-							))}
-							{/* <option value={'pkg'}>Package</option>
-							<option value={'bag'}>Bag</option> */}
+							))} */}
+							<option value={'pkg'}>Package</option>
+							<option value={'bag'}>Bag</option>
 						</Select>
 					</FormControl>
 
@@ -293,7 +316,11 @@ const PackageDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; p
 						</Select>
 					</FormControl>
 				</Flex>
-				<Text fontWeight={'600'}>Weight</Text>
+				<Text
+					fontWeight={'600'}
+					mt={'.75rem'}>
+					Weight
+				</Text>
 				<Flex
 					gap={'2rem'}
 					alignItems={'center'}
@@ -357,23 +384,24 @@ const PackageDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; p
 				</Flex>
 
 				<Flex
-					mt={'2rem'}
-					gap={'1rem'}
-					justify={'flex-end'}>
+					mt={'4rem'}
+					justify={'space-between'}>
 					<SubmitButton
-						text={'Save and Add another'}
+						text={'Add package'}
 						width="15rem"
 					/>
-					<BackButton
-						onClick={() => prevStep()}
-						width="8rem"
-					/>
-					<RegularButton
-						onClick={handleContinueButton}
-						text={'Continue'}
-						width="12rem"
-						// isDisabled={packages.length === 1 && packages[0].nmfc_code.length === 0}
-					/>
+					<Flex gap={'1rem'}>
+						<BackButton
+							onClick={() => prevStep()}
+							width="8rem"
+						/>
+						<RegularButton
+							onClick={handleContinueButton}
+							text={'Continue'}
+							width="12rem"
+							// isDisabled={packages.length === 1 && packages[0].nmfc_code.length === 0}
+						/>
+					</Flex>
 				</Flex>
 			</form>
 		</Box>
