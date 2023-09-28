@@ -1,11 +1,16 @@
 import { useState } from 'react';
 import { IRateDetail } from '../../../redux/features/rateDetailsSlice';
 import RateCard from './rateCard';
+import { Box, Flex } from '@chakra-ui/react';
+import BackButton from '../../Buttons/backButton';
+import RegularButton from '../../Buttons/regularButton';
 
 type RateCardListProps = {
 	rates: IRateDetail[];
+	prevStep: () => void;
+	nextStep: () => void;
 };
-const RateCardList = ({ rates }: RateCardListProps) => {
+const RateCardList = ({ rates, prevStep, nextStep }: RateCardListProps) => {
 	const [selectedRateId, setSelectedRateId] = useState('');
 
 	const handleSelectCard = (rateId: string) => {
@@ -16,7 +21,17 @@ const RateCardList = ({ rates }: RateCardListProps) => {
 		}
 	};
 	return (
-		<>
+		<Box
+			overflowY="auto"
+			css={{
+				'&::-webkit-scrollbar': {
+					width: '0',
+				},
+				'&::-webkit-scrollbar-thumb': {
+					backgroundColor: 'rgba(0, 0, 0, 0.5)',
+					borderRadius: '0.25em',
+				},
+			}}>
 			{rates.map((rate: IRateDetail, index: number) => (
 				<RateCard
 					key={index}
@@ -25,7 +40,22 @@ const RateCardList = ({ rates }: RateCardListProps) => {
 					onSelect={handleSelectCard}
 				/>
 			))}
-		</>
+
+			<Flex
+				justify="flex-end"
+				m="2rem 0"
+				gap="1rem">
+				<BackButton
+					onClick={() => prevStep()}
+					width="8rem"
+				/>
+				<RegularButton
+					onClick={() => nextStep()}
+					text="Continue"
+					width="12rem"
+				/>
+			</Flex>
+		</Box>
 	);
 };
 

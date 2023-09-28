@@ -34,8 +34,10 @@ const AddressSetupForm = ({ prevStep }: { prevStep: () => void }) => {
 			const data = { address: values };
 
 			const result = await setUpCompanyAddress(data, token);
-			console.log('Address profile setup:', result);
-			if (result?.data?.status === 'success') navigate('/home');
+
+			if (result?.data?.status === 'success') {
+				navigate('/home');
+			}
 		} catch (error) {
 			console.error('Error from address setup form:', error);
 		}

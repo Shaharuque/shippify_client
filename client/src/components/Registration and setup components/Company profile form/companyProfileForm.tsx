@@ -29,8 +29,10 @@ const CompanyProfileForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 		try {
 			const token: any = localStorage.getItem('token');
 			const result = await setUpCompany(values, token);
-			console.log('Company profile setup:', result);
-			if (result?.data?.status === 'success') nextStep();
+
+			if (result?.data?.status === 'success') {
+				nextStep();
+			}
 		} catch (error) {
 			console.error('Error message from company setup form:', error);
 		}

@@ -43,7 +43,7 @@ const defaultCustomsValues: TCustomsDetailsForm = {
 const CustomsInfoForm = () => {
 	const { control, handleSubmit, reset } = useForm<TCustomsDetailsForm>({ defaultValues: defaultCustomsValues });
 
-	const { fields, append, remove } = useFieldArray({
+	const { fields, append } = useFieldArray({
 		control,
 		name: 'customs_items',
 	});

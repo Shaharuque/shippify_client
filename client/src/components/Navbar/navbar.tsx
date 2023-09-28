@@ -5,10 +5,12 @@ import { Outlet } from 'react-router-dom';
 
 const Navbar = () => {
 	return (
-		<Box bg={'linear-gradient(135deg, hsla(155, 44%, 92%, 1) 0%, hsla(191, 24%, 62%, 1) 100%)'}>
+		<Box
+			bg={'linear-gradient(135deg, hsla(155, 44%, 92%, 1) 0%, hsla(191, 24%, 62%, 1) 100%)'}
+			overflowY={'hidden'}
+			h={'100vh'}>
 			<Flex
 				bg={'transparent'}
-				h={'10vh'}
 				position="sticky"
 				top="0"
 				zIndex="100"
@@ -22,9 +24,7 @@ const Navbar = () => {
 					<Menus />
 				</>
 			</Flex>
-			<Box
-				p={'1rem'}
-				h={'90vh'}>
+			<Box p={'1rem'}>
 				<Outlet></Outlet>
 			</Box>
 		</Box>

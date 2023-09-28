@@ -48,3 +48,8 @@ h6 {
 	font-weight: inherit;
 	overflow-wrap: break-word;
 }
+
+.css-195wpen {
+	height: 800px !important;
+	overflow-y: scroll !important;
+}

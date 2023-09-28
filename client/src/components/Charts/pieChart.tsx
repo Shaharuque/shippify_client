@@ -2,6 +2,19 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
 
+const formatLabels = (originalLabels: string[]) => {
+	const labelMap: { [key: string]: string } = {
+		reached_at_service_point: 'Reached at Service Point',
+		received: 'Received',
+		dropped_at_service_pointlabel_purchased: 'Dropped at Service Point',
+		unknown: 'Unknown',
+		label_purchased: 'Label Purchased',
+		pending: 'Pending',
+	};
+
+	return originalLabels.map((label: string) => labelMap[label]);
+};
+
 const PieChart = () => {
 	const [labels, setLabels] = useState<string[]>([]);
 	const [values, setValues] = useState<number[]>([]);
@@ -16,8 +29,9 @@ const PieChart = () => {
 						'x-auth-token': token,
 					},
 				});
-				console.log('result:', result.data);
-				setLabels(result?.data?.data.map((item: { count: number; status: string }) => item.status));
+				// console.log('pie chart data:', result.data);
+				const formattedLabels = formatLabels(result?.data?.data.map((item: { count: number; status: string }) => item.status));
+				setLabels(formattedLabels);
 				setValues(result?.data?.data.map((item: { count: number; status: string }) => item.count));
 			} catch (error) {
 				console.log(error);
@@ -34,27 +48,25 @@ const PieChart = () => {
 				breakpoint: 1921,
 				options: {
 					chart: {
-						width: 500,
+						width: 400,
 					},
 					legend: {
 						position: 'right' as 'right',
 						fontSize: '16px',
-						formatter: function (val, opts) {
-							const formattedLabel = val.split('_').join(' ');
-							return `
-        <div style="display: flex; align-items: center;">
-          <div style="background-color: ${opts.w.config.colors[opts.seriesIndex]}; width: 10px; height: 10px; margin-right: 5px;"></div>
-          <div>${formattedLabel}</div>
-        </div>
-      `;
+						labels: {
+							colors: undefined,
+							useSeriesColors: false,
 						},
-						height: 300,
+
+						height: 'auto',
 						itemMargin: {
 							horizontal: 0,
-							vertical: 0,
+							vertical: 10,
 						},
 					},
 				},
+
+				// colors: ['#F44336', '#E91E63', '#9C27B0', '#2196F3', '#4CAF50', '#FFC107'],
 			},
 			{
 				breakpoint: 1367,
@@ -64,9 +76,10 @@ const PieChart = () => {
 					},
 					legend: {
 						position: 'bottom' as 'bottom',
-
+						height: 50,
+						fontSize: '12px',
 						itemMargin: {
-							horizontal: 10,
+							horizontal: 8,
 							vertical: 0,
 						},
 					},

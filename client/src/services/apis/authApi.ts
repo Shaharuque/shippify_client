@@ -31,3 +31,13 @@ export const signIn = async (data: LoginFormData) => {
 		console.error(error);
 	}
 };
+
+export const profile = async (token: string) => {
+	try {
+		return axiosInstance.get(`${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}/user/data`, {
+			headers: { 'Content-Type': 'application/json', 'x-auth-token': token },
+		});
+	} catch (error) {
+		console.error(error);
+	}
+};

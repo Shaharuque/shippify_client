@@ -12,24 +12,6 @@ export interface IBasicShipment {
 }
 
 export const initialShipmentsState: IBasicShipment = {
-	customs: {
-		contents: 'merchandise',
-		contents_explanation: '',
-		non_delivery: 'return_to_sender',
-		customs_items: [
-			{
-				harmonized_tariff_code: '',
-				country_of_manufacture: '',
-				country_of_origin: '',
-				description: '',
-				quantity: 0,
-				value: {
-					currency: '',
-					amount: 0,
-				},
-			},
-		],
-	},
 	ship_from: {
 		name: '',
 		company_name: '',

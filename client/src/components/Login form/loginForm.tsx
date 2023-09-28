@@ -26,7 +26,6 @@ const LoginForm = () => {
 	const onSubmit = async (values: LoginFormData) => {
 		try {
 			const result = await signIn(values);
-			console.log(result);
 			if (result?.data?.status === 'success') {
 				localStorage.setItem('token', result?.data?.token);
 				navigate('/home');

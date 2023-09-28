@@ -1,9 +1,11 @@
-import { useForm, SubmitHandler, Controller } from 'react-hook-form';
+import { useForm, SubmitHandler, Controller, PathString } from 'react-hook-form';
 import { Box, FormControl, FormLabel, Input, Flex, Text, Select } from '@chakra-ui/react';
 import SubmitButton from '../../Buttons/submitButton';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { updateField } from '../../../redux/features/basicShipmentsSlice';
 import { RootState } from '../../../redux/store';
+import { useEffect, useState } from 'react';
+import { profile } from '../../../services/apis/authApi';
 
 export type TSenderAddressFormData = {
 	name: string;
@@ -16,18 +18,68 @@ export type TSenderAddressFormData = {
 	phone: string;
 };
 
+interface User {
+	address: {
+		address_line1: string;
+		address_line2: string;
+		state_province: string;
+		city_locality: string;
+		postal_code: string;
+		country_code: PathString;
+	};
+	companyEmail: string;
+	companyName: string;
+	createdAt: string;
+	email: string;
+	monthlyShipmentValue: string;
+	name: string;
+	password: string;
+	selectedCarriers: any[];
+	shipments: any[];
+	updatedAt: string;
+	__v: number;
+	_id: string;
+}
+
 const SenderAddressForm = ({ nextStep }: { nextStep: () => void }) => {
-	const { control, handleSubmit } = useForm<TSenderAddressFormData>({
+	const { control, handleSubmit, setValue } = useForm<TSenderAddressFormData>({
 		defaultValues: {
 			...useAppSelector((state: RootState) => state?.basicShipments?.ship_from),
 		},
 	});
 	const dispatch = useAppDispatch();
+	const [userData, setUserData] = useState<User>();
 
 	const onSubmit: SubmitHandler<TSenderAddressFormData> = (data) => {
 		dispatch(updateField({ ship_from: data }));
 		nextStep();
 	};
+
+	useEffect(() => {
+		const token = localStorage.getItem('token');
+		const fetchUserData = async () => {
+			try {
+				const result = await profile(token as string);
+
+				setUserData(result?.data?.data);
+			} catch (error) {
+				console.error(error);
+			}
+		};
+		fetchUserData();
+	}, []);
+
+	useEffect(() => {
+		if (userData && userData?.name.length > 0) {
+			setValue('name', userData?.name);
+			setValue('company_name', userData?.companyName);
+			setValue('address_line1', userData?.address?.address_line1);
+			setValue('city_locality', userData?.address?.city_locality);
+			setValue('state_province', userData?.address?.state_province);
+			setValue('postal_code', userData?.address?.postal_code);
+			setValue('country_code', userData?.address?.country_code);
+		}
+	}, [userData]);
 
 	return (
 		<Box

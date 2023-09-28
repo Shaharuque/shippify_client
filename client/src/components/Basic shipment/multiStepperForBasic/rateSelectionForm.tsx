@@ -26,12 +26,12 @@ const RateSelectionForm = ({ nextStep, prevStep }: { nextStep: () => void; prevS
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				// const result = await fetchRates({ shipments: [shipmentInfo] });
-				// console.log('Response:', result.data);
-				// setRates(result.data?.rateDetail?.rates);
-				// dispatch(updateRates(result.data?.rateDetail?.rates));
+				const result = await fetchRates({ shipments: [shipmentInfo] });
+				console.log('Response:', result.data);
+				setRates(result.data?.rateDetail?.rates);
+				dispatch(updateRates(result.data?.rateDetail?.rates));
 
-				setRates([...dummyRateCardData.sort((a: IRateDetail, b: IRateDetail) => a.shipping_amount?.amount - b.shipping_amount?.amount)]);
+				// setRates([...dummyRateCardData.sort((a: IRateDetail, b: IRateDetail) => a.shipping_amount?.amount - b.shipping_amount?.amount)]);
 				//commment out the above portion
 			} catch (error) {
 				console.error(error);
@@ -48,10 +48,6 @@ const RateSelectionForm = ({ nextStep, prevStep }: { nextStep: () => void; prevS
 		setMaxRate(max);
 		setSelectedRange([min, max]);
 	}, []);
-
-	const handleContinue = () => {
-		nextStep();
-	};
 
 	const handlePriceFilterChange = (value: string) => {
 		console.log('value:', value);
@@ -94,10 +90,8 @@ const RateSelectionForm = ({ nextStep, prevStep }: { nextStep: () => void; prevS
 	return (
 		<>
 			{isLoading ? (
-				<Box h={'80vh'}>
-					<Center>
-						<SpinningLoader />
-					</Center>
+				<Box>
+					<SpinningLoader />
 				</Box>
 			) : (
 				<Box>
@@ -114,35 +108,12 @@ const RateSelectionForm = ({ nextStep, prevStep }: { nextStep: () => void; prevS
 							<DeliveryDateFilter onChange={handleDeliveryDateFilterChange} />
 						</Box>
 
-						<Box w={'30rem'}>
-							<Box
-								height="fit-content"
-								overflowY="auto"
-								css={{
-									'&::-webkit-scrollbar': {
-										width: '0',
-									},
-									'&::-webkit-scrollbar-thumb': {
-										backgroundColor: 'rgba(0, 0, 0, 0.5)',
-										borderRadius: '0.25em',
-									},
-								}}>
-								<RateCardList rates={rates} />
-							</Box>
-							<Flex
-								justify="flex-end"
-								m="2rem 0"
-								gap="1rem">
-								<BackButton
-									onClick={() => prevStep()}
-									width="8rem"
-								/>
-								<RegularButton
-									onClick={handleContinue}
-									text="Continue"
-									width="12rem"
-								/>
-							</Flex>
+						<Box>
+							<RateCardList
+								rates={rates}
+								prevStep={prevStep}
+								nextStep={nextStep}
+							/>
 						</Box>
 					</Flex>
 				</Box>
