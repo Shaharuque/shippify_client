@@ -1,18 +1,14 @@
 import { RangeSlider, RangeSliderTrack, RangeSliderFilledTrack, RangeSliderThumb, Box, Tooltip, RangeSliderMark, Text } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 type PriceRangeFilterProps = {
-	minValue: number;
-	maxValue: number;
 	onRangeChange: (value: number[]) => void;
 };
 
-const PriceRangeFilter = ({ minValue, maxValue, onRangeChange }: PriceRangeFilterProps) => {
+const PriceRangeFilter = ({ onRangeChange }: PriceRangeFilterProps) => {
 	const [showTooltip, setShowTooltip] = useState([false, false]);
-	const initialMinValue = isFinite(minValue) ? minValue : 0;
-	const initialMaxValue = isFinite(maxValue) ? maxValue : 2000;
 
-	const [sliderValue, setSliderValue] = useState([initialMinValue, initialMaxValue]);
+	const [sliderValue, setSliderValue] = useState([0, 2000]);
 
 	return (
 		<Box mb="1.5rem">
@@ -23,9 +19,9 @@ const PriceRangeFilter = ({ minValue, maxValue, onRangeChange }: PriceRangeFilte
 			</Text>
 			<RangeSlider
 				aria-label={['min', 'max']}
-				min={minValue > maxValue ? 0 : minValue}
-				max={minValue > maxValue ? 2000 : maxValue}
-				defaultValue={minValue > maxValue ? [0, 2000] : [minValue, maxValue]}
+				min={0}
+				max={2000}
+				defaultValue={[0, 2000]}
 				onChangeEnd={(val) => {
 					onRangeChange(val);
 					setSliderValue(val);
@@ -33,26 +29,30 @@ const PriceRangeFilter = ({ minValue, maxValue, onRangeChange }: PriceRangeFilte
 				onMouseEnter={() => setShowTooltip([true, true])}
 				onMouseLeave={() => setShowTooltip([false, false])}>
 				<RangeSliderMark
-					value={minValue > maxValue ? 0 : minValue}
+					value={sliderValue[0]}
 					mt="2"
 					ml="-2"
 					fontSize="md"
 					fontWeight={'600'}>
-					{minValue > maxValue ? 0 : minValue}
+					{sliderValue[0]}
 				</RangeSliderMark>
 
 				<RangeSliderMark
-					value={minValue > maxValue ? 2000 : maxValue}
+					value={sliderValue[1]}
 					mt="2"
 					ml="-6"
+					color={'red'}
 					fontSize="md"
 					fontWeight={'600'}>
-					{minValue > maxValue ? 2000 : maxValue}
+					{sliderValue[1]}
 				</RangeSliderMark>
 
-				<RangeSliderTrack>
+				<RangeSliderTrack color={'#314866'}>
 					<RangeSliderFilledTrack bg={'teal'} />
 				</RangeSliderTrack>
+
+				{/* <RangeSliderThumb index={0} />
+				<RangeSliderThumb index={1} /> */}
 
 				<Tooltip
 					hasArrow

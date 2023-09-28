@@ -22,7 +22,9 @@ const RateCardList = ({ rates, prevStep, nextStep }: RateCardListProps) => {
 	};
 	return (
 		<Box
-			overflowY="auto"
+			w={'30rem'}
+			h={'800px'}
+			overflowY="scroll"
 			css={{
 				'&::-webkit-scrollbar': {
 					width: '0',
