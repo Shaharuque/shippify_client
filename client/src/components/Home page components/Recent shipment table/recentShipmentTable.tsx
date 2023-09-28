@@ -1,17 +1,23 @@
 import { Table, Thead, Tbody, Tr, Th, Td, TableCaption, TableContainer } from '@chakra-ui/react';
 
+const tableHeaders = ['From', 'To', 'Service'];
+
 const RecentShipmentTable = () => {
 	return (
 		<TableContainer>
 			<Table
 				variant="striped"
 				colorScheme="grey">
-				<TableCaption>Recent Shipments</TableCaption>
+				<TableCaption placement="top">Recent Shipments</TableCaption>
 				<Thead>
 					<Tr>
-						<Th borderBottom={'0'}>From</Th>
-						<Th borderBottom={'0'}>To</Th>
-						<Th borderBottom={'0'}>Service</Th>
+						{tableHeaders.map((header, index) => (
+							<Th
+								key={index}
+								borderBottom={0}>
+								{header}
+							</Th>
+						))}
 					</Tr>
 				</Thead>
 				<Tbody>

@@ -100,6 +100,15 @@ const TimeSeriesChart = () => {
 					},
 				},
 			},
+
+			{
+				breakpoint: 1921,
+				options: {
+					chart: {
+						height: '400',
+					},
+				},
+			},
 		],
 	};
 	return (
@@ -108,7 +117,6 @@ const TimeSeriesChart = () => {
 			series={series} //y-axis
 			type="area"
 			width="100%"
-			height={'400'}
 		/>
 	);
 };

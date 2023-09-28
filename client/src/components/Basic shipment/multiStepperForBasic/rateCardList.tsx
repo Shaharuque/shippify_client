@@ -4,6 +4,8 @@ import RateCard from './rateCard';
 import { Box, Flex } from '@chakra-ui/react';
 import BackButton from '../../Buttons/backButton';
 import RegularButton from '../../Buttons/regularButton';
+import { useAppDispatch } from '../../../redux/hooks';
+import { updateSelectedRate } from '../../../redux/features/selectedRateSlice';
 
 type RateCardListProps = {
 	rates: IRateDetail[];
@@ -11,6 +13,7 @@ type RateCardListProps = {
 	nextStep: () => void;
 };
 const RateCardList = ({ rates, prevStep, nextStep }: RateCardListProps) => {
+	const dispatch = useAppDispatch();
 	const [selectedRateId, setSelectedRateId] = useState('');
 
 	const handleSelectCard = (rateId: string) => {
@@ -20,6 +23,12 @@ const RateCardList = ({ rates, prevStep, nextStep }: RateCardListProps) => {
 			setSelectedRateId(rateId);
 		}
 	};
+	const handleContinue = () => {
+		const selectedRate = rates?.find((rate) => rate?.rate_id === selectedRateId);
+		dispatch(updateSelectedRate({ selectedRate }));
+		nextStep();
+	};
+
 	return (
 		<Box
 			w={'30rem'}
@@ -52,9 +61,11 @@ const RateCardList = ({ rates, prevStep, nextStep }: RateCardListProps) => {
 					width="8rem"
 				/>
 				<RegularButton
-					onClick={() => nextStep()}
+					onClick={handleContinue}
 					text="Continue"
 					width="12rem"
+					isDisabled={!selectedRateId || selectedRateId.length === 0}
+					error_message="You haven't selected any rate"
 				/>
 			</Flex>
 		</Box>

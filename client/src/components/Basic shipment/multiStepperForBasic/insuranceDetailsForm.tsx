@@ -5,8 +5,12 @@ import { useEffect, useState } from 'react';
 import { useAppSelector } from '../../../redux/hooks';
 import { RootState } from '../../../redux/store';
 import RegularButton from '../../Buttons/regularButton';
+import axios from 'axios';
 
 const InsuranceDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () => void }) => {
+	const selectedRate = useAppSelector((state: RootState) => state?.selectedRate?.selectedRate);
+	const shipmentId = useAppSelector((state: RootState) => state?.selectedRate?.shipmentId);
+
 	const [insurance, setInsurance] = useState(0);
 	const [productValue, setProductValue] = useState(0);
 	const [agreedToTerms, setAgreedToTerms] = useState(false);
@@ -37,6 +41,25 @@ const InsuranceDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; pr
 			setInsurance(totalValue);
 		}
 	}, [previousProductValue]);
+
+	useEffect(() => {
+		const token = localStorage.getItem('token');
+		const postSelectedRateAndShipmentId = async () => {
+			try {
+				const payload = { shipmentId, selectedRate };
+				const response = await axios.patch('http://192.168.68.89:5000/shipment/select-rates', payload, {
+					headers: {
+						'Content-Type': 'application/json',
+						'x-auth-token': token,
+					},
+				});
+				console.log('response:', response?.data);
+			} catch (error) {
+				console.error('Error while posting data', error);
+			}
+		};
+		postSelectedRateAndShipmentId();
+	}, [shipmentId, selectedRate]);
 
 	return (
 		<Flex

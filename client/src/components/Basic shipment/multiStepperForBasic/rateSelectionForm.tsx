@@ -10,9 +10,10 @@ import Error from '../../Error bad request/error';
 import PriceAscendingDescendingFilter from '../../Filters/priceAscendingDescending';
 import DeliveryDateFilter from '../../Filters/deliveryDate';
 import PriceRangeFilter from '../../Filters/priceRange';
+import { updateSelectedRate } from '../../../redux/features/selectedRateSlice';
 
 const RateSelectionForm = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () => void }) => {
-	const shipmentInfo = useAppSelector((state: RootState) => state.basicShipments);
+	const shipmentInfo = useAppSelector((state: RootState) => state?.basicShipments);
 	const [fetchRates, { isLoading, isError }] = useFetchRatesMutation();
 	const [rates, setRates] = useState<IRateDetail[]>([]);
 	const [filterableRates, setFilterableRates] = useState<IRateDetail[]>([]);
@@ -23,12 +24,14 @@ const RateSelectionForm = ({ nextStep, prevStep }: { nextStep: () => void; prevS
 
 	useEffect(() => {
 		const fetchData = async () => {
+			const token = localStorage.getItem('token');
 			try {
-				const result = await fetchRates({ shipments: [shipmentInfo] });
+				const result = await fetchRates({ shipments: [shipmentInfo], token });
 				console.log('Response:', result?.data);
 				setRates(result?.data?.rateDetail?.rates);
 				setFilterableRates(result?.data?.rateDetail?.rates);
 				dispatch(updateRates(result?.data?.rateDetail?.rates));
+				dispatch(updateSelectedRate({ shipmentId: result?.data?.data?._id }));
 			} catch (error) {
 				console.error(error);
 			}
@@ -36,56 +39,52 @@ const RateSelectionForm = ({ nextStep, prevStep }: { nextStep: () => void; prevS
 		fetchData();
 	}, [shipmentInfo, fetchRates]);
 
-	useEffect(() => {
-		const minShippingAmount = rates.reduce((min, rate) => {
-			const amount = rate.shipping_amount?.amount || 0;
-			return amount < min ? amount : min;
-		}, Number.MAX_SAFE_INTEGER);
-		setMinRate(Math.floor(minShippingAmount));
+	// useEffect(() => {
+	// 	const minShippingAmount = rates?.reduce((min, rate) => {
+	// 		const amount = rate.shipping_amount?.amount || 0;
+	// 		return amount < min ? amount : min;
+	// 	}, Number.MAX_SAFE_INTEGER);
+	// 	setMinRate(Math.floor(minShippingAmount));
 
-		const maxShippingAmount = rates.reduce((max, rate) => {
-			const amount = rate.shipping_amount?.amount || 0;
-			return amount > max ? amount : max;
-		}, 0);
-		setMaxRate(Math.ceil(maxShippingAmount));
-	}, [rates]);
+	// 	const maxShippingAmount = rates.reduce((max, rate) => {
+	// 		const amount = rate.shipping_amount?.amount || 0;
+	// 		return amount > max ? amount : max;
+	// 	}, 0);
+	// 	setMaxRate(Math.ceil(maxShippingAmount));
+	// }, [rates]);
 
 	const handlePriceFilterChange = (value: string) => {
 		if (value === 'asc') {
-			setRates((prev) => Array.from(prev).sort((a: IRateDetail, b: IRateDetail) => a?.shipping_amount?.amount - b?.shipping_amount?.amount));
+			setRates((prev) => Array.from(prev)?.sort((a: IRateDetail, b: IRateDetail) => a?.shipping_amount?.amount - b?.shipping_amount?.amount));
 		} else if (value === 'desc') {
-			setRates((prev) => Array.from(prev).sort((a: IRateDetail, b: IRateDetail) => b?.shipping_amount?.amount - a?.shipping_amount?.amount));
+			setRates((prev) => Array.from(prev)?.sort((a: IRateDetail, b: IRateDetail) => b?.shipping_amount?.amount - a?.shipping_amount?.amount));
 		}
 	};
 
 	const handleDeliveryDateFilterChange = (value: string) => {
 		if (value === 'asc') {
-			setRates((prev) => Array.from(prev).sort((a: IRateDetail, b: IRateDetail) => a?.delivery_days - b?.delivery_days));
+			setRates((prev) => Array.from(prev)?.sort((a: IRateDetail, b: IRateDetail) => a?.delivery_days - b?.delivery_days));
 		} else if (value === 'desc') {
-			setRates((prev) => Array.from(prev).sort((a: IRateDetail, b: IRateDetail) => b?.delivery_days - a?.delivery_days));
+			setRates((prev) => Array.from(prev)?.sort((a: IRateDetail, b: IRateDetail) => b?.delivery_days - a?.delivery_days));
 		}
 	};
 
 	const handlePriceRangeFilterChange = (value: number[]) => {
 		const filteredRates = [...filterableRates].filter((rate) => {
-			const amount = rate.shipping_amount?.amount;
+			const amount = rate?.shipping_amount?.amount;
 			return amount >= value[0] && amount <= value[1];
 		});
 
 		setRates(filteredRates);
 	};
 
-	if (isError) {
-		return (
-			<>
-				<Error />
-			</>
-		);
-	}
-
 	return (
 		<>
-			{isLoading ? (
+			{isError ? (
+				<>
+					<Error />
+				</>
+			) : isLoading ? (
 				<Box>
 					<SpinningLoader />
 				</Box>

@@ -12,9 +12,6 @@ const PriceRangeFilter = ({ minRate, maxRate, onRangeChange }: PriceRangeFilterP
 
 	const [sliderValue, setSliderValue] = useState([0, 1000]);
 
-	console.log('min:', minRate);
-	console.log('max:', maxRate);
-
 	return (
 		<Box mb="1.5rem">
 			<Text
