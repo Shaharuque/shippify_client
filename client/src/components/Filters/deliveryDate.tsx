@@ -14,7 +14,7 @@ const DeliveryDateFilter = ({ onChange }: DeliveryDateFilterProp) => {
 			</Text>
 			<Select
 				onChange={(e: ChangeEvent<HTMLSelectElement>) => onChange(e.target.value)}
-				defaultValue={'asc'}
+				placeholder="Select order"
 				border={'1px solid #0E1420'}
 				_focusVisible={{ boxShadow: '0 0 2.5px #0E1420' }}>
 				<option value={'asc'}>Ascending</option>

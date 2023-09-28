@@ -2,13 +2,18 @@ import { RangeSlider, RangeSliderTrack, RangeSliderFilledTrack, RangeSliderThumb
 import { useState } from 'react';
 
 type PriceRangeFilterProps = {
+	minRate: number;
+	maxRate: number;
 	onRangeChange: (value: number[]) => void;
 };
 
-const PriceRangeFilter = ({ onRangeChange }: PriceRangeFilterProps) => {
+const PriceRangeFilter = ({ minRate, maxRate, onRangeChange }: PriceRangeFilterProps) => {
 	const [showTooltip, setShowTooltip] = useState([false, false]);
 
-	const [sliderValue, setSliderValue] = useState([0, 2000]);
+	const [sliderValue, setSliderValue] = useState([0, 1000]);
+
+	console.log('min:', minRate);
+	console.log('max:', maxRate);
 
 	return (
 		<Box mb="1.5rem">
@@ -20,8 +25,8 @@ const PriceRangeFilter = ({ onRangeChange }: PriceRangeFilterProps) => {
 			<RangeSlider
 				aria-label={['min', 'max']}
 				min={0}
-				max={2000}
-				defaultValue={[0, 2000]}
+				max={1000}
+				defaultValue={[0, 1000]}
 				onChangeEnd={(val) => {
 					onRangeChange(val);
 					setSliderValue(val);
@@ -41,7 +46,6 @@ const PriceRangeFilter = ({ onRangeChange }: PriceRangeFilterProps) => {
 					value={sliderValue[1]}
 					mt="2"
 					ml="-6"
-					color={'red'}
 					fontSize="md"
 					fontWeight={'600'}>
 					{sliderValue[1]}
@@ -50,9 +54,6 @@ const PriceRangeFilter = ({ onRangeChange }: PriceRangeFilterProps) => {
 				<RangeSliderTrack color={'#314866'}>
 					<RangeSliderFilledTrack bg={'teal'} />
 				</RangeSliderTrack>
-
-				{/* <RangeSliderThumb index={0} />
-				<RangeSliderThumb index={1} /> */}
 
 				<Tooltip
 					hasArrow

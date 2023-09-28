@@ -16,6 +16,8 @@ const RateSelectionForm = ({ nextStep, prevStep }: { nextStep: () => void; prevS
 	const [fetchRates, { isLoading, isError }] = useFetchRatesMutation();
 	const [rates, setRates] = useState<IRateDetail[]>([]);
 	const [filterableRates, setFilterableRates] = useState<IRateDetail[]>([]);
+	const [minRate, setMinRate] = useState(0);
+	const [maxRate, setMaxRate] = useState(100);
 
 	const dispatch = useAppDispatch();
 
@@ -34,8 +36,21 @@ const RateSelectionForm = ({ nextStep, prevStep }: { nextStep: () => void; prevS
 		fetchData();
 	}, [shipmentInfo, fetchRates]);
 
+	useEffect(() => {
+		const minShippingAmount = rates.reduce((min, rate) => {
+			const amount = rate.shipping_amount?.amount || 0;
+			return amount < min ? amount : min;
+		}, Number.MAX_SAFE_INTEGER);
+		setMinRate(Math.floor(minShippingAmount));
+
+		const maxShippingAmount = rates.reduce((max, rate) => {
+			const amount = rate.shipping_amount?.amount || 0;
+			return amount > max ? amount : max;
+		}, 0);
+		setMaxRate(Math.ceil(maxShippingAmount));
+	}, [rates]);
+
 	const handlePriceFilterChange = (value: string) => {
-		console.log('value:', value);
 		if (value === 'asc') {
 			setRates((prev) => Array.from(prev).sort((a: IRateDetail, b: IRateDetail) => a?.shipping_amount?.amount - b?.shipping_amount?.amount));
 		} else if (value === 'desc') {
@@ -44,8 +59,6 @@ const RateSelectionForm = ({ nextStep, prevStep }: { nextStep: () => void; prevS
 	};
 
 	const handleDeliveryDateFilterChange = (value: string) => {
-		console.log('value:', value);
-
 		if (value === 'asc') {
 			setRates((prev) => Array.from(prev).sort((a: IRateDetail, b: IRateDetail) => a?.delivery_days - b?.delivery_days));
 		} else if (value === 'desc') {
@@ -54,8 +67,6 @@ const RateSelectionForm = ({ nextStep, prevStep }: { nextStep: () => void; prevS
 	};
 
 	const handlePriceRangeFilterChange = (value: number[]) => {
-		console.log('value:', value);
-
 		const filteredRates = [...filterableRates].filter((rate) => {
 			const amount = rate.shipping_amount?.amount;
 			return amount >= value[0] && amount <= value[1];
@@ -84,7 +95,11 @@ const RateSelectionForm = ({ nextStep, prevStep }: { nextStep: () => void; prevS
 						alignItems="flex-start"
 						gap={'5rem'}>
 						<Box w={'12rem'}>
-							<PriceRangeFilter onRangeChange={handlePriceRangeFilterChange} />
+							<PriceRangeFilter
+								minRate={minRate}
+								maxRate={maxRate}
+								onRangeChange={handlePriceRangeFilterChange}
+							/>
 							<PriceAscendingDescendingFilter onChange={handlePriceFilterChange} />
 							<DeliveryDateFilter onChange={handleDeliveryDateFilterChange} />
 						</Box>
