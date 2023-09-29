@@ -7,8 +7,7 @@ const PaymentForm = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: (
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	return (
 		<Box
-			h={'87vh'}
-			overflowY={'auto'}
+			overflowY={'scroll'}
 			css={{
 				'&::-webkit-scrollbar': {
 					width: '0',
@@ -33,7 +32,7 @@ const PaymentForm = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: (
 					width="8rem"
 				/>
 				<Button onClick={onOpen}>Buy now pay later</Button>
-				<Button>Pay now</Button>
+				<Button onClick={() => nextStep()}>Pay now</Button>
 			</Flex>
 		</Box>
 	);

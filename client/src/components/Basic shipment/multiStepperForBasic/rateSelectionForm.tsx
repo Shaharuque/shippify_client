@@ -11,6 +11,7 @@ import PriceAscendingDescendingFilter from '../../Filters/priceAscendingDescendi
 import DeliveryDateFilter from '../../Filters/deliveryDate';
 import PriceRangeFilter from '../../Filters/priceRange';
 import { updateSelectedRate } from '../../../redux/features/selectedRateSlice';
+import { dummyRateCardData } from '../../../data/dummyRateCardsData';
 
 const RateSelectionForm = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () => void }) => {
 	const shipmentInfo = useAppSelector((state: RootState) => state?.basicShipments);
@@ -26,12 +27,12 @@ const RateSelectionForm = ({ nextStep, prevStep }: { nextStep: () => void; prevS
 		const fetchData = async () => {
 			const token = localStorage.getItem('token');
 			try {
-				const result = await fetchRates({ shipments: [shipmentInfo], token });
-				console.log('Response:', result?.data);
-				setRates(result?.data?.rateDetail?.rates);
-				setFilterableRates(result?.data?.rateDetail?.rates);
-				dispatch(updateRates(result?.data?.rateDetail?.rates));
-				dispatch(updateSelectedRate({ shipmentId: result?.data?.data?._id }));
+				// const result = await fetchRates({ shipments: [shipmentInfo], token });
+				// console.log('Response:', result?.data);
+				// setRates(result?.data?.rateDetail?.rates);
+				// setFilterableRates(result?.data?.rateDetail?.rates);
+				// dispatch(updateRates(result?.data?.rateDetail?.rates));
+				// dispatch(updateSelectedRate({ shipmentId: result?.data?.data?._id }));
 			} catch (error) {
 				console.error(error);
 			}
@@ -105,7 +106,8 @@ const RateSelectionForm = ({ nextStep, prevStep }: { nextStep: () => void; prevS
 
 						<Box>
 							<RateCardList
-								rates={rates}
+								// rates={rates}
+								rates={dummyRateCardData}
 								prevStep={prevStep}
 								nextStep={nextStep}
 							/>

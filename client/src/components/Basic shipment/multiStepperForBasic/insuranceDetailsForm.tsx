@@ -65,10 +65,9 @@ const InsuranceDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; pr
 		<Flex
 			direction={'column'}
 			w={'40rem'}
-			gap={'1rem'}
-			p={'1vw'}
-			h={'87vh'}
-			overflowY={'auto'}
+			gap={'.5rem'}
+			h={'550px'}
+			overflowY={'scroll'}
 			css={{
 				'&::-webkit-scrollbar': {
 					width: '0',
@@ -103,24 +102,12 @@ const InsuranceDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; pr
 						onChange={handleProductValueChange}
 						textAlign="center"
 						w={'10rem'}
-						h={'4vh'}
+						h={'5vh'}
 						border={'1px solid'}
 						_focusVisible={{ boxShadow: '0 0 0 1px #002855', borderColor: '#002855' }}
 					/>
 				</NumberInput>
 			</FormControl>
-
-			{/* <Input
-				type="number"
-				value={productValue}
-				onChange={handleProductValueChange}
-				textAlign="center"
-				w={'10rem'}
-				h={'4vh'}
-				alignSelf={'center'}
-				border={'1px solid'}
-				_focusVisible={{ boxShadow: '0 0 0 1px #002855', borderColor: '#002855', zIndex: 1 }}
-			/> */}
 
 			<Text
 				mt={'.75rem'}
@@ -160,7 +147,6 @@ const InsuranceDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; pr
 			</Checkbox>
 
 			<Box
-				h={'20rem'}
 				w={'100%'}
 				overflowY={'scroll'}
 				p={'1vw'}

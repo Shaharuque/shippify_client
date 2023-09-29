@@ -4,7 +4,7 @@ import truckLottie from '../../../assets/Truck.json';
 import parcelLottie from '../../../assets/Parcel.json';
 import trackingLottie from '../../../assets/Tracking-2.json';
 import { useLottie } from 'lottie-react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const ShipmentMenuList = () => {
 	const navigate = useNavigate();

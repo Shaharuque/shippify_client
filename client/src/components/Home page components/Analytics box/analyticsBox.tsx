@@ -8,8 +8,7 @@ const AnalyticsBox = () => {
 		<Flex
 			direction={'column'}
 			gap={'1rem'}
-			flex={0.8}
-			minHeight={'50vh'}>
+			flex={0.8}>
 			<Box
 				bg={'#f1f1f1'}
 				p={'1vw'}

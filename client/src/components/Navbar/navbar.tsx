@@ -23,7 +23,7 @@ const Navbar = () => {
 					<Menus />
 				</>
 			</Flex>
-			<Box p={'1rem'}>
+			<Box>
 				<Outlet></Outlet>
 			</Box>
 		</Box>
