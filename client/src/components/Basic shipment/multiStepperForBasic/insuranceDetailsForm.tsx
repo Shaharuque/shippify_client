@@ -47,7 +47,7 @@ const InsuranceDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; pr
 		const postSelectedRateAndShipmentId = async () => {
 			try {
 				const payload = { shipmentId, selectedRate };
-				const response = await axios.patch('http://192.168.68.89:5000/shipment/select-rates', payload, {
+				const response = await axios.patch('http://192.168.26.1:5000/shipment/select-rates', payload, {
 					headers: {
 						'Content-Type': 'application/json',
 						'x-auth-token': token,
