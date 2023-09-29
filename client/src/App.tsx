@@ -9,6 +9,7 @@ import AnalyticsPage from './pages/Analytics/analytics.page';
 import DashboardPage from './pages/Dashboard/dashboard.page';
 import CreateBasicShipmentPage from './pages/Create shipment/createBasicShipment';
 import CreateLTLShipmentPage from './pages/Create shipment/createLTLShipment';
+import TrackingPage from './pages/Tracking/trackingPage';
 
 function App() {
 	return (
@@ -45,6 +46,11 @@ function App() {
 							element={<CreateLTLShipmentPage />}
 						/>
 					</Route>
+
+					<Route
+						path="/tracking"
+						element={<TrackingPage />}
+					/>
 				</Route>
 
 				<Route

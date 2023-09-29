@@ -48,10 +48,12 @@ const ShipmentMenuList = () => {
 				/>
 			</Box>
 
-			<ShipmentMenu
-				title={'Track Shipment'}
-				lottie={trackingLottieView}
-			/>
+			<Box onClick={() => navigate('/tracking')}>
+				<ShipmentMenu
+					title={'Track Shipment'}
+					lottie={trackingLottieView}
+				/>
+			</Box>
 		</Flex>
 	);
 };
