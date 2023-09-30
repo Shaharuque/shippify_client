@@ -107,7 +107,7 @@ const TimeSeriesChart = () => {
 				breakpoint: 1921,
 				options: {
 					chart: {
-						height: '400',
+						height: '390',
 					},
 				},
 			},

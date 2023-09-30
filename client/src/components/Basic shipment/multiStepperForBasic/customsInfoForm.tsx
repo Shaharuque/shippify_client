@@ -48,17 +48,6 @@ const CustomsInfoForm = () => {
 		name: 'customs_items',
 	});
 
-	const { getInputProps, getIncrementButtonProps, getDecrementButtonProps } = useNumberInput({
-		step: 1,
-		defaultValue: 1,
-		min: 1,
-		max: 6,
-	});
-
-	const inc = getIncrementButtonProps();
-	const dec = getDecrementButtonProps();
-	const input = getInputProps();
-
 	const dispatch = useAppDispatch();
 	const onSubmit: SubmitHandler<TCustomsDetailsForm> = (data) => {
 		console.log('customs info:', data);
@@ -198,19 +187,11 @@ const CustomsInfoForm = () => {
 								<FormControl mt={'1rem'}>
 									<FormLabel>Quantity</FormLabel>
 									<HStack>
-										{/* <Button {...inc}>+</Button> */}
-
 										<Controller
 											name={`customs_items.${index}.quantity`}
 											control={control}
-											render={({ field }) => (
-												<Input
-													{...field}
-													// {...input}
-												/>
-											)}
+											render={({ field }) => <Input {...field} />}
 										/>
-										{/* <Button {...dec}>-</Button> */}
 									</HStack>
 								</FormControl>
 

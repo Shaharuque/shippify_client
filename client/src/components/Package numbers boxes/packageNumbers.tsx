@@ -1,14 +1,9 @@
 import { Text, Flex, Circle } from '@chakra-ui/react';
 import { TPackageDetailsForm } from '../Basic shipment/multiStepperForBasic/packageDetailsForm';
-
-import { useState } from 'react';
 import { TPackageDetailsFormLTL } from '../LTL shipment/Multi stepper for LTL/packageDetailsFormLTL';
 
-const PackageNumbers = ({ packages, onSelectPackage }: { packages: TPackageDetailsForm[] | TPackageDetailsFormLTL[]; onSelectPackage: (index: number) => void }) => {
-	const [selectedPackageIndex, setSelectedPackageIndex] = useState<number | null>(null);
-
+const PackageNumbers = ({ packages, onSelectPackage, selectedPackageIndex }: { packages: TPackageDetailsForm[] | TPackageDetailsFormLTL[]; onSelectPackage: (index: number) => void; selectedPackageIndex: number | null }) => {
 	const handleSelectPackage = (index: number) => {
-		setSelectedPackageIndex(index);
 		onSelectPackage(index);
 	};
 	return (

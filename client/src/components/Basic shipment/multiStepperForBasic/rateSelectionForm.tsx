@@ -27,12 +27,12 @@ const RateSelectionForm = ({ nextStep, prevStep }: { nextStep: () => void; prevS
 		const fetchData = async () => {
 			const token = localStorage.getItem('token');
 			try {
-				// const result = await fetchRates({ shipments: [shipmentInfo], token });
-				// console.log('Response:', result?.data);
-				// setRates(result?.data?.rateDetail?.rates);
-				// setFilterableRates(result?.data?.rateDetail?.rates);
-				// dispatch(updateRates(result?.data?.rateDetail?.rates));
-				// dispatch(updateSelectedRate({ shipmentId: result?.data?.data?._id }));
+				const result = await fetchRates({ shipments: [shipmentInfo], token });
+				console.log('Response:', result?.data);
+				setRates(result?.data?.rateDetail?.rates);
+				setFilterableRates(result?.data?.rateDetail?.rates);
+				dispatch(updateRates(result?.data?.rateDetail?.rates));
+				dispatch(updateSelectedRate({ shipmentId: result?.data?.data?._id }));
 			} catch (error) {
 				console.error(error);
 			}
@@ -40,19 +40,19 @@ const RateSelectionForm = ({ nextStep, prevStep }: { nextStep: () => void; prevS
 		fetchData();
 	}, [shipmentInfo, fetchRates]);
 
-	// useEffect(() => {
-	// 	const minShippingAmount = rates?.reduce((min, rate) => {
-	// 		const amount = rate.shipping_amount?.amount || 0;
-	// 		return amount < min ? amount : min;
-	// 	}, Number.MAX_SAFE_INTEGER);
-	// 	setMinRate(Math.floor(minShippingAmount));
+	useEffect(() => {
+		const minShippingAmount = rates?.reduce((min, rate) => {
+			const amount = rate.shipping_amount?.amount || 0;
+			return amount < min ? amount : min;
+		}, Number.MAX_SAFE_INTEGER);
+		setMinRate(Math.floor(minShippingAmount));
 
-	// 	const maxShippingAmount = rates.reduce((max, rate) => {
-	// 		const amount = rate.shipping_amount?.amount || 0;
-	// 		return amount > max ? amount : max;
-	// 	}, 0);
-	// 	setMaxRate(Math.ceil(maxShippingAmount));
-	// }, [rates]);
+		const maxShippingAmount = rates.reduce((max, rate) => {
+			const amount = rate.shipping_amount?.amount || 0;
+			return amount > max ? amount : max;
+		}, 0);
+		setMaxRate(Math.ceil(maxShippingAmount));
+	}, [rates]);
 
 	const handlePriceFilterChange = (value: string) => {
 		if (value === 'asc') {
@@ -106,8 +106,8 @@ const RateSelectionForm = ({ nextStep, prevStep }: { nextStep: () => void; prevS
 
 						<Box>
 							<RateCardList
-								// rates={rates}
-								rates={dummyRateCardData}
+								rates={rates}
+								// rates={dummyRateCardData}
 								prevStep={prevStep}
 								nextStep={nextStep}
 							/>

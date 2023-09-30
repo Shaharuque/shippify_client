@@ -19,23 +19,25 @@ const PieChart = () => {
 		const token = localStorage.getItem('token');
 		const fetchPieChartData = async () => {
 			try {
-				const result = await axios.get('http://192.168.68.89:5000/shipment/basic/pie/chart/group/by/shipping/status', {
+				const result = await axios.get(`${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}/shipment/basic/pie/chart/group/by/shipping/status`, {
 					headers: {
 						'Content-Type': 'application/json',
 						'x-auth-token': token,
 					},
 				});
 
-				setPieData(result?.data?.data);
-				const formattedLabels = formatLabels(result?.data?.data.map((item: TPieData) => item.status));
+				const filteredData = result?.data?.data.filter((item: TPieData) => item.status !== 'pending'); // Filter out "pending" data
+				setPieData(filteredData);
+				const formattedLabels = formatLabels(filteredData.map((item: TPieData) => item.status));
 				setLabels(formattedLabels);
-				setValues(result?.data?.data.map((item: TPieData) => item.count));
+				setValues(filteredData.map((item: TPieData) => item.count));
 			} catch (error) {
 				console.log(error);
 			}
 		};
 		fetchPieChartData();
 	}, []);
+
 	const options = {
 		labels: labels,
 		legend: { position: 'right' as 'right' },
@@ -46,19 +48,37 @@ const PieChart = () => {
 				options: {
 					chart: {
 						width: 550,
+						height: 400,
 					},
 					legend: {
 						position: 'right' as 'right',
 						fontSize: '16px',
+						horizontalAlign: 'center',
 						labels: {
 							colors: undefined,
 							useSeriesColors: false,
 						},
+						margin: 10,
 
 						height: 'auto',
 						itemMargin: {
 							horizontal: 0,
 							vertical: 10,
+						},
+					},
+
+					title: {
+						text: 'Shipment status',
+						align: 'center',
+						margin: 30,
+						offsetX: 0,
+						offsetY: 0,
+						floating: false,
+						style: {
+							fontSize: '14px',
+							fontWeight: 'bold',
+							fontFamily: undefined,
+							color: '#263238',
 						},
 					},
 				},
@@ -69,9 +89,10 @@ const PieChart = () => {
 					chart: {
 						width: 350,
 					},
+
 					legend: {
 						position: 'bottom' as 'bottom',
-						height: 50,
+						height: 60,
 						fontSize: '12px',
 						itemMargin: {
 							horizontal: 8,
@@ -95,7 +116,7 @@ const PieChart = () => {
 				<Stack align={'center'}>
 					<Image
 						src={noDataFound}
-						boxSize={'18vw'}
+						boxSize={'16vw'}
 						borderRadius={'1rem'}
 					/>
 					<Text

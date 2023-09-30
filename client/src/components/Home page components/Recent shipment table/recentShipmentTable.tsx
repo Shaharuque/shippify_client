@@ -8,13 +8,14 @@ const RecentShipmentTable = () => {
 	const [shipmentData, setShipmentData] = useState([]);
 
 	return (
-		<TableContainer>
-			<Table
-				variant="striped"
-				colorScheme="grey">
-				<TableCaption placement="top">Recent Shipments</TableCaption>
-				{shipmentData && shipmentData.length > 0 ? (
-					<>
+		<>
+			{shipmentData && shipmentData.length > 0 ? (
+				<TableContainer>
+					<Table
+						variant="striped"
+						colorScheme="grey">
+						<TableCaption placement="top">Recent Shipments</TableCaption>
+
 						<Thead>
 							<Tr>
 								{tableHeaders.map((header, index) => (
@@ -43,25 +44,25 @@ const RecentShipmentTable = () => {
 								<Td borderBottom={0}>DHL</Td>
 							</Tr>
 						</Tbody>
-					</>
-				) : (
-					<Stack align={'center'}>
-						<Image
-							src={noDataFound}
-							height={'28vh'}
-							w={'15vw'}
-							borderRadius={'1rem'}
-						/>
-						<Text
-							textAlign={'center'}
-							fontFamily={'Roboto'}
-							fontWeight={'600'}>
-							No Data Available
-						</Text>
-					</Stack>
-				)}
-			</Table>
-		</TableContainer>
+					</Table>
+				</TableContainer>
+			) : (
+				<Stack align={'center'}>
+					<Image
+						src={noDataFound}
+						height={'28vh'}
+						w={'15vw'}
+						borderRadius={'1rem'}
+					/>
+					<Text
+						textAlign={'center'}
+						fontFamily={'Roboto'}
+						fontWeight={'600'}>
+						No Data Available
+					</Text>
+				</Stack>
+			)}
+		</>
 	);
 };
 

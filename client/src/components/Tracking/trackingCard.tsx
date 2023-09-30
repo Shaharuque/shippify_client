@@ -20,10 +20,10 @@ const TrackingCard: React.FC<TrackingItemProps> = ({ item }) => {
 			borderRadius="lg"
 			p={4}
 			marginBottom={4}
-			width="fit-content"
+			width="70%"
 			bg="white"
 			boxShadow="lg">
-			<Flex gap={'.5rem'}>
+			<Flex gap={'1rem'}>
 				<Stack align={'center'}>
 					<Text fontWeight="bold">Tracking Id</Text>
 					<Text fontSize="sm">{item.id}</Text>

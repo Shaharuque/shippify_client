@@ -1,7 +1,7 @@
 import { Button, Text, VStack } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
-type SubmitButtonProps = {
+type RegularButtonProps = {
 	text: string;
 	width?: string;
 	onClick?: () => void;
@@ -9,12 +9,13 @@ type SubmitButtonProps = {
 	error_message?: string;
 };
 
-const RegularButton = ({ text, width, onClick, isDisabled, error_message }: SubmitButtonProps) => {
+const RegularButton = ({ text, width, onClick, isDisabled, error_message }: RegularButtonProps) => {
 	const [showErrorMessage, setShowErrorMessage] = useState(false);
 	const handleClick = () => {
 		if (!isDisabled && onClick) {
 			onClick();
-		} else if (isDisabled && onClick) setShowErrorMessage((prev) => !prev);
+		}
+		setShowErrorMessage((prev) => !prev);
 	};
 
 	return (
@@ -29,8 +30,9 @@ const RegularButton = ({ text, width, onClick, isDisabled, error_message }: Subm
 				onClick={handleClick}>
 				{text}
 			</Button>
-			{showErrorMessage ? (
+			{isDisabled && showErrorMessage && error_message ? (
 				<Text
+					whiteSpace={'nowrap'}
 					fontSize={'.75rem'}
 					color={'red'}>
 					{error_message}
