@@ -2,12 +2,17 @@ import { Card, CardHeader, Heading, CardBody, Stack, StackDivider, Text, Box, HS
 import { useAppSelector } from '../../redux/hooks';
 import { RootState } from '../../redux/store';
 import { countryCodeDictionary } from '../../data/countryCodeDictionary';
+import { TPackageDetailsForm } from '../Basic shipment/multiStepperForBasic/packageDetailsForm';
 
 const ShippingSummary = () => {
 	const sender = useAppSelector((state: RootState) => state?.basicShipments.ship_from);
 	const receiver = useAppSelector((state: RootState) => state?.basicShipments.ship_to);
 	const packages = useAppSelector((state: RootState) => state?.basicShipments.packages);
 	const customs = useAppSelector((state: RootState) => state?.basicShipments?.customs);
+	const selectedRate = useAppSelector((state: RootState) => state?.selectedRate?.selectedRate);
+	const insuranceDetails = useAppSelector((state: RootState) => state?.insurance);
+
+	const total = selectedRate?.shipping_amount?.amount + selectedRate?.other_amount?.amount + insuranceDetails?.insurance_amount;
 
 	const swappedCountryCodeDictionary: { [key: string]: string } = {};
 	for (const key in countryCodeDictionary) {
@@ -78,7 +83,7 @@ const ShippingSummary = () => {
 							textTransform="uppercase">
 							Packages Details
 						</Heading>
-						{packages.map((item, index) => (
+						{packages.map((item: TPackageDetailsForm, index) => (
 							<Box key={index}>
 								<Text
 									pt="2"
@@ -105,18 +110,26 @@ const ShippingSummary = () => {
 						<Text
 							fontSize="sm"
 							m={'.2rem 0'}>
-							Shipping cost:
+							Shipping cost: {selectedRate?.shipping_amount?.amount} ({selectedRate?.shipping_amount?.currency})
 						</Text>
 						<Text
 							fontSize="sm"
 							m={'.2rem 0'}>
-							Other costs:
+							Other costs: {selectedRate?.other_amount?.amount} ({selectedRate?.other_amount?.currency})
 						</Text>
 						<Text
 							fontSize="sm"
 							m={'.2rem 0'}>
-							Insurance:
+							Insurance: {insuranceDetails?.insurance_amount} (usd)
 						</Text>
+					</Box>
+
+					<Box ml="auto">
+						<Heading
+							size="sm"
+							textTransform="uppercase">
+							Total: {total.toFixed(2)} (usd)
+						</Heading>
 					</Box>
 				</Stack>
 			</CardBody>

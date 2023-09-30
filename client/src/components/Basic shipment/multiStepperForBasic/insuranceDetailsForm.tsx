@@ -1,18 +1,23 @@
-import { Box, Button, Checkbox, Flex, FormControl, FormLabel, Heading, Icon, Input, ListItem, NumberInput, NumberInputField, Text, UnorderedList } from '@chakra-ui/react';
+import { Box, Button, Checkbox, Flex, FormControl, FormLabel, HStack, Heading, Icon, ListItem, NumberInput, NumberInputField, Text, UnorderedList } from '@chakra-ui/react';
 import { HiCurrencyDollar } from 'react-icons/hi';
 import BackButton from '../../Buttons/backButton';
 import { useEffect, useState } from 'react';
-import { useAppSelector } from '../../../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { RootState } from '../../../redux/store';
 import RegularButton from '../../Buttons/regularButton';
 import axios from 'axios';
+import { insuranceTermsAndConditions } from '../../../data/inSuranceTerms';
+import { updateInsurance } from '../../../redux/features/insuranceSlice';
 
 const InsuranceDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () => void }) => {
 	const selectedRate = useAppSelector((state: RootState) => state?.selectedRate?.selectedRate);
 	const shipmentId = useAppSelector((state: RootState) => state?.selectedRate?.shipmentId);
+	const insuranceDetails = useAppSelector((state: RootState) => state?.insurance);
 
-	const [insurance, setInsurance] = useState(0);
-	const [productValue, setProductValue] = useState(0);
+	const dispatch = useAppDispatch();
+
+	const [insurance, setInsurance] = useState(insuranceDetails?.insurance_amount * 50);
+	const [productValue, setProductValue] = useState(insuranceDetails?.insurance_amount);
 	const [agreedToTerms, setAgreedToTerms] = useState(false);
 	const previousProductValue = useAppSelector((state: RootState) => state.basicShipments);
 
@@ -27,6 +32,7 @@ const InsuranceDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; pr
 	};
 
 	const handlePurchaseInsurance = () => {
+		dispatch(updateInsurance({ already_insured: false, product_value: productValue, insurance_amount: insurance * 0.02, terms_and_conditions: agreedToTerms }));
 		nextStep();
 	};
 
@@ -47,7 +53,7 @@ const InsuranceDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; pr
 		const postSelectedRateAndShipmentId = async () => {
 			try {
 				const payload = { shipmentId, selectedRate };
-				const response = await axios.patch('http://192.168.68.89:5000/shipment/select-rates', payload, {
+				const response = await axios.patch(`${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}/shipment/select-rates`, payload, {
 					headers: {
 						'Content-Type': 'application/json',
 						'x-auth-token': token,
@@ -66,7 +72,7 @@ const InsuranceDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; pr
 			direction={'column'}
 			w={'40rem'}
 			gap={'.5rem'}
-			h={'550px'}
+			h={'75vh'}
 			overflowY={'scroll'}
 			css={{
 				'&::-webkit-scrollbar': {
@@ -119,7 +125,8 @@ const InsuranceDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; pr
 			<Flex
 				align={'center'}
 				justify={'center'}
-				gap={'.5rem'}>
+				gap={'.5rem'}
+				mb={'1rem'}>
 				<Icon
 					as={HiCurrencyDollar}
 					boxSize={'3rem'}
@@ -127,23 +134,24 @@ const InsuranceDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; pr
 				<Text
 					fontWeight={'700'}
 					fontSize={'2.5rem'}>
-					{0.1 * insurance}
+					{0.02 * insurance}
 				</Text>
 			</Flex>
 
 			<Checkbox
 				colorScheme="green"
-				size={'lg'}
+				size={'md'}
 				alignItems={'center'}
 				fontWeight={'500'}
 				onChange={handleCheckboxChange}>
-				I agree to the
-				<Text
-					as="span"
-					color="blue.500"
-					ml={'.2rem'}>
-					Terms and Conditions
-				</Text>
+				<HStack fontSize={'1rem'}>
+					<Text>I agree to the</Text>
+					<Text
+						as="span"
+						color="blue.500">
+						Terms and Conditions
+					</Text>
+				</HStack>
 			</Checkbox>
 
 			<Box
@@ -163,18 +171,33 @@ const InsuranceDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; pr
 				}}
 				_hover={{ borderColor: '#002855', boxShadow: '0px 0px 3px  #002855 ' }}>
 				<UnorderedList>
-					<Heading fontSize={'1.35rem'}>Terms and Conditions</Heading>
-					<ListItem m={'.5rem 0'}>
-						<Text>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</Text>
-					</ListItem>
+					<Heading fontSize={'1.3rem'}>Terms and Conditions</Heading>
+					<Text
+						mt={'.25rem'}
+						px={'.75rem'}>
+						In consideration of the mutual promises contained in this Agreement, and intending to be legally bound, pursuant to Section 252 of the Act, Frontier and Onvoy hereby agree as follows:
+					</Text>
+
+					{insuranceTermsAndConditions?.map((policy: { title: string; description: string }, index: number) => (
+						<ListItem
+							m={'.5rem 0'}
+							key={index}>
+							<Text
+								as="b"
+								mr={'.25rem'}>
+								{policy.title}:
+							</Text>
+							{policy.description}
+						</ListItem>
+					))}
 				</UnorderedList>
 			</Box>
 			<Flex
-				mt={'2.5rem'}
+				mt={'3rem'}
 				justify={'space-between'}>
 				<BackButton
 					onClick={() => prevStep()}
-					width="6rem"></BackButton>
+					width="8rem"></BackButton>
 				<Flex gap={'1rem'}>
 					<Button
 						onClick={() => nextStep()}
@@ -188,7 +211,7 @@ const InsuranceDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; pr
 						onClick={handlePurchaseInsurance}
 						text="Purchase insurance"
 						width="12rem"
-						isDisabled={productValue === 0}
+						isDisabled={isButtonDisabled}
 					/>
 				</Flex>
 			</Flex>
