@@ -8,7 +8,7 @@ const ShipmentCardList = () => {
 		const token = localStorage.getItem('token');
 		const fetchTableData = async () => {
 			try {
-				const result = await axios.get('http://192.168.26.1:5000/shipment/all-shipment', {
+				const result = await axios.get('http://192.168.68.89:5000/shipment/all-shipment', {
 					headers: {
 						'Content-Type': 'application/json',
 						'x-auth-token': token,

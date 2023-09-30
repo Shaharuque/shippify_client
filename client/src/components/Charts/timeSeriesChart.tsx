@@ -12,7 +12,7 @@ const TimeSeriesChart = () => {
 		const token = localStorage.getItem('token');
 		const fetchTimeSeriesChartData = async () => {
 			try {
-				const responseOne = await axios.get('http://192.168.26.1:5000/shipment/basic/chart/group/by/month', {
+				const responseOne = await axios.get('http://192.168.68.89:5000/shipment/basic/chart/group/by/month', {
 					headers: {
 						'Content-Type': 'application/json',
 						'x-auth-token': token,
@@ -22,7 +22,7 @@ const TimeSeriesChart = () => {
 				if (responseOne?.data?.status === 'success') setTotalShipping(populateMonthsForCharts(responseOne?.data?.data));
 
 				const responseTwo = await axios.post(
-					'http://192.168.26.1:5000/shipment/basic/failed',
+					'http://192.168.68.89:5000/shipment/basic/failed',
 					{
 						carrier_id: '',
 					},
@@ -37,7 +37,7 @@ const TimeSeriesChart = () => {
 				if (responseTwo?.data?.status === 'success') setFailedVolume(populateMonthsForCharts(responseTwo?.data?.data));
 
 				const responseThree = await axios.post(
-					'http://192.168.26.1:5000/shipment/basic/success',
+					'http://192.168.68.89:5000/shipment/basic/success',
 					{
 						carrier_id: '',
 					},
