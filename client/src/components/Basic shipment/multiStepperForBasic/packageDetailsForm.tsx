@@ -52,8 +52,8 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 	const [selectedPackageIndex, setSelectedPackageIndex] = useState<number | null>(null);
 
 	const [selectedPredefinedBoxCode, setSelectedPredefinedBoxCode] = useState<string | null>(null);
-	const [predefinedWeightValue, setWeightValue] = useState<number | null>(null);
-	const [predefinedUnit, setUnit] = useState('pound');
+	const [weightValue, setWeightValue] = useState<number | null>(null);
+	const [unit, setUnit] = useState('pound');
 
 	const [defaultPackageValues, setDefaultPackageValues] = useState(defaultValues);
 
@@ -66,17 +66,12 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 			const updatedPackages = [...packages];
 			updatedPackages[selectedPackageIndex!] = data;
 			dispatch(updateField({ packages: updatedPackages }));
-			setEditModeOn(false);
 		} else {
 			const updatedPackages = [...packages, data];
 			dispatch(updateField({ packages: updatedPackages }));
 		}
-		setAddNew(false);
-		setSelectedPackageIndex(null);
-		setNumberInputChange(false);
-		setIsCustom((prev) => !prev);
-		setValue('weight.value', null);
-		reset(defaultPackageValues);
+
+		CustomReset();
 	};
 
 	useEffect(() => {
@@ -131,8 +126,8 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 					return {
 						...pkg,
 						weight: {
-							unit: predefinedUnit,
-							value: predefinedWeightValue,
+							unit: unit,
+							value: weightValue,
 						},
 						package_code: selectedPredefinedBoxCode!,
 					};
@@ -141,7 +136,7 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 			});
 			dispatch(updateField({ packages: updatedPackages }));
 		} else {
-			const weight = { unit: predefinedUnit, value: predefinedWeightValue };
+			const weight = { unit: unit, value: weightValue };
 			const newPackage = {
 				weight,
 				package_code: selectedPredefinedBoxCode,
@@ -157,20 +152,33 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 		setAddNew(false);
 	};
 
-	const handleAddNew = () => {
+	const CustomReset = () => {
 		setIsCustom(false);
 		setAddNew(false);
 		setEditModeOn(false);
 		setSelectedPackageIndex(null);
 		setNumberInputChange(false);
 		setSelectedPredefinedBoxCode(null);
-		setWeightValue(0);
-		setValue('dimensions.length', 0);
-		setValue('dimensions.width', 0);
-		setValue('dimensions.height', 0);
+		setWeightValue(null);
+		setUnit('pound');
+		setValue('dimensions.length', null);
+		setValue('dimensions.width', null);
+		setValue('dimensions.height', null);
 		setValue('dimensions.unit', 'inch');
-		setValue('weight.value', 0);
+		setValue('weight.value', null);
 		setValue('weight.unit', 'pound');
+	};
+
+	const handleRemovePackage = () => {
+		const updatedPackages = packages.filter((_, index) => index !== selectedPackageIndex);
+
+		// Now you can update the packages array with the updatedPackages
+		// For example, if you're using Redux, you can dispatch an action to update the state
+
+		// Assuming you're using Redux with an action named updateField
+		dispatch(updateField({ packages: updatedPackages }));
+		CustomReset(); // Reset selectedPackageIndex after removal
+		setSelectedPredefinedBoxCode(null);
 	};
 
 	return (
@@ -350,12 +358,22 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 									<option value={'kg'}>kg</option>
 								</Select>
 							</FormControl>
-
-							<SubmitButton
-								text={editModeOn ? 'Update' : 'Add package'}
-								width="10rem"
-								isDisabled={customDimensionFormValidator()}
-							/>
+							<Flex
+								gap={'.75rem'}
+								align={'center'}>
+								<RegularButton
+									onClick={handleRemovePackage}
+									text="Remove"
+									width="8rem"
+									onHoverColor="#DC143C"
+									isDisabled={!editModeOn}
+								/>
+								<SubmitButton
+									text={editModeOn ? 'Update' : 'Add package'}
+									width="8rem"
+									isDisabled={customDimensionFormValidator()}
+								/>
+							</Flex>
 						</Flex>
 					</>
 				) : (
@@ -364,12 +382,13 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 							inputChanged={numberInputChange}
 							editModeOn={editModeOn}
 							selectedCode={selectedPredefinedBoxCode}
-							weightValue={predefinedWeightValue}
-							unit={predefinedUnit}
+							weightValue={weightValue}
+							unit={unit}
 							onPredefinedUnitChange={handlePredefinedUnitChange}
 							onPredefinedWeightChange={handlePredefinedWeightChange}
 							onPredefinedBoxCodeSelect={handleSelectPredefinedBoxCode}
 							onPredefinedSubmit={handleButtonClick}
+							removePackage={handleRemovePackage}
 						/>
 					</>
 				)}
@@ -387,7 +406,7 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 						gap={'1rem'}>
 						{addNew ? (
 							<RegularButton
-								onClick={handleAddNew}
+								onClick={CustomReset}
 								text={'Add new'}
 								width="8rem"
 							/>

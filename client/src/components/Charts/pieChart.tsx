@@ -26,7 +26,7 @@ const PieChart = () => {
 					},
 				});
 
-				const filteredData = result?.data?.data.filter((item: TPieData) => item.status !== 'pending'); // Filter out "pending" data
+				const filteredData = result?.data?.data.filter((item: TPieData) => item.status !== 'pending');
 				setPieData(filteredData);
 				const formattedLabels = formatLabels(filteredData.map((item: TPieData) => item.status));
 				setLabels(formattedLabels);
@@ -70,8 +70,8 @@ const PieChart = () => {
 					title: {
 						text: 'Shipment status',
 						align: 'center',
-						margin: 30,
-						offsetX: 0,
+						margin: 20,
+						offsetX: 35,
 						offsetY: 0,
 						floating: false,
 						style: {

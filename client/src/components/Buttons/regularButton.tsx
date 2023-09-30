@@ -7,9 +7,10 @@ type RegularButtonProps = {
 	onClick?: () => void;
 	isDisabled?: boolean;
 	error_message?: string;
+	onHoverColor?: string;
 };
 
-const RegularButton = ({ text, width, onClick, isDisabled, error_message }: RegularButtonProps) => {
+const RegularButton = ({ text, width, onClick, isDisabled, error_message, onHoverColor }: RegularButtonProps) => {
 	const [showErrorMessage, setShowErrorMessage] = useState(false);
 	const handleClick = () => {
 		if (!isDisabled && onClick) {
@@ -27,7 +28,8 @@ const RegularButton = ({ text, width, onClick, isDisabled, error_message }: Regu
 				borderRadius={'2rem'}
 				p={'.5rem'}
 				w={width ? width : 'full'}
-				onClick={handleClick}>
+				onClick={handleClick}
+				_hover={{ bg: onHoverColor }}>
 				{text}
 			</Button>
 			{isDisabled && showErrorMessage && error_message ? (

@@ -109,6 +109,20 @@ const TimeSeriesChart = () => {
 					chart: {
 						height: '390',
 					},
+					title: {
+						text: 'Total shipment vs month',
+						align: 'center',
+						margin: 10,
+						offsetX: 0,
+						offsetY: 0,
+						floating: false,
+						style: {
+							fontSize: '16px',
+							fontWeight: 'bold',
+							fontFamily: undefined,
+							color: '#263238',
+						},
+					},
 				},
 			},
 		],
