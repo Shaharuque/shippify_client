@@ -8,11 +8,13 @@ import RegularButton from '../../Buttons/regularButton';
 import axios from 'axios';
 import { insuranceTermsAndConditions } from '../../../data/inSuranceTerms';
 import { updateInsurance } from '../../../redux/features/insuranceSlice';
+import { axiosInstance } from '../../../services/axios';
 
 const InsuranceDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () => void }) => {
 	const selectedRate = useAppSelector((state: RootState) => state?.selectedRate?.selectedRate);
-	const shipmentId = useAppSelector((state: RootState) => state?.selectedRate?.shipmentId);
+
 	const insuranceDetails = useAppSelector((state: RootState) => state?.insurance);
+	const shipmentId = useAppSelector((state: RootState) => state?.selectedRate?.shipmentId);
 
 	const dispatch = useAppDispatch();
 
@@ -21,10 +23,28 @@ const InsuranceDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; pr
 	const [agreedToTerms, setAgreedToTerms] = useState(false);
 	const previousProductValue = useAppSelector((state: RootState) => state.basicShipments);
 
-	const handleProductValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+	const handleProductValueChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
 		const value = Math.floor(Number(event.target.value));
 		setProductValue(value);
 		setInsurance(value);
+
+		try {
+			const token = localStorage.getItem('token');
+			const response = await axios.post(
+				` http://192.168.68.76:5000/shipment/calculate-insurance/${shipmentId}`,
+				{ amount: value },
+				{
+					headers: {
+						'Content-Type': 'application/json',
+						'x-auth-token': token,
+					},
+				}
+			);
+
+			console.log('response from insurance: ', response?.data);
+		} catch (error) {
+			console.error('Error while fetching insurance rate:', error);
+		}
 	};
 
 	const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {

@@ -18,7 +18,7 @@ export type TSenderAddressFormData = {
 	phone: string;
 };
 
-interface User {
+export interface IUserFullDetails {
 	address: {
 		address_line1: string;
 		address_line2: string;
@@ -48,7 +48,7 @@ const SenderAddressForm = ({ nextStep }: { nextStep: () => void }) => {
 		},
 	});
 	const dispatch = useAppDispatch();
-	const [userData, setUserData] = useState<User>();
+	const [userData, setUserData] = useState<IUserFullDetails>();
 
 	const onSubmit: SubmitHandler<TSenderAddressFormData> = (data) => {
 		dispatch(updateField({ ship_from: data }));

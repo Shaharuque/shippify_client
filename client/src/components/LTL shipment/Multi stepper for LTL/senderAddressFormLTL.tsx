@@ -4,6 +4,9 @@ import SubmitButton from '../../Buttons/submitButton';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { RootState } from '../../../redux/store';
 import { updateField } from '../../../redux/features/ltlShipmentSlice';
+import { useEffect, useState } from 'react';
+import { IUserFullDetails } from '../../Basic shipment/multiStepperForBasic/senderAddressForm';
+import { profile } from '../../../services/apis/authApi';
 
 export type TSenderAddressFormDataLTL = {
 	contact: {
@@ -23,16 +26,46 @@ export type TSenderAddressFormDataLTL = {
 
 const SenderAddressFormLTL = ({ nextStep }: { nextStep: () => void }) => {
 	const dispatch = useAppDispatch();
-	const { control, handleSubmit } = useForm<TSenderAddressFormDataLTL>({
+	const { control, handleSubmit, setValue } = useForm<TSenderAddressFormDataLTL>({
 		defaultValues: {
 			...useAppSelector((state: RootState) => state?.ltlShipments?.shipment?.ship_from),
 		},
 	});
 
+	const [userData, setUserData] = useState<IUserFullDetails>();
+
 	const onSubmit: SubmitHandler<TSenderAddressFormDataLTL> = (data) => {
 		dispatch(updateField({ ship_from: data }));
 		nextStep();
 	};
+
+	useEffect(() => {
+		const token = localStorage.getItem('token');
+		const fetchUserData = async () => {
+			try {
+				const result = await profile(token as string);
+
+				setUserData(result?.data?.data);
+			} catch (error) {
+				console.error(error);
+			}
+		};
+		fetchUserData();
+	}, []);
+
+	useEffect(() => {
+		if (userData && userData?.name.length > 0) {
+			setValue('contact.name', userData?.name);
+			setValue('contact.email', userData?.email);
+			setValue('address.company_name', userData?.companyName);
+			setValue('address.address_line1', userData?.address?.address_line1);
+			setValue('address.city_locality', userData?.address?.city_locality);
+			setValue('address.state_province', userData?.address?.state_province);
+			setValue('address.postal_code', userData?.address?.postal_code);
+			setValue('address.country_code', userData?.address?.country_code);
+		}
+	}, [userData]);
+
 	return (
 		<Box
 			p=".25vw"
