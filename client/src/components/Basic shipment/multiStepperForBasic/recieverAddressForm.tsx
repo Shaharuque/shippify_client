@@ -5,6 +5,8 @@ import BackButton from '../../Buttons/backButton';
 import { updateField } from '../../../redux/features/basicShipmentsSlice';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { RootState } from '../../../redux/store';
+import axios from 'axios';
+import { useEffect } from 'react';
 
 export type TReceiverAddressFormData = {
 	name: string;
@@ -28,6 +30,20 @@ const ReceiverAddressForm = ({ nextStep, prevStep }: { nextStep: () => void; pre
 		dispatch(updateField({ ship_to: data }));
 		nextStep();
 	};
+
+	useEffect(() => {
+		const fetchCityData = async () => {
+			try {
+				const response = await axios.get('http://192.168.68.89:5000/get/countrywise/city/info/get');
+
+				console.log('response from city data:', response?.data);
+				// if (response?.data?.status === 'success') setUserData(response?.data?.data);
+			} catch (error) {
+				console.error(error);
+			}
+		};
+		fetchCityData();
+	}, []);
 
 	return (
 		<Box

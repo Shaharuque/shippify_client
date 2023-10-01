@@ -153,6 +153,7 @@ const PackageDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; p
 			<PackageNumbers
 				packages={packages}
 				onSelectPackage={handleSelectPackage}
+				selectedPackageIndex={null}
 			/>
 			<form onSubmit={handleSubmit(onSubmit)}>
 				<Flex

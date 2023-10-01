@@ -6,6 +6,7 @@ import { updateField } from '../../../redux/features/basicShipmentsSlice';
 import { RootState } from '../../../redux/store';
 import { useEffect, useState } from 'react';
 import { profile } from '../../../services/apis/authApi';
+import axios from 'axios';
 
 export type TSenderAddressFormData = {
 	name: string;
@@ -42,6 +43,7 @@ export interface IUserFullDetails {
 }
 
 const SenderAddressForm = ({ nextStep }: { nextStep: () => void }) => {
+	const token = localStorage.getItem('token');
 	const { handleSubmit, setValue, register } = useForm<TSenderAddressFormData>({
 		defaultValues: {
 			...useAppSelector((state: RootState) => state?.basicShipments?.ship_from),
@@ -56,12 +58,10 @@ const SenderAddressForm = ({ nextStep }: { nextStep: () => void }) => {
 	};
 
 	useEffect(() => {
-		const token = localStorage.getItem('token');
 		const fetchUserData = async () => {
 			try {
 				const result = await profile(token as string);
-
-				setUserData(result?.data?.data);
+				if (result?.data?.status === 'success') setUserData(result?.data?.data);
 			} catch (error) {
 				console.error(error);
 			}
