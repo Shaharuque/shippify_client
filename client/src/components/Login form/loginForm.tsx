@@ -28,6 +28,7 @@ const LoginForm = () => {
 			const result = await signIn(values);
 			if (result?.data?.status === 'success') {
 				localStorage.setItem('token', result?.data?.token);
+				localStorage.setItem('userData', JSON.stringify(result?.data?.data));
 				navigate('/home');
 			}
 		} catch (error) {

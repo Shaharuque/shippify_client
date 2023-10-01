@@ -5,16 +5,17 @@ import PaymentModal from '../../Modals/paymentModal';
 import axios from 'axios';
 import { useAppSelector } from '../../../redux/hooks';
 import { RootState } from '../../../redux/store';
+import { useEffect } from 'react';
 
 const PaymentForm = ({ prevStep }: { prevStep: () => void }) => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
-	const selectedRate = useAppSelector((state: any) => state?.selectedRate);
+	const selectedRate = useAppSelector((state: any) => state?.selectedRate?.selectedRate);
 	const insuranceDetails = useAppSelector((state: RootState) => state?.insurance);
-	const total = selectedRate?.shipping_amount?.amount + selectedRate?.other_amount?.amount + insuranceDetails?.insurance_amount;
+	const total = Number(selectedRate?.shipping_amount?.amount) + Number(selectedRate?.other_amount?.amount) + Number(insuranceDetails?.insurance_amount);
+
+	localStorage.setItem('total_amount', JSON.stringify(total));
 
 	const handleCheckout = () => {
-		localStorage.setItem('total_payment', total);
-
 		axios
 			.post(`${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}/payment/create-checkout-session`, {
 				payment: { currency: selectedRate?.selectedRate?.shipping_amount?.currency, rate: selectedRate?.selectedRate?.shipping_amount?.amount, insurance: insuranceDetails?.insurance_amount, other_amount: selectedRate?.selectedRate?.other_amount?.amount, data: selectedRate?.selectedRate?.estimated_delivery_date },
@@ -26,6 +27,27 @@ const PaymentForm = ({ prevStep }: { prevStep: () => void }) => {
 			})
 			.catch((err) => console.log(err.message));
 	};
+
+	useEffect(() => {
+		const fetchCreditScoreData = async () => {
+			const userData = localStorage.getItem('userData');
+
+			try {
+				if (userData) {
+					const user = JSON.parse(userData);
+					const response = await axios.post('http://192.168.68.76:4000/credit-score/eligibility', {
+						user_id: user?._id,
+						shipping_fee: total,
+					});
+					console.log('response', response?.data);
+				}
+			} catch (error) {
+				console.error('Error while fetching data:', error);
+			}
+		};
+		fetchCreditScoreData();
+	}, [total]);
+
 	return (
 		<Box
 			overflowY={'scroll'}
@@ -52,7 +74,7 @@ const PaymentForm = ({ prevStep }: { prevStep: () => void }) => {
 					onClick={() => prevStep()}
 					width="8rem"
 				/>
-				<Button onClick={onOpen}>Buy now pay later</Button>
+				<Button onClick={onOpen}>BNPL</Button>
 				<Button onClick={handleCheckout}>Pay now</Button>
 			</Flex>
 		</Box>
