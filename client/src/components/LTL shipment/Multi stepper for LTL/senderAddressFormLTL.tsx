@@ -1,5 +1,4 @@
 import { Flex, FormControl, FormLabel, Input, Select, Box, Text } from '@chakra-ui/react';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import SubmitButton from '../../Buttons/submitButton';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { RootState } from '../../../redux/store';
@@ -7,6 +6,7 @@ import { updateField } from '../../../redux/features/ltlShipmentSlice';
 import { useEffect, useState } from 'react';
 import { IUserFullDetails } from '../../Basic shipment/multiStepperForBasic/senderAddressForm';
 import { profile } from '../../../services/apis/authApi';
+import { useForm, SubmitHandler } from 'react-hook-form';
 
 export type TSenderAddressFormDataLTL = {
 	contact: {
@@ -26,7 +26,7 @@ export type TSenderAddressFormDataLTL = {
 
 const SenderAddressFormLTL = ({ nextStep }: { nextStep: () => void }) => {
 	const dispatch = useAppDispatch();
-	const { control, handleSubmit, setValue } = useForm<TSenderAddressFormDataLTL>({
+	const { handleSubmit, register, setValue } = useForm<TSenderAddressFormDataLTL>({
 		defaultValues: {
 			...useAppSelector((state: RootState) => state?.ltlShipments?.shipment?.ship_from),
 		},
@@ -44,7 +44,6 @@ const SenderAddressFormLTL = ({ nextStep }: { nextStep: () => void }) => {
 		const fetchUserData = async () => {
 			try {
 				const result = await profile(token as string);
-
 				setUserData(result?.data?.data);
 			} catch (error) {
 				console.error(error);
@@ -96,53 +95,35 @@ const SenderAddressFormLTL = ({ nextStep }: { nextStep: () => void }) => {
 						mb={'3vh'}>
 						<FormControl id="contact.name">
 							<FormLabel fontWeight={'600'}>Contact Name</FormLabel>
-							<Controller
-								name="contact.name"
-								control={control}
-								render={({ field }) => (
-									<Input
-										{...field}
-										variant={'flushed'}
-										borderBottom={'1px solid #314866'}
-										transition={'all 0.30s ease-in-out;'}
-										_focusVisible={{ borderColor: '#002855', boxShadow: '0px 1px 0px 0px #002855 ' }}
-									/>
-								)}
+							<Input
+								{...register('contact.name')}
+								variant={'flushed'}
+								borderBottom={'1px solid #314866'}
+								transition={'all 0.30s ease-in-out;'}
+								_focusVisible={{ borderColor: '#002855', boxShadow: '0px 1px 0px 0px #002855 ' }}
 							/>
 						</FormControl>
 
 						<FormControl id="contact.email">
 							<FormLabel fontWeight={'600'}>Contact Email</FormLabel>
-							<Controller
-								name="contact.email"
-								control={control}
-								render={({ field }) => (
-									<Input
-										{...field}
-										variant={'flushed'}
-										borderBottom={'1px solid #314866'}
-										transition={'all 0.30s ease-in-out;'}
-										_focusVisible={{ borderColor: '#002855', boxShadow: '0px 1px 0px 0px #002855 ' }}
-									/>
-								)}
+							<Input
+								{...register('contact.email')}
+								variant={'flushed'}
+								borderBottom={'1px solid #314866'}
+								transition={'all 0.30s ease-in-out;'}
+								_focusVisible={{ borderColor: '#002855', boxShadow: '0px 1px 0px 0px #002855 ' }}
 							/>
 						</FormControl>
 					</Flex>
-					<Flex w={'20vw'}>
+					<Flex w={'15vw'}>
 						<FormControl id="contact.phone_number">
 							<FormLabel fontWeight={'600'}>Contact Number</FormLabel>
-							<Controller
-								name="contact.phone_number"
-								control={control}
-								render={({ field }) => (
-									<Input
-										{...field}
-										variant={'flushed'}
-										borderBottom={'1px solid #314866'}
-										transition={'all 0.30s ease-in-out;'}
-										_focusVisible={{ borderColor: '#002855', boxShadow: '0px 1px 0px 0px #002855 ' }}
-									/>
-								)}
+							<Input
+								{...register('contact.phone_number')}
+								variant={'flushed'}
+								borderBottom={'1px solid #314866'}
+								transition={'all 0.30s ease-in-out;'}
+								_focusVisible={{ borderColor: '#002855', boxShadow: '0px 1px 0px 0px #002855 ' }}
 							/>
 						</FormControl>
 					</Flex>
@@ -151,37 +132,29 @@ const SenderAddressFormLTL = ({ nextStep }: { nextStep: () => void }) => {
 				<Flex
 					gap={'3rem'}
 					mb={'3vh'}>
-					<FormControl id="address.address_line1">
-						<FormLabel fontWeight={'600'}>Street</FormLabel>
-						<Controller
-							name="address.address_line1"
-							control={control}
-							render={({ field }) => (
-								<Input
-									{...field}
-									variant={'flushed'}
-									borderBottom={'1px solid #314866'}
-									transition={'all 0.30s ease-in-out;'}
-									_focusVisible={{ borderColor: '#002855', boxShadow: '0px 1px 0px 0px #002855 ' }}
-								/>
-							)}
-						/>
-					</FormControl>
 					<FormControl id="address.company_name">
 						<FormLabel fontWeight={'600'}>Company Name</FormLabel>
-						<Controller
-							name="address.company_name"
-							control={control}
-							render={({ field }) => (
-								<Input
-									{...field}
-									variant={'flushed'}
-									borderBottom={'1px solid #314866'}
-									transition={'all 0.30s ease-in-out;'}
-									_focusVisible={{ borderColor: '#002855', boxShadow: '0px 1px 0px 0px #002855 ' }}
-								/>
-							)}
+						<Input
+							{...register('address.company_name')}
+							variant={'flushed'}
+							borderBottom={'1px solid #314866'}
+							transition={'all 0.30s ease-in-out;'}
+							_focusVisible={{ borderColor: '#002855', boxShadow: '0px 1px 0px 0px #002855 ' }}
 						/>
+					</FormControl>
+					<FormControl id="address.country_code">
+						<FormLabel fontWeight={'600'}>Country</FormLabel>
+						<Select
+							{...register('address.country_code')}
+							variant={'flushed'}
+							borderBottom={'1px solid #314866'}
+							transition={'all 0.30s ease-in-out;'}
+							_focusVisible={{ borderColor: '#002855' }}>
+							<option value={'US'}>United State of America</option>
+							<option value={'CA'}>Canada</option>
+							<option value={'MX'}>Mexico</option>
+							<option value={'AU'}>Australia</option>
+						</Select>
 					</FormControl>
 				</Flex>
 				<Flex
@@ -189,72 +162,45 @@ const SenderAddressFormLTL = ({ nextStep }: { nextStep: () => void }) => {
 					mb={'3vh'}>
 					<FormControl id="address.state_province">
 						<FormLabel fontWeight={'600'}>State/Province</FormLabel>
-						<Controller
-							name="address.state_province"
-							control={control}
-							render={({ field }) => (
-								<Input
-									{...field}
-									variant={'flushed'}
-									borderBottom={'1px solid #314866'}
-									transition={'all 0.30s ease-in-out;'}
-									_focusVisible={{ borderColor: '#002855', boxShadow: '0px 1px 0px 0px #002855 ' }}
-								/>
-							)}
+						<Input
+							{...register('address.state_province')}
+							variant={'flushed'}
+							borderBottom={'1px solid #314866'}
+							transition={'all 0.30s ease-in-out;'}
+							_focusVisible={{ borderColor: '#002855', boxShadow: '0px 1px 0px 0px #002855 ' }}
 						/>
 					</FormControl>
 					<FormControl id="address.city_locality">
 						<FormLabel fontWeight={'600'}>City</FormLabel>
-						<Controller
-							name="address.city_locality"
-							control={control}
-							render={({ field }) => (
-								<Input
-									{...field}
-									variant={'flushed'}
-									borderBottom={'1px solid #314866'}
-									transition={'all 0.30s ease-in-out;'}
-									_focusVisible={{ borderColor: '#002855', boxShadow: '0px 1px 0px 0px #002855 ' }}
-								/>
-							)}
+						<Input
+							{...register('address.city_locality')}
+							variant={'flushed'}
+							borderBottom={'1px solid #314866'}
+							transition={'all 0.30s ease-in-out;'}
+							_focusVisible={{ borderColor: '#002855', boxShadow: '0px 1px 0px 0px #002855 ' }}
 						/>
 					</FormControl>
 				</Flex>
 				<Flex gap={'3rem'}>
-					<FormControl id="address.country_code">
-						<FormLabel fontWeight={'600'}>Country</FormLabel>
-						<Controller
-							name="address.country_code"
-							control={control}
-							render={({ field }) => (
-								<Select
-									{...field}
-									variant={'flushed'}
-									borderBottom={'1px solid #314866'}
-									transition={'all 0.30s ease-in-out;'}
-									_focusVisible={{ borderColor: '#002855' }}>
-									<option value={'US'}>United State of America</option>
-									<option value={'CA'}>Canada</option>
-									<option value={'MX'}>Mexico</option>
-									<option value={'AU'}>Australia</option>
-								</Select>
-							)}
+					<FormControl id="address.address_line1">
+						<FormLabel fontWeight={'600'}>Street</FormLabel>
+						<Input
+							{...register('address.address_line1')}
+							variant={'flushed'}
+							borderBottom={'1px solid #314866'}
+							transition={'all 0.30s ease-in-out;'}
+							_focusVisible={{ borderColor: '#002855', boxShadow: '0px 1px 0px 0px #002855 ' }}
 						/>
 					</FormControl>
+
 					<FormControl id="address.postal_code">
 						<FormLabel fontWeight={'600'}>Postal Code</FormLabel>
-						<Controller
-							name="address.postal_code"
-							control={control}
-							render={({ field }) => (
-								<Input
-									{...field}
-									variant={'flushed'}
-									borderBottom={'1px solid #314866'}
-									transition={'all 0.30s ease-in-out;'}
-									_focusVisible={{ borderColor: '#002855', boxShadow: '0px 1px 0px 0px #002855 ' }}
-								/>
-							)}
+						<Input
+							{...register('address.postal_code')}
+							variant={'flushed'}
+							borderBottom={'1px solid #314866'}
+							transition={'all 0.30s ease-in-out;'}
+							_focusVisible={{ borderColor: '#002855', boxShadow: '0px 1px 0px 0px #002855 ' }}
 						/>
 					</FormControl>
 				</Flex>

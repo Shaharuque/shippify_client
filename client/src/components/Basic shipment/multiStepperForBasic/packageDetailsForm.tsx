@@ -185,7 +185,8 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 		<Box
 			p={'.25vw'}
 			w={'40rem'}
-			overflowY={'auto'}
+			overflowY={'scroll'}
+			h={'800px'}
 			css={{
 				'&::-webkit-scrollbar': {
 					width: '0',

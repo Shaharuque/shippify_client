@@ -5,6 +5,11 @@ import { countryCodeDictionary } from '../../data/countryCodeDictionary';
 import { TPackageDetailsForm } from '../Basic shipment/multiStepperForBasic/packageDetailsForm';
 import { ICustomsItem, TCustomsDetailsForm } from '../Basic shipment/multiStepperForBasic/customsInfoForm';
 
+const returnPolicyDictionary = {
+	treat_as_abandoned: 'Treat as abandoned',
+	return_to_sender: 'Return to sender',
+};
+
 const ShippingSummary = () => {
 	const sender = useAppSelector((state: RootState) => state?.basicShipments.ship_from);
 	const receiver = useAppSelector((state: RootState) => state?.basicShipments.ship_to);
@@ -114,7 +119,7 @@ const ShippingSummary = () => {
 									Customs Details
 								</Heading>
 								<Text fontSize="sm">Contents: {customs?.contents}</Text>
-								<Text fontSize="sm">Manufacturer country: {customs?.non_delivery}</Text>
+								<Text fontSize="sm">Return policy: {returnPolicyDictionary[customs?.non_delivery]}</Text>
 
 								{customs?.customs_items.map((item: ICustomsItem, index: number) => (
 									<Box
