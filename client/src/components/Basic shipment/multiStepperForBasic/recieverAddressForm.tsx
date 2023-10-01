@@ -6,7 +6,7 @@ import { updateField } from '../../../redux/features/basicShipmentsSlice';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { RootState } from '../../../redux/store';
 import axios from 'axios';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export type TReceiverAddressFormData = {
 	name: string;
@@ -18,26 +18,33 @@ export type TReceiverAddressFormData = {
 };
 
 const ReceiverAddressForm = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () => void }) => {
+	const dispatch = useAppDispatch();
+
 	const { handleSubmit, register } = useForm<TReceiverAddressFormData>({
 		defaultValues: {
 			...useAppSelector((state: RootState) => state?.basicShipments?.ship_to),
 		},
 	});
 
-	const dispatch = useAppDispatch();
+	const [states, setStates] = useState([]);
+	const [cities, setCities] = useState([]);
 
 	const onSubmit: SubmitHandler<TReceiverAddressFormData> = (data) => {
 		dispatch(updateField({ ship_to: data }));
 		nextStep();
 	};
 
+	const BACKEND_FULL_URL = `${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}`;
+
 	useEffect(() => {
 		const fetchCityData = async () => {
 			try {
-				const response = await axios.get('http://192.168.68.89:5000/get/countrywise/city/info/get');
+				const response = await axios.get(`${BACKEND_FULL_URL}/get/countrywise/city/info/get`);
 
 				console.log('response from city data:', response?.data);
-				// if (response?.data?.status === 'success') setUserData(response?.data?.data);
+				if (response?.data?.success) {
+					setStates(response?.data?.result[0]?.city);
+				}
 			} catch (error) {
 				console.error(error);
 			}

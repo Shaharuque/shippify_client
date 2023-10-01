@@ -33,6 +33,7 @@ const ShipmentCardList = () => {
 			{shipmentList && shipmentList.length > 0 ? (
 				<Flex
 					flexWrap="wrap"
+					h={'750px'}
 					mb={'2rem'}
 					overflowY={'auto'}
 					css={{
