@@ -3,7 +3,7 @@ import { useAppSelector } from '../../redux/hooks';
 import { RootState } from '../../redux/store';
 import { countryCodeDictionary } from '../../data/countryCodeDictionary';
 import { TPackageDetailsForm } from '../Basic shipment/multiStepperForBasic/packageDetailsForm';
-import { ICustomsItem, TCustomsDetailsForm } from '../Basic shipment/multiStepperForBasic/customsInfoForm';
+import { ICustomsItem } from '../Basic shipment/multiStepperForBasic/customsInfoForm';
 
 const returnPolicyDictionary = {
 	treat_as_abandoned: 'Treat as abandoned',
@@ -91,7 +91,7 @@ const ShippingSummary = () => {
 								textTransform="uppercase">
 								Packages Details
 							</Heading>
-							{packages.map((item: TPackageDetailsForm, index) => (
+							{packages?.map((item: TPackageDetailsForm, index) => (
 								<Box key={index}>
 									<Text
 										pt="2"
@@ -100,10 +100,10 @@ const ShippingSummary = () => {
 										Package {index + 1}
 									</Text>
 									<Text fontSize="sm">
-										Weight: {item.weight.value} {item.weight.unit}
+										Weight: {item?.weight?.value} {item?.weight?.unit}
 									</Text>
 									<Text fontSize="sm">
-										Dimensions: {item.dimensions.length}x{item.dimensions.width}x{item.dimensions.height} {item.dimensions.unit}
+										Dimensions: {item?.dimensions?.length}x{item?.dimensions?.width}x{item?.dimensions?.height} {item?.dimensions?.unit}
 									</Text>
 								</Box>
 							))}
@@ -121,7 +121,7 @@ const ShippingSummary = () => {
 								<Text fontSize="sm">Contents: {customs?.contents}</Text>
 								<Text fontSize="sm">Return policy: {returnPolicyDictionary[customs?.non_delivery]}</Text>
 
-								{customs?.customs_items.map((item: ICustomsItem, index: number) => (
+								{customs?.customs_items?.map((item: ICustomsItem, index: number) => (
 									<Box
 										key={index}
 										textTransform={'capitalize'}>

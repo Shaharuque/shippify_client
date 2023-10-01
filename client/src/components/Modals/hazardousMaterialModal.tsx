@@ -1,5 +1,4 @@
 import { ModalFooter, Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, FormControl, FormLabel, Input } from '@chakra-ui/react';
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 type THazardousMaterialModallProps = {

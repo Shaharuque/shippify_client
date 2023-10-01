@@ -1,11 +1,15 @@
 import { Table, Thead, Tbody, Tr, Th, Td, TableCaption, TableContainer, Image, Stack, Text } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import noDataFound from '../../../assets/no-data-found.jpg';
 
 const tableHeaders = ['From', 'To', 'Service'];
 
 const RecentShipmentTable = () => {
 	const [shipmentData, setShipmentData] = useState([]);
+
+	useEffect(() => {
+		setShipmentData([]);
+	}, []);
 
 	return (
 		<>

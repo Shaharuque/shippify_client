@@ -6,7 +6,6 @@ import { updateField } from '../../../redux/features/basicShipmentsSlice';
 import { RootState } from '../../../redux/store';
 import { useEffect, useState } from 'react';
 import { profile } from '../../../services/apis/authApi';
-import axios from 'axios';
 
 export type TSenderAddressFormData = {
 	name: string;

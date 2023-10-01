@@ -17,7 +17,7 @@ const DashboardPage = () => {
 				flex={0.2}>
 				<PriceAscendingDescendingFilter
 					onChange={function (value: string): void {
-						throw new Error('Function not implemented.');
+						console.log('value', value);
 					}}
 				/>
 				<WeightFilter />

@@ -11,15 +11,15 @@ import PriceAscendingDescendingFilter from '../../Filters/priceAscendingDescendi
 import DeliveryDateFilter from '../../Filters/deliveryDate';
 import PriceRangeFilter from '../../Filters/priceRange';
 import { updateSelectedRate } from '../../../redux/features/selectedRateSlice';
-import { dummyRateCardData } from '../../../data/dummyRateCardsData';
+// import { dummyRateCardData } from '../../../data/dummyRateCardsData';
 
 const RateSelectionForm = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () => void }) => {
 	const shipmentInfo = useAppSelector((state: RootState) => state?.basicShipments);
 	const [fetchRates, { isLoading, isError }] = useFetchRatesMutation();
 	const [rates, setRates] = useState<IRateDetail[]>([]);
 	const [filterableRates, setFilterableRates] = useState<IRateDetail[]>([]);
-	const [minRate, setMinRate] = useState(0);
-	const [maxRate, setMaxRate] = useState(100);
+	// const [minRate, setMinRate] = useState(0);
+	// const [maxRate, setMaxRate] = useState(100);
 
 	const dispatch = useAppDispatch();
 
@@ -40,19 +40,19 @@ const RateSelectionForm = ({ nextStep, prevStep }: { nextStep: () => void; prevS
 		fetchData();
 	}, [shipmentInfo, fetchRates]);
 
-	useEffect(() => {
-		const minShippingAmount = rates?.reduce((min, rate) => {
-			const amount = rate.shipping_amount?.amount || 0;
-			return amount < min ? amount : min;
-		}, Number.MAX_SAFE_INTEGER);
-		setMinRate(Math.floor(minShippingAmount));
+	// useEffect(() => {
+	// 	const minShippingAmount = rates?.reduce((min, rate) => {
+	// 		const amount = rate.shipping_amount?.amount || 0;
+	// 		return amount < min ? amount : min;
+	// 	}, Number.MAX_SAFE_INTEGER);
+	// 	setMinRate(Math.floor(minShippingAmount));
 
-		const maxShippingAmount = rates.reduce((max, rate) => {
-			const amount = rate.shipping_amount?.amount || 0;
-			return amount > max ? amount : max;
-		}, 0);
-		setMaxRate(Math.ceil(maxShippingAmount));
-	}, [rates]);
+	// 	const maxShippingAmount = rates.reduce((max, rate) => {
+	// 		const amount = rate.shipping_amount?.amount || 0;
+	// 		return amount > max ? amount : max;
+	// 	}, 0);
+	// 	setMaxRate(Math.ceil(maxShippingAmount));
+	// }, [rates]);
 
 	const handlePriceFilterChange = (value: string) => {
 		if (value === 'asc') {
@@ -96,8 +96,8 @@ const RateSelectionForm = ({ nextStep, prevStep }: { nextStep: () => void; prevS
 						gap={'5rem'}>
 						<Box w={'12rem'}>
 							<PriceRangeFilter
-								minRate={minRate}
-								maxRate={maxRate}
+								// minRate={minRate}
+								// maxRate={maxRate}
 								onRangeChange={handlePriceRangeFilterChange}
 							/>
 							<PriceAscendingDescendingFilter onChange={handlePriceFilterChange} />

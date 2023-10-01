@@ -2,7 +2,7 @@ import { Flex, Box, Icon, Menu, MenuButton, MenuList, MenuItem } from '@chakra-u
 import { Link } from 'react-router-dom';
 import { RxDashboard } from 'react-icons/rx';
 import { BiSolidHome } from 'react-icons/bi';
-import { IoAnalyticsOutline, IoSettings } from 'react-icons/io5';
+import { IoSettings } from 'react-icons/io5';
 import { MdOutlinePayment } from 'react-icons/md';
 import { TbLogout2 } from 'react-icons/tb';
 

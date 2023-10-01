@@ -8,7 +8,6 @@ import RegularButton from '../../Buttons/regularButton';
 import axios from 'axios';
 import { insuranceTermsAndConditions } from '../../../data/inSuranceTerms';
 import { updateInsurance } from '../../../redux/features/insuranceSlice';
-import { axiosInstance } from '../../../services/axios';
 
 const InsuranceDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () => void }) => {
 	const selectedRate = useAppSelector((state: RootState) => state?.selectedRate?.selectedRate);

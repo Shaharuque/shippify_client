@@ -6,9 +6,9 @@ import axios from 'axios';
 import { useAppSelector } from '../../../redux/hooks';
 import { RootState } from '../../../redux/store';
 
-const PaymentForm = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () => void }) => {
+const PaymentForm = ({ prevStep }: { prevStep: () => void }) => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
-	const selectedRate = useAppSelector((state: RootState) => state?.selectedRate);
+	const selectedRate = useAppSelector((state: any) => state?.selectedRate);
 	const insuranceDetails = useAppSelector((state: RootState) => state?.insurance);
 	const total = selectedRate?.shipping_amount?.amount + selectedRate?.other_amount?.amount + insuranceDetails?.insurance_amount;
 

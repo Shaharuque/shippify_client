@@ -1,4 +1,4 @@
-import { Box, Flex, FormControl, NumberInput, Select, Text } from '@chakra-ui/react';
+import { Box, Flex, FormControl, Select, Text } from '@chakra-ui/react';
 import smallBox from '../../assets/carton-box-removebg-preview.png';
 import mediumBox from '../../assets/medium-box.png';
 import largeBox from '../../assets/large-box.png';
@@ -50,8 +50,11 @@ const PredefinedBoxes = ({ inputChanged, editModeOn, selectedCode, weightValue, 
 		setTest(weightValue?.toString() || '');
 	}, [weightValue]);
 
+	console.log('test:', test);
+	console.log('unit:', unit);
+
 	useEffect(() => {
-		const token = localStorage.getItem('token');
+		// const token = localStorage.getItem('token');
 		const fetchPredefinedBoxData = async () => {
 			try {
 				const response = await axios.get('http://192.168.68.89:5000/custom-package-type/list', {

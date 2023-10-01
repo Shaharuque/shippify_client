@@ -1,5 +1,5 @@
-import { Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Select, Text, Flex, Box } from '@chakra-ui/react';
-import { ChangeEvent, useState } from 'react';
+import { Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Select, Text, Box } from '@chakra-ui/react';
+import { ChangeEvent, useEffect, useState } from 'react';
 
 type PaymentModalProps = {
 	onClose: () => void;
@@ -16,6 +16,11 @@ const PaymentModal = ({ onClose, isOpen }: PaymentModalProps) => {
 		const value = Number(event.target.value);
 		setInstallments(value);
 	};
+
+	useEffect(() => {
+		setTotalShippingCost(1000);
+	}, []);
+
 	return (
 		<>
 			<Modal

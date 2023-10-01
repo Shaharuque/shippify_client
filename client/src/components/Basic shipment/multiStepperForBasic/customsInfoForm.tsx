@@ -1,4 +1,4 @@
-import { Box, Flex, FormControl, Input, Select, Text, Button, useNumberInput, HStack, FormLabel } from '@chakra-ui/react';
+import { Box, Flex, FormControl, Input, Select, Text, Button, HStack, FormLabel } from '@chakra-ui/react';
 import { Controller, SubmitHandler, useForm, useFieldArray } from 'react-hook-form';
 import { useAppDispatch } from '../../../redux/hooks';
 import { updateField } from '../../../redux/features/basicShipmentsSlice';
@@ -41,7 +41,7 @@ const defaultCustomsValues: TCustomsDetailsForm = {
 };
 
 const CustomsInfoForm = () => {
-	const { control, handleSubmit, reset } = useForm<TCustomsDetailsForm>({ defaultValues: defaultCustomsValues });
+	const { control, handleSubmit } = useForm<TCustomsDetailsForm>({ defaultValues: defaultCustomsValues });
 
 	const { fields, append } = useFieldArray({
 		control,

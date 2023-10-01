@@ -5,7 +5,6 @@ import { useFetchLTLOptionsQuery } from '../../../redux/api/ltlShipmentApi';
 import SpinningLoader from '../../Loader/spinningLoader';
 import Error from '../../Error bad request/error';
 import BackButton from '../../Buttons/backButton';
-import RegularButton from '../../Buttons/regularButton';
 import SubmitButton from '../../Buttons/submitButton';
 import HazardousMaterialModal, { TLiableContact, defaultLiableContactValues } from '../../Modals/hazardousMaterialModal';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';

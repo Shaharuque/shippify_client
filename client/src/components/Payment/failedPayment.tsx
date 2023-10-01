@@ -2,7 +2,7 @@ import { Box, Flex, Image, Text, Center } from '@chakra-ui/react';
 import failedPayment from '../../assets/Error.jpg';
 import BackButton from '../Buttons/backButton';
 import RegularButton from '../Buttons/regularButton';
-const FailedPayment = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () => void }) => {
+const FailedPayment = ({ prevStep }: { prevStep: () => void }) => {
 	return (
 		<Box>
 			<Flex
