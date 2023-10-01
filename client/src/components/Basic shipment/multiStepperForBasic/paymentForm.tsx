@@ -2,9 +2,26 @@ import { Box, Button, Flex, useDisclosure } from '@chakra-ui/react';
 import ShippingSummary from '../../Cards/shippingSummary';
 import BackButton from '../../Buttons/backButton';
 import PaymentModal from '../../Modals/paymentModal';
+import axios from 'axios';
+import { useAppSelector } from '../../../redux/hooks';
+import { RootState } from '../../../redux/store';
 
 const PaymentForm = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () => void }) => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
+	const selectedRate = useAppSelector((state: RootState) => state?.selectedRate);
+	const insuranceDetails = useAppSelector((state: RootState) => state?.insurance);
+	const handleCheckout = () => {
+		axios
+			.post(`${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}/payment/create-checkout-session`, {
+				payment: { currency: selectedRate?.selectedRate?.shipping_amount?.currency, rate: selectedRate?.selectedRate?.shipping_amount?.amount, insurance: insuranceDetails?.insurance_amount, other_amount: selectedRate?.selectedRate?.other_amount?.amount, data: selectedRate?.selectedRate?.estimated_delivery_date },
+			})
+			.then((response) => {
+				if (response.data.url) {
+					window.location.href = response.data.url;
+				}
+			})
+			.catch((err) => console.log(err.message));
+	};
 	return (
 		<Box
 			overflowY={'scroll'}
@@ -32,7 +49,7 @@ const PaymentForm = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: (
 					width="8rem"
 				/>
 				<Button onClick={onOpen}>Buy now pay later</Button>
-				<Button onClick={() => nextStep()}>Pay now</Button>
+				<Button onClick={handleCheckout}>Pay now</Button>
 			</Flex>
 		</Box>
 	);

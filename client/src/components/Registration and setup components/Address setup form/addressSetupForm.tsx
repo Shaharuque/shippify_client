@@ -43,10 +43,6 @@ const AddressSetupForm = ({ prevStep }: { prevStep: () => void }) => {
 		}
 	};
 
-	const handleBackButton = () => {
-		prevStep();
-	};
-
 	return (
 		<>
 			<Center>
@@ -171,7 +167,7 @@ const AddressSetupForm = ({ prevStep }: { prevStep: () => void }) => {
 					gap={'1rem'}
 					mt={'3rem'}>
 					<BackButton
-						onClick={handleBackButton}
+						onClick={() => prevStep()}
 						width="6rem"
 					/>
 					<SubmitButton

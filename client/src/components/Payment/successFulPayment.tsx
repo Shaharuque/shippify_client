@@ -1,45 +1,79 @@
-import { Box, Flex, Image, Text, Center } from '@chakra-ui/react';
-import confirmedPayment from '../../assets/confirm-payment.jpg';
-import BackButton from '../Buttons/backButton';
+import { Box, Center, Flex, Text, VStack } from '@chakra-ui/react';
+import successTickLottie from '../../assets/Success_tick.json';
+import { useLottie } from 'lottie-react';
 import RegularButton from '../Buttons/regularButton';
-const SuccessFulPayment = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () => void }) => {
+import { useNavigate } from 'react-router-dom';
+
+const SuccessFulPayment = () => {
+	const navigate = useNavigate();
+
+	const successTickLottieOptions = {
+		animationData: successTickLottie,
+		loop: true,
+	};
+
+	const { View: successTickLottieView } = useLottie(successTickLottieOptions);
+
 	return (
-		<Box>
-			<Flex
-				direction={'column'}
-				gap={'1rem'}>
+		<Flex
+			h={'100vh'}
+			justifyContent="center"
+			alignItems="center"
+			bg={'linear-gradient(135deg, hsla(155, 44%, 92%, 1) 0%, hsla(191, 24%, 62%, 1) 100%)'}>
+			<Box
+				p="4"
+				maxW="md"
+				w="full"
+				borderWidth="1px"
+				borderRadius="lg"
+				boxShadow="lg"
+				bg="white"
+				textAlign="center">
 				<Center>
-					<Box>
-						<Image
-							src={confirmedPayment}
-							boxSize={'15rem'}
-							borderRadius={'1rem'}
-						/>
+					<Box
+						mb="4"
+						boxSize={'8rem'}>
+						{successTickLottieView}
 					</Box>
 				</Center>
 				<Text
-					textAlign={'center'}
 					fontWeight={'600'}
 					fontSize={'1.25rem'}
-					fontFamily={'Roboto'}>
+					fontFamily={'Roboto'}
+					mb="4">
 					Your payment is done successfully!
 				</Text>
 				<Flex
-					mt={3}
-					gap={'1rem'}>
-					<BackButton
-						onClick={() => prevStep()}
-						width="6rem"
-					/>
+					justify={'space-between'}
+					my={'4rem'}>
+					<VStack
+						fontWeight={'500'}
+						align="flex-start">
+						<Text>Paid amount</Text>
+						<Text>Transaction ID</Text>
+					</VStack>
 
+					<VStack
+						fontWeight={'500'}
+						align="flex-end">
+						<Text>600 (USD)</Text>
+						<Text>TXN2023092701</Text>
+					</VStack>
+				</Flex>
+				<Flex gap={'1rem'}>
 					<RegularButton
-						onClick={() => console.log('Go to lable creation!')}
+						onClick={() => console.log('Go to label creation!')}
 						text="Create label"
 						width="12rem"
 					/>
+					<RegularButton
+						onClick={() => navigate('/home')}
+						text="Go Home"
+						width="12rem"
+					/>
 				</Flex>
-			</Flex>
-		</Box>
+			</Box>
+		</Flex>
 	);
 };
 

@@ -1,8 +1,10 @@
-import { Flex, Box, Icon, Menu, IconButton, MenuButton, MenuList, MenuItem } from '@chakra-ui/react';
+import { Flex, Box, Icon, Menu, MenuButton, MenuList, MenuItem } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import { RxDashboard } from 'react-icons/rx';
 import { BiSolidHome } from 'react-icons/bi';
 import { IoAnalyticsOutline, IoSettings } from 'react-icons/io5';
+import { MdOutlinePayment } from 'react-icons/md';
+import { TbLogout2 } from 'react-icons/tb';
 
 const Menus = () => {
 	const boxStyles = {
@@ -10,6 +12,16 @@ const Menus = () => {
 		borderRadius: '0.5rem',
 		padding: '0.5rem',
 		backgroundColor: 'white',
+		transition: 'transform 0.3s ease',
+		transform: 'scale(1)',
+	};
+
+	const handleLinkHover = (e: React.MouseEvent<HTMLDivElement>) => {
+		e.currentTarget.style.transform = 'scale(1.1)';
+	};
+
+	const handleLinkLeave = (e: React.MouseEvent<HTMLDivElement>) => {
+		e.currentTarget.style.transform = 'scale(1)';
 	};
 
 	return (
@@ -22,7 +34,9 @@ const Menus = () => {
 			p={'1rem'}>
 			<Box
 				p={'.5rem'}
-				style={boxStyles}>
+				style={boxStyles}
+				onMouseOver={handleLinkHover}
+				onMouseLeave={handleLinkLeave}>
 				<Link to={'/home'}>
 					<Icon
 						as={BiSolidHome}
@@ -32,8 +46,10 @@ const Menus = () => {
 				</Link>
 			</Box>
 			<Box
-				p={'.5rem'}
-				style={boxStyles}>
+				p={'.25rem'}
+				style={boxStyles}
+				onMouseOver={handleLinkHover}
+				onMouseLeave={handleLinkLeave}>
 				<Link to={'/dashboard'}>
 					<Icon
 						as={RxDashboard}
@@ -44,26 +60,39 @@ const Menus = () => {
 			</Box>
 			<Box
 				p={'.5rem'}
-				style={boxStyles}>
-				<Link to={'/analytics'}>
+				style={boxStyles}
+				onMouseOver={handleLinkHover}
+				onMouseLeave={handleLinkLeave}>
+				<Link to={'/payment'}>
 					<Icon
-						as={IoAnalyticsOutline}
+						as={MdOutlinePayment}
 						boxSize={'1.5rem'}
 						color={'#28231D'}
 					/>
 				</Link>
 			</Box>
 			<Menu>
-				<MenuButton style={{ ...boxStyles }}>
-					<Icon
-						as={IoSettings}
-						boxSize={'1.5rem'}
-						color={'#28231D'}
-					/>
-				</MenuButton>
+				<Box
+					style={{ ...boxStyles }}
+					onMouseOver={handleLinkHover}
+					onMouseLeave={handleLinkLeave}>
+					<MenuButton>
+						<Icon
+							as={IoSettings}
+							boxSize={'1.5rem'}
+							color={'#28231D'}
+						/>
+					</MenuButton>
+				</Box>
 				<MenuList>
-					<MenuItem>Preferences</MenuItem>
-					<MenuItem>Logout</MenuItem>
+					<MenuItem justifyContent={'space-between'}>
+						Logout
+						<Icon
+							as={TbLogout2}
+							boxSize={'1.5rem'}
+							color={'#28231D'}
+						/>
+					</MenuItem>
 				</MenuList>
 			</Menu>
 		</Flex>

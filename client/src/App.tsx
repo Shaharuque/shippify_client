@@ -5,11 +5,11 @@ import LoginPage from './pages/Login/login.page';
 import PageNotFound from './components/Page not found/pageNotFound';
 import Navbar from './components/Navbar/navbar';
 import HomePage from './pages/Home/home.page';
-import AnalyticsPage from './pages/Analytics/analytics.page';
 import DashboardPage from './pages/Dashboard/dashboard.page';
 import CreateBasicShipmentPage from './pages/Create shipment/createBasicShipment';
 import CreateLTLShipmentPage from './pages/Create shipment/createLTLShipment';
 import TrackingPage from './pages/Tracking/trackingPage';
+import SuccessFulPayment from './components/Payment/successFulPayment';
 
 function App() {
 	return (
@@ -27,10 +27,7 @@ function App() {
 						path="/home"
 						element={<HomePage />}
 					/>
-					<Route
-						path="/analytics"
-						element={<AnalyticsPage />}
-					/>
+
 					<Route
 						path="/dashboard"
 						element={<DashboardPage />}
@@ -52,6 +49,11 @@ function App() {
 						element={<TrackingPage />}
 					/>
 				</Route>
+
+				<Route
+					path="/stripe/payment/success"
+					element={<SuccessFulPayment />}
+				/>
 
 				<Route
 					path="*"
