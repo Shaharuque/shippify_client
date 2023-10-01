@@ -3,6 +3,7 @@ import { useAppSelector } from '../../redux/hooks';
 import { RootState } from '../../redux/store';
 import { countryCodeDictionary } from '../../data/countryCodeDictionary';
 import { TPackageDetailsForm } from '../Basic shipment/multiStepperForBasic/packageDetailsForm';
+import { ICustomsItem, TCustomsDetailsForm } from '../Basic shipment/multiStepperForBasic/customsInfoForm';
 
 const ShippingSummary = () => {
 	const sender = useAppSelector((state: RootState) => state?.basicShipments.ship_from);
@@ -77,29 +78,66 @@ const ShippingSummary = () => {
 							</Text>
 						</Box>
 					</HStack>
-					<Box>
-						<Heading
-							size="sm"
-							textTransform="uppercase">
-							Packages Details
-						</Heading>
-						{packages.map((item: TPackageDetailsForm, index) => (
-							<Box key={index}>
-								<Text
-									pt="2"
-									fontSize="sm"
-									fontWeight="600">
-									Package {index + 1}
-								</Text>
-								<Text fontSize="sm">
-									Weight: {item.weight.value} {item.weight.unit}
-								</Text>
-								<Text fontSize="sm">
-									Dimensions: {item.dimensions.length}x{item.dimensions.width}x{item.dimensions.height} {item.dimensions.unit}
-								</Text>
+
+					<HStack>
+						<Box flex={0.5}>
+							<Heading
+								size="sm"
+								textTransform="uppercase">
+								Packages Details
+							</Heading>
+							{packages.map((item: TPackageDetailsForm, index) => (
+								<Box key={index}>
+									<Text
+										pt="2"
+										fontSize="sm"
+										fontWeight="600">
+										Package {index + 1}
+									</Text>
+									<Text fontSize="sm">
+										Weight: {item.weight.value} {item.weight.unit}
+									</Text>
+									<Text fontSize="sm">
+										Dimensions: {item.dimensions.length}x{item.dimensions.width}x{item.dimensions.height} {item.dimensions.unit}
+									</Text>
+								</Box>
+							))}
+						</Box>
+
+						{customs && customs?.contents.length > 0 ? (
+							<Box
+								flex={0.5}
+								textTransform={'capitalize'}>
+								<Heading
+									size="sm"
+									textTransform="uppercase">
+									Customs Details
+								</Heading>
+								<Text fontSize="sm">Contents: {customs?.contents}</Text>
+								<Text fontSize="sm">Manufacturer country: {customs?.non_delivery}</Text>
+
+								{customs?.customs_items.map((item: ICustomsItem, index: number) => (
+									<Box
+										key={index}
+										textTransform={'capitalize'}>
+										<Text
+											pt="2"
+											fontSize="sm"
+											fontWeight="600">
+											Item {index + 1}
+										</Text>
+										<Text fontSize="sm">Description: {item?.description}</Text>
+										<Text fontSize="sm">Origin country: {item?.country_of_origin}</Text>
+										<Text fontSize="sm">Manufacturer country: {item?.country_of_manufacture}</Text>
+										<Text fontSize="sm">Quantity: {item?.quantity}</Text>
+										<Text fontSize="sm">
+											Value: {item?.value?.amount} ({item?.value?.currency})
+										</Text>
+									</Box>
+								))}
 							</Box>
-						))}
-					</Box>
+						) : null}
+					</HStack>
 
 					<Box>
 						<Heading

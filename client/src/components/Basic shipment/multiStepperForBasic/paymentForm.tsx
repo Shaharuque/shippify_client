@@ -10,7 +10,11 @@ const PaymentForm = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: (
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const selectedRate = useAppSelector((state: RootState) => state?.selectedRate);
 	const insuranceDetails = useAppSelector((state: RootState) => state?.insurance);
+	const total = selectedRate?.shipping_amount?.amount + selectedRate?.other_amount?.amount + insuranceDetails?.insurance_amount;
+
 	const handleCheckout = () => {
+		localStorage.setItem('total_payment', total);
+
 		axios
 			.post(`${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}/payment/create-checkout-session`, {
 				payment: { currency: selectedRate?.selectedRate?.shipping_amount?.currency, rate: selectedRate?.selectedRate?.shipping_amount?.amount, insurance: insuranceDetails?.insurance_amount, other_amount: selectedRate?.selectedRate?.other_amount?.amount, data: selectedRate?.selectedRate?.estimated_delivery_date },
