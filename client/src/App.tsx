@@ -10,6 +10,7 @@ import CreateBasicShipmentPage from './pages/Create shipment/createBasicShipment
 import CreateLTLShipmentPage from './pages/Create shipment/createLTLShipment';
 import TrackingPage from './pages/Tracking/trackingPage';
 import SuccessFulPayment from './components/Payment/successFulPayment';
+import SideNavbar from './components/Side navbar/sideNavbar';
 
 function App() {
 	return (
@@ -53,6 +54,10 @@ function App() {
 				<Route
 					path="/stripe/payment/success"
 					element={<SuccessFulPayment />}
+				/>
+				<Route
+					path="/sidebar"
+					element={<SideNavbar />}
 				/>
 
 				<Route

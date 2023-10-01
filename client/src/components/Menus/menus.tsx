@@ -27,13 +27,12 @@ const Menus = () => {
 	return (
 		<Flex
 			as="nav"
-			direction="row"
 			gap={'1.5rem'}
 			fontSize={'1.15rem'}
 			fontWeight={'600'}
 			p={'1rem'}>
 			<Box
-				p={'.5rem'}
+				p={'.25rem'}
 				style={boxStyles}
 				onMouseOver={handleLinkHover}
 				onMouseLeave={handleLinkLeave}>
@@ -59,7 +58,7 @@ const Menus = () => {
 				</Link>
 			</Box>
 			<Box
-				p={'.5rem'}
+				p={'.25rem'}
 				style={boxStyles}
 				onMouseOver={handleLinkHover}
 				onMouseLeave={handleLinkLeave}>
