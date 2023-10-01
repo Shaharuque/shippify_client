@@ -61,7 +61,7 @@ const RegisterForm = ({ nextStep }: { nextStep: () => void }) => {
 						<Input
 							id="name"
 							placeholder="John Doe"
-							_placeholder={{ color: 'black' }}
+							_placeholder={{ color: '#808080' }}
 							border={'1px solid'}
 							{...register('name')}
 						/>
@@ -79,7 +79,7 @@ const RegisterForm = ({ nextStep }: { nextStep: () => void }) => {
 						<Input
 							id="email"
 							placeholder="example@example.com"
-							_placeholder={{ color: 'black' }}
+							_placeholder={{ color: '#808080' }}
 							border={'1px solid'}
 							{...register('email')}
 						/>
@@ -97,7 +97,7 @@ const RegisterForm = ({ nextStep }: { nextStep: () => void }) => {
 						<Input
 							id="phone"
 							placeholder="Contact Number"
-							_placeholder={{ color: 'black' }}
+							_placeholder={{ color: '#808080' }}
 							border={'1px solid'}
 							{...register('phone')}
 						/>
@@ -115,7 +115,7 @@ const RegisterForm = ({ nextStep }: { nextStep: () => void }) => {
 						<Input
 							id="password"
 							placeholder="Password"
-							_placeholder={{ color: 'black' }}
+							_placeholder={{ color: '#808080' }}
 							border={'1px solid'}
 							{...register('password')}
 						/>
@@ -133,7 +133,7 @@ const RegisterForm = ({ nextStep }: { nextStep: () => void }) => {
 						<Input
 							id="confirmPassword"
 							placeholder="Confirm Password"
-							_placeholder={{ color: 'black' }}
+							_placeholder={{ color: '#808080' }}
 							border={'1px solid'}
 							{...register('password')}
 						/>

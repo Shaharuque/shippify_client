@@ -92,11 +92,15 @@ const OtpForm = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () =>
 				<Flex
 					gap={'1rem'}
 					mt={'3rem'}>
-					<BackButton onClick={handleBackButton} />
+					<BackButton
+						onClick={handleBackButton}
+						width="6rem"
+					/>
 
-					<>
-						<SubmitButton text={'Verify'} />
-					</>
+					<SubmitButton
+						text={'Verify'}
+						width="6rem"
+					/>
 				</Flex>
 			</form>
 		</VStack>

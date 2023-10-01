@@ -72,7 +72,7 @@ const LoginForm = () => {
 							<Input
 								id="email"
 								placeholder="example@example.com"
-								_placeholder={{ color: 'black' }}
+								_placeholder={{ color: '#808080' }}
 								border={'1px solid'}
 								{...register('email')}
 							/>
@@ -90,7 +90,7 @@ const LoginForm = () => {
 							<Input
 								id="password"
 								placeholder="Password"
-								_placeholder={{ color: 'black' }}
+								_placeholder={{ color: '#808080' }}
 								border={'1px solid'}
 								{...register('password')}
 							/>
