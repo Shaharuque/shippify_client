@@ -6,7 +6,7 @@ import { updateField } from '../../../redux/features/basicShipmentsSlice';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { RootState } from '../../../redux/store';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 
 export type TReceiverAddressFormData = {
 	name: string;
@@ -20,14 +20,14 @@ export type TReceiverAddressFormData = {
 const ReceiverAddressForm = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () => void }) => {
 	const dispatch = useAppDispatch();
 
-	const { handleSubmit, register } = useForm<TReceiverAddressFormData>({
+	const { handleSubmit, register, setValue } = useForm<TReceiverAddressFormData>({
 		defaultValues: {
 			...useAppSelector((state: RootState) => state?.basicShipments?.ship_to),
 		},
 	});
 
-	const [states, setStates] = useState([]);
-	const [cities, setCities] = useState([]);
+	const [countries, setCountries] = useState<any>({});
+	const [cities, setCities] = useState<any[]>([]);
 
 	const onSubmit: SubmitHandler<TReceiverAddressFormData> = (data) => {
 		dispatch(updateField({ ship_to: data }));
@@ -41,9 +41,8 @@ const ReceiverAddressForm = ({ nextStep, prevStep }: { nextStep: () => void; pre
 			try {
 				const response = await axios.get(`${BACKEND_FULL_URL}/get/countrywise/city/info/get`);
 
-				console.log('response from city data:', response?.data);
 				if (response?.data?.success) {
-					setStates(response?.data?.result[0]?.city);
+					setCountries(response?.data?.result[0]);
 				}
 			} catch (error) {
 				console.error(error);
@@ -51,6 +50,21 @@ const ReceiverAddressForm = ({ nextStep, prevStep }: { nextStep: () => void; pre
 		};
 		fetchCityData();
 	}, []);
+
+	const handleStateChange = (event: ChangeEvent<HTMLSelectElement>) => {
+		event.preventDefault();
+		const value = event.target.value;
+		const result = countries?.city?.find((item: any) => item.value === value);
+		setCities(result?.citys);
+	};
+
+	const handleCityChange = (event: ChangeEvent<HTMLSelectElement>) => {
+		event.preventDefault();
+		const value = event.target.value;
+		const result = cities?.find((item) => item.city === value);
+
+		setValue('postal_code', result?.postalcode || '');
+	};
 
 	return (
 		<Box
@@ -87,7 +101,8 @@ const ReceiverAddressForm = ({ nextStep, prevStep }: { nextStep: () => void; pre
 							variant={'flushed'}
 							borderBottom={'1px solid #314866'}
 							transition={'all 0.30s ease-in-out;'}
-							_focusVisible={{ borderColor: '#002855' }}>
+							_focusVisible={{ borderColor: '#002855' }}
+							placeholder="Select country">
 							<option value={'US'}>United State of America</option>
 							<option value={'CA'}>Canada</option>
 							<option value={'MX'}>Mexico</option>
@@ -103,25 +118,43 @@ const ReceiverAddressForm = ({ nextStep, prevStep }: { nextStep: () => void; pre
 						id="state_province"
 						mb="4">
 						<FormLabel fontWeight={'600'}>State/Province</FormLabel>
-						<Input
+						<Select
 							{...register('state_province')}
 							variant={'flushed'}
 							borderBottom={'1px solid #314866'}
 							transition={'all 0.30s ease-in-out;'}
+							placeholder="Select state"
 							_focusVisible={{ borderColor: '#002855', boxShadow: '0px 1px 0px 0px #002855 ' }}
-						/>
+							onChange={handleStateChange}>
+							{countries?.city?.map((state: any, index: number) => (
+								<option
+									key={index}
+									value={state?.value}>
+									{state?.city}
+								</option>
+							))}
+						</Select>
 					</FormControl>
 					<FormControl
 						id="city_locality"
 						mb="4">
 						<FormLabel fontWeight={'600'}>City</FormLabel>
-						<Input
+						<Select
 							{...register('city_locality')}
 							variant={'flushed'}
 							borderBottom={'1px solid #314866'}
 							transition={'all 0.30s ease-in-out;'}
+							placeholder="Select city"
 							_focusVisible={{ borderColor: '#002855', boxShadow: '0px 1px 0px 0px #002855 ' }}
-						/>
+							onChange={handleCityChange}>
+							{cities?.map((item, index) => (
+								<option
+									key={index}
+									value={item.value}>
+									{item.city}
+								</option>
+							))}
+						</Select>
 					</FormControl>
 				</Flex>
 				<Flex
@@ -144,8 +177,10 @@ const ReceiverAddressForm = ({ nextStep, prevStep }: { nextStep: () => void; pre
 						id="postal_code"
 						mb="4">
 						<FormLabel fontWeight={'600'}>Postal Code</FormLabel>
+
 						<Input
 							{...register('postal_code')}
+							isReadOnly
 							variant={'flushed'}
 							borderBottom={'1px solid #314866'}
 							transition={'all 0.30s ease-in-out;'}

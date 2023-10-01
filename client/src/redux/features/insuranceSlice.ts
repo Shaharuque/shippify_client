@@ -4,14 +4,14 @@ export interface Insurance {
 	already_purchased?: boolean;
 	product_value?: number;
 	insurance_amount: number;
-	terms_and_agreement: boolean;
+	terms_and_conditions: boolean;
 }
 
 const initialInsuranceValue: Insurance = {
 	already_purchased: false,
 	product_value: 0,
 	insurance_amount: 0,
-	terms_and_agreement: false,
+	terms_and_conditions: false,
 };
 
 const insuranceSlice = createSlice({

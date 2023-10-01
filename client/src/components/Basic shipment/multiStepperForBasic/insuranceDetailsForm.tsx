@@ -1,4 +1,4 @@
-import { Box, Button, Checkbox, Flex, FormControl, FormLabel, HStack, Heading, Icon, ListItem, NumberInput, NumberInputField, Text, UnorderedList } from '@chakra-ui/react';
+import { Box, Button, Checkbox, Flex, FormControl, HStack, Heading, Icon, ListItem, NumberInput, NumberInputField, Text, UnorderedList } from '@chakra-ui/react';
 import { HiCurrencyDollar } from 'react-icons/hi';
 import BackButton from '../../Buttons/backButton';
 import { useEffect, useState } from 'react';
@@ -17,21 +17,17 @@ const InsuranceDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; pr
 
 	const dispatch = useAppDispatch();
 
-	const [insurance, setInsurance] = useState(insuranceDetails?.insurance_amount * 50);
-	const [productValue, setProductValue] = useState(insuranceDetails?.insurance_amount);
+	const [insuranceFee, setInsuranceFee] = useState(insuranceDetails?.insurance_amount || 0);
+	const [productValue, setProductValue] = useState(0);
 	const [agreedToTerms, setAgreedToTerms] = useState(false);
 	const previousProductValue = useAppSelector((state: RootState) => state.basicShipments);
 
-	const handleProductValueChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-		const value = Math.floor(Number(event.target.value));
-		setProductValue(value);
-		setInsurance(value);
-
+	const handleCheckInsurance = async () => {
 		try {
 			const token = localStorage.getItem('token');
 			const response = await axios.post(
-				` http://192.168.68.76:5000/shipment/calculate-insurance/${shipmentId}`,
-				{ amount: value },
+				`http://192.168.68.89:5000/shipment/calculate-insurance/${shipmentId}`,
+				{ amount: productValue },
 				{
 					headers: {
 						'Content-Type': 'application/json',
@@ -40,10 +36,15 @@ const InsuranceDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; pr
 				}
 			);
 
-			console.log('response from insurance: ', response?.data);
+			if (response?.data?.status === 'success') setInsuranceFee(response?.data?.data?.fee?.amount);
 		} catch (error) {
 			console.error('Error while fetching insurance rate:', error);
 		}
+	};
+
+	const handleProductValueChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+		const value = Math.floor(Number(event.target.value));
+		setProductValue(value);
 	};
 
 	const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -51,19 +52,19 @@ const InsuranceDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; pr
 	};
 
 	const handlePurchaseInsurance = () => {
-		dispatch(updateInsurance({ already_insured: false, product_value: productValue, insurance_amount: insurance * 0.02, terms_and_conditions: agreedToTerms }));
+		dispatch(updateInsurance({ already_purchased: false, product_value: productValue, insurance_amount: insuranceFee, terms_and_conditions: agreedToTerms }));
 		nextStep();
 	};
 
 	const isButtonDisabled = productValue <= 0 || !agreedToTerms;
 
+	//If previous value from customs exist
 	useEffect(() => {
 		if (previousProductValue?.customs) {
 			const customItems = previousProductValue?.customs?.customs_items;
 			const totalValue = customItems.reduce((accumulator, item) => accumulator + item.quantity * item.value?.amount, 0);
 
 			setProductValue(totalValue);
-			setInsurance(totalValue);
 		}
 	}, [previousProductValue]);
 
@@ -78,7 +79,7 @@ const InsuranceDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; pr
 						'x-auth-token': token,
 					},
 				});
-				console.log('response:', response?.data);
+				// console.log('response from select rates:', response?.data)
 			} catch (error) {
 				console.error('Error while posting data', error);
 			}
@@ -109,30 +110,27 @@ const InsuranceDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; pr
 				Insure your products
 			</Heading>
 
-			<FormControl
-				mt={'.75rem'}
-				alignItems={'center'}
-				display={'flex'}
-				flexDirection={'column'}>
-				<FormLabel
-					fontWeight={'600'}
-					fontSize={'1.2rem'}
-					textAlign={'center'}
-					whiteSpace={'nowrap'}>
-					Product value
-				</FormLabel>
+			<Flex
+				mt={'2rem'}
+				align={'center'}
+				justify={'center'}
+				gap={'1rem'}>
 				<NumberInput>
 					<NumberInputField
 						value={productValue}
 						onChange={handleProductValueChange}
+						placeholder="Product Value"
 						textAlign="center"
-						w={'10rem'}
+						w={'12rem'}
 						h={'5vh'}
+						fontSize={'1.15rem'}
 						border={'1px solid'}
 						_focusVisible={{ boxShadow: '0 0 0 1px #002855', borderColor: '#002855' }}
 					/>
 				</NumberInput>
-			</FormControl>
+
+				<Button onClick={handleCheckInsurance}>Check Fee</Button>
+			</Flex>
 
 			<Text
 				mt={'.75rem'}
@@ -144,16 +142,15 @@ const InsuranceDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; pr
 			<Flex
 				align={'center'}
 				justify={'center'}
-				gap={'.5rem'}
 				mb={'1rem'}>
 				<Icon
 					as={HiCurrencyDollar}
-					boxSize={'3rem'}
+					boxSize={'2rem'}
 				/>
 				<Text
 					fontWeight={'700'}
-					fontSize={'2.5rem'}>
-					{0.02 * insurance}
+					fontSize={'1.5rem'}>
+					{insuranceFee}
 				</Text>
 			</Flex>
 

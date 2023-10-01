@@ -18,18 +18,19 @@ const ShippingSummary = () => {
 	const selectedRate = useAppSelector((state: RootState) => state?.selectedRate?.selectedRate);
 	const insuranceDetails = useAppSelector((state: RootState) => state?.insurance);
 
-	const total = selectedRate?.shipping_amount?.amount + selectedRate?.other_amount?.amount + insuranceDetails?.insurance_amount;
+	const total = Number(selectedRate?.shipping_amount?.amount) + Number(selectedRate?.other_amount?.amount) + Number(insuranceDetails?.insurance_amount);
 
 	const swappedCountryCodeDictionary: { [key: string]: string } = {};
 	for (const key in countryCodeDictionary) {
 		const value = countryCodeDictionary[key];
 		swappedCountryCodeDictionary[value] = key;
 	}
-
+	console.log('total amount', total);
 	return (
 		<Card
 			bg={'transparent'}
-			w={'50rem'}>
+			w={'50rem'}
+			boxShadow={'none'}>
 			<CardHeader>
 				<Heading
 					fontStyle={'normal'}
@@ -171,7 +172,7 @@ const ShippingSummary = () => {
 						<Heading
 							size="sm"
 							textTransform="uppercase">
-							Total: {total.toFixed(2)} (usd)
+							Total: {total?.toFixed(2)} (usd)
 						</Heading>
 					</Box>
 				</Stack>
