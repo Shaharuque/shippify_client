@@ -1,6 +1,10 @@
 import { Select, Box, Text } from '@chakra-ui/react';
 
-const WeightFilter = () => {
+type weightFilterProps = {
+	onChange: (value: string) => void;
+};
+
+const WeightFilter = ({ onChange }: weightFilterProps) => {
 	return (
 		<Box mb="4">
 			<Text
@@ -9,9 +13,10 @@ const WeightFilter = () => {
 				Weight
 			</Text>
 			<Select
-				defaultValue={'asc'}
-				border={'1px solid #0E1420'}
+				onChange={(e:any) => onChange(e.target.value)}
+				border={'2px solid gray'}
 				_focusVisible={{ boxShadow: '0 0 2.5px #0E1420' }}>
+				<option value={''}>Select</option>
 				<option value={'asc'}>Ascending</option>
 				<option value={'desc'}>Descending</option>
 			</Select>

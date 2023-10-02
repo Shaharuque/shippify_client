@@ -6,6 +6,8 @@ import basicShipmentsSlice from './features/basicShipmentsSlice';
 import quoteSlice from './features/quoteSlice';
 import userSlice from './features/userSlice';
 import selectedRateSlice from './features/selectedRateSlice';
+import insuranceSlice from './features/insuranceSlice';
+import paymentSlice from './features/paymentSlice';
 
 export const store = configureStore({
 	reducer: {
@@ -16,9 +18,14 @@ export const store = configureStore({
 		quote: quoteSlice,
 		user: userSlice,
 		selectedRate: selectedRateSlice,
+		insurance: insuranceSlice,
+		payment: paymentSlice,
 	},
 	middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(apiSlice.middleware),
 });
 
-export type AppDispatch = typeof store.dispatch;
-export type RootState = ReturnType<typeof store.getState>;
+// export type AppDispatch = typeof store.dispatch;
+// export type RootState = ReturnType<typeof store.getState>;
+
+export type RootState = ReturnType<typeof store.getState>
+export type AppDispatch = typeof store.dispatch

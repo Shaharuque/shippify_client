@@ -8,8 +8,6 @@ import { HiOutlineMail } from 'react-icons/hi';
 import { AiOutlineLock, AiOutlineUser, AiOutlineMobile } from 'react-icons/ai';
 import FormHelperText from '../../Form helper text/formHelperText';
 import { signUp } from '../../../services/apis/authApi';
-import { useAppDispatch } from '../../../redux/hooks';
-import { updateUser } from '../../../redux/features/userSlice';
 
 export type RegistrationFormData = {
 	name: string;
@@ -19,7 +17,6 @@ export type RegistrationFormData = {
 };
 
 const RegisterForm = ({ nextStep }: { nextStep: () => void }) => {
-	const dispatch = useAppDispatch();
 	const {
 		handleSubmit,
 		register,
@@ -30,8 +27,9 @@ const RegisterForm = ({ nextStep }: { nextStep: () => void }) => {
 		try {
 			const result = await signUp(values);
 			if (result?.data?.status === 'success') {
+				console.log('register form data', result?.data?.data);
 				localStorage.setItem('userTempData', JSON.stringify(result?.data));
-				// dispatch(updateUser(result?.data));
+
 				nextStep();
 			}
 		} catch (error) {
@@ -63,7 +61,7 @@ const RegisterForm = ({ nextStep }: { nextStep: () => void }) => {
 						<Input
 							id="name"
 							placeholder="John Doe"
-							_placeholder={{ color: 'black' }}
+							_placeholder={{ color: '#808080' }}
 							border={'1px solid'}
 							{...register('name')}
 						/>
@@ -81,7 +79,7 @@ const RegisterForm = ({ nextStep }: { nextStep: () => void }) => {
 						<Input
 							id="email"
 							placeholder="example@example.com"
-							_placeholder={{ color: 'black' }}
+							_placeholder={{ color: '#808080' }}
 							border={'1px solid'}
 							{...register('email')}
 						/>
@@ -99,7 +97,7 @@ const RegisterForm = ({ nextStep }: { nextStep: () => void }) => {
 						<Input
 							id="phone"
 							placeholder="Contact Number"
-							_placeholder={{ color: 'black' }}
+							_placeholder={{ color: '#808080' }}
 							border={'1px solid'}
 							{...register('phone')}
 						/>
@@ -117,7 +115,7 @@ const RegisterForm = ({ nextStep }: { nextStep: () => void }) => {
 						<Input
 							id="password"
 							placeholder="Password"
-							_placeholder={{ color: 'black' }}
+							_placeholder={{ color: '#808080' }}
 							border={'1px solid'}
 							{...register('password')}
 						/>
@@ -135,7 +133,7 @@ const RegisterForm = ({ nextStep }: { nextStep: () => void }) => {
 						<Input
 							id="confirmPassword"
 							placeholder="Confirm Password"
-							_placeholder={{ color: 'black' }}
+							_placeholder={{ color: '#808080' }}
 							border={'1px solid'}
 							{...register('password')}
 						/>

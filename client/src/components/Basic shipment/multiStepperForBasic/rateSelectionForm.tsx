@@ -11,20 +11,21 @@ import PriceAscendingDescendingFilter from '../../Filters/priceAscendingDescendi
 import DeliveryDateFilter from '../../Filters/deliveryDate';
 import PriceRangeFilter from '../../Filters/priceRange';
 import { updateSelectedRate } from '../../../redux/features/selectedRateSlice';
+// import { dummyRateCardData } from '../../../data/dummyRateCardsData';
 
 const RateSelectionForm = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () => void }) => {
 	const shipmentInfo = useAppSelector((state: RootState) => state?.basicShipments);
-	const [fetchRates, { isLoading, isError }] = useFetchRatesMutation();
+	const token = localStorage.getItem('token');
+	const [fetchRates, { isLoading, isError }] = useFetchRatesMutation({ shipments: [shipmentInfo], token });
 	const [rates, setRates] = useState<IRateDetail[]>([]);
 	const [filterableRates, setFilterableRates] = useState<IRateDetail[]>([]);
-	const [minRate, setMinRate] = useState(0);
-	const [maxRate, setMaxRate] = useState(100);
+	// const [minRate, setMinRate] = useState(0);
+	// const [maxRate, setMaxRate] = useState(100);
 
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
 		const fetchData = async () => {
-			const token = localStorage.getItem('token');
 			try {
 				const result = await fetchRates({ shipments: [shipmentInfo], token });
 				console.log('Response:', result?.data);
@@ -85,9 +86,9 @@ const RateSelectionForm = ({ nextStep, prevStep }: { nextStep: () => void; prevS
 					<Error />
 				</>
 			) : isLoading ? (
-				<Box>
+				<>
 					<SpinningLoader />
-				</Box>
+				</>
 			) : (
 				<Box>
 					<Flex
@@ -95,8 +96,8 @@ const RateSelectionForm = ({ nextStep, prevStep }: { nextStep: () => void; prevS
 						gap={'5rem'}>
 						<Box w={'12rem'}>
 							<PriceRangeFilter
-								minRate={minRate}
-								maxRate={maxRate}
+								// minRate={minRate}
+								// maxRate={maxRate}
 								onRangeChange={handlePriceRangeFilterChange}
 							/>
 							<PriceAscendingDescendingFilter onChange={handlePriceFilterChange} />
@@ -106,6 +107,7 @@ const RateSelectionForm = ({ nextStep, prevStep }: { nextStep: () => void; prevS
 						<Box>
 							<RateCardList
 								rates={rates}
+								// rates={dummyRateCardData}
 								prevStep={prevStep}
 								nextStep={nextStep}
 							/>

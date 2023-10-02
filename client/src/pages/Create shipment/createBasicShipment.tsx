@@ -31,7 +31,7 @@ const CreateBasicShipmentPage = () => {
 						steps={stepsForBasic}
 					/>
 				</Box>
-				<Box flex={0.5}>Info</Box>
+				<Box flex={0.5}></Box>
 			</Flex>
 		</Flex>
 	);

@@ -14,7 +14,18 @@ export const basicShipmentsApi = apiSlice.injectEndpoints({
 				body: { shipments },
 			}),
 		}),
+
+		fetchSingleShipment: builder.mutation({
+			query: ({token,id}: { id: string; token: string }) => ({
+				url: `/shipment/individual/${id}`,
+				method: 'GET',
+				headers: {
+					'Content-type': 'application/json; charset=UTF-8',
+					'x-auth-token': token,
+				},
+			}),
+		}),
 	}),
 });
 
-export const { useFetchRatesMutation } = basicShipmentsApi;
+export const { useFetchRatesMutation,useFetchSingleShipmentMutation } = basicShipmentsApi;

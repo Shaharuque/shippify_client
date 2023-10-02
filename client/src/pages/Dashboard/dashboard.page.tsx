@@ -1,30 +1,79 @@
-import { Box, Flex, Heading, Select, Text } from '@chakra-ui/react';
-import ShipmentCard from '../../components/Cards/shipmentCard';
+import { Box, Flex, Heading } from '@chakra-ui/react';
 import PriceAscendingDescendingFilter from '../../components/Filters/priceAscendingDescending';
 import WeightFilter from '../../components/Filters/weightFilter';
 import StatusFilter from '../../components/Filters/statusFilter';
 import ViewShipmentDetails from '../../components/Cards/viewShipmentDetails';
 import ShipmentCardList from '../../components/Shipment card list/shipmentCardList';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useFetchSingleShipmentMutation } from '../../redux/api/basicShipmentsApi';
 
 const DashboardPage = () => {
+	const [tableData,setTableData]=useState([])
+	const [price,setPrice]=useState('')
+	const [weight,setWeight]=useState('')
+	const [status,setStatus]=useState('')
+
+	useEffect(() => {
+		const token = localStorage.getItem('token');
+		const fetchTableData = async () => {
+			try {
+				const response = await axios.post(
+					`http://192.168.68.89:5000/shipment/sort-by-package-and-price`,
+					{	carrier_id:'',
+						priceSort: price,
+						weightSort: weight,
+						shipment_status: status,
+					},
+					{
+						headers: {
+							'Content-Type': 'application/json',
+							'x-auth-token': token,
+						},
+					}
+				);
+				console.log('result:', response.data);
+				setTableData(response?.data?.result);
+			} catch (error) {
+				console.log(error);
+			}
+		};
+		fetchTableData();
+	}, [price,weight,status]);
+
+	console.log(price,weight,status)
+
+	const token=localStorage.getItem('token')
+	const [fetchSingleShipment,{data:shipmentData,isLoading:dataLaoding}]=useFetchSingleShipmentMutation()
+	console.log('single data from parent',shipmentData,dataLaoding)
+
+	const clickedCard:any=(cardId:any)=>{
+		console.log('clicked',cardId)
+		fetchSingleShipment({token,id:cardId})
+	}
+
 	return (
 		<Flex
-			mt={'2.5rem'}
-			p={'.25vw'}
 			gap={'1vw'}
 			flexDirection={{ base: 'column', md: 'row' }}>
 			<Box
 				p={'.5vw 0 .5vw 5vw'}
-				flex={0.45}>
+				flex={0.2}>
 				<PriceAscendingDescendingFilter
 					onChange={function (value: string): void {
-						throw new Error('Function not implemented.');
+						setPrice(value)
 					}}
 				/>
-				<WeightFilter />
-				<StatusFilter />
+				<WeightFilter 
+				onChange={function (value: string): void {
+						setWeight(value)
+					}}/>
+				<StatusFilter 
+				onChange={function (value: string): void {
+					setStatus(value)
+				}}/>
 			</Box>
-			<Box flex={0.2}>
+			<Box flex={0.5}>
 				<Heading
 					textAlign={'center'}
 					m={'0 0 1vw 0'}
@@ -32,24 +81,12 @@ const DashboardPage = () => {
 					fontFamily={'Roboto'}>
 					Shipment History
 				</Heading>
-				<Flex
-					flexWrap="wrap"
-					h={'75vh'}
-					mb={'2rem'}
-					overflowY={'auto'}
-					css={{
-						'&::-webkit-scrollbar': {
-							width: '0',
-						},
-						'&::-webkit-scrollbar-thumb': {
-							backgroundColor: 'rgba(0, 0, 0, 0.5)',
-							borderRadius: '0.25em',
-						},
-					}}>
-					<ShipmentCardList />
-				</Flex>
+
+				<ShipmentCardList clickedCard={clickedCard} tableData={tableData}/>
 			</Box>
-			<Box flex={0.2}>
+			<Box
+				flex={0.3}
+				p={'.25rem'}>
 				<ViewShipmentDetails />
 			</Box>
 		</Flex>

@@ -89,6 +89,7 @@ const rateDetailsSlice = createSlice({
 	initialState: initialRateDetailState,
 	reducers: {
 		updateRates: (state, action) => {
+			console.log('state', state);
 			return action.payload;
 		},
 	},

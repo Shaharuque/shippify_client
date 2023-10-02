@@ -1,4 +1,4 @@
-import { Box, Flex, FormControl, Input, Select, Text, Button, useNumberInput, HStack, FormLabel } from '@chakra-ui/react';
+import { Box, Flex, FormControl, Input, Select, Text, Button, HStack, FormLabel } from '@chakra-ui/react';
 import { Controller, SubmitHandler, useForm, useFieldArray } from 'react-hook-form';
 import { useAppDispatch } from '../../../redux/hooks';
 import { updateField } from '../../../redux/features/basicShipmentsSlice';
@@ -41,23 +41,12 @@ const defaultCustomsValues: TCustomsDetailsForm = {
 };
 
 const CustomsInfoForm = () => {
-	const { control, handleSubmit, reset } = useForm<TCustomsDetailsForm>({ defaultValues: defaultCustomsValues });
+	const { control, handleSubmit } = useForm<TCustomsDetailsForm>({ defaultValues: defaultCustomsValues });
 
 	const { fields, append } = useFieldArray({
 		control,
 		name: 'customs_items',
 	});
-
-	const { getInputProps, getIncrementButtonProps, getDecrementButtonProps } = useNumberInput({
-		step: 1,
-		defaultValue: 1,
-		min: 1,
-		max: 6,
-	});
-
-	const inc = getIncrementButtonProps();
-	const dec = getDecrementButtonProps();
-	const input = getInputProps();
 
 	const dispatch = useAppDispatch();
 	const onSubmit: SubmitHandler<TCustomsDetailsForm> = (data) => {
@@ -198,19 +187,11 @@ const CustomsInfoForm = () => {
 								<FormControl mt={'1rem'}>
 									<FormLabel>Quantity</FormLabel>
 									<HStack>
-										{/* <Button {...inc}>+</Button> */}
-
 										<Controller
 											name={`customs_items.${index}.quantity`}
 											control={control}
-											render={({ field }) => (
-												<Input
-													{...field}
-													// {...input}
-												/>
-											)}
+											render={({ field }) => <Input {...field} />}
 										/>
-										{/* <Button {...dec}>-</Button> */}
 									</HStack>
 								</FormControl>
 

@@ -49,7 +49,7 @@ const CompanyProfileForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 			</Center>
 
 			<>
-				<Greeting text={'Onboarding Your Company is Crucial!'} />
+				<Greeting text={'Tell us a bit more about your company!'} />
 			</>
 
 			<>
@@ -67,7 +67,7 @@ const CompanyProfileForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 						<Input
 							id="companyName"
 							placeholder="Company Name"
-							_placeholder={{ color: 'black' }}
+							_placeholder={{ color: '#808080' }}
 							border={'1px solid'}
 							{...register('companyName')}
 						/>
@@ -85,7 +85,7 @@ const CompanyProfileForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 						<Input
 							id="companyEmail"
 							placeholder="Company Email"
-							_placeholder={{ color: 'black' }}
+							_placeholder={{ color: '#808080' }}
 							border={'1px solid'}
 							{...register('companyEmail')}
 						/>
@@ -103,7 +103,7 @@ const CompanyProfileForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 						<Input
 							id="companyPhone"
 							placeholder="Contact Number"
-							_placeholder={{ color: 'black' }}
+							_placeholder={{ color: '#808080' }}
 							border={'1px solid'}
 							{...register('companyPhone')}
 						/>
@@ -119,7 +119,7 @@ const CompanyProfileForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 						<Input
 							id="companyWebsite"
 							placeholder="www.example.com"
-							_placeholder={{ color: 'black' }}
+							_placeholder={{ color: '#808080' }}
 							border={'1px solid'}
 							{...register('companyWebsite')}
 						/>
@@ -133,7 +133,7 @@ const CompanyProfileForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 					<Select
 						id="monthlyShipmentValue"
 						placeholder="Monthly Shipment Volume"
-						_placeholder={{ color: 'black' }}
+						_placeholder={{ color: '#808080' }}
 						border={'1px solid'}
 						{...register('monthlyShipmentValue')}>
 						<option value={'0-30'}>0 - 30 kg</option>
@@ -145,8 +145,14 @@ const CompanyProfileForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 				<Flex
 					gap={'1rem'}
 					mt={'3rem'}>
-					<BackButton onClick={handleBackButton} />
-					<SubmitButton text={'Next'} />
+					<BackButton
+						onClick={handleBackButton}
+						width="6rem"
+					/>
+					<SubmitButton
+						text={'Next'}
+						width="6rem"
+					/>
 				</Flex>
 			</form>
 		</>

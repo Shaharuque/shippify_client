@@ -28,6 +28,7 @@ const LoginForm = () => {
 			const result = await signIn(values);
 			if (result?.data?.status === 'success') {
 				localStorage.setItem('token', result?.data?.token);
+				localStorage.setItem('userData', JSON.stringify(result?.data?.data));
 				navigate('/home');
 			}
 		} catch (error) {
@@ -72,7 +73,7 @@ const LoginForm = () => {
 							<Input
 								id="email"
 								placeholder="example@example.com"
-								_placeholder={{ color: 'black' }}
+								_placeholder={{ color: '#808080' }}
 								border={'1px solid'}
 								{...register('email')}
 							/>
@@ -90,7 +91,7 @@ const LoginForm = () => {
 							<Input
 								id="password"
 								placeholder="Password"
-								_placeholder={{ color: 'black' }}
+								_placeholder={{ color: '#808080' }}
 								border={'1px solid'}
 								{...register('password')}
 							/>

@@ -53,9 +53,14 @@ const RateCardList = ({ rates, prevStep, nextStep }: RateCardListProps) => {
 			))}
 
 			<Flex
-				justify="flex-end"
-				m="2rem 0"
-				gap="1rem">
+				position="fixed"
+				bottom="0"
+				left="0"
+				right="0"
+				justify="center"
+				p="1rem"
+				bg="inherit"
+				gap={'1rem'}>
 				<BackButton
 					onClick={() => prevStep()}
 					width="8rem"

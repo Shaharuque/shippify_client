@@ -5,7 +5,9 @@ import AnalyticsBox from '../../components/Home page components/Analytics box/an
 
 const HomePage = () => {
 	return (
-		<Flex gap={'1rem'}>
+		<Flex
+			gap={'1rem'}
+			p={'1.5rem'}>
 			<ShipmentMenuList />
 			<AnalyticsBox />
 			<StatCardList />

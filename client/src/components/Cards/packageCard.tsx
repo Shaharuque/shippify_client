@@ -5,8 +5,8 @@ type PackageCardProps = {
 	text: string;
 	dimension: string;
 	image: string;
-	code: string;
-	onSelect: (code: string) => void;
+	code: string | null;
+	onSelect: (code: string | null) => void;
 	isSelected: boolean;
 };
 
@@ -48,7 +48,8 @@ const PackageCard = ({ text, dimension, image, code, onSelect, isSelected }: Pac
 					</Heading>
 					<Text
 						textTransform={'capitalize'}
-						fontSize={'.80rem'}>
+						fontSize={'.80rem'}
+						whiteSpace={'nowrap'}>
 						{dimension}
 					</Text>
 				</Stack>

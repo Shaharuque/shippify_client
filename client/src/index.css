@@ -48,3 +48,19 @@ h6 {
 	font-weight: inherit;
 	overflow-wrap: break-word;
 }
+
+.apexcharts-legend.apx-legend-position-bottom.apexcharts-align-left,
+.apexcharts-legend.apx-legend-position-top.apexcharts-align-left,
+.apexcharts-legend.apx-legend-position-right,
+.apexcharts-legend.apx-legend-position-left {
+	top: 60px !important;
+}
+
+::-webkit-scrollbar {
+	width: 0;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: rgba(0, 0, 0, 0.5);
+	border-radius: 0.25em;
+}

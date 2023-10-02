@@ -1,6 +1,10 @@
 import { Select, Box, Text } from '@chakra-ui/react';
 
-const StausFilter = () => {
+
+type statusFilterProps = {
+	onChange: (value: string) => void;
+};
+const StausFilter = ({ onChange }: statusFilterProps) => {
 	return (
 		<Box mb="4">
 			<Text
@@ -9,15 +13,18 @@ const StausFilter = () => {
 				Status
 			</Text>
 			<Select
+				onChange={(e:any) => onChange(e.target.value)}
 				defaultValue={'asc'}
-				border={'1px solid #0E1420'}
+				border={'2px solid gray'}
 				_focusVisible={{ boxShadow: '0 0 2.5px #0E1420' }}>
-				<option value={'asc'}>Pending</option>
-				<option value={'desc'}>In transit</option>
-				<option value={'desc'}>Descending</option>
-				<option value={'desc'}>Descending</option>
-				<option value={'desc'}>Unknown</option>
-				<option value={'desc'}>Delivered</option>
+				<option value={''}>Select</option>
+				<option value={'label_purchased'}>Label Purchased</option>
+				<option value={'in_transit'}>In Transit</option>
+				<option value={'received'}>Received</option>
+				<option value={'dropped_at_service_point'}>Dropped At Service Point</option>
+				<option value={'reached_at_service_point'}>Reached At Service Point</option>
+				<option value={'unknown'}>Lost</option>
+				<option value={'returned'}>Returned</option>
 			</Select>
 		</Box>
 	);

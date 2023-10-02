@@ -14,13 +14,13 @@ import PredefinedBoxes from '../../Predefined boxes/predefinedBoxes';
 export type TPackageDetailsForm = {
 	weight: {
 		unit: string;
-		value: number;
+		value: number | null;
 	};
 	dimensions: {
 		unit: string;
-		height: number;
-		width: number;
-		length: number;
+		height: number | null;
+		width: number | null;
+		length: number | null;
 	};
 	package_code: string;
 };
@@ -28,68 +28,161 @@ export type TPackageDetailsForm = {
 const defaultValues: TPackageDetailsForm = {
 	weight: {
 		unit: 'pound',
-		value: 0.0,
+		value: null,
 	},
 	dimensions: {
 		unit: 'inch',
-		length: 0.0,
-		width: 0.0,
-		height: 0.0,
+		length: null,
+		width: null,
+		height: null,
 	},
 	package_code: '',
 };
 
 const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () => void }) => {
-	const [isCustom, setIsCustom] = useState(false);
-	const dispatch = useAppDispatch();
 	const packages = useAppSelector((state: RootState) => state.basicShipments.packages);
 	const sender = useAppSelector((state: RootState) => state.basicShipments.ship_from);
 	const reciever = useAppSelector((state: RootState) => state.basicShipments.ship_to);
+	const dispatch = useAppDispatch();
+
+	const [isCustom, setIsCustom] = useState(false);
+	const [numberInputChange, setNumberInputChange] = useState(false);
+	const [addNew, setAddNew] = useState(false);
+	const [editModeOn, setEditModeOn] = useState(false);
+	const [selectedPackageIndex, setSelectedPackageIndex] = useState<number | null>(null);
+
+	const [selectedPredefinedBoxCode, setSelectedPredefinedBoxCode] = useState<string | null>(null);
+	const [weightValue, setWeightValue] = useState<number | null>(null);
+	const [unit, setUnit] = useState('pound');
 
 	const [defaultPackageValues, setDefaultPackageValues] = useState(defaultValues);
 
-	const { register, handleSubmit, reset, setValue } = useForm<TPackageDetailsForm>({
+	const { register, handleSubmit, reset, setValue, getValues } = useForm<TPackageDetailsForm>({
 		defaultValues: defaultPackageValues,
 	});
 
 	const onSubmit = (data: TPackageDetailsForm) => {
-		const updatedPackages = [...packages, data];
-		dispatch(updateField({ packages: updatedPackages }));
+		if (editModeOn) {
+			const updatedPackages = [...packages];
+			updatedPackages[selectedPackageIndex!] = data;
+			dispatch(updateField({ packages: updatedPackages }));
+		} else {
+			const updatedPackages = [...packages, data];
+			dispatch(updateField({ packages: updatedPackages }));
+		}
 
-		setIsCustom((prev) => !prev);
-		setValue('weight.value', 0);
-		reset(defaultPackageValues);
+		CustomReset();
 	};
 
 	useEffect(() => {
 		reset(defaultPackageValues);
 	}, [defaultPackageValues]);
 
-	const handleContinue = () => {
-		nextStep();
-	};
-
 	const handleSelectPackage = (index: number) => {
+		setAddNew(true);
+		setEditModeOn(true);
+		setSelectedPackageIndex(index);
+		setNumberInputChange(false);
 		const selectedPackage = packages[index];
 		console.log('selected package:', selectedPackage);
 		if (selectedPackage.package_code.length === 0) {
 			setIsCustom(true);
-
-			setValue('dimensions.length', selectedPackage.dimensions.length);
-			setValue('dimensions.width', selectedPackage.dimensions.width);
-			setValue('dimensions.height', selectedPackage.dimensions.height);
-			setValue('dimensions.unit', selectedPackage.dimensions.unit);
+			setValue('dimensions.length', selectedPackage?.dimensions.length);
+			setValue('dimensions.width', selectedPackage?.dimensions.width);
+			setValue('dimensions.height', selectedPackage?.dimensions.height);
+			setValue('dimensions.unit', selectedPackage?.dimensions.unit);
 			setValue('weight.value', selectedPackage.weight.value);
 			setValue('weight.unit', selectedPackage.weight.unit);
+		} else {
+			setIsCustom(false);
+			setWeightValue(selectedPackage.weight.value);
+			setUnit(selectedPackage.weight.unit);
+			setSelectedPredefinedBoxCode(selectedPackage.package_code);
 		}
+
 		setDefaultPackageValues(selectedPackage);
+	};
+
+	const customDimensionFormValidator = () => {
+		return getValues('dimensions.height') === 0 || getValues('dimensions.width') === 0 || getValues('dimensions.length') === 0 || getValues('weight.value') === 0 || !numberInputChange;
+	};
+	const handleSelectPredefinedBoxCode = (code: string | null) => {
+		selectedPredefinedBoxCode === code ? setSelectedPredefinedBoxCode(null) : setSelectedPredefinedBoxCode(code);
+
+		setNumberInputChange(true);
+	};
+	const handlePredefinedWeightChange = (weight: number | null) => {
+		setWeightValue(weight);
+		setNumberInputChange(true);
+	};
+	const handlePredefinedUnitChange = (unit: string) => {
+		setUnit(unit);
+	};
+
+	const handleButtonClick = () => {
+		if (editModeOn) {
+			const updatedPackages = packages.map((pkg, index) => {
+				if (index === selectedPackageIndex) {
+					return {
+						...pkg,
+						weight: {
+							unit: unit,
+							value: weightValue,
+						},
+						package_code: selectedPredefinedBoxCode!,
+					};
+				}
+				return pkg;
+			});
+			dispatch(updateField({ packages: updatedPackages }));
+		} else {
+			const weight = { unit: unit, value: weightValue };
+			const newPackage = {
+				weight,
+				package_code: selectedPredefinedBoxCode,
+			};
+			const updatedPackages = [...packages, newPackage];
+			dispatch(updateField({ packages: updatedPackages }));
+		}
+		setUnit('pound');
+		setWeightValue(null);
+		setSelectedPredefinedBoxCode(null);
+		setEditModeOn(false);
+		setSelectedPackageIndex(null);
+		setAddNew(false);
+	};
+
+	const CustomReset = () => {
+		setIsCustom(false);
+		setAddNew(false);
+		setEditModeOn(false);
+		setSelectedPackageIndex(null);
+		setNumberInputChange(false);
+		setSelectedPredefinedBoxCode(null);
+		setWeightValue(null);
+		setUnit('pound');
+		setValue('dimensions.length', null);
+		setValue('dimensions.width', null);
+		setValue('dimensions.height', null);
+		setValue('dimensions.unit', 'inch');
+		setValue('weight.value', null);
+		setValue('weight.unit', 'pound');
+	};
+
+	const handleRemovePackage = () => {
+		const updatedPackages = packages.filter((_, index) => index !== selectedPackageIndex);
+
+		dispatch(updateField({ packages: updatedPackages }));
+		CustomReset();
+		setSelectedPredefinedBoxCode(null);
 	};
 
 	return (
 		<Box
 			p={'.25vw'}
 			w={'40rem'}
-			overflowY={'auto'}
+			overflowY={'scroll'}
+			h={'800px'}
 			css={{
 				'&::-webkit-scrollbar': {
 					width: '0',
@@ -103,6 +196,7 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 			<PackageNumbers
 				packages={packages}
 				onSelectPackage={handleSelectPackage}
+				selectedPackageIndex={selectedPackageIndex}
 			/>
 			<Flex
 				gap={'2rem'}
@@ -125,7 +219,7 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 					bg={isCustom ? 'cta' : 'gray.100'}
 					color={isCustom ? 'primary' : 'black'}
 					onClick={() => setIsCustom((prev) => !prev)}>
-					Custom Dimension
+					Custom dimension
 				</Button>
 			</Flex>
 
@@ -146,7 +240,8 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 							<FormControl isRequired>
 								<NumberInput
 									precision={2}
-									max={70}>
+									max={70}
+									onChange={() => setNumberInputChange(true)}>
 									<NumberInputField
 										{...register('dimensions.length')}
 										placeholder="Length"
@@ -167,7 +262,8 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 							<FormControl isRequired>
 								<NumberInput
 									precision={2}
-									max={70}>
+									max={70}
+									onChange={() => setNumberInputChange(true)}>
 									<NumberInputField
 										{...register('dimensions.width')}
 										placeholder="Width"
@@ -188,7 +284,8 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 							<FormControl isRequired>
 								<NumberInput
 									precision={2}
-									max={70}>
+									max={70}
+									onChange={() => setNumberInputChange(true)}>
 									<NumberInputField
 										{...register('dimensions.height')}
 										placeholder="Height"
@@ -227,7 +324,8 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 							<FormControl isRequired>
 								<NumberInput
 									precision={2}
-									max={150}>
+									max={150}
+									onChange={() => setNumberInputChange(true)}>
 									<NumberInputField
 										{...register('weight.value')}
 										placeholder="Weight"
@@ -257,31 +355,68 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 									<option value={'kg'}>kg</option>
 								</Select>
 							</FormControl>
-
-							<SubmitButton text="Save Details" />
+							<Flex
+								gap={'.75rem'}
+								align={'center'}>
+								<RegularButton
+									onClick={handleRemovePackage}
+									text="Remove"
+									width="8rem"
+									onHoverColor="#DC143C"
+									isDisabled={!editModeOn}
+								/>
+								<SubmitButton
+									text={editModeOn ? 'Update' : 'Add package'}
+									width="8rem"
+									isDisabled={customDimensionFormValidator()}
+								/>
+							</Flex>
 						</Flex>
 					</>
 				) : (
 					<>
-						<PredefinedBoxes />
+						<PredefinedBoxes
+							inputChanged={numberInputChange}
+							editModeOn={editModeOn}
+							selectedCode={selectedPredefinedBoxCode}
+							weightValue={weightValue}
+							unit={unit}
+							onPredefinedUnitChange={handlePredefinedUnitChange}
+							onPredefinedWeightChange={handlePredefinedWeightChange}
+							onPredefinedBoxCodeSelect={handleSelectPredefinedBoxCode}
+							onPredefinedSubmit={handleButtonClick}
+							removePackage={handleRemovePackage}
+						/>
 					</>
 				)}
 
 				<Flex
-					justify={'flex-end'}
 					mt={'4rem'}
-					gap={'1rem'}>
+					justify={'space-between'}>
 					<BackButton
 						onClick={() => prevStep()}
 						width="8rem"
 					/>
-					<RegularButton
-						text="Continue"
-						width="12rem"
-						onClick={handleContinue}
-						// isDisabled={packages.length === 0}
-						error_message="You haven't added any package!"
-					/>
+
+					<Flex
+						justify={'flex-end'}
+						gap={'1rem'}>
+						{addNew ? (
+							<RegularButton
+								onClick={CustomReset}
+								text={'Add new'}
+								width="8rem"
+							/>
+						) : null}
+
+						<RegularButton
+							text="Continue"
+							width="12rem"
+							onClick={nextStep}
+							isDisabled={packages.length === 0}
+							error_message="You haven't added any package!"
+						/>
+					</Flex>
 				</Flex>
 			</form>
 		</Box>

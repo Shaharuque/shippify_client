@@ -3,20 +3,30 @@ import ups from '../../assets/ups.svg';
 import fedex from '../../assets/fedex-express-6.svg';
 import stamps from '../../assets/stamps_com.png';
 import { LuBadgeDollarSign } from 'react-icons/lu';
+import moment from 'moment';
+import { useFetchSingleShipmentMutation } from '../../redux/api/basicShipmentsApi';
 
 export interface IShipment {
 	shipment: any;
+	clickedCard:(cardId:any)=>void
 }
 
-const ShipmentCard = ({ shipment }: IShipment) => {
+const ShipmentCard = ({ shipment,clickedCard }: IShipment) => {
+	const currentDateTime = moment();
+	const token=localStorage.getItem('token')
+	
+
 	return (
 		<Box
+			onClick={()=>clickedCard(shipment?._id)}
 			borderWidth="1px"
 			borderRadius="lg"
 			p={useBreakpointValue({ base: 2, md: 4, lg: 6 })}
 			marginBottom={4}
 			bg="white"
 			boxShadow="lg"
+			w={'100%'}
+			h={'20%'}
 			_hover={{ backgroundColor: '#e8edeb' }}>
 			<Flex
 				gap={'1vw'}
@@ -31,7 +41,9 @@ const ShipmentCard = ({ shipment }: IShipment) => {
 					<Text
 						fontWeight={'md'}
 						fontSize={'sm'}
-						whiteSpace={'pre-wrap'}>
+						whiteSpace={'pre-wrap'}
+					
+						>
 						{shipment?.rateDetail?.service_type}
 					</Text>
 				</Stack>
@@ -52,33 +64,35 @@ const ShipmentCard = ({ shipment }: IShipment) => {
 					<Text
 						fontSize={'md'}
 						fontWeight={'bold'}>
-						Total packages
+						packages
 					</Text>
 					<Text fontSize={'sm'}>{shipment?.shipment_detail?.packages.length}</Text>
 				</Stack>
 				<Stack align={'center'}>
 					<Text fontWeight={'bold'}>Tracking Id</Text>
-					<Text fontSize={'sm'}>2212BxC</Text>
+					<Text fontSize={'xs'} fontWeight={'bold'}>{shipment?.labelDetail?.tracking_number}</Text>
 				</Stack>
 				<Stack align={'center'}>
 					<Text fontWeight={'bold'}>Source</Text>
-					<Text fontSize={'sm'}>CA, USA</Text>
+					<Text fontSize={'sm'}>{shipment?.shipment_detail?.ship_from?.city_locality}, {shipment?.shipment_detail?.ship_from?.country_code
+}</Text>
 				</Stack>
 				<Stack align={'center'}>
 					<Text fontWeight={'bold'}>Destination</Text>
-					<Text fontSize={'sm'}>ON, CANADA</Text>
+					<Text fontSize={'sm'}>{shipment?.shipment_detail?.ship_to?.city_locality}, {shipment?.shipment_detail?.ship_to?.country_code
+}</Text>
 				</Stack>
 				<Stack align={'center'}>
-					<Text fontWeight={'bold'}>Estimated Delivery Date</Text>
-					<Text fontSize={'sm'}>Fri, 26th Sep, 2023</Text>
+					<Text fontWeight={'bold'}>Delivery Date</Text>
+					<Text fontSize={'sm'}>{moment(shipment?.rateDetail?.estimated_delivery_date)?.format("MM-DD-YYYY")}</Text>
 				</Stack>
 				<Stack align={'center'}>
-					<Text fontWeight={'bold'}>Delivery status</Text>
+					<Text fontWeight={'bold'}>Tracking Status</Text>
 					<Badge
 						colorScheme="pink"
 						borderRadius={'md'}
-						fontSize={'sm'}>
-						Delivered
+						fontSize={'xs'}>
+						{shipment?.shipment_detail?.shipment_status}
 					</Badge>
 				</Stack>
 			</Flex>

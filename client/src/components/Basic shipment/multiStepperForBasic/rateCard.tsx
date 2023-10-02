@@ -5,6 +5,7 @@ import stamps from '../../../assets/stamps_com.png';
 import { IRateDetail } from '../../../redux/features/rateDetailsSlice';
 import { LuBadgeDollarSign } from 'react-icons/lu';
 import checked from '../../../assets/checked.png';
+import { formatDate } from '../../../utils/formatDate';
 
 const RateCard = ({ props, isSelected, onSelect }: { props: IRateDetail; isSelected: boolean; onSelect: (rateId: string) => void }) => {
 	const handleClick = () => {
@@ -83,27 +84,27 @@ const RateCard = ({ props, isSelected, onSelect }: { props: IRateDetail; isSelec
 							fontSize="lg"
 							fontWeight="bold"
 							textTransform={'uppercase'}>
-							{props.shipping_amount?.amount} ({props.shipping_amount?.currency})
+							{props?.shipping_amount?.amount} ({props?.shipping_amount?.currency})
 						</Text>
 					</Flex>
 					<Text
 						fontSize=".9rem"
 						color="gray.500"
 						textTransform={'uppercase'}>
-						{props.insurance_amount?.amount} (insurance)
+						{props?.insurance_amount?.amount} (insurance)
 					</Text>
 					<Text
 						fontSize=".9rem"
 						color="gray.500"
 						textTransform={'uppercase'}>
-						{props.other_amount?.amount} (tax)
+						{props?.other_amount?.amount} (tax)
 					</Text>
 					<Text
 						fontSize=".85rem"
 						color="gray.500"
 						textTransform={'capitalize'}
 						mt={'.5rem'}>
-						{props.carrier_delivery_days}
+						{formatDate(props?.estimated_delivery_date)}
 					</Text>
 				</Flex>
 			</Flex>

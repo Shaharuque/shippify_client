@@ -9,7 +9,6 @@ const MultiStepperForBasic = ({ activeStep, handleStepChange }: { activeStep: nu
 	const nextStep = () => {
 		handleStepChange(activeStep + 1);
 	};
-
 	const prevStep = () => {
 		handleStepChange(activeStep - 1);
 	};
@@ -38,10 +37,7 @@ const MultiStepperForBasic = ({ activeStep, handleStepChange }: { activeStep: nu
 					nextStep={nextStep}
 				/>
 			) : activeStep === 6 ? (
-				<PaymentForm
-					prevStep={prevStep}
-					nextStep={nextStep}
-				/>
+				<PaymentForm prevStep={prevStep} />
 			) : null}
 		</>
 	);

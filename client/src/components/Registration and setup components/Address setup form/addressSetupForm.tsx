@@ -43,10 +43,6 @@ const AddressSetupForm = ({ prevStep }: { prevStep: () => void }) => {
 		}
 	};
 
-	const handleBackButton = () => {
-		prevStep();
-	};
-
 	return (
 		<>
 			<Center>
@@ -54,7 +50,7 @@ const AddressSetupForm = ({ prevStep }: { prevStep: () => void }) => {
 			</Center>
 
 			<>
-				<Greeting text={'Good To See You Again!'} />
+				<Greeting text={'Tell us a bit more about your company!'} />
 			</>
 			<>
 				<FormHelperText text={' Fill up pickup information for the carrier'} />
@@ -71,7 +67,7 @@ const AddressSetupForm = ({ prevStep }: { prevStep: () => void }) => {
 						<Input
 							id="addressOne"
 							placeholder="First Address"
-							_placeholder={{ color: 'black' }}
+							_placeholder={{ color: '#808080' }}
 							border={'1px solid'}
 							{...register('address_line1')}
 						/>
@@ -89,7 +85,7 @@ const AddressSetupForm = ({ prevStep }: { prevStep: () => void }) => {
 						<Input
 							id="addressTwo"
 							placeholder="Second Address"
-							_placeholder={{ color: 'black' }}
+							_placeholder={{ color: '#808080' }}
 							border={'1px solid'}
 							{...register('address_line2')}
 						/>
@@ -107,7 +103,7 @@ const AddressSetupForm = ({ prevStep }: { prevStep: () => void }) => {
 						<Input
 							id="state"
 							placeholder="State/Province"
-							_placeholder={{ color: 'black' }}
+							_placeholder={{ color: '#808080' }}
 							border={'1px solid'}
 							{...register('state_province')}
 						/>
@@ -125,7 +121,7 @@ const AddressSetupForm = ({ prevStep }: { prevStep: () => void }) => {
 						<Input
 							id="city"
 							placeholder="City"
-							_placeholder={{ color: 'black' }}
+							_placeholder={{ color: '#808080' }}
 							border={'1px solid'}
 							{...register('city_locality')}
 						/>
@@ -143,7 +139,7 @@ const AddressSetupForm = ({ prevStep }: { prevStep: () => void }) => {
 						<Input
 							id="zipCode"
 							placeholder="Zip/Postal Code"
-							_placeholder={{ color: 'black' }}
+							_placeholder={{ color: '#808080' }}
 							border={'1px solid'}
 							{...register('postal_code')}
 						/>
@@ -157,7 +153,7 @@ const AddressSetupForm = ({ prevStep }: { prevStep: () => void }) => {
 					<Select
 						id="countryCode"
 						placeholder="Country/Region"
-						_placeholder={{ color: 'black' }}
+						_placeholder={{ color: '#808080' }}
 						border={'1px solid'}
 						{...register('country_code')}>
 						<option value={'US'}>United States</option>
@@ -170,8 +166,14 @@ const AddressSetupForm = ({ prevStep }: { prevStep: () => void }) => {
 				<Flex
 					gap={'1rem'}
 					mt={'3rem'}>
-					<BackButton onClick={handleBackButton} />
-					<SubmitButton text={'Submit'} />
+					<BackButton
+						onClick={() => prevStep()}
+						width="6rem"
+					/>
+					<SubmitButton
+						text={'Submit'}
+						width="6rem"
+					/>
 				</Flex>
 			</form>
 		</>

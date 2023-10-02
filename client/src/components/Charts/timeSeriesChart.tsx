@@ -2,6 +2,8 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Chart from 'react-apexcharts';
 import { populateMonthsForCharts } from '../../utils/populateMonthsForCharts';
+import { Stack, Image, Text } from '@chakra-ui/react';
+import noDataFound from '../../assets/no-data-found.jpg';
 
 const TimeSeriesChart = () => {
 	const [successVolume, setSuccessVolume] = useState<any[]>([]);
@@ -105,19 +107,52 @@ const TimeSeriesChart = () => {
 				breakpoint: 1921,
 				options: {
 					chart: {
-						height: '400',
+						height: '390',
+					},
+					title: {
+						text: 'Total shipment vs month',
+						align: 'center',
+						margin: 10,
+						offsetX: 0,
+						offsetY: 0,
+						floating: false,
+						style: {
+							fontSize: '16px',
+							fontWeight: 'bold',
+							fontFamily: undefined,
+							color: '#263238',
+						},
 					},
 				},
 			},
 		],
 	};
 	return (
-		<Chart
-			options={options} //x-axis
-			series={series} //y-axis
-			type="area"
-			width="100%"
-		/>
+		<>
+			{totalShipping.length > 0 && successVolume.length > 0 && failedVolume.length > 0 ? (
+				<Chart
+					options={options}
+					series={series}
+					type="area"
+					width="100%"
+				/>
+			) : (
+				<Stack align={'center'}>
+					<Image
+						src={noDataFound}
+						height={'25vh'}
+						w={'15vw'}
+						borderRadius={'1rem'}
+					/>
+					<Text
+						textAlign={'center'}
+						fontFamily={'Roboto'}
+						fontWeight={'600'}>
+						No Data Available
+					</Text>
+				</Stack>
+			)}
+		</>
 	);
 };
 

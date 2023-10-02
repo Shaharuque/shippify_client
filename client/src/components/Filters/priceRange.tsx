@@ -2,12 +2,12 @@ import { RangeSlider, RangeSliderTrack, RangeSliderFilledTrack, RangeSliderThumb
 import { useState } from 'react';
 
 type PriceRangeFilterProps = {
-	minRate: number;
-	maxRate: number;
+	minRate?: number;
+	maxRate?: number;
 	onRangeChange: (value: number[]) => void;
 };
 
-const PriceRangeFilter = ({ minRate, maxRate, onRangeChange }: PriceRangeFilterProps) => {
+const PriceRangeFilter = ({ onRangeChange }: PriceRangeFilterProps) => {
 	const [showTooltip, setShowTooltip] = useState([false, false]);
 
 	const [sliderValue, setSliderValue] = useState([0, 1000]);
