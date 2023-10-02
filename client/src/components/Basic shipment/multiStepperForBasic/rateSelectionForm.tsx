@@ -86,9 +86,9 @@ const RateSelectionForm = ({ nextStep, prevStep }: { nextStep: () => void; prevS
 					<Error />
 				</>
 			) : isLoading ? (
-				<Box>
+				<>
 					<SpinningLoader />
-				</Box>
+				</>
 			) : (
 				<Box>
 					<Flex

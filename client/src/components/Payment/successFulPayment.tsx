@@ -3,16 +3,46 @@ import successTickLottie from '../../assets/Success_tick.json';
 import { useLottie } from 'lottie-react';
 import RegularButton from '../Buttons/regularButton';
 import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { IPaymentData } from '../../redux/features/paymentSlice';
+import { generateTransactionID } from '../../utils/randomTransactionIdGenerator';
 
 const SuccessFulPayment = () => {
 	const navigate = useNavigate();
+	const paymentDetails = localStorage.getItem('paymentDetails');
+	const shipmentId = localStorage.getItem('shipmentId');
+
+	const [payment, setPayment] = useState<IPaymentData>();
 
 	const successTickLottieOptions = {
 		animationData: successTickLottie,
-		loop: true,
+		loop: false,
 	};
 
 	const { View: successTickLottieView } = useLottie(successTickLottieOptions);
+
+	useEffect(() => {
+		const purchaseShipment = async () => {
+			const token = localStorage.getItem('token');
+			try {
+				if (paymentDetails) {
+					const payment = JSON.parse(paymentDetails);
+					setPayment(payment);
+					const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}/shipment/parched-shipment/${shipmentId}`, payment, {
+						headers: {
+							'Content-Type': 'application/json',
+							'x-auth-token': token,
+						},
+					});
+					console.log('purchase shipment response data', response?.data);
+				}
+			} catch (error) {
+				console.error('Error', error);
+			}
+		};
+		purchaseShipment();
+	}, []);
 
 	return (
 		<Flex
@@ -56,8 +86,8 @@ const SuccessFulPayment = () => {
 					<VStack
 						fontWeight={'500'}
 						align="flex-end">
-						<Text>600 (USD)</Text>
-						<Text>TXN2023092701</Text>
+						<Text>{payment?.bnpl?.net_payable} (USD)</Text>
+						<Text letterSpacing={0.8}>{generateTransactionID()}</Text>
 					</VStack>
 				</Flex>
 				<Flex gap={'1rem'}>

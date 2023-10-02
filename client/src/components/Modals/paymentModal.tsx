@@ -3,30 +3,30 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import checked from '../../assets/checked.png';
 import moment from 'moment';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { updatePayment } from '../../redux/features/paymentSlice';
+import { RootState } from '../../redux/store';
 
 type PaymentModalProps = {
 	onClose: () => void;
 	isOpen: boolean;
 	total: number;
+	insured_amount: number;
 };
 
-type InstallmentOptions = {
+type InstallmentOption = {
 	numberOfInstallments: string;
 	interest_rate: number;
 };
 
-const PaymentModal = ({ onClose, isOpen, total }: PaymentModalProps) => {
-	const [installmentOptions, setInstallmentOptions] = useState<InstallmentOptions[]>([]);
-	const [selectedOption, setSelectedOption] = useState<InstallmentOptions | null>(null);
+const PaymentModal = ({ onClose, isOpen, total, insured_amount }: PaymentModalProps) => {
+	const dispatch = useAppDispatch();
 
-	const handleSelectInstallmentRate = (option: any) => {
-		if (selectedOption === option) {
-			setSelectedOption(null);
-		} else {
-			setSelectedOption(option);
-			console.log(option);
-		}
-	};
+	const shipmentId = useAppSelector((state: RootState) => state?.selectedRate?.shipmentId);
+
+	const [installmentOptions, setInstallmentOptions] = useState<InstallmentOption[]>([]);
+	const [selectedOption, setSelectedOption] = useState<InstallmentOption | null>(null);
+	const [payable, setPayable] = useState(0);
 
 	useEffect(() => {
 		const fetchCreditOptions = async () => {
@@ -49,8 +49,59 @@ const PaymentModal = ({ onClose, isOpen, total }: PaymentModalProps) => {
 	}, []);
 
 	useEffect(() => {
-		console.log('selected option:', selectedOption);
+		if (selectedOption) {
+			const result = ((total + (total * selectedOption?.interest_rate) / 100) / Number(selectedOption?.numberOfInstallments)).toFixed(2);
+			setPayable(Number(result));
+		}
 	}, [selectedOption]);
+
+	const handleSelectInstallmentRate = (option: any) => {
+		if (selectedOption === option) {
+			setSelectedOption(null);
+		} else {
+			setSelectedOption(option);
+			console.log(option);
+		}
+	};
+
+	const handleCheckout = () => {
+		localStorage.setItem(
+			'paymentDetails',
+			JSON.stringify({
+				insurance_amount: insured_amount.toString(),
+				bnpl: {
+					net_payable: total.toString(),
+					numberOfInstallments: Number(selectedOption?.numberOfInstallments),
+					first_payable: payable.toString(),
+					currentDate: moment(new Date()).format('YYYY-MM-DD'),
+				},
+			})
+		);
+
+		localStorage.setItem('shipmentId', shipmentId);
+		axios
+			.post(`${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}/payment/create-checkout-session`, {
+				payment: { currency: 'USD', rate: payable, insurance: 0, other_amount: 0, date: new Date().toISOString },
+			})
+			.then((response) => {
+				if (response.data.url) {
+					window.location.href = response.data.url;
+				}
+			})
+			.catch((err) => console.log(err.message));
+
+		dispatch(
+			updatePayment({
+				insurance_amount: insured_amount,
+				bnpl: {
+					net_payable: total,
+					numberOfInstallments: selectedOption?.numberOfInstallments,
+					first_payable: payable,
+					currentDate: moment(new Date()).format('YYYY-MM-DD'),
+				},
+			})
+		);
+	};
 
 	return (
 		<>
@@ -141,7 +192,7 @@ const PaymentModal = ({ onClose, isOpen, total }: PaymentModalProps) => {
 												{index === 0 ? 'st' : index === 1 ? 'nd' : index === 2 ? 'rd' : 'th'} Installment
 											</Badge>
 											<StackDivider borderColor="grey.800" />
-											<Text>Payable: {((total + (total * selectedOption?.interest_rate) / 100) / Number(selectedOption?.numberOfInstallments)).toFixed(2)} (usd)</Text>
+											<Text>Payable: {payable} (usd)</Text>
 
 											<Text>Date: {moment(installmentDate).format('ddd, MMM Do YYYY')}</Text>
 
@@ -155,7 +206,8 @@ const PaymentModal = ({ onClose, isOpen, total }: PaymentModalProps) => {
 														borderRadius={'1rem'}
 														p={'.25rem'}
 														w={'7rem'}
-														_hover={{ bg: '#2A9D8F' }}>
+														_hover={{ bg: '#2A9D8F' }}
+														onClick={handleCheckout}>
 														Pay Now
 													</Button>
 												</Flex>

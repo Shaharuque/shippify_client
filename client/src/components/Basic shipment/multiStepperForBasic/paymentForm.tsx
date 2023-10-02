@@ -18,7 +18,7 @@ const PaymentForm = ({ prevStep }: { prevStep: () => void }) => {
 	const handleCheckout = () => {
 		axios
 			.post(`${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}/payment/create-checkout-session`, {
-				payment: { currency: selectedRate?.selectedRate?.shipping_amount?.currency, rate: selectedRate?.selectedRate?.shipping_amount?.amount, insurance: insuranceDetails?.insurance_amount, other_amount: selectedRate?.selectedRate?.other_amount?.amount, data: selectedRate?.selectedRate?.estimated_delivery_date },
+				payment: { currency: selectedRate?.selectedRate?.shipping_amount?.currency, rate: selectedRate?.selectedRate?.shipping_amount?.amount, insurance: insuranceDetails?.insurance_amount, other_amount: selectedRate?.selectedRate?.other_amount?.amount, date: selectedRate?.selectedRate?.estimated_delivery_date },
 			})
 			.then((response) => {
 				if (response.data.url) {
@@ -65,6 +65,7 @@ const PaymentForm = ({ prevStep }: { prevStep: () => void }) => {
 				isOpen={isOpen}
 				onClose={onClose}
 				total={total}
+				insured_amount={insuranceDetails?.product_value || 0}
 			/>
 
 			<Flex
