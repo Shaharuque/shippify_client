@@ -172,12 +172,8 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 	const handleRemovePackage = () => {
 		const updatedPackages = packages.filter((_, index) => index !== selectedPackageIndex);
 
-		// Now you can update the packages array with the updatedPackages
-		// For example, if you're using Redux, you can dispatch an action to update the state
-
-		// Assuming you're using Redux with an action named updateField
 		dispatch(updateField({ packages: updatedPackages }));
-		CustomReset(); // Reset selectedPackageIndex after removal
+		CustomReset();
 		setSelectedPredefinedBoxCode(null);
 	};
 

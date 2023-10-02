@@ -1,36 +1,32 @@
-import { Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Text, Box, Flex, Image } from '@chakra-ui/react';
+import { Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Text, Box, Flex, Image, StackDivider, Badge } from '@chakra-ui/react';
 import axios from 'axios';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import checked from '../../assets/checked.png';
+import moment from 'moment';
 
 type PaymentModalProps = {
 	onClose: () => void;
 	isOpen: boolean;
+	total: number;
 };
 
-const PaymentModal = ({ onClose, isOpen }: PaymentModalProps) => {
-	const [installments, setInstallments] = useState(2);
-	const [totalShippingCost, setTotalShippingCost] = useState(1000);
-	const [installmentOptions, setInstallmentOptions] = useState<any[]>([]);
-	const [selectedInstallmentRate, setSelectedInstallmentRate] = useState(-1);
+type InstallmentOptions = {
+	numberOfInstallments: string;
+	interest_rate: number;
+};
 
-	const handleDropdownChange = (event: ChangeEvent<HTMLSelectElement>) => {
-		event.preventDefault();
-
-		const value = Number(event.target.value);
-		setInstallments(value);
-	};
-
-	useEffect(() => {
-		setTotalShippingCost(1000);
-	}, []);
+const PaymentModal = ({ onClose, isOpen, total }: PaymentModalProps) => {
+	const [installmentOptions, setInstallmentOptions] = useState<InstallmentOptions[]>([]);
+	const [selectedOption, setSelectedOption] = useState<InstallmentOptions | null>(null);
 
 	const handleSelectInstallmentRate = (option: any) => {
-		if (selectedInstallmentRate === option?.interest_rate) setSelectedInstallmentRate(-1);
-		else setSelectedInstallmentRate(option?.interest_rate);
+		if (selectedOption === option) {
+			setSelectedOption(null);
+		} else {
+			setSelectedOption(option);
+			console.log(option);
+		}
 	};
-
-	useEffect(() => console.log('selected rate', selectedInstallmentRate), []);
 
 	useEffect(() => {
 		const fetchCreditOptions = async () => {
@@ -52,6 +48,10 @@ const PaymentModal = ({ onClose, isOpen }: PaymentModalProps) => {
 		fetchCreditOptions();
 	}, []);
 
+	useEffect(() => {
+		console.log('selected option:', selectedOption);
+	}, [selectedOption]);
+
 	return (
 		<>
 			<Modal
@@ -66,20 +66,20 @@ const PaymentModal = ({ onClose, isOpen }: PaymentModalProps) => {
 						<Flex
 							gap={'1rem'}
 							align={'center'}>
-							<Text>Installments:</Text>
+							<Text fontWeight={'600'}>Installments:</Text>
 							{installmentOptions?.map((option, index) => (
 								<Box
 									pos={'relative'}
 									mb={'1.5rem'}
 									key={index}
 									onClick={() => handleSelectInstallmentRate(option)}>
-									{option?.installment_rate === selectedInstallmentRate && (
+									{option?.interest_rate === selectedOption?.interest_rate && (
 										<Image
 											src={checked}
 											color="green.500"
 											position="absolute"
 											top={2}
-											left={2}
+											left={12}
 											boxSize={6}
 										/>
 									)}
@@ -102,14 +102,77 @@ const PaymentModal = ({ onClose, isOpen }: PaymentModalProps) => {
 								</Box>
 							))}
 						</Flex>
+						{selectedOption !== null && (
+							<Box
+								overflowY={'scroll'}
+								h={'300px'}
+								css={{
+									'&::-webkit-scrollbar': {
+										width: '0',
+									},
+									'&::-webkit-scrollbar-thumb': {
+										backgroundColor: 'rgba(0, 0, 0, 0.5)',
+										borderRadius: '0.25em',
+									},
+								}}>
+								{[...Array(parseInt(selectedOption?.numberOfInstallments))].map((_, index) => {
+									const installmentDate = new Date();
+									installmentDate.setMonth(installmentDate.getMonth() + index);
 
-						<Box mt={'.5vw'}>
-							Payable (per month): <Text as="span">{Math.ceil(totalShippingCost / installments)} USD</Text>
-						</Box>
+									return (
+										<Box
+											key={index}
+											borderWidth="1px"
+											borderColor="e8edeb"
+											p="1rem"
+											mb="1rem"
+											bg={index >= 1 ? '#f0f0f1' : 'inherit'}
+											borderRadius={'1rem'}
+											boxShadow="lg">
+											<Badge
+												mb={'1rem'}
+												fontFamily={'Roboto'}
+												fontWeight={'500'}
+												fontSize={'1rem'}
+												colorScheme="green"
+												p={'.25rem .5rem'}
+												borderRadius={'.5rem'}>
+												{index + 1}
+												{index === 0 ? 'st' : index === 1 ? 'nd' : index === 2 ? 'rd' : 'th'} Installment
+											</Badge>
+											<StackDivider borderColor="grey.800" />
+											<Text>Payable: {((total + (total * selectedOption?.interest_rate) / 100) / Number(selectedOption?.numberOfInstallments)).toFixed(2)} (usd)</Text>
+
+											<Text>Date: {moment(installmentDate).format('ddd, MMM Do YYYY')}</Text>
+
+											{index === 0 && (
+												<Flex
+													justify={'flex-end'}
+													mt={'.5rem'}>
+													<Button
+														bg={'cta'}
+														color={'primary'}
+														borderRadius={'1rem'}
+														p={'.25rem'}
+														w={'7rem'}
+														_hover={{ bg: '#2A9D8F' }}>
+														Pay Now
+													</Button>
+												</Flex>
+											)}
+										</Box>
+									);
+								})}
+							</Box>
+						)}
 					</ModalBody>
 					<ModalFooter gap={'1rem'}>
-						<Button> Pay {Math.ceil(totalShippingCost / installments)} USD</Button>
-						<Button onClick={onClose}>Close</Button>
+						<Button
+							onClick={onClose}
+							// bg={'#fe3c39'}
+						>
+							Close
+						</Button>
 					</ModalFooter>
 				</ModalContent>
 			</Modal>

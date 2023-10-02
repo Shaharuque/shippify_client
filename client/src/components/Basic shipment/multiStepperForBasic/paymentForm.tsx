@@ -64,18 +64,23 @@ const PaymentForm = ({ prevStep }: { prevStep: () => void }) => {
 			<PaymentModal
 				isOpen={isOpen}
 				onClose={onClose}
+				total={total}
 			/>
+
 			<Flex
 				mt={'4rem'}
-				gap={'1rem'}
-				justify={'flex-end'}
+				justify={'space-between'}
 				align={'center'}>
 				<BackButton
 					onClick={() => prevStep()}
 					width="8rem"
 				/>
-				<Button onClick={onOpen}>BNPL</Button>
-				<Button onClick={handleCheckout}>Pay now</Button>
+				<Flex
+					gap={'1rem'}
+					justify={'flex-end'}>
+					<Button onClick={onOpen}>BNPL</Button>
+					<Button onClick={handleCheckout}>Pay now</Button>
+				</Flex>
 			</Flex>
 		</Box>
 	);

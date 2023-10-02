@@ -15,7 +15,8 @@ import { updateSelectedRate } from '../../../redux/features/selectedRateSlice';
 
 const RateSelectionForm = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () => void }) => {
 	const shipmentInfo = useAppSelector((state: RootState) => state?.basicShipments);
-	const [fetchRates, { isLoading, isError }] = useFetchRatesMutation();
+	const token = localStorage.getItem('token');
+	const [fetchRates, { isLoading, isError }] = useFetchRatesMutation({ shipments: [shipmentInfo], token });
 	const [rates, setRates] = useState<IRateDetail[]>([]);
 	const [filterableRates, setFilterableRates] = useState<IRateDetail[]>([]);
 	// const [minRate, setMinRate] = useState(0);
@@ -25,7 +26,6 @@ const RateSelectionForm = ({ nextStep, prevStep }: { nextStep: () => void; prevS
 
 	useEffect(() => {
 		const fetchData = async () => {
-			const token = localStorage.getItem('token');
 			try {
 				const result = await fetchRates({ shipments: [shipmentInfo], token });
 				console.log('Response:', result?.data);

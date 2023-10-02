@@ -56,7 +56,7 @@ const InsuranceDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; pr
 		nextStep();
 	};
 
-	const isButtonDisabled = productValue <= 0 || !agreedToTerms;
+	const isButtonDisabled = insuranceFee <= 0 || !agreedToTerms;
 
 	//If previous value from customs exist
 	useEffect(() => {

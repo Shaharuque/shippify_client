@@ -55,12 +55,14 @@ const defaultValues: TPackageDetailsFormLTL = {
 
 const PackageDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () => void }) => {
 	const token = localStorage.getItem('token');
-	const { data: fetchLTLOptions, error, isLoading } = useFetchLTLOptionsQuery(token);
-	const [packageCodes, setPackageCodes] = useState<any[]>([]);
-	const [defaultPackageValues, setDefaultPackageValues] = useState(defaultValues);
-
 	const dispatch = useAppDispatch();
 	const packages = useAppSelector((state: RootState) => state?.ltlShipments?.shipment?.packages);
+
+	// const { data: fetchLTLOptions, error, isLoading } = useFetchLTLOptionsQuery(token);
+
+	const [packageCodes, setPackageCodes] = useState<any[]>([]);
+	const [defaultPackageValues, setDefaultPackageValues] = useState(defaultValues);
+	const [selectedPackageIndex, setSelectedPackageIndex] = useState<number | null>(null);
 
 	const { handleSubmit, register, setValue, reset } = useForm<TPackageDetailsFormLTL>({ defaultValues: defaultPackageValues });
 
@@ -95,32 +97,32 @@ const PackageDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; p
 		nextStep();
 	};
 
-	useEffect(() => {
-		if (fetchLTLOptions) {
-			console.log('Data:', fetchLTLOptions);
-			setPackageCodes(fetchLTLOptions?.data?.packages);
-		}
+	// useEffect(() => {
+	// 	if (fetchLTLOptions) {
+	// 		console.log('Data:', fetchLTLOptions);
+	// 		setPackageCodes(fetchLTLOptions?.data?.packages);
+	// 	}
 
-		if (error) {
-			console.error('Error fetching LTL options:', error);
-		}
-	}, [fetchLTLOptions, error]);
+	// 	if (error) {
+	// 		console.error('Error fetching LTL options:', error);
+	// 	}
+	// }, [fetchLTLOptions, error]);
 
-	if (isLoading) {
-		return (
-			<Box>
-				<SpinningLoader />
-			</Box>
-		);
-	}
+	// if (isLoading) {
+	// 	return (
+	// 		<Box>
+	// 			<SpinningLoader />
+	// 		</Box>
+	// 	);
+	// }
 
-	if (error) {
-		return (
-			<Box>
-				<Error />
-			</Box>
-		);
-	}
+	// if (error) {
+	// 	return (
+	// 		<Box>
+	// 			<Error />
+	// 		</Box>
+	// 	);
+	// }
 
 	const handleSelectPackage = (index: number) => {
 		const selectedPackage = packages[index];
@@ -170,15 +172,15 @@ const PackageDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; p
 								borderColor: '#002855',
 								boxShadow: '0 0 3px #002855 ',
 							}}>
-							{packageCodes.map((item: any, index: number) => (
+							{/* {packageCodes.map((item: any, index: number) => (
 								<option
 									key={index}
 									value={item.code}>
 									{item.name}
 								</option>
-							))}
-							{/* <option value={'pkg'}>Package</option>
-							<option value={'bag'}>Bag</option> */}
+							))} */}
+							<option value={'pkg'}>Package</option>
+							<option value={'bag'}>Bag</option>
 						</Select>
 					</FormControl>
 
