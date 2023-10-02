@@ -36,7 +36,7 @@ export interface TPackageDetailsFormLTL {
 }
 
 const defaultValues: TPackageDetailsFormLTL = {
-	code: 'pkg',
+	code: '',
 	freight_class: 200,
 	nmfc_code: '',
 	description: '',
@@ -63,7 +63,7 @@ const PackageDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; p
 	const { data: fetchLTLOptions, error, isLoading } = useFetchLTLOptionsQuery(token);
 
 	const [packageCodes, setPackageCodes] = useState<any[]>([]);
-	const [defaultPackageValues, setDefaultPackageValues] = useState(defaultValues);
+
 	const [selectedPackageIndex, setSelectedPackageIndex] = useState<number | null>(null);
 	const [selectedPackageCode, setSelectedPackageCode] = useState<string | null>(null);
 	const [editMode, setEditMode] = useState(false);
@@ -75,13 +75,20 @@ const PackageDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; p
 		const selectedProduct = data.description;
 		const selectedProductDetails = dummyProductDetails.find((product) => product.name === selectedProduct);
 		data.freight_class = selectedProductDetails!.freightNumber;
+		if (selectedPackageCode) data.code = selectedPackageCode;
 
 		console.log('data:', data);
 
-		const updatedPackages = [...packages, data];
-		dispatch(updateField({ packages: updatedPackages }));
-		reset(defaultValues);
-		setSelectedPackageCode(null);
+		if (editMode) {
+			const updatedPackages = [...packages];
+			updatedPackages[selectedPackageIndex!] = data;
+			dispatch(updateField({ packages: updatedPackages }));
+		} else {
+			const updatedPackages = [...packages, data];
+			dispatch(updateField({ packages: updatedPackages }));
+		}
+
+		CustomReset();
 	};
 
 	const handleProductSelect = (event: ChangeEvent<HTMLSelectElement>) => {
@@ -101,11 +108,10 @@ const PackageDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; p
 	};
 
 	const handleSelectPackage = (index: number) => {
+		setSelectedPackageIndex(index);
+		setEditMode(true);
 		const selectedPackage = packages[index];
 		console.log('selected package:', selectedPackage);
-		setSelectedPackageIndex(index);
-		setSelectedPackageCode(selectedPackage?.code);
-		setEditMode(true);
 
 		setValue('quantity', selectedPackage?.quantity);
 		setValue('dimensions.length', selectedPackage?.dimensions?.length);
@@ -114,23 +120,25 @@ const PackageDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; p
 		setValue('dimensions.unit', selectedPackage?.dimensions?.unit);
 		setValue('weight.value', selectedPackage?.weight?.value);
 		setValue('weight.unit', selectedPackage?.weight?.unit);
+		setSelectedPackageCode(selectedPackage?.code);
 
-		setDefaultPackageValues(selectedPackage);
+		// setDefaultPackageValues(selectedPackage);
 	};
 
 	const CustomReset = () => {
+		reset(defaultValues);
 		setSelectedPackageIndex(null);
 		setEditMode(false);
 
-		setValue('dimensions.length', 0);
-		setValue('dimensions.width', 0);
-		setValue('dimensions.height', 0);
-		setValue('dimensions.unit', 'inches');
-		setValue('weight.value', 0);
-		setValue('weight.unit', 'pounds');
-		setValue('quantity', 0);
-		setValue('nmfc_code', '');
-		setValue('description', '');
+		// setValue('dimensions.length', 0);
+		// setValue('dimensions.width', 0);
+		// setValue('dimensions.height', 0);
+		// setValue('dimensions.unit', 'inches');
+		// setValue('weight.value', 0);
+		// setValue('weight.unit', 'pounds');
+		// setValue('quantity', 0);
+		// setValue('nmfc_code', '');
+		// setValue('description', '');
 	};
 
 	const customDimensionFormValidator = () => {
@@ -138,13 +146,12 @@ const PackageDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; p
 		return getValues('dimensions.height') === 0 || getValues('dimensions.width') === 0 || getValues('dimensions.length') === 0 || getValues('weight.value') === 0 || !numberInputChange || selectedPackageCode === null;
 	};
 
-	// useEffect(() => {
-	// 	reset(defaultValues);
-	// }, [defaultValues]);
+	const handleRemoveButton = () => {
+		const updatedPackages = packages.filter((_, index) => index !== selectedPackageIndex);
 
-	// const handleRemoveButton=()=>{
-
-	// }
+		dispatch(updateField({ packages: updatedPackages }));
+		CustomReset();
+	};
 
 	useEffect(() => {
 		if (fetchLTLOptions) {
@@ -154,7 +161,7 @@ const PackageDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; p
 		if (error) {
 			console.error('Error fetching LTL options:', error);
 		}
-	}, [fetchLTLOptions, error]);
+	}, [fetchLTLOptions]);
 
 	if (isLoading) {
 		return <SpinningLoader />;
@@ -425,6 +432,7 @@ const PackageDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; p
 								width="6rem"
 								onHoverColor="#DC143C"
 								isDisabled={!editMode}
+								onClick={handleRemoveButton}
 							/>
 						) : null}
 

@@ -175,9 +175,9 @@ const ServicesAndBillingDetailsForm = ({ nextStep, prevStep }: { nextStep: () =>
 
 	if (isLoading) {
 		return (
-			<Box>
+			<>
 				<SpinningLoader />
-			</Box>
+			</>
 		);
 	}
 

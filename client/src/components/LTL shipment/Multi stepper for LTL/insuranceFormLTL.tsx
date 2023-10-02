@@ -9,6 +9,7 @@ import axios from 'axios';
 import { insuranceTermsAndConditions } from '../../../data/inSuranceTerms';
 import { updateInsurance } from '../../../redux/features/insuranceSlice';
 import { useFetchQuoteMutation } from '../../../redux/api/ltlShipmentApi';
+import { updateLTLTotalCharge } from '../../../redux/features/ltlTotalChargeSlice';
 
 const InsuranceDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () => void }) => {
 	const dispatch = useAppDispatch();
@@ -31,8 +32,7 @@ const InsuranceDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void;
 				console.log('response:', response);
 				if (response?.data?.status === 'success') {
 					setShipmentId(response?.data?.data?._id);
-					localStorage.setItem('shipmentId', response?.data?.data?._id);
-					localStorage.setItem('total', JSON.stringify(response?.data?.data?.shipment_detail?.charges[4]));
+					dispatch(updateLTLTotalCharge({ amount: response?.data?.data?.shipment_detail?.charges[4], shipmentId: response?.data?.data?._id }));
 				}
 			} catch (error) {
 				console.error(error);
@@ -46,7 +46,7 @@ const InsuranceDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void;
 		try {
 			const token = localStorage.getItem('token');
 			const response = await axios.post(
-				`http://192.168.68.89:5000/shipment/calculate-insurance/${shipmentId}`,
+				`http://192.168.68.89:5000/ltlShipment/calculate-ltlinsurance/${shipmentId}`,
 				{ amount: productValue },
 				{
 					headers: {

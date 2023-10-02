@@ -3,7 +3,7 @@ import MultiStepperFormLTL from '../../components/LTL shipment/Multi stepper for
 import ShipmentSteppers from '../../components/Steppers/shipmentSteppers';
 import { useState } from 'react';
 
-const stepsForLTL = [{ title: "Sender's address" }, { title: "Reciever's address" }, { title: 'Package Details' }, { title: 'Service and Billing info' }, { title: 'Quote generation' }, { title: 'Payment' }, { title: 'Bill of lading' }];
+const stepsForLTL = [{ title: "Sender's address" }, { title: "Reciever's address" }, { title: 'Package Details' }, { title: 'Service and Billing info' }, { title: 'Insurance Details' }, { title: 'Payment' }, { title: 'Bill of lading' }];
 
 const CreateLTLShipmentPage = () => {
 	const [activeStep, setActiveStep] = useState(1);

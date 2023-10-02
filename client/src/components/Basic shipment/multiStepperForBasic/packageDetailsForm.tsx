@@ -1,5 +1,5 @@
 import { Box, Text, FormControl, Button, Select, Flex, NumberInputField, NumberIncrementStepper, NumberDecrementStepper, NumberInput, NumberInputStepper } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import SubmitButton from '../../Buttons/submitButton';
 import BackButton from '../../Buttons/backButton';
@@ -57,7 +57,7 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 
 	const [defaultPackageValues, setDefaultPackageValues] = useState(defaultValues);
 
-	const { register, handleSubmit, reset, setValue, getValues } = useForm<TPackageDetailsForm>({
+	const { register, handleSubmit, setValue, getValues } = useForm<TPackageDetailsForm>({
 		defaultValues: defaultPackageValues,
 	});
 
@@ -73,10 +73,6 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 
 		CustomReset();
 	};
-
-	// useEffect(() => {
-	// 	reset(defaultPackageValues);
-	// }, [defaultPackageValues]);
 
 	const handleSelectPackage = (index: number) => {
 		setAddNew(true);

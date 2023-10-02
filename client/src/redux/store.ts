@@ -8,6 +8,7 @@ import userSlice from './features/userSlice';
 import selectedRateSlice from './features/selectedRateSlice';
 import insuranceSlice from './features/insuranceSlice';
 import paymentSlice from './features/paymentSlice';
+import ltlTotalChargeSlice from './features/ltlTotalChargeSlice';
 
 export const store = configureStore({
 	reducer: {
@@ -20,6 +21,7 @@ export const store = configureStore({
 		selectedRate: selectedRateSlice,
 		insurance: insuranceSlice,
 		payment: paymentSlice,
+		ltlTotalCharge: ltlTotalChargeSlice,
 	},
 	middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(apiSlice.middleware),
 });
