@@ -4,9 +4,6 @@ import BackButton from '../../Buttons/backButton';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { RootState } from '../../../redux/store';
 import { updateField } from '../../../redux/features/ltlShipmentSlice';
-import { useEffect, useState } from 'react';
-import { IUserFullDetails } from '../../Basic shipment/multiStepperForBasic/senderAddressForm';
-import { profile } from '../../../services/apis/authApi';
 import { useForm, SubmitHandler } from 'react-hook-form';
 
 export type TRecieverAddressFormDataLTL = {
@@ -27,44 +24,16 @@ export type TRecieverAddressFormDataLTL = {
 
 const RecieverAddressFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () => void }) => {
 	const dispatch = useAppDispatch();
-	const { handleSubmit, register, setValue } = useForm<TRecieverAddressFormDataLTL>({
+	const { handleSubmit, register } = useForm<TRecieverAddressFormDataLTL>({
 		defaultValues: {
 			...useAppSelector((state: RootState) => state?.ltlShipments?.shipment?.ship_to),
 		},
 	});
 
-	const [userData, setUserData] = useState<IUserFullDetails>();
-
 	const onSubmit: SubmitHandler<TRecieverAddressFormDataLTL> = (data) => {
 		dispatch(updateField({ ship_to: data }));
 		nextStep();
 	};
-
-	useEffect(() => {
-		const token = localStorage.getItem('token');
-		const fetchUserData = async () => {
-			try {
-				const result = await profile(token as string);
-				setUserData(result?.data?.data);
-			} catch (error) {
-				console.error(error);
-			}
-		};
-		fetchUserData();
-	}, []);
-
-	useEffect(() => {
-		if (userData && userData?.name.length > 0) {
-			setValue('contact.name', userData?.name);
-			setValue('contact.email', userData?.email);
-			setValue('address.company_name', userData?.companyName);
-			setValue('address.address_line1', userData?.address?.address_line1);
-			setValue('address.city_locality', userData?.address?.city_locality);
-			setValue('address.state_province', userData?.address?.state_province);
-			setValue('address.postal_code', userData?.address?.postal_code);
-			setValue('address.country_code', userData?.address?.country_code);
-		}
-	}, [userData]);
 
 	return (
 		<Box

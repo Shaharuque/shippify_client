@@ -233,7 +233,7 @@ const ServicesAndBillingDetailsForm = ({ nextStep, prevStep }: { nextStep: () =>
 								borderColor: '#002855',
 								boxShadow: '0 0 3px #002855 ',
 							}}>
-							{serviceOptions.map((item: any, index: number) => (
+							{serviceOptions?.map((item: any, index: number) => (
 								<option
 									key={index}
 									value={item.code}>
@@ -257,7 +257,7 @@ const ServicesAndBillingDetailsForm = ({ nextStep, prevStep }: { nextStep: () =>
 							spacing={[1, 5]}
 							direction={['column', 'row']}
 							wrap={'wrap'}>
-							{extraServices.map((item, index: number) => (
+							{extraServices?.map((item, index: number) => (
 								<Checkbox
 									borderColor={'#668bbd'}
 									whiteSpace={'nowrap'}
@@ -267,22 +267,6 @@ const ServicesAndBillingDetailsForm = ({ nextStep, prevStep }: { nextStep: () =>
 									{item.name}
 								</Checkbox>
 							))}
-
-							{/* <Checkbox
-								borderColor={'#668bbd'}
-								whiteSpace={'nowrap'}
-								value={'haz'}
-								onChange={(e) => handleExtraServicesChange(e)}>
-								Hazardous material
-							</Checkbox>
-							<Checkbox
-								borderColor={'#668bbd'}
-								whiteSpace={'nowrap'}
-								value={'res'}
-								onChange={(e) => handleExtraServicesChange(e)}>
-								Residential Pickup
-							</Checkbox> */}
-							{/* Dummy services option*/}
 						</Stack>
 					</CheckboxGroup>
 				</FormControl>

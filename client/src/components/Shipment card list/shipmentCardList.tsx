@@ -16,7 +16,7 @@ const ShipmentCardList = () => {
 						'x-auth-token': token,
 					},
 				});
-				console.log('result:', result.data);
+				console.log('result:', result?.data);
 				setShipmentList(result?.data?.data);
 			} catch (error) {
 				console.log(error);

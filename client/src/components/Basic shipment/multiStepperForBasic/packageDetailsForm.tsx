@@ -74,9 +74,9 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 		CustomReset();
 	};
 
-	useEffect(() => {
-		reset(defaultPackageValues);
-	}, [defaultPackageValues]);
+	// useEffect(() => {
+	// 	reset(defaultPackageValues);
+	// }, [defaultPackageValues]);
 
 	const handleSelectPackage = (index: number) => {
 		setAddNew(true);
@@ -87,17 +87,17 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 		console.log('selected package:', selectedPackage);
 		if (selectedPackage.package_code.length === 0) {
 			setIsCustom(true);
-			setValue('dimensions.length', selectedPackage?.dimensions.length);
-			setValue('dimensions.width', selectedPackage?.dimensions.width);
-			setValue('dimensions.height', selectedPackage?.dimensions.height);
+			setValue('dimensions.length', selectedPackage?.dimensions?.length);
+			setValue('dimensions.width', selectedPackage?.dimensions?.width);
+			setValue('dimensions.height', selectedPackage?.dimensions?.height);
 			setValue('dimensions.unit', selectedPackage?.dimensions.unit);
-			setValue('weight.value', selectedPackage.weight.value);
-			setValue('weight.unit', selectedPackage.weight.unit);
+			setValue('weight.value', selectedPackage?.weight?.value);
+			setValue('weight.unit', selectedPackage?.weight?.unit);
 		} else {
 			setIsCustom(false);
-			setWeightValue(selectedPackage.weight.value);
-			setUnit(selectedPackage.weight.unit);
-			setSelectedPredefinedBoxCode(selectedPackage.package_code);
+			setWeightValue(selectedPackage?.weight?.value);
+			setUnit(selectedPackage?.weight?.unit);
+			setSelectedPredefinedBoxCode(selectedPackage?.package_code);
 		}
 
 		setDefaultPackageValues(selectedPackage);
@@ -106,6 +106,7 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 	const customDimensionFormValidator = () => {
 		return getValues('dimensions.height') === 0 || getValues('dimensions.width') === 0 || getValues('dimensions.length') === 0 || getValues('weight.value') === 0 || !numberInputChange;
 	};
+
 	const handleSelectPredefinedBoxCode = (code: string | null) => {
 		selectedPredefinedBoxCode === code ? setSelectedPredefinedBoxCode(null) : setSelectedPredefinedBoxCode(code);
 
@@ -119,7 +120,7 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 		setUnit(unit);
 	};
 
-	const handleButtonClick = () => {
+	const handlePredefinedBoxAddButtonClick = () => {
 		if (editModeOn) {
 			const updatedPackages = packages.map((pkg, index) => {
 				if (index === selectedPackageIndex) {
@@ -384,7 +385,7 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 							onPredefinedUnitChange={handlePredefinedUnitChange}
 							onPredefinedWeightChange={handlePredefinedWeightChange}
 							onPredefinedBoxCodeSelect={handleSelectPredefinedBoxCode}
-							onPredefinedSubmit={handleButtonClick}
+							onPredefinedSubmit={handlePredefinedBoxAddButtonClick}
 							removePackage={handleRemovePackage}
 						/>
 					</>

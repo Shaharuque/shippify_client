@@ -12,6 +12,8 @@ import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { RootState } from '../../../redux/store';
 import { updateField } from '../../../redux/features/ltlShipmentSlice';
 import PackageNumbers from '../../Package numbers boxes/packageNumbers';
+import PackageTypeCardLTL from '../../Cards/Package type card/packageTypeCardLTL';
+import { packageCodeToImageDictionary } from '../../Cards/Package type card/packageCodeToImageDictionary';
 
 export interface TPackageDetailsFormLTL {
 	code: string;
@@ -48,7 +50,7 @@ const defaultValues: TPackageDetailsFormLTL = {
 		value: 0,
 		unit: 'pounds',
 	},
-	quantity: 1,
+	quantity: 0,
 	stackable: false,
 	hazardous_materials: false,
 };
@@ -58,29 +60,29 @@ const PackageDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; p
 	const dispatch = useAppDispatch();
 	const packages = useAppSelector((state: RootState) => state?.ltlShipments?.shipment?.packages);
 
-	// const { data: fetchLTLOptions, error, isLoading } = useFetchLTLOptionsQuery(token);
+	const { data: fetchLTLOptions, error, isLoading } = useFetchLTLOptionsQuery(token);
 
 	const [packageCodes, setPackageCodes] = useState<any[]>([]);
 	const [defaultPackageValues, setDefaultPackageValues] = useState(defaultValues);
 	const [selectedPackageIndex, setSelectedPackageIndex] = useState<number | null>(null);
+	const [selectedPackageCode, setSelectedPackageCode] = useState<string | null>(null);
+	const [editMode, setEditMode] = useState(false);
+	const [numberInputChange, setNumberInputChange] = useState(false);
 
-	const { handleSubmit, register, setValue, reset } = useForm<TPackageDetailsFormLTL>({ defaultValues: defaultPackageValues });
+	const { handleSubmit, register, setValue, reset, getValues } = useForm<TPackageDetailsFormLTL>({ defaultValues });
 
 	const onSubmit = (data: TPackageDetailsFormLTL) => {
 		const selectedProduct = data.description;
 		const selectedProductDetails = dummyProductDetails.find((product) => product.name === selectedProduct);
 		data.freight_class = selectedProductDetails!.freightNumber;
+
 		console.log('data:', data);
 
 		const updatedPackages = [...packages, data];
 		dispatch(updateField({ packages: updatedPackages }));
-
-		reset(defaultPackageValues);
+		reset(defaultValues);
+		setSelectedPackageCode(null);
 	};
-
-	useEffect(() => {
-		reset(defaultPackageValues);
-	}, [defaultPackageValues]);
 
 	const handleProductSelect = (event: ChangeEvent<HTMLSelectElement>) => {
 		event.preventDefault();
@@ -93,95 +95,125 @@ const PackageDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; p
 		}
 	};
 
-	const handleContinueButton = () => {
-		nextStep();
+	const handlePackageTypeCode = (code: string | null) => {
+		if (selectedPackageCode === code) setSelectedPackageCode(null);
+		else setSelectedPackageCode(code);
 	};
-
-	// useEffect(() => {
-	// 	if (fetchLTLOptions) {
-	// 		console.log('Data:', fetchLTLOptions);
-	// 		setPackageCodes(fetchLTLOptions?.data?.packages);
-	// 	}
-
-	// 	if (error) {
-	// 		console.error('Error fetching LTL options:', error);
-	// 	}
-	// }, [fetchLTLOptions, error]);
-
-	// if (isLoading) {
-	// 	return (
-	// 		<Box>
-	// 			<SpinningLoader />
-	// 		</Box>
-	// 	);
-	// }
-
-	// if (error) {
-	// 	return (
-	// 		<Box>
-	// 			<Error />
-	// 		</Box>
-	// 	);
-	// }
 
 	const handleSelectPackage = (index: number) => {
 		const selectedPackage = packages[index];
 		console.log('selected package:', selectedPackage);
+		setSelectedPackageIndex(index);
+		setSelectedPackageCode(selectedPackage?.code);
+		setEditMode(true);
 
-		setValue('dimensions.length', selectedPackage.dimensions.length);
-		setValue('dimensions.width', selectedPackage.dimensions.width);
-		setValue('dimensions.height', selectedPackage.dimensions.height);
-		setValue('dimensions.unit', selectedPackage.dimensions.unit);
-		setValue('weight.value', selectedPackage.weight.value);
-		setValue('weight.unit', selectedPackage.weight.unit);
+		setValue('quantity', selectedPackage?.quantity);
+		setValue('dimensions.length', selectedPackage?.dimensions?.length);
+		setValue('dimensions.width', selectedPackage?.dimensions?.width);
+		setValue('dimensions.height', selectedPackage?.dimensions?.height);
+		setValue('dimensions.unit', selectedPackage?.dimensions?.unit);
+		setValue('weight.value', selectedPackage?.weight?.value);
+		setValue('weight.unit', selectedPackage?.weight?.unit);
 
 		setDefaultPackageValues(selectedPackage);
 	};
+
+	const CustomReset = () => {
+		setSelectedPackageIndex(null);
+		setEditMode(false);
+
+		setValue('dimensions.length', 0);
+		setValue('dimensions.width', 0);
+		setValue('dimensions.height', 0);
+		setValue('dimensions.unit', 'inches');
+		setValue('weight.value', 0);
+		setValue('weight.unit', 'pounds');
+		setValue('quantity', 0);
+		setValue('nmfc_code', '');
+		setValue('description', '');
+	};
+
+	const customDimensionFormValidator = () => {
+		console.log(numberInputChange);
+		return getValues('dimensions.height') === 0 || getValues('dimensions.width') === 0 || getValues('dimensions.length') === 0 || getValues('weight.value') === 0 || !numberInputChange || selectedPackageCode === null;
+	};
+
+	// useEffect(() => {
+	// 	reset(defaultValues);
+	// }, [defaultValues]);
+
+	// const handleRemoveButton=()=>{
+
+	// }
+
+	useEffect(() => {
+		if (fetchLTLOptions) {
+			setPackageCodes(fetchLTLOptions?.data?.packages);
+		}
+
+		if (error) {
+			console.error('Error fetching LTL options:', error);
+		}
+	}, [fetchLTLOptions, error]);
+
+	if (isLoading) {
+		return <SpinningLoader />;
+	}
+
+	if (error) {
+		return (
+			<>
+				<Error />
+			</>
+		);
+	}
 
 	return (
 		<Box
 			p={'.25vw'}
 			w={'45rem'}
-			overflowY={'auto'}
-			css={{
-				'&::-webkit-scrollbar': {
-					width: '0',
-				},
-				'&::-webkit-scrollbar-thumb': {
-					backgroundColor: 'rgba(0, 0, 0, 0.5)',
-					borderRadius: '0.25em',
-				},
-			}}>
+			overflowY={'scroll'}>
 			<PackageNumbers
 				packages={packages}
 				onSelectPackage={handleSelectPackage}
-				selectedPackageIndex={null}
+				selectedPackageIndex={selectedPackageIndex}
 			/>
 			<form onSubmit={handleSubmit(onSubmit)}>
 				<Flex
 					gap={'1rem'}
+					mb={'1.5rem'}>
+					{packageCodes?.map((item: any, index: number) => (
+						<PackageTypeCardLTL
+							key={index}
+							text={item.name}
+							code={item.code}
+							image={packageCodeToImageDictionary[item.code]}
+							isSelected={selectedPackageCode === item.code}
+							onSelect={handlePackageTypeCode}
+						/>
+					))}
+				</Flex>
+				<Flex
+					gap={'1rem'}
 					align={'center'}>
 					<FormControl isRequired>
-						<FormLabel whiteSpace={'nowrap'}>Package type:</FormLabel>
-						<Select
-							{...register('code')}
-							defaultValue={'pkg'}
-							border={'1px solid #314866'}
-							transition={'all 0.30s ease-in-out;'}
-							_focusVisible={{
-								borderColor: '#002855',
-								boxShadow: '0 0 3px #002855 ',
-							}}>
-							{/* {packageCodes.map((item: any, index: number) => (
-								<option
-									key={index}
-									value={item.code}>
-									{item.name}
-								</option>
-							))} */}
-							<option value={'pkg'}>Package</option>
-							<option value={'bag'}>Bag</option>
-						</Select>
+						<FormLabel>Quantity:</FormLabel>
+						<NumberInput onChange={() => setNumberInputChange(true)}>
+							<NumberInputField
+								id="quantity"
+								{...register('quantity')}
+								border={'1px solid #314866'}
+								transition={'all 0.30s ease-in-out;'}
+								_focusVisible={{
+									borderColor: '#002855',
+									boxShadow: '0 0 3px #002855 ',
+								}}
+							/>
+							<NumberInputStepper>
+								<NumberIncrementStepper />
+								<NumberDecrementStepper />
+							</NumberInputStepper>
+						</NumberInput>
 					</FormControl>
 
 					<FormControl isRequired>
@@ -190,6 +222,7 @@ const PackageDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; p
 							{...register('description')}
 							border={'1px solid #314866'}
 							transition={'all 0.30s ease-in-out;'}
+							placeholder="Select product type"
 							_focusVisible={{
 								borderColor: '#002855',
 								boxShadow: '0 0 3px #002855 ',
@@ -206,10 +239,11 @@ const PackageDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; p
 					</FormControl>
 					<FormControl
 						mt={'2rem'}
-						isRequired>
+						isReadOnly>
 						<Input
 							id="nmfc_code"
 							{...register('nmfc_code')}
+							placeholder="NMFC code"
 							type="text"
 							border={'1px solid #314866'}
 							transition={'all 0.30s ease-in-out;'}
@@ -220,21 +254,7 @@ const PackageDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; p
 						/>
 					</FormControl>
 				</Flex>
-				<FormControl
-					mt={'2rem'}
-					isRequired>
-					<Input
-						h={'8vh'}
-						type="text"
-						placeholder="Product Description"
-						border={'1px solid #314866'}
-						transition={'all 0.30s ease-in-out;'}
-						_focusVisible={{
-							borderColor: '#002855',
-							boxShadow: '0 0 3px #002855 ',
-						}}
-					/>
-				</FormControl>
+
 				<Text
 					fontWeight={'600'}
 					mt={'4rem'}>
@@ -247,7 +267,8 @@ const PackageDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; p
 					<FormControl isRequired>
 						<NumberInput
 							precision={2}
-							max={1000}>
+							max={1000}
+							onChange={() => setNumberInputChange(true)}>
 							<NumberInputField
 								{...register('dimensions.length')}
 								placeholder="Length"
@@ -268,7 +289,8 @@ const PackageDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; p
 					<FormControl isRequired>
 						<NumberInput
 							precision={2}
-							max={1000}>
+							max={1000}
+							onChange={() => setNumberInputChange(true)}>
 							<NumberInputField
 								{...register('dimensions.width')}
 								placeholder="Width"
@@ -289,7 +311,8 @@ const PackageDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; p
 					<FormControl isRequired>
 						<NumberInput
 							precision={2}
-							max={1000}>
+							max={1000}
+							onChange={() => setNumberInputChange(true)}>
 							<NumberInputField
 								{...register('dimensions.height')}
 								placeholder="Height"
@@ -332,7 +355,8 @@ const PackageDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; p
 						<NumberInput
 							precision={2}
 							min={150}
-							max={1000}>
+							max={1000}
+							onChange={() => setNumberInputChange(true)}>
 							<NumberInputField
 								{...register('weight.value')}
 								placeholder="Weight"
@@ -389,20 +413,40 @@ const PackageDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; p
 				<Flex
 					mt={'4rem'}
 					justify={'space-between'}>
-					<SubmitButton
-						text={'Add package'}
-						width="15rem"
-					/>
+					<Flex gap={'1rem'}>
+						<SubmitButton
+							text={editMode ? 'Update' : 'Add package'}
+							width="8rem"
+							// isDisabled={customDimensionFormValidator()}
+						/>
+						{editMode ? (
+							<RegularButton
+								text="Remove"
+								width="6rem"
+								onHoverColor="#DC143C"
+								isDisabled={!editMode}
+							/>
+						) : null}
+
+						{editMode ? (
+							<RegularButton
+								text="Add new"
+								width="6rem"
+								onClick={CustomReset}
+								isDisabled={!editMode}
+							/>
+						) : null}
+					</Flex>
 					<Flex gap={'1rem'}>
 						<BackButton
 							onClick={() => prevStep()}
-							width="8rem"
+							width="6rem"
 						/>
 						<RegularButton
-							onClick={handleContinueButton}
+							onClick={() => nextStep()}
 							text={'Continue'}
-							width="12rem"
-							// isDisabled={packages.length === 1 && packages[0].nmfc_code.length === 0}
+							width="8rem"
+							isDisabled={packages?.length === 0 && packages[0]?.nmfc_code?.length === 0}
 						/>
 					</Flex>
 				</Flex>

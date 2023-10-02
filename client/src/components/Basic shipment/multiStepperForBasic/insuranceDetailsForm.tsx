@@ -62,7 +62,7 @@ const InsuranceDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; pr
 	useEffect(() => {
 		if (previousProductValue?.customs) {
 			const customItems = previousProductValue?.customs?.customs_items;
-			const totalValue = customItems.reduce((accumulator, item) => accumulator + item.quantity * item.value?.amount, 0);
+			const totalValue = customItems.reduce((accumulator: any, item: any) => accumulator + item.quantity * item.value?.amount, 0);
 
 			setProductValue(totalValue);
 		}

@@ -1,3 +1,4 @@
+import InsuranceDetailsFormLTL from './insuranceFormLTL';
 import PackageDetailsFormLTL from './packageDetailsFormLTL';
 import QuoteDetails from './quoteDetails';
 import RecieverAddressFormLTL from './recieverAddressFormLTL';
@@ -32,6 +33,11 @@ const MultiStepperFormLTL = ({ activeStep, handleStepChange }: { activeStep: num
 					nextStep={nextStep}
 				/>
 			) : activeStep === 5 ? (
+				<InsuranceDetailsFormLTL
+					prevStep={prevStep}
+					nextStep={nextStep}
+				/>
+			) : activeStep === 6 ? (
 				<QuoteDetails
 					prevStep={prevStep}
 					nextStep={nextStep}

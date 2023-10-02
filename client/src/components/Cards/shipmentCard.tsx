@@ -11,6 +11,7 @@ export interface IShipment {
 const ShipmentCard = ({ shipment }: IShipment) => {
 	return (
 		<Box
+			w={'100%'}
 			borderWidth="1px"
 			borderRadius="lg"
 			p={useBreakpointValue({ base: 2, md: 4, lg: 6 })}
