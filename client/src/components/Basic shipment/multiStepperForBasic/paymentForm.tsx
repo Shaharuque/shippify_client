@@ -10,14 +10,12 @@ import { useEffect } from 'react';
 const PaymentForm = ({ prevStep }: { prevStep: () => void }) => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const selectedRate = useAppSelector((state: any) => state?.selectedRate?.selectedRate);
-	// console.log('selectedRate', selectedRate)
+	const shipmentId = useAppSelector((state: any) => state?.selectedRate?.shipmentId);
 	const insuranceDetails = useAppSelector((state: RootState) => state?.insurance);
+
 	const total = Number(selectedRate?.shipping_amount?.amount) + Number(selectedRate?.other_amount?.amount) + Number(insuranceDetails?.insurance_amount);
 
-	localStorage.setItem('total_amount', JSON.stringify(total));
-
 	const handleNormalCheckout = () => {
-		// console.log({ currency: selectedRate?.shipping_amount?.currency, rate: selectedRate?.shipping_amount?.amount, insurance: insuranceDetails?.insurance_amount, other_amount: selectedRate?.other_amount?.amount, date: selectedRate?.estimated_delivery_date })
 		localStorage.setItem(
 			'paymentDetails',
 			JSON.stringify({
@@ -27,6 +25,9 @@ const PaymentForm = ({ prevStep }: { prevStep: () => void }) => {
 				},
 			})
 		);
+		localStorage.setItem('total', JSON.stringify(total));
+		localStorage.setItem('shipmentId', shipmentId);
+		localStorage.setItem('shipmentType', 'basic');
 		axios
 			.post(`${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}/payment/create-checkout-session`, {
 				payment: { currency: selectedRate?.shipping_amount?.currency, rate: Number(selectedRate?.shipping_amount?.amount)?.toFixed(2), insurance: Number(insuranceDetails?.insurance_amount)?.toFixed(2), other_amount: Number(selectedRate?.other_amount?.amount)?.toFixed(2), date: selectedRate?.estimated_delivery_date },

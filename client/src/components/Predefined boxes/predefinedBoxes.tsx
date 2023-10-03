@@ -54,7 +54,6 @@ const PredefinedBoxes = ({ inputChanged, editModeOn, selectedCode, weightValue, 
 	console.log('test:', test);
 
 	useEffect(() => {
-		// const token = localStorage.getItem('token');
 		const fetchPredefinedBoxData = async () => {
 			try {
 				const response = await axios.get('http://192.168.68.89:5000/custom-package-type/list', {

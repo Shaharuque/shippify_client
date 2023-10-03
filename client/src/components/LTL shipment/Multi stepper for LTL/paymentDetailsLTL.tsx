@@ -12,10 +12,19 @@ const PaymentDetailsLTL = ({ nextStep, prevStep }: { nextStep: () => void; prevS
 	const insuranceDetails = useAppSelector((state: RootState) => state?.insurance);
 	const total = Number(ltlShipmentCharges?.amount?.value) + Number(insuranceDetails?.insurance_amount);
 
-	localStorage.setItem('total', JSON.stringify(total));
-	localStorage.setItem('shipmentId', ltlShipmentCharges?.shipmentId);
-
 	const handleCheckout = () => {
+		localStorage.setItem(
+			'paymentDetails',
+			JSON.stringify({
+				insurance_amount: insuranceDetails?.product_value?.toString(),
+				normal_payment: {
+					net_payable: total?.toString(),
+				},
+			})
+		);
+		localStorage.setItem('total', JSON.stringify(total));
+		localStorage.setItem('shipmentId', ltlShipmentCharges?.shipmentId);
+		localStorage.setItem('shipmentType', 'ltl');
 		// axios
 		// 	.post(`${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}/payment/create-checkout-session`, {
 		// 		payment: { currency: selectedRate?.selectedRate?.shipping_amount?.currency, rate: selectedRate?.selectedRate?.shipping_amount?.amount, insurance: insuranceDetails?.insurance_amount, other_amount: selectedRate?.selectedRate?.other_amount?.amount, date: selectedRate?.selectedRate?.estimated_delivery_date },

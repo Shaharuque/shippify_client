@@ -139,6 +139,7 @@ const ServicesAndBillingDetailsForm = ({ nextStep, prevStep }: { nextStep: () =>
 
 		console.log('data:', data);
 		dispatch(updateField(data));
+		localStorage.setItem('pickup_date', moment(selectedDate).format('YYYY-MM-DD'));
 
 		nextStep();
 	};

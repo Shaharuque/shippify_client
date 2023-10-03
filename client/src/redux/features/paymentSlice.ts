@@ -8,6 +8,9 @@ export interface IPaymentData {
 		first_payable: string;
 		currentDate: string;
 	};
+	normal_payment?: {
+		net_payable: string;
+	};
 }
 
 const initialPaymentData = {
@@ -17,6 +20,9 @@ const initialPaymentData = {
 		numberOfInstallments: 0,
 		first_payable: '0',
 		currentDate: '',
+	},
+	normal_payment: {
+		net_payable: '',
 	},
 };
 
