@@ -5,7 +5,7 @@ import stamps from '../../assets/stamps_com.png';
 import { LuBadgeDollarSign } from 'react-icons/lu';
 import moment from 'moment';
 import { useFetchSingleShipmentMutation } from '../../redux/api/basicShipmentsApi';
-import { labelDictionary } from '../../utils/formatLabels';
+import { labelDictionary } from '../../utils/labelDictionary';
 
 export interface IShipment {
 	shipment: any;
