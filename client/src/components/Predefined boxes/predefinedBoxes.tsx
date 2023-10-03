@@ -33,7 +33,7 @@ type TPredefinedBoxesProps = {
 	editModeOn: boolean;
 	selectedCode: string | null;
 	weightValue: number | null;
-	unit: string;
+
 	onPredefinedBoxCodeSelect: (code: string | null) => void;
 	onPredefinedWeightChange: (weight: number | null) => void;
 	onPredefinedUnitChange: (unit: string) => void;
@@ -41,9 +41,10 @@ type TPredefinedBoxesProps = {
 	removePackage: () => void;
 };
 
-const PredefinedBoxes = ({ inputChanged, editModeOn, selectedCode, weightValue, unit, onPredefinedBoxCodeSelect, onPredefinedUnitChange, onPredefinedSubmit, onPredefinedWeightChange, removePackage }: TPredefinedBoxesProps) => {
+const PredefinedBoxes = ({ inputChanged, editModeOn, selectedCode, weightValue, onPredefinedBoxCodeSelect, onPredefinedUnitChange, onPredefinedSubmit, onPredefinedWeightChange, removePackage }: TPredefinedBoxesProps) => {
 	const [test, setTest] = useState<string | null>(null);
 	const [predefinedBoxes, setPredefinedBoxes] = useState<TPredefinedBox[]>([]);
+	const [isLoading, setIsLoading] = useState(false);
 
 	useEffect(() => {
 		setTest('');
@@ -51,7 +52,6 @@ const PredefinedBoxes = ({ inputChanged, editModeOn, selectedCode, weightValue, 
 	}, [weightValue]);
 
 	console.log('test:', test);
-	console.log('unit:', unit);
 
 	useEffect(() => {
 		// const token = localStorage.getItem('token');
@@ -65,6 +65,7 @@ const PredefinedBoxes = ({ inputChanged, editModeOn, selectedCode, weightValue, 
 				console.log('response from predefined box', response?.data);
 				if (response?.data?.status === 'success') {
 					setPredefinedBoxes(Array.from(response?.data?.data?.packages));
+					setIsLoading(true);
 				}
 			} catch (error) {
 				console.error('Error while fetching data', error);
@@ -79,9 +80,10 @@ const PredefinedBoxes = ({ inputChanged, editModeOn, selectedCode, weightValue, 
 				gap={'.5rem'}
 				align={'center'}
 				m={'1rem 0'}>
-				{predefinedBoxes.map((box, index) => (
+				{predefinedBoxes?.map((box, index) => (
 					<PackageCard
 						key={index}
+						isLoading={isLoading}
 						text={box.name}
 						dimension={`${box.dimensions.length} x ${box.dimensions.width} x ${box.dimensions.height}`}
 						image={boxNameToImageDictionary[box.name]}
@@ -100,23 +102,6 @@ const PredefinedBoxes = ({ inputChanged, editModeOn, selectedCode, weightValue, 
 			<Flex
 				gap={'2rem'}
 				alignItems={'center'}>
-				{/* <NumberInputField
-							value={test}
-							placeholder="Weight"
-							border={'1px solid #002855'}
-							transition={'all 0.30s ease-in-out'}
-							borderRadius={'0.25em'}
-							padding={'0.4em 0.6em'}
-							outline={'none'}
-							boxShadow={'0 0 3px rgba(0, 40, 85, 0.1)'}
-							backgroundColor={'transparent'}
-							onChange={(e) => {
-								const value = e.target.value;
-								setTest(value);
-								onPredefinedWeightChange(Number(value));
-							}}
-						/> */}
-
 				<input
 					type="number"
 					value={weightValue ? weightValue.toString() : ''}

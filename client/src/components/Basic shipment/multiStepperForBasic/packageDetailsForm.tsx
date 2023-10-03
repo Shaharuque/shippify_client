@@ -377,7 +377,6 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 							editModeOn={editModeOn}
 							selectedCode={selectedPredefinedBoxCode}
 							weightValue={weightValue}
-							unit={unit}
 							onPredefinedUnitChange={handlePredefinedUnitChange}
 							onPredefinedWeightChange={handlePredefinedWeightChange}
 							onPredefinedBoxCodeSelect={handleSelectPredefinedBoxCode}

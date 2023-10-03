@@ -62,6 +62,17 @@ const PaymentModal = ({ onClose, isOpen, total, insured_amount }: PaymentModalPr
 	};
 
 	const handleCheckout = () => {
+		axios
+			.post(`${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}/payment/create-checkout-session`, {
+				payment: { currency: 'USD', rate: payable, insurance: 0, other_amount: 0, date: new Date().toISOString },
+			})
+			.then((response) => {
+				if (response.data.url) {
+					window.location.href = response.data.url;
+				}
+			})
+			.catch((err) => console.log(err.message));
+
 		localStorage.setItem(
 			'paymentDetails',
 			JSON.stringify({
@@ -74,17 +85,6 @@ const PaymentModal = ({ onClose, isOpen, total, insured_amount }: PaymentModalPr
 				},
 			})
 		);
-
-		axios
-			.post(`${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}/payment/create-checkout-session`, {
-				payment: { currency: 'USD', rate: payable, insurance: 0, other_amount: 0, date: new Date().toISOString },
-			})
-			.then((response) => {
-				if (response.data.url) {
-					window.location.href = response.data.url;
-				}
-			})
-			.catch((err) => console.log(err.message));
 
 		dispatch(
 			updatePayment({

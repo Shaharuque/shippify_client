@@ -1,4 +1,4 @@
-import { Card, CardBody, Heading, Image, Stack, Text } from '@chakra-ui/react';
+import { Card, CardBody, Heading, Image, Skeleton, Stack, Text } from '@chakra-ui/react';
 import checked from '../../assets/checked.png';
 
 type PackageCardProps = {
@@ -8,10 +8,12 @@ type PackageCardProps = {
 	code: string | null;
 	onSelect: (code: string | null) => void;
 	isSelected: boolean;
+	isLoading: boolean;
 };
 
-const PackageCard = ({ text, dimension, image, code, onSelect, isSelected }: PackageCardProps) => {
+const PackageCard = ({ text, dimension, image, code, onSelect, isSelected, isLoading }: PackageCardProps) => {
 	return (
+		// <Skeleton isLoaded={!isLoading}>
 		<Card
 			bg={'inherit'}
 			pos={'relative'}
@@ -55,6 +57,7 @@ const PackageCard = ({ text, dimension, image, code, onSelect, isSelected }: Pac
 				</Stack>
 			</CardBody>
 		</Card>
+		// </Skeleton>
 	);
 };
 

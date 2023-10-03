@@ -86,7 +86,7 @@ const SuccessFulPayment = () => {
 					<VStack
 						fontWeight={'500'}
 						align="flex-end">
-						<Text>{payment?.bnpl?.first_payable && Number(payment?.bnpl?.net_payable).toFixed(2)} (USD)</Text>
+						<Text>{payment?.bnpl?.first_payable && Number(payment?.bnpl?.first_payable).toFixed(2)} (USD)</Text>
 						<Text letterSpacing={0.8}>{generateTransactionID()}</Text>
 					</VStack>
 				</Flex>
@@ -100,6 +100,7 @@ const SuccessFulPayment = () => {
 						onClick={() => {
 							localStorage.removeItem('shipmentId');
 							localStorage.removeItem('paymentDetails');
+							navigate('/home');
 						}}
 						text="Go Home"
 						width="12rem"
