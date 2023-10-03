@@ -8,12 +8,25 @@ import axios from 'axios';
 import { IPaymentData } from '../../redux/features/paymentSlice';
 import { generateTransactionID } from '../../utils/randomTransactionIdGenerator';
 
+export type TPaymentDetails = {
+	insurance_amount: string;
+	bnpl?: {
+		net_payable: string;
+		numberOfInstallments: number;
+		first_payable: string;
+		currentDate: string;
+	};
+	normal_payment?: {
+		net_payable: string;
+	};
+};
+
 const SuccessFulPayment = () => {
 	const navigate = useNavigate();
 	const paymentDetails = localStorage.getItem('paymentDetails');
 	const shipmentId = localStorage.getItem('shipmentId');
 
-	const [payment, setPayment] = useState<IPaymentData>();
+	const [payment, setPayment] = useState<TPaymentDetails>();
 
 	const successTickLottieOptions = {
 		animationData: successTickLottie,
@@ -25,10 +38,12 @@ const SuccessFulPayment = () => {
 	useEffect(() => {
 		const purchaseShipment = async () => {
 			const token = localStorage.getItem('token');
-			try {
-				if (paymentDetails) {
-					const payment = JSON.parse(paymentDetails);
-					setPayment(payment);
+
+			if (paymentDetails) {
+				const payment = JSON.parse(paymentDetails);
+				setPayment(payment);
+
+				try {
 					const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}/shipment/parched-shipment/${shipmentId}`, payment, {
 						headers: {
 							'Content-Type': 'application/json',
@@ -36,9 +51,9 @@ const SuccessFulPayment = () => {
 						},
 					});
 					console.log('purchase shipment response data', response?.data);
+				} catch (error) {
+					console.error('Error', error);
 				}
-			} catch (error) {
-				console.error('Error', error);
 			}
 		};
 		purchaseShipment();

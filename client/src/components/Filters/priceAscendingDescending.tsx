@@ -14,11 +14,11 @@ const PriceAscendingDescendingFilter = ({ onChange }: PriceAscendingDescendingFi
 			</Text>
 			<Select
 				onChange={(v: ChangeEvent<HTMLSelectElement>) => onChange(v.target.value)}
-				border={'1px solid #0E1420'}
-				placeholder="Select order"
+				border={'2px solid gray'}
 				_focusVisible={{ boxShadow: '0 0 2.5px #0E1420' }}>
-				<option value={'asc'}>Ascending</option>
-				<option value={'desc'}>Descending</option>
+				<option value={''}>Select</option>
+				<option value={'price_asc'}>Ascending</option>
+				<option value={'price_desc'}>Descending</option>
 			</Select>
 		</Box>
 	);

@@ -33,6 +33,7 @@ const RateSelectionForm = ({ nextStep, prevStep }: { nextStep: () => void; prevS
 				setFilterableRates(result?.data?.rateDetail?.rates);
 				dispatch(updateRates(result?.data?.rateDetail?.rates));
 				dispatch(updateSelectedRate({ shipmentId: result?.data?.data?._id }));
+				localStorage.setItem('shipmentId', result?.data?.data?._id)
 			} catch (error) {
 				console.error(error);
 			}

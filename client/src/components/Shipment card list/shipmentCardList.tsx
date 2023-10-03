@@ -4,6 +4,7 @@ import ShipmentCard from '../Cards/shipmentCard';
 import { Flex, Stack, Image, Text } from '@chakra-ui/react';
 import noDataFound from '../../assets/no-data-found.jpg';
 
+<<<<<<< HEAD
 const ShipmentCardList = () => {
 	const [shipmentList, setShipmentList] = useState([]);
 	useEffect(() => {
@@ -24,18 +25,25 @@ const ShipmentCardList = () => {
 		};
 		fetchTableData();
 	}, []);
+=======
+>>>>>>> origin/amin
 
-	useEffect(() => {
-		console.log('list:', shipmentList);
-	}, [shipmentList]);
+
+export interface IShipment {
+	tableData: any;
+	clickedCard:(cardId:any)=>void
+}
+const ShipmentCardList = ({tableData, clickedCard}:IShipment) => {
+	console.log('tableData',tableData)
+
 	return (
 		<>
-			{shipmentList && shipmentList.length > 0 ? (
+			{tableData && tableData?.length > 0 ? (
 				<Flex
 					flexWrap="wrap"
 					h={'750px'}
 					mb={'2rem'}
-					overflowY={'auto'}
+					overflowY={'scroll'}
 					css={{
 						'&::-webkit-scrollbar': {
 							width: '0',
@@ -45,10 +53,11 @@ const ShipmentCardList = () => {
 							borderRadius: '0.25em',
 						},
 					}}>
-					{shipmentList.map((shipment: any, index: number) => {
+					{tableData?.map((shipment: any, index: number) => {
 						if (shipment.labelDetail) {
 							return (
 								<ShipmentCard
+									clickedCard={clickedCard}
 									key={index}
 									shipment={shipment}
 								/>
@@ -60,11 +69,6 @@ const ShipmentCardList = () => {
 				</Flex>
 			) : (
 				<Stack align={'center'}>
-					<Image
-						src={noDataFound}
-						boxSize={'25vw'}
-						borderRadius={'1rem'}
-					/>
 					<Text
 						textAlign={'center'}
 						fontFamily={'Roboto'}

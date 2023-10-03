@@ -61,7 +61,7 @@ const PaymentModal = ({ onClose, isOpen, total, insured_amount }: PaymentModalPr
 		}
 	};
 
-	const handleCheckout = () => {
+	const handleBNPLCheckout = () => {
 		axios
 			.post(`${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}/payment/create-checkout-session`, {
 				payment: { currency: 'USD', rate: payable, insurance: 0, other_amount: 0, date: new Date().toISOString },
@@ -203,7 +203,7 @@ const PaymentModal = ({ onClose, isOpen, total, insured_amount }: PaymentModalPr
 														p={'.25rem'}
 														w={'7rem'}
 														_hover={{ bg: '#2A9D8F' }}
-														onClick={handleCheckout}>
+														onClick={handleBNPLCheckout}>
 														Pay Now
 													</Button>
 												</Flex>

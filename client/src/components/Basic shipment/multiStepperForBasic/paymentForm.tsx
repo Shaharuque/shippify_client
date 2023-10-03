@@ -16,10 +16,10 @@ const PaymentForm = ({ prevStep }: { prevStep: () => void }) => {
 	localStorage.setItem('total', JSON.stringify(total));
 	localStorage.setItem('shipmentId', selectedRate?.shipmentId);
 
-	const handleCheckout = () => {
+	const handleNormalCheckout = () => {
 		axios
 			.post(`${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}/payment/create-checkout-session`, {
-				payment: { currency: selectedRate?.selectedRate?.shipping_amount?.currency, rate: selectedRate?.selectedRate?.shipping_amount?.amount, insurance: insuranceDetails?.insurance_amount, other_amount: selectedRate?.selectedRate?.other_amount?.amount, date: selectedRate?.selectedRate?.estimated_delivery_date },
+				payment: { currency: selectedRate?.shipping_amount?.currency, rate: Number(selectedRate?.shipping_amount?.amount)?.toFixed(2), insurance: Number(insuranceDetails?.insurance_amount)?.toFixed(2), other_amount: Number(selectedRate?.other_amount?.amount)?.toFixed(2), date: selectedRate?.estimated_delivery_date },
 			})
 			.then((response) => {
 				if (response.data.url) {
@@ -27,6 +27,16 @@ const PaymentForm = ({ prevStep }: { prevStep: () => void }) => {
 				}
 			})
 			.catch((err) => console.log(err.message));
+
+		localStorage.setItem(
+			'paymentDetails',
+			JSON.stringify({
+				insurance_amount: insuranceDetails?.product_value?.toString(),
+				normal_payment: {
+					net_payable: total?.toString(),
+				},
+			})
+		);
 	};
 
 	useEffect(() => {
@@ -81,7 +91,7 @@ const PaymentForm = ({ prevStep }: { prevStep: () => void }) => {
 					gap={'1rem'}
 					justify={'flex-end'}>
 					<Button onClick={onOpen}>BNPL</Button>
-					<Button onClick={handleCheckout}>Pay now</Button>
+					<Button onClick={handleNormalCheckout}>Pay now</Button>
 				</Flex>
 			</Flex>
 		</Box>
