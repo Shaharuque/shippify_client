@@ -13,7 +13,7 @@ const PaymentForm = ({ prevStep }: { prevStep: () => void }) => {
 	const insuranceDetails = useAppSelector((state: RootState) => state?.insurance);
 	const total = Number(selectedRate?.shipping_amount?.amount) + Number(selectedRate?.other_amount?.amount) + Number(insuranceDetails?.insurance_amount);
 
-	localStorage.setItem('total_amount', JSON.stringify(total));
+	localStorage.setItem('total', JSON.stringify(total));
 
 	const handleCheckout = () => {
 		axios

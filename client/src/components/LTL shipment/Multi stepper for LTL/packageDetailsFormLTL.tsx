@@ -21,16 +21,16 @@ export interface TPackageDetailsFormLTL {
 	nmfc_code: string;
 	description: string;
 	dimensions: {
-		width: number;
-		height: number;
-		length: number;
+		width: number | null;
+		height: number | null;
+		length: number | null;
 		unit: string;
 	};
 	weight: {
-		value: number;
+		value: number | null;
 		unit: string;
 	};
-	quantity: number;
+	quantity: number | null;
 	stackable: boolean;
 	hazardous_materials: boolean;
 }
@@ -41,16 +41,16 @@ const defaultValues: TPackageDetailsFormLTL = {
 	nmfc_code: '',
 	description: '',
 	dimensions: {
-		width: 0,
-		height: 0,
-		length: 0,
+		width: null,
+		height: null,
+		length: null,
 		unit: 'inches',
 	},
 	weight: {
-		value: 0,
+		value: null,
 		unit: 'pounds',
 	},
-	quantity: 0,
+	quantity: null,
 	stackable: false,
 	hazardous_materials: false,
 };
@@ -68,6 +68,8 @@ const PackageDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; p
 	const [selectedPackageCode, setSelectedPackageCode] = useState<string | null>(null);
 	const [editMode, setEditMode] = useState(false);
 	const [numberInputChange, setNumberInputChange] = useState(false);
+	const [switchValue, setSwitchValue] = useState(false);
+	const [hazardousMaterialsValue, setHazardousMaterialsValue] = useState(false);
 
 	const { handleSubmit, register, setValue, reset, getValues } = useForm<TPackageDetailsFormLTL>({ defaultValues });
 
@@ -76,6 +78,8 @@ const PackageDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; p
 		const selectedProductDetails = dummyProductDetails.find((product) => product.name === selectedProduct);
 		data.freight_class = selectedProductDetails!.freightNumber;
 		if (selectedPackageCode) data.code = selectedPackageCode;
+		data.stackable = switchValue;
+		data.hazardous_materials = hazardousMaterialsValue;
 
 		console.log('data:', data);
 
@@ -108,42 +112,42 @@ const PackageDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; p
 	};
 
 	const handleSelectPackage = (index: number) => {
-		setSelectedPackageIndex(index);
-		setEditMode(true);
-		const selectedPackage = packages[index];
-		console.log('selected package:', selectedPackage);
+		if (selectedPackageIndex !== index) {
+			reset(defaultValues);
+			setSelectedPackageIndex(index);
+			setEditMode(true);
+			setNumberInputChange(false);
+			const selectedPackage = packages[index];
+			console.log('selected package:', selectedPackage);
 
-		setValue('quantity', selectedPackage?.quantity);
-		setValue('dimensions.length', selectedPackage?.dimensions?.length);
-		setValue('dimensions.width', selectedPackage?.dimensions?.width);
-		setValue('dimensions.height', selectedPackage?.dimensions?.height);
-		setValue('dimensions.unit', selectedPackage?.dimensions?.unit);
-		setValue('weight.value', selectedPackage?.weight?.value);
-		setValue('weight.unit', selectedPackage?.weight?.unit);
-		setSelectedPackageCode(selectedPackage?.code);
-
-		// setDefaultPackageValues(selectedPackage);
+			setValue('quantity', selectedPackage?.quantity);
+			setValue('dimensions.length', selectedPackage?.dimensions?.length);
+			setValue('dimensions.width', selectedPackage?.dimensions?.width);
+			setValue('dimensions.height', selectedPackage?.dimensions?.height);
+			setValue('dimensions.unit', selectedPackage?.dimensions?.unit);
+			setValue('weight.value', selectedPackage?.weight?.value);
+			setValue('weight.unit', selectedPackage?.weight?.unit);
+			setValue('nmfc_code', selectedPackage?.nmfc_code);
+			setSwitchValue(selectedPackage?.stackable);
+			setHazardousMaterialsValue(selectedPackage?.hazardous_materials);
+			setSelectedPackageCode(selectedPackage?.code);
+		}
 	};
 
 	const CustomReset = () => {
 		reset(defaultValues);
 		setSelectedPackageIndex(null);
 		setEditMode(false);
-
-		// setValue('dimensions.length', 0);
-		// setValue('dimensions.width', 0);
-		// setValue('dimensions.height', 0);
-		// setValue('dimensions.unit', 'inches');
-		// setValue('weight.value', 0);
-		// setValue('weight.unit', 'pounds');
-		// setValue('quantity', 0);
-		// setValue('nmfc_code', '');
-		// setValue('description', '');
+		setSelectedPackageCode(null);
+		setSwitchValue(false);
+		setHazardousMaterialsValue(false);
 	};
 
 	const customDimensionFormValidator = () => {
-		console.log(numberInputChange);
-		return getValues('dimensions.height') === 0 || getValues('dimensions.width') === 0 || getValues('dimensions.length') === 0 || getValues('weight.value') === 0 || !numberInputChange || selectedPackageCode === null;
+		const result = getValues('dimensions.height') === null || getValues('dimensions.width') === null || getValues('dimensions.length') === null || getValues('weight.value') === null || !numberInputChange || selectedPackageCode === null || getValues('quantity') === null;
+
+		console.log('validator', result);
+		return result;
 	};
 
 	const handleRemoveButton = () => {
@@ -393,26 +397,32 @@ const PackageDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; p
 							<option value={'kgs'}>kg</option>
 						</Select>
 					</FormControl>
-					<FormControl style={{ display: 'flex', alignItems: 'center' }}>
+					<FormControl
+						style={{ display: 'flex', alignItems: 'center' }}
+						id="stackable">
 						<Text
 							fontWeight={'600'}
 							mr={'1rem'}>
 							Stackable
 						</Text>
 						<Switch
-							{...register('stackable')}
+							onChange={() => setSwitchValue((prev) => !prev)}
 							colorScheme="teal"
+							isChecked={switchValue}
 						/>
 					</FormControl>
-					<FormControl style={{ display: 'flex', alignItems: 'center' }}>
+					<FormControl
+						style={{ display: 'flex', alignItems: 'center' }}
+						id="hazardous_materials">
 						<Text
 							fontWeight={'600'}
 							mr={'1rem'}>
 							Hazardous
 						</Text>
 						<Switch
-							{...register('hazardous_materials')}
+							onChange={() => setHazardousMaterialsValue((prev) => !prev)}
 							colorScheme="teal"
+							isChecked={hazardousMaterialsValue}
 						/>
 					</FormControl>
 				</Flex>
@@ -424,14 +434,14 @@ const PackageDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; p
 						<SubmitButton
 							text={editMode ? 'Update' : 'Add package'}
 							width="8rem"
-							// isDisabled={customDimensionFormValidator()}
+							isDisabled={customDimensionFormValidator()}
 						/>
 						{editMode ? (
 							<RegularButton
 								text="Remove"
 								width="6rem"
 								onHoverColor="#DC143C"
-								isDisabled={!editMode}
+								// isDisabled={!editMode}
 								onClick={handleRemoveButton}
 							/>
 						) : null}
@@ -441,7 +451,7 @@ const PackageDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; p
 								text="Add new"
 								width="6rem"
 								onClick={CustomReset}
-								isDisabled={!editMode}
+								// isDisabled={!editMode}
 							/>
 						) : null}
 					</Flex>
@@ -454,7 +464,8 @@ const PackageDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; p
 							onClick={() => nextStep()}
 							text={'Continue'}
 							width="8rem"
-							isDisabled={packages?.length === 0 && packages[0]?.nmfc_code?.length === 0}
+							isDisabled={packages?.length === 0}
+							error_message="You havn't added any package!"
 						/>
 					</Flex>
 				</Flex>

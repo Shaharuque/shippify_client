@@ -3,9 +3,6 @@ import { TPackageDetailsForm } from '../Basic shipment/multiStepperForBasic/pack
 import { TPackageDetailsFormLTL } from '../LTL shipment/Multi stepper for LTL/packageDetailsFormLTL';
 
 const PackageNumbers = ({ packages, onSelectPackage, selectedPackageIndex }: { packages: TPackageDetailsForm[] | TPackageDetailsFormLTL[]; onSelectPackage: (index: number) => void; selectedPackageIndex: number | null }) => {
-	const handleSelectPackage = (index: number) => {
-		onSelectPackage(index);
-	};
 	return (
 		<Flex
 			direction={'column'}
@@ -25,7 +22,7 @@ const PackageNumbers = ({ packages, onSelectPackage, selectedPackageIndex }: { p
 					{packages.map((_, index) => (
 						<Circle
 							key={index}
-							onClick={() => handleSelectPackage(index)}
+							onClick={() => onSelectPackage(index)}
 							cursor="pointer"
 							p={2}
 							mb={2}
