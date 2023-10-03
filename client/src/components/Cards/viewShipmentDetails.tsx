@@ -1,4 +1,5 @@
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react';
+import AddressPanel from './Address panel';
 
 const ViewShipmentDetails = () => {
 	return (
@@ -15,7 +16,7 @@ const ViewShipmentDetails = () => {
 			</TabList>
 			<TabPanels>
 				<TabPanel>
-					<p>one!</p>
+					<AddressPanel />
 				</TabPanel>
 				<TabPanel>
 					<p>two!</p>
