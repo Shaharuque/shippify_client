@@ -3,9 +3,8 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import checked from '../../assets/checked.png';
 import moment from 'moment';
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { useAppDispatch } from '../../redux/hooks';
 import { updatePayment } from '../../redux/features/paymentSlice';
-import { RootState } from '../../redux/store';
 
 type PaymentModalProps = {
 	onClose: () => void;
@@ -21,8 +20,6 @@ type InstallmentOption = {
 
 const PaymentModal = ({ onClose, isOpen, total, insured_amount }: PaymentModalProps) => {
 	const dispatch = useAppDispatch();
-
-	const shipmentId = useAppSelector((state: RootState) => state?.selectedRate?.shipmentId);
 
 	const [installmentOptions, setInstallmentOptions] = useState<InstallmentOption[]>([]);
 	const [selectedOption, setSelectedOption] = useState<InstallmentOption | null>(null);
@@ -78,7 +75,6 @@ const PaymentModal = ({ onClose, isOpen, total, insured_amount }: PaymentModalPr
 			})
 		);
 
-		localStorage.setItem('shipmentId', shipmentId);
 		axios
 			.post(`${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}/payment/create-checkout-session`, {
 				payment: { currency: 'USD', rate: payable, insurance: 0, other_amount: 0, date: new Date().toISOString },

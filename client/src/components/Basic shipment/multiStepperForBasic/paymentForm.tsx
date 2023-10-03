@@ -9,11 +9,12 @@ import { useEffect } from 'react';
 
 const PaymentForm = ({ prevStep }: { prevStep: () => void }) => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
-	const selectedRate = useAppSelector((state: any) => state?.selectedRate?.selectedRate);
+	const selectedRate = useAppSelector((state: any) => state?.selectedRate);
 	const insuranceDetails = useAppSelector((state: RootState) => state?.insurance);
 	const total = Number(selectedRate?.shipping_amount?.amount) + Number(selectedRate?.other_amount?.amount) + Number(insuranceDetails?.insurance_amount);
 
 	localStorage.setItem('total', JSON.stringify(total));
+	localStorage.setItem('shipmentId', selectedRate?.shipmentId);
 
 	const handleCheckout = () => {
 		axios

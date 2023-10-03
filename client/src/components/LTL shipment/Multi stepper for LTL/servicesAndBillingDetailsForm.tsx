@@ -12,6 +12,7 @@ import { RootState } from '../../../redux/store';
 import 'react-calendar/dist/Calendar.css';
 import { updateField } from '../../../redux/features/ltlShipmentSlice';
 import CalendarModal from '../../Modals/calendarModal';
+import moment from 'moment';
 
 const billingMethod = [
 	{ name: 'Prepaid', code: 'prepaid' },
@@ -144,11 +145,14 @@ const ServicesAndBillingDetailsForm = ({ nextStep, prevStep }: { nextStep: () =>
 
 	const handleExtraServicesChange = (event: ChangeEvent<HTMLInputElement>) => {
 		const value = event.target.value;
-		if (selectedOptions.includes(value)) return;
-		else {
-			if (value === 'haz' && event.target.checked) hazardModal.onOpen();
-			setSelectedOptions((prev) => [...prev, value]);
-		}
+		const checked = event.target.checked;
+		if (checked) {
+			if (selectedOptions.includes(value)) return;
+			else {
+				if (value === 'haz') hazardModal.onOpen();
+				setSelectedOptions((prev) => [...prev, value]);
+			}
+		} else setSelectedOptions((prev) => prev.filter((option) => option !== value));
 	};
 
 	const handleLiabilityContactSave = (data: TLiableContact) => {
@@ -240,8 +244,6 @@ const ServicesAndBillingDetailsForm = ({ nextStep, prevStep }: { nextStep: () =>
 									{item.name}
 								</option>
 							))}
-							{/* <option value={'gtd_am'}>Guaranteed morning</option>
-							<option value={'gtd_noon'}>Guaranteed noon</option> */}
 						</Select>
 					</FormControl>
 				</Flex>
@@ -279,6 +281,11 @@ const ServicesAndBillingDetailsForm = ({ nextStep, prevStep }: { nextStep: () =>
 					onClick={calendarModal.onOpen}>
 					Choose a Pickup date
 				</Button>
+				<Text
+					mt={'.5rem'}
+					fontWeight={'600'}>
+					Picked up date: {moment(selectedDate).format('DD-MM-YYYY')}
+				</Text>
 
 				<FormControl style={{ display: 'flex', alignItems: 'center', marginTop: '4em' }}>
 					<Text

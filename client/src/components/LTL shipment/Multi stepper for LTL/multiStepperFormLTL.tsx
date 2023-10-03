@@ -1,6 +1,6 @@
 import InsuranceDetailsFormLTL from './insuranceFormLTL';
 import PackageDetailsFormLTL from './packageDetailsFormLTL';
-import QuoteDetails from './quoteDetails';
+import PaymentDetailsLTL from './paymentDetailsLTL';
 import RecieverAddressFormLTL from './recieverAddressFormLTL';
 import SenderAddressFormLTL from './senderAddressFormLTL';
 import ServicesAndBillingDetailsForm from './servicesAndBillingDetailsForm';
@@ -38,7 +38,7 @@ const MultiStepperFormLTL = ({ activeStep, handleStepChange }: { activeStep: num
 					nextStep={nextStep}
 				/>
 			) : activeStep === 6 ? (
-				<QuoteDetails
+				<PaymentDetailsLTL
 					prevStep={prevStep}
 					nextStep={nextStep}
 				/>

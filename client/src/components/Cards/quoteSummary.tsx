@@ -11,6 +11,9 @@ for (const key in countryCodeDictionary) {
 
 const QuoteSummary = () => {
 	const ltlShipmentInfo = useAppSelector((state: RootState) => state?.ltlShipments?.shipment);
+	const ltlShipmentCharges = useAppSelector((state: RootState) => state?.ltlTotalCharge);
+	const insuranceDetails = useAppSelector((state: RootState) => state?.insurance);
+	const total = Number(ltlShipmentCharges?.amount?.value) + Number(insuranceDetails?.insurance_amount);
 
 	return (
 		<Card
@@ -111,18 +114,25 @@ const QuoteSummary = () => {
 						<Text
 							fontSize="sm"
 							m={'.2rem 0'}>
-							Shipping cost:
+							Shipping cost: {ltlShipmentCharges?.amount?.value} ({ltlShipmentCharges?.amount?.currency})
 						</Text>
 						<Text
 							fontSize="sm"
 							m={'.2rem 0'}>
-							Other costs:
+							Other costs: 0 (USD)
 						</Text>
 						<Text
 							fontSize="sm"
 							m={'.2rem 0'}>
-							Insurance:
+							Insurance: {insuranceDetails?.insurance_amount} (USD)
 						</Text>
+					</Box>
+					<Box ml="auto">
+						<Heading
+							size="sm"
+							textTransform="uppercase">
+							Total: {total.toFixed(2)} (usd)
+						</Heading>
 					</Box>
 				</Stack>
 			</CardBody>

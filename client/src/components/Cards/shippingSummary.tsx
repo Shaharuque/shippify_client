@@ -25,7 +25,7 @@ const ShippingSummary = () => {
 		const value = countryCodeDictionary[key];
 		swappedCountryCodeDictionary[value] = key;
 	}
-	console.log('total amount', total);
+
 	return (
 		<Card
 			bg={'transparent'}

@@ -32,7 +32,7 @@ const InsuranceDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void;
 				console.log('response:', response);
 				if (response?.data?.status === 'success') {
 					setShipmentId(response?.data?.data?._id);
-					dispatch(updateLTLTotalCharge({ amount: response?.data?.data?.shipment_detail?.charges[4], shipmentId: response?.data?.data?._id }));
+					dispatch(updateLTLTotalCharge({ amount: response?.data?.data?.shipment_detail?.charges[4]?.amount, shipmentId: response?.data?.data?._id }));
 				}
 			} catch (error) {
 				console.error(error);
