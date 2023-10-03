@@ -54,8 +54,8 @@ const PredefinedBoxes = ({ inputChanged, editModeOn, selectedCode, weightValue, 
 	console.log('test:', test);
 
 	useEffect(() => {
-		// const token = localStorage.getItem('token');
 		const fetchPredefinedBoxData = async () => {
+			setIsLoading(true);
 			try {
 				const response = await axios.get('http://192.168.68.89:5000/custom-package-type/list', {
 					headers: {
@@ -63,9 +63,10 @@ const PredefinedBoxes = ({ inputChanged, editModeOn, selectedCode, weightValue, 
 					},
 				});
 				console.log('response from predefined box', response?.data);
+
 				if (response?.data?.status === 'success') {
+					setIsLoading(false);
 					setPredefinedBoxes(Array.from(response?.data?.data?.packages));
-					setIsLoading(true);
 				}
 			} catch (error) {
 				console.error('Error while fetching data', error);
@@ -73,6 +74,8 @@ const PredefinedBoxes = ({ inputChanged, editModeOn, selectedCode, weightValue, 
 		};
 		fetchPredefinedBoxData();
 	}, []);
+
+	useEffect(() => console.log('loading status', isLoading), [isLoading]);
 
 	return (
 		<Box>

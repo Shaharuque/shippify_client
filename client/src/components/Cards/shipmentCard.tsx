@@ -5,20 +5,20 @@ import stamps from '../../assets/stamps_com.png';
 import { LuBadgeDollarSign } from 'react-icons/lu';
 import moment from 'moment';
 import { useFetchSingleShipmentMutation } from '../../redux/api/basicShipmentsApi';
+import { labelDictionary } from '../../utils/formatLabels';
 
 export interface IShipment {
 	shipment: any;
-	clickedCard:(cardId:any)=>void
+	clickedCard: (cardId: any) => void;
 }
 
-const ShipmentCard = ({ shipment,clickedCard }: IShipment) => {
+const ShipmentCard = ({ shipment, clickedCard }: IShipment) => {
 	const currentDateTime = moment();
-	const token=localStorage.getItem('token')
-
+	const token = localStorage.getItem('token');
 
 	return (
 		<Box
-			onClick={()=>clickedCard(shipment?._id)}
+			onClick={() => clickedCard(shipment?._id)}
 			borderWidth="1px"
 			borderRadius="lg"
 			p={useBreakpointValue({ base: 2, md: 4, lg: 6 })}
@@ -26,13 +26,16 @@ const ShipmentCard = ({ shipment,clickedCard }: IShipment) => {
 			bg="white"
 			boxShadow="lg"
 			w={'100%'}
-			h={'20%'}
+			h={'15vh'}
 			_hover={{ backgroundColor: '#e8edeb' }}>
 			<Flex
 				gap={'1vw'}
 				align={'center'}
 				whiteSpace={'nowrap'}>
-				<Stack align={'center'}>
+				<Stack
+					align={'center'}
+					w={'120px'}
+					textAlign={'center'}>
 					<Image
 						src={shipment?.rateDetail?.carrier_code === 'ups' ? ups : shipment?.rateDetail?.carrier_code === 'fedex' ? fedex : stamps}
 						boxSize={'2.5rem'}
@@ -41,13 +44,13 @@ const ShipmentCard = ({ shipment,clickedCard }: IShipment) => {
 					<Text
 						fontWeight={'md'}
 						fontSize={'sm'}
-						whiteSpace={'pre-wrap'}
-
-						>
+						whiteSpace={'pre-wrap'}>
 						{shipment?.rateDetail?.service_type}
 					</Text>
 				</Stack>
-				<Stack align={'center'}>
+				<Stack
+					align={'center'}
+					w={'80px'}>
 					<Text fontWeight={'bold'}>Shipping cost</Text>
 					<Stack
 						direction={'row'}
@@ -60,39 +63,57 @@ const ShipmentCard = ({ shipment,clickedCard }: IShipment) => {
 						<Text>{shipment?.rateDetail?.shipping_amount?.amount}</Text>
 					</Stack>
 				</Stack>
-				<Stack align={'center'}>
+				<Stack
+					align={'center'}
+					w={'100px'}>
 					<Text
 						fontSize={'md'}
 						fontWeight={'bold'}>
-						packages
+						Packages
 					</Text>
 					<Text fontSize={'sm'}>{shipment?.shipment_detail?.packages.length}</Text>
 				</Stack>
-				<Stack align={'center'}>
+				<Stack
+					align={'center'}
+					w={'120px'}>
 					<Text fontWeight={'bold'}>Tracking Id</Text>
-					<Text fontSize={'xs'} fontWeight={'bold'}>{shipment?.labelDetail?.tracking_number}</Text>
+					<Text
+						fontSize={'xs'}
+						fontWeight={'bold'}>
+						{shipment?.labelDetail?.tracking_number}
+					</Text>
 				</Stack>
-				<Stack align={'center'}>
+				<Stack
+					align={'center'}
+					w={'100px'}>
 					<Text fontWeight={'bold'}>Source</Text>
-					<Text fontSize={'sm'}>{shipment?.shipment_detail?.ship_from?.city_locality}, {shipment?.shipment_detail?.ship_from?.country_code
-}</Text>
+					<Text fontSize={'sm'}>
+						{shipment?.shipment_detail?.ship_from?.city_locality}, {shipment?.shipment_detail?.ship_from?.country_code}
+					</Text>
 				</Stack>
-				<Stack align={'center'}>
+				<Stack
+					align={'center'}
+					w={'100px'}>
 					<Text fontWeight={'bold'}>Destination</Text>
-					<Text fontSize={'sm'}>{shipment?.shipment_detail?.ship_to?.city_locality}, {shipment?.shipment_detail?.ship_to?.country_code
-}</Text>
+					<Text fontSize={'sm'}>
+						{shipment?.shipment_detail?.ship_to?.city_locality}, {shipment?.shipment_detail?.ship_to?.country_code}
+					</Text>
 				</Stack>
-				<Stack align={'center'}>
+				<Stack
+					align={'center'}
+					w={'120px'}>
 					<Text fontWeight={'bold'}>Delivery Date</Text>
-					<Text fontSize={'sm'}>{moment(shipment?.rateDetail?.estimated_delivery_date)?.format("MM-DD-YYYY")}</Text>
+					<Text fontSize={'sm'}>{moment(shipment?.rateDetail?.estimated_delivery_date)?.format('MM-DD-YYYY')}</Text>
 				</Stack>
-				<Stack align={'center'}>
+				<Stack
+					align={'center'}
+					w={'120px'}>
 					<Text fontWeight={'bold'}>Tracking Status</Text>
 					<Badge
 						colorScheme="pink"
 						borderRadius={'md'}
 						fontSize={'xs'}>
-						{shipment?.shipment_detail?.shipment_status}
+						{labelDictionary[shipment?.shipment_detail?.shipment_status]}
 					</Badge>
 				</Stack>
 			</Flex>

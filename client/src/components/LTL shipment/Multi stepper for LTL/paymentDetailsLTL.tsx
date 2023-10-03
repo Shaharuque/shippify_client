@@ -5,6 +5,7 @@ import RegularButton from '../../Buttons/regularButton';
 import { useAppSelector } from '../../../redux/hooks';
 import { RootState } from '../../../redux/store';
 import PaymentModal from '../../Modals/paymentModal';
+import axios from 'axios';
 
 const PaymentDetailsLTL = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () => void }) => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
@@ -12,20 +13,29 @@ const PaymentDetailsLTL = ({ nextStep, prevStep }: { nextStep: () => void; prevS
 	const insuranceDetails = useAppSelector((state: RootState) => state?.insurance);
 	const total = Number(ltlShipmentCharges?.amount?.value) + Number(insuranceDetails?.insurance_amount);
 
-	localStorage.setItem('total', JSON.stringify(total));
-	localStorage.setItem('shipmentId', ltlShipmentCharges?.shipmentId);
-
 	const handleCheckout = () => {
-		// axios
-		// 	.post(`${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}/payment/create-checkout-session`, {
-		// 		payment: { currency: selectedRate?.selectedRate?.shipping_amount?.currency, rate: selectedRate?.selectedRate?.shipping_amount?.amount, insurance: insuranceDetails?.insurance_amount, other_amount: selectedRate?.selectedRate?.other_amount?.amount, date: selectedRate?.selectedRate?.estimated_delivery_date },
-		// 	})
-		// 	.then((response) => {
-		// 		if (response.data.url) {
-		// 			window.location.href = response.data.url;
-		// 		}
-		// 	})
-		// 	.catch((err) => console.log(err.message));
+		localStorage.setItem(
+			'paymentDetails',
+			JSON.stringify({
+				insurance_amount: insuranceDetails?.product_value?.toString(),
+				normal_payment: {
+					net_payable: total?.toString(),
+				},
+			})
+		);
+		localStorage.setItem('total', JSON.stringify(total));
+		localStorage.setItem('shipmentId', ltlShipmentCharges?.shipmentId);
+		localStorage.setItem('shipmentType', 'ltl');
+		axios
+			.post(`${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}/payment/create-checkout-session`, {
+				payment: { currency: ltlShipmentCharges?.amount?.currency, rate: ltlShipmentCharges?.amount?.value, insurance: insuranceDetails?.insurance_amount, other_amount: 0, date: new Date().toISOString() },
+			})
+			.then((response) => {
+				if (response.data.url) {
+					window.location.href = response.data.url;
+				}
+			})
+			.catch((err) => console.log(err.message));
 	};
 
 	return (

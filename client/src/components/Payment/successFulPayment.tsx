@@ -10,9 +10,6 @@ import { generateTransactionID } from '../../utils/randomTransactionIdGenerator'
 
 const SuccessFulPayment = () => {
 	const navigate = useNavigate();
-	const paymentDetails = localStorage.getItem('paymentDetails') || {};
-	const shipmentId = localStorage.getItem('shipmentId');
-
 	const [payment, setPayment] = useState<IPaymentData>();
 
 	const successTickLottieOptions = {
@@ -23,45 +20,76 @@ const SuccessFulPayment = () => {
 	const { View: successTickLottieView } = useLottie(successTickLottieOptions);
 
 	useEffect(() => {
-		const purchaseShipment = async () => {
+		const fetchPaymentDetails = async () => {
+			const paymentDetails = localStorage.getItem('paymentDetails');
+			if (paymentDetails) {
+				const parsedPayment = JSON.parse(paymentDetails);
+				setPayment(parsedPayment);
+			}
+		};
+
+		fetchPaymentDetails();
+	}, []);
+
+	useEffect(() => {
+		if (payment) {
+			const shipmentId = localStorage.getItem('shipmentId');
+			const shipment = localStorage.getItem('shipmentType');
 			const token = localStorage.getItem('token');
-			try {
-				if (!paymentDetails?.bnpl) {
-					const response = await axios.post(
-						`${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}/shipment/parched-shipment/${shipmentId}`,
-						{
-							insurance_amount: paymentDetails?.insurance_amount || '0',
-							normal_payment: {
-								net_payable: paymentDetails?.normal_payment?.net_payable || '0',
-							},
-						},
-						{
-							headers: {
-								'Content-Type': 'application/json',
-								'x-auth-token': token,
-							},
-						}
-					);
-					console.log('purchase shipment response data', response?.data);
-				}
-				// const payment = JSON.parse(paymentDetails);
-				// console.log('payment', payment)
-				// setPayment(payment);
-				else {
-					const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}/shipment/parched-shipment/${shipmentId}`, payment, {
+			const quoteId = localStorage.getItem('quoteId');
+			const pickupDate = localStorage.getItem('pickup_date');
+
+			const purchaseBasicShipment = async (payload: any) => {
+				try {
+					const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}/shipment/parched-shipment/${shipmentId}`, payload, {
 						headers: {
 							'Content-Type': 'application/json',
 							'x-auth-token': token,
 						},
 					});
-					console.log('purchase shipment response data', response?.data);
+					console.log('response from basic', response?.data);
+				} catch (error) {
+					console.error('Error', error);
 				}
-			} catch (error) {
-				console.error('Error', error);
+			};
+
+			const purchaseLTLShipment = async (payload: any) => {
+				try {
+					const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}/ltlShipment/parched-shipment/${shipmentId}`, payload, {
+						headers: {
+							'Content-Type': 'application/json',
+							'x-auth-token': token,
+						},
+					});
+					console.log('response from basic', response?.data);
+				} catch (error) {
+					console.error('Error', error);
+				}
+			};
+			if (shipment === 'ltl') {
+				const payload = {
+					insurance_amount: payment?.insurance_amount,
+					bnpl: payment?.bnpl,
+					normal_payment: payment?.normal_payment,
+					quote_id: quoteId,
+					pickup_date: pickupDate,
+					carrier: {
+						test: true,
+						instructions: 'pickup at back gate',
+					},
+					estimated_delivery_days: 1,
+				};
+				purchaseLTLShipment(payload);
+			} else {
+				const payload = {
+					insurance_amount: payment?.insurance_amount,
+					bnpl: payment?.bnpl,
+					normal_payment: payment?.normal_payment,
+				};
+				purchaseBasicShipment(payload);
 			}
-		};
-		purchaseShipment();
-	}, []);
+		}
+	}, [payment]);
 
 	return (
 		<Flex

@@ -9,10 +9,10 @@ import axios from 'axios';
 import { useFetchSingleShipmentMutation } from '../../redux/api/basicShipmentsApi';
 
 const DashboardPage = () => {
-	const [tableData,setTableData]=useState([])
-	const [price,setPrice]=useState('')
-	const [weight,setWeight]=useState('')
-	const [status,setStatus]=useState('')
+	const [tableData, setTableData] = useState([]);
+	const [price, setPrice] = useState('');
+	const [weight, setWeight] = useState('');
+	const [status, setStatus] = useState('');
 
 	useEffect(() => {
 		const token = localStorage.getItem('token');
@@ -20,11 +20,7 @@ const DashboardPage = () => {
 			try {
 				const response = await axios.post(
 					`http://192.168.68.89:5000/shipment/sort-by-package-and-price`,
-					{	carrier_id:'',
-						priceSort: price,
-						weightSort: weight,
-						shipment_status: status,
-					},
+					{ carrier_id: '', priceSort: price, weightSort: weight, shipment_status: status },
 					{
 						headers: {
 							'Content-Type': 'application/json',
@@ -39,18 +35,18 @@ const DashboardPage = () => {
 			}
 		};
 		fetchTableData();
-	}, [price,weight,status]);
+	}, [price, weight, status]);
 
-	console.log(price,weight,status)
+	console.log(price, weight, status);
 
-	const token=localStorage.getItem('token')
-	const [fetchSingleShipment,{data:shipmentData,isLoading:dataLaoding}]=useFetchSingleShipmentMutation()
-	console.log('single data from parent',shipmentData,dataLaoding)
+	const token = localStorage.getItem('token');
+	const [fetchSingleShipment, { data: shipmentData, isLoading: dataLaoding }] = useFetchSingleShipmentMutation();
+	console.log('single data from parent', shipmentData, dataLaoding);
 
-	const clickedCard:any=(cardId:any)=>{
-		console.log('clicked',cardId)
-		fetchSingleShipment({token,id:cardId})
-	}
+	const clickedCard = (cardId: string) => {
+		console.log('clicked', cardId);
+		fetchSingleShipment({ token, id: cardId });
+	};
 
 	return (
 		<Flex
@@ -58,22 +54,24 @@ const DashboardPage = () => {
 			flexDirection={{ base: 'column', md: 'row' }}>
 			<Box
 				p={'.5vw 0 .5vw 5vw'}
-				flex={0.2}>
+				flex={0.15}>
 				<PriceAscendingDescendingFilter
 					onChange={function (value: string): void {
-						setPrice(value)
+						setPrice(value);
 					}}
 				/>
-				<WeightFilter 
-				onChange={function (value: string): void {
-						setWeight(value)
-					}}/>
-				<StatusFilter 
-				onChange={function (value: string): void {
-					setStatus(value)
-				}}/>
+				<WeightFilter
+					onChange={function (value: string): void {
+						setWeight(value);
+					}}
+				/>
+				<StatusFilter
+					onChange={function (value: string): void {
+						setStatus(value);
+					}}
+				/>
 			</Box>
-			<Box flex={0.5}>
+			<Box flex={0.55}>
 				<Heading
 					textAlign={'center'}
 					m={'0 0 1vw 0'}
@@ -82,7 +80,10 @@ const DashboardPage = () => {
 					Shipment History
 				</Heading>
 
-				<ShipmentCardList clickedCard={clickedCard} tableData={tableData}/>
+				<ShipmentCardList
+					clickedCard={clickedCard}
+					tableData={tableData}
+				/>
 			</Box>
 			<Box
 				flex={0.3}

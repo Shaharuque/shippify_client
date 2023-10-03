@@ -1,8 +1,5 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
 import ShipmentCard from '../Cards/shipmentCard';
-import { Flex, Stack, Image, Text } from '@chakra-ui/react';
-import noDataFound from '../../assets/no-data-found.jpg';
+import { Flex, Stack, Text } from '@chakra-ui/react';
 
 export interface IShipment {
 	tableData: any;
@@ -16,7 +13,7 @@ const ShipmentCardList = ({ tableData, clickedCard }: IShipment) => {
 			{tableData && tableData?.length > 0 ? (
 				<Flex
 					flexWrap="wrap"
-					h={'750px'}
+					h={'800px'}
 					mb={'2rem'}
 					overflowY={'scroll'}
 					css={{
