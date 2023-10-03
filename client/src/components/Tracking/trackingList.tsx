@@ -1,6 +1,8 @@
 import { Box, Flex } from '@chakra-ui/react';
 import TrackingCard from './trackingCard';
 import ShipmentSteppers from '../Steppers/shipmentSteppers';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 interface TrackingInfo {
 	id: string;
@@ -9,61 +11,59 @@ interface TrackingInfo {
 	deliveryStatus: string;
 	estimatedDeliveryDate: string;
 }
-const dummyTrackingList: TrackingInfo[] = [
-	{
-		id: '123456',
-		shipFrom: 'New York',
-		shipTo: 'Los Angeles',
-		deliveryStatus: 'In transit',
-		estimatedDeliveryDate: '2023-10-05',
-	},
-	{
-		id: '123456',
-		shipFrom: 'New York',
-		shipTo: 'Los Angeles',
-		deliveryStatus: 'In transit',
-		estimatedDeliveryDate: '2023-10-05',
-	},
-	{
-		id: '123456',
-		shipFrom: 'New York',
-		shipTo: 'Los Angeles',
-		deliveryStatus: 'In transit',
-		estimatedDeliveryDate: '2023-10-05',
-	},
-	{
-		id: '123456',
-		shipFrom: 'New York',
-		shipTo: 'Los Angeles',
-		deliveryStatus: 'In transit',
-		estimatedDeliveryDate: '2023-10-05',
-	},
-	{
-		id: '123456',
-		shipFrom: 'New York',
-		shipTo: 'Los Angeles',
-		deliveryStatus: 'In transit',
-		estimatedDeliveryDate: '2023-10-05',
-	},
-	{
-		id: '123456',
-		shipFrom: 'New York',
-		shipTo: 'Los Angeles',
-		deliveryStatus: 'In transit',
-		estimatedDeliveryDate: '2023-10-05',
-	},
-];
+
 
 const status = [{ title: 'Dropped at service point' }, { title: 'Picked up from service point' }, { title: 'In transit' }, { title: 'Lost' }, { title: 'Delivered' }];
 
 const TrackingList = () => {
+	const [tableData,setTableData]=useState([])
+
+	useEffect(() => {
+		const token = localStorage.getItem('token');
+		const fetchTableData = async () => {
+			try {
+				const response = await axios.post(
+					`http://192.168.68.89:5000/shipment/sort-by-package-and-price`,
+					{	carrier_id:'',
+						priceSort: "",
+						weightSort: "",
+						shipment_status: "",
+					},
+					{
+						headers: {
+							'Content-Type': 'application/json',
+							'x-auth-token': token,
+						},
+					}
+				);
+				console.log('result:', response.data);
+				setTableData(response?.data?.result);
+			} catch (error) {
+				console.log(error);
+			}
+		};
+		fetchTableData();
+	}, []);
+
+
+	const token=localStorage.getItem('token')
+	// const [fetchSingleShipment,{data:shipmentData,isLoading:dataLaoding}]=useFetchSingleShipmentMutation()
+	// console.log('single data from parent',shipmentData,dataLaoding)
+
+	const clickedCard:any=(cardId:any)=>{
+		console.log('clicked',cardId)
+		// fetchSingleShipment({token,id:cardId})
+	}
+	
+
 	return (
-		<Flex gap={'1rem'}>
+		<Flex>
+			
+		<Flex px={'50px'}>
 			<Box
-				flex={0.6}
 				p={'.5rem'}
 				overflowY={'scroll'}
-				h={'80vh'}
+				h={'70vh'}
 				css={{
 					'&::-webkit-scrollbar': {
 						width: '0',
@@ -73,19 +73,23 @@ const TrackingList = () => {
 						borderRadius: '0.25em',
 					},
 				}}>
-				{dummyTrackingList.map((item) => (
+				{tableData.map((item,i) => (
 					<TrackingCard
-						key={item.id}
+					clickedCard={clickedCard}
+						key={i}
 						item={item}
 					/>
 				))}
 			</Box>
-			<Box flex={0.4}>
+			<Flex justify={'center'} >
+				<Box>
 				<ShipmentSteppers
-					activeStep={4}
+					activeStep={3}
 					steps={status}
-				/>
-			</Box>
+					/>
+					</Box>
+			</Flex>
+		</Flex>
 		</Flex>
 	);
 };
