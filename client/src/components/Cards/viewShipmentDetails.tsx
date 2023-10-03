@@ -5,10 +5,13 @@ const ViewShipmentDetails = () => {
 		<Tabs
 			isFitted
 			variant="soft-rounded">
-			<TabList mb="1em">
-				<Tab _selected={{ color: 'white', bg: 'cta' }}>One</Tab>
-				<Tab _selected={{ color: 'white', bg: 'cta' }}>Two</Tab>
-				<Tab _selected={{ color: 'white', bg: 'cta' }}>Three</Tab>
+			<TabList
+				mb="1em"
+				border={'1px solid white'}
+				borderRadius={'1rem'}>
+				<Tab _selected={{ color: 'white', bg: 'cta' }}>Addresses</Tab>
+				<Tab _selected={{ color: 'white', bg: 'cta' }}>Delivery details</Tab>
+				<Tab _selected={{ color: 'white', bg: 'cta' }}>Payment details</Tab>
 			</TabList>
 			<TabPanels>
 				<TabPanel>
