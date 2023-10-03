@@ -17,7 +17,7 @@ export const basicShipmentsApi = apiSlice.injectEndpoints({
 
 		fetchSingleShipment: builder.mutation({
 			query: ({token,id}: { id: string; token: string }) => ({
-				url: `/shipment/individual/${id}`,
+				url: `/shipment/shipment-detail/${id}`,
 				method: 'GET',
 				headers: {
 					'Content-type': 'application/json; charset=UTF-8',

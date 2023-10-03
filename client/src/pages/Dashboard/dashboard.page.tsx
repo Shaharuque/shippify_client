@@ -13,6 +13,7 @@ const DashboardPage = () => {
 	const [price, setPrice] = useState('');
 	const [weight, setWeight] = useState('');
 	const [status, setStatus] = useState('');
+	const [cardClicked, setCardClicked] = useState(false)
 
 	useEffect(() => {
 		const token = localStorage.getItem('token');
@@ -41,11 +42,12 @@ const DashboardPage = () => {
 
 	const token = localStorage.getItem('token');
 	const [fetchSingleShipment, { data: shipmentData, isLoading: dataLaoding }] = useFetchSingleShipmentMutation();
-	console.log('single data from parent', shipmentData, dataLaoding);
+	console.log('single data from parent', shipmentData?.data, dataLaoding);
 
 	const clickedCard = (cardId: string) => {
 		console.log('clicked', cardId);
 		fetchSingleShipment({ token, id: cardId });
+		setCardClicked(true)
 	};
 
 	return (
@@ -85,11 +87,14 @@ const DashboardPage = () => {
 					tableData={tableData}
 				/>
 			</Box>
-			<Box
-				flex={0.3}
-				p={'.25rem'}>
-				<ViewShipmentDetails />
-			</Box>
+			{
+				cardClicked &&
+				<Box
+					flex={0.3}
+					p={'.25rem'}>
+					<ViewShipmentDetails shipmentData={shipmentData?.data} />
+				</Box>
+			}
 		</Flex>
 	);
 };
