@@ -22,7 +22,7 @@ type InstallmentOption = {
 const PaymentModal = ({ onClose, isOpen, total, insured_amount }: PaymentModalProps) => {
 	const dispatch = useAppDispatch();
 
-	const shipmentId = useAppSelector((state: RootState) => state?.selectedRate?.shipmentId);
+	
 
 	const [installmentOptions, setInstallmentOptions] = useState<InstallmentOption[]>([]);
 	const [selectedOption, setSelectedOption] = useState<InstallmentOption | null>(null);
@@ -64,7 +64,7 @@ const PaymentModal = ({ onClose, isOpen, total, insured_amount }: PaymentModalPr
 		}
 	};
 
-	const handleCheckout = () => {
+	const handleBNPLCheckout = () => {
 		localStorage.setItem(
 			'paymentDetails',
 			JSON.stringify({
@@ -78,7 +78,7 @@ const PaymentModal = ({ onClose, isOpen, total, insured_amount }: PaymentModalPr
 			})
 		);
 
-		localStorage.setItem('shipmentId', shipmentId);
+	
 		axios
 			.post(`${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}/payment/create-checkout-session`, {
 				payment: { currency: 'USD', rate: payable, insurance: 0, other_amount: 0, date: new Date().toISOString },
@@ -207,7 +207,7 @@ const PaymentModal = ({ onClose, isOpen, total, insured_amount }: PaymentModalPr
 														p={'.25rem'}
 														w={'7rem'}
 														_hover={{ bg: '#2A9D8F' }}
-														onClick={handleCheckout}>
+														onClick={handleBNPLCheckout}>
 														Pay Now
 													</Button>
 												</Flex>
