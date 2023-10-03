@@ -77,7 +77,7 @@ const SuccessFulPayment = () => {
 						test: true,
 						instructions: 'pickup at back gate',
 					},
-					estimated_delivery_days: 2,
+					estimated_delivery_days: 1,
 				};
 				purchaseLTLShipment(payload);
 			} else {

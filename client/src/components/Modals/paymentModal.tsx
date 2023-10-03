@@ -87,17 +87,17 @@ const PaymentModal = ({ onClose, isOpen, total, insured_amount }: PaymentModalPr
 			})
 			.catch((err) => console.log(err.message));
 
-		dispatch(
-			updatePayment({
-				insurance_amount: insured_amount,
-				bnpl: {
-					net_payable: total,
-					numberOfInstallments: selectedOption?.numberOfInstallments,
-					first_payable: payable,
-					currentDate: moment(new Date()).format('YYYY-MM-DD'),
-				},
-			})
-		);
+		// dispatch(
+		// 	updatePayment({
+		// 		insurance_amount: insured_amount,
+		// 		bnpl: {
+		// 			net_payable: total,
+		// 			numberOfInstallments: selectedOption?.numberOfInstallments,
+		// 			first_payable: payable,
+		// 			currentDate: moment(new Date()).format('YYYY-MM-DD'),
+		// 		},
+		// 	})
+		// );
 	};
 
 	return (
