@@ -8,25 +8,12 @@ import axios from 'axios';
 import { IPaymentData } from '../../redux/features/paymentSlice';
 import { generateTransactionID } from '../../utils/randomTransactionIdGenerator';
 
-export type TPaymentDetails = {
-	insurance_amount: string;
-	bnpl?: {
-		net_payable: string;
-		numberOfInstallments: number;
-		first_payable: string;
-		currentDate: string;
-	};
-	normal_payment?: {
-		net_payable: string;
-	};
-};
-
 const SuccessFulPayment = () => {
 	const navigate = useNavigate();
-	const paymentDetails = localStorage.getItem('paymentDetails');
+	const paymentDetails = localStorage.getItem('paymentDetails') || {};
 	const shipmentId = localStorage.getItem('shipmentId');
 
-	const [payment, setPayment] = useState<TPaymentDetails>();
+	const [payment, setPayment] = useState<IPaymentData>();
 
 	const successTickLottieOptions = {
 		animationData: successTickLottie,
@@ -38,12 +25,29 @@ const SuccessFulPayment = () => {
 	useEffect(() => {
 		const purchaseShipment = async () => {
 			const token = localStorage.getItem('token');
-
-			if (paymentDetails) {
-				const payment = JSON.parse(paymentDetails);
-				setPayment(payment);
-
-				try {
+			try {
+				if (!paymentDetails?.bnpl) {
+					const response = await axios.post(
+						`${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}/shipment/parched-shipment/${shipmentId}`,
+						{
+							insurance_amount: paymentDetails?.insurance_amount || '0',
+							normal_payment: {
+								net_payable: paymentDetails?.normal_payment?.net_payable || '0',
+							},
+						},
+						{
+							headers: {
+								'Content-Type': 'application/json',
+								'x-auth-token': token,
+							},
+						}
+					);
+					console.log('purchase shipment response data', response?.data);
+				}
+				// const payment = JSON.parse(paymentDetails);
+				// console.log('payment', payment)
+				// setPayment(payment);
+				else {
 					const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}/shipment/parched-shipment/${shipmentId}`, payment, {
 						headers: {
 							'Content-Type': 'application/json',
@@ -51,9 +55,9 @@ const SuccessFulPayment = () => {
 						},
 					});
 					console.log('purchase shipment response data', response?.data);
-				} catch (error) {
-					console.error('Error', error);
 				}
+			} catch (error) {
+				console.error('Error', error);
 			}
 		};
 		purchaseShipment();
@@ -101,7 +105,7 @@ const SuccessFulPayment = () => {
 					<VStack
 						fontWeight={'500'}
 						align="flex-end">
-						<Text>{payment?.bnpl?.first_payable && Number(payment?.bnpl?.first_payable).toFixed(2)} (USD)</Text>
+						<Text>{payment?.bnpl?.first_payable || payment?.normal_payment?.net_payable} (USD)</Text>
 						<Text letterSpacing={0.8}>{generateTransactionID()}</Text>
 					</VStack>
 				</Flex>
@@ -112,11 +116,7 @@ const SuccessFulPayment = () => {
 						width="12rem"
 					/>
 					<RegularButton
-						onClick={() => {
-							localStorage.removeItem('shipmentId');
-							localStorage.removeItem('paymentDetails');
-							navigate('/home');
-						}}
+						onClick={() => navigate('/home')}
 						text="Go Home"
 						width="12rem"
 					/>
