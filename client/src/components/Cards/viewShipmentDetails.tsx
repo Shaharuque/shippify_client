@@ -142,56 +142,36 @@ const ViewShipmentDetails = ({ shipmentData }) => {
 				</TabPanel>
 				<TabPanel>
 					<div className="bg-white rounded border-gray-200 p-3">
-						<Box flex={0.5}>
+						<Box>
 							<Heading
 								size="sm"
 								textTransform="uppercase">
-								Packages Details
-							</Heading>
-							{shipmentData?.shipment_detail?.packages?.map((item: TPackageDetailsForm, index) => (
-								<Box key={index}>
-									<Text
-										pt="2"
-										fontSize="sm"
-										fontWeight="600">
-										Package {index + 1}
-									</Text>
-									<Text fontSize="sm">
-										Weight: {item?.weight?.value} {item?.weight?.unit}
-									</Text>
-									<Text fontSize="sm">
-										Dimensions: {item?.dimensions?.length}x{item?.dimensions?.width}x{item?.dimensions?.height} {item?.dimensions?.unit}
-									</Text>
-								</Box>
-							))}
-						</Box>
-
-						<div className="mt-4">
-							<Heading
-								size="sm"
-								textTransform="uppercase">
-								Estimated Delivery Date
+								Cost details
 							</Heading>
 							<Text
 								fontSize="sm"
-								fontWeight={'700'}>
-								{moment(shipmentData?.rateDetail?.estimated_delivery_date).format('MMMM D, YYYY')}
+								m={'.2rem 0'}>
+								Shipping cost: {shipmentData?.labelDetail?.shipment_cost?.amount} ({shipmentData?.labelDetail?.shipment_cost?.currency})
 							</Text>
-						</div>
+							<Text
+								fontSize="sm"
+								m={'.2rem 0'}>
+								Other costs: {0} ({shipmentData?.labelDetail?.shipment_cost?.currency})
+							</Text>
+							<Text
+								fontSize="sm"
+								m={'.2rem 0'}>
+								Insurance: {shipmentData?.labelDetail?.insurance_cost?.amount} ({shipmentData?.labelDetail?.insurance_cost?.currency})
+							</Text>
+						</Box>
 
-						<div className="mt-4">
-							<Heading
+						<Box ml="auto">
+							{/* <Heading
 								size="sm"
 								textTransform="uppercase">
-								Tracking Number
-							</Heading>
-							<Text
-								fontSize="xs"
-								fontWeight={'700'}
-								color={'gray'}>
-								{shipmentData?.labelDetail?.tracking_number}
-							</Text>
-						</div>
+								Total: {total?.toFixed(2)} (usd)
+							</Heading> */}
+						</Box>
 					</div>
 				</TabPanel>
 			</TabPanels>

@@ -13,7 +13,7 @@ const DashboardPage = () => {
 	const [price, setPrice] = useState('');
 	const [weight, setWeight] = useState('');
 	const [status, setStatus] = useState('');
-	const [cardClicked, setCardClicked] = useState(false)
+	const [cardClicked, setCardClicked] = useState(false);
 
 	useEffect(() => {
 		const token = localStorage.getItem('token');
@@ -47,55 +47,56 @@ const DashboardPage = () => {
 	const clickedCard = (cardId: string) => {
 		console.log('clicked', cardId);
 		fetchSingleShipment({ token, id: cardId });
-		setCardClicked(true)
+		setCardClicked(true);
 	};
 
 	return (
-		<Flex
-			gap={'1vw'}
-			flexDirection={{ base: 'column', md: 'row' }}>
-			<Box
-				p={'.5vw 0 .5vw 5vw'}
-				flex={0.15}>
-				<PriceAscendingDescendingFilter
-					onChange={function (value: string): void {
-						setPrice(value);
-					}}
-				/>
-				<WeightFilter
-					onChange={function (value: string): void {
-						setWeight(value);
-					}}
-				/>
-				<StatusFilter
-					onChange={function (value: string): void {
-						setStatus(value);
-					}}
-				/>
-			</Box>
-			<Box flex={0.55}>
-				<Heading
-					textAlign={'center'}
-					m={'0 0 1vw 0'}
-					fontSize={'2xl'}
-					fontFamily={'Roboto'}>
-					Shipment History
-				</Heading>
-
-				<ShipmentCardList
-					clickedCard={clickedCard}
-					tableData={tableData}
-				/>
-			</Box>
-			{
-				cardClicked &&
+		<>
+			<Flex
+				gap={'1vw'}
+				flexDirection={{ base: 'column', md: 'row' }}>
 				<Box
-					flex={0.3}
-					p={'.25rem'}>
-					<ViewShipmentDetails shipmentData={shipmentData?.data} />
+					p={'.5vw 0 .5vw 5vw'}
+					flex={0.15}>
+					<PriceAscendingDescendingFilter
+						onChange={function (value: string): void {
+							setPrice(value);
+						}}
+					/>
+					<WeightFilter
+						onChange={function (value: string): void {
+							setWeight(value);
+						}}
+					/>
+					<StatusFilter
+						onChange={function (value: string): void {
+							setStatus(value);
+						}}
+					/>
 				</Box>
-			}
-		</Flex>
+				<Box flex={0.55}>
+					<Heading
+						textAlign={'center'}
+						m={'0 0 1vw 0'}
+						fontSize={'2xl'}
+						fontFamily={'Roboto'}>
+						Shipment History
+					</Heading>
+
+					<ShipmentCardList
+						clickedCard={clickedCard}
+						tableData={tableData}
+					/>
+				</Box>
+				{cardClicked && (
+					<Box
+						flex={0.3}
+						p={'.25rem'}>
+						<ViewShipmentDetails shipmentData={shipmentData?.data} />
+					</Box>
+				)}
+			</Flex>
+		</>
 	);
 };
 
