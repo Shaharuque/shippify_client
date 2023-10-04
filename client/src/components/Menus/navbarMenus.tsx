@@ -32,7 +32,6 @@ const Menus = () => {
 			fontWeight={'600'}
 			p={'1rem'}>
 			<Box
-				p={'.25rem'}
 				style={boxStyles}
 				onMouseOver={handleLinkHover}
 				onMouseLeave={handleLinkLeave}>
@@ -45,7 +44,6 @@ const Menus = () => {
 				</Link>
 			</Box>
 			<Box
-				p={'.25rem'}
 				style={boxStyles}
 				onMouseOver={handleLinkHover}
 				onMouseLeave={handleLinkLeave}>
@@ -58,7 +56,6 @@ const Menus = () => {
 				</Link>
 			</Box>
 			<Box
-				p={'.25rem'}
 				style={boxStyles}
 				onMouseOver={handleLinkHover}
 				onMouseLeave={handleLinkLeave}>

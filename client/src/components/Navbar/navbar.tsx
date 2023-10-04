@@ -1,6 +1,6 @@
 import { Box, Flex } from '@chakra-ui/react';
 import Logo from '../Logo/logo';
-import Menus from '../Menus/menus';
+import Menus from '../Menus/navbarMenus';
 import { Outlet } from 'react-router-dom';
 
 const Navbar = () => {
