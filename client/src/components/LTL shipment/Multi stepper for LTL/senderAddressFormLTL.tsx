@@ -84,7 +84,7 @@ const SenderAddressFormLTL = ({ nextStep }: { nextStep: () => void }) => {
 				as="b"
 				fontSize={'1.25rem'}
 				letterSpacing={0.2}>
-				Sender's Address
+				Pickup Address
 			</Text>
 			<form
 				onSubmit={handleSubmit(onSubmit)}

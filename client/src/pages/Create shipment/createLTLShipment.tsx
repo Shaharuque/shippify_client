@@ -12,28 +12,30 @@ const CreateLTLShipmentPage = () => {
 		setActiveStep(step);
 	};
 	return (
-		<Flex>
-			<Box flex={0.8}>
-				<Center>
-					<MultiStepperFormLTL
-						activeStep={activeStep}
-						handleStepChange={handleStepChange}
-					/>
-				</Center>
-			</Box>
-
-			<Flex
-				direction={'column'}
-				flex={0.2}>
-				<Box flex={0.5}>
-					<ShipmentSteppers
-						activeStep={activeStep - 1}
-						steps={stepsForLTL}
-					/>
+		<Box mt={'4rem'}>
+			<Flex>
+				<Box flex={0.8}>
+					<Center>
+						<MultiStepperFormLTL
+							activeStep={activeStep}
+							handleStepChange={handleStepChange}
+						/>
+					</Center>
 				</Box>
-				<Box flex={0.5}></Box>
+
+				<Flex
+					direction={'column'}
+					flex={0.2}>
+					<Box flex={0.5}>
+						<ShipmentSteppers
+							activeStep={activeStep - 1}
+							steps={stepsForLTL}
+						/>
+					</Box>
+					<Box flex={0.5}></Box>
+				</Flex>
 			</Flex>
-		</Flex>
+		</Box>
 	);
 };
 

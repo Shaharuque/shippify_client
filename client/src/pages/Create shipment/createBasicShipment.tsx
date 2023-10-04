@@ -12,28 +12,30 @@ const CreateBasicShipmentPage = () => {
 		setActiveStep(step);
 	};
 	return (
-		<Flex mt={'4rem'}>
-			<Box flex={0.8}>
-				<Center>
-					<MultiStepperForBasic
-						activeStep={activeStep}
-						handleStepChange={handleStepChange}
-					/>
-				</Center>
-			</Box>
-
-			<Flex
-				direction={'column'}
-				flex={0.2}>
-				<Box flex={0.5}>
-					<ShipmentSteppers
-						activeStep={activeStep - 1}
-						steps={stepsForBasic}
-					/>
+		<Box mt={'4rem'}>
+			<Flex>
+				<Box flex={0.8}>
+					<Center>
+						<MultiStepperForBasic
+							activeStep={activeStep}
+							handleStepChange={handleStepChange}
+						/>
+					</Center>
 				</Box>
-				<Box flex={0.5}></Box>
+
+				<Flex
+					direction={'column'}
+					flex={0.2}>
+					<Box flex={0.5}>
+						<ShipmentSteppers
+							activeStep={activeStep - 1}
+							steps={stepsForBasic}
+						/>
+					</Box>
+					<Box flex={0.5}></Box>
+				</Flex>
 			</Flex>
-		</Flex>
+		</Box>
 	);
 };
 

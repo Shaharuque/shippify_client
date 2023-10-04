@@ -5,6 +5,8 @@ import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { RootState } from '../../../redux/store';
 import { updateField } from '../../../redux/features/ltlShipmentSlice';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import axios from 'axios';
+import { useState, useEffect, ChangeEvent } from 'react';
 
 export type TRecieverAddressFormDataLTL = {
 	contact: {
@@ -24,15 +26,50 @@ export type TRecieverAddressFormDataLTL = {
 
 const RecieverAddressFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () => void }) => {
 	const dispatch = useAppDispatch();
-	const { handleSubmit, register } = useForm<TRecieverAddressFormDataLTL>({
+	const { handleSubmit, register, setValue } = useForm<TRecieverAddressFormDataLTL>({
 		defaultValues: {
 			...useAppSelector((state: RootState) => state?.ltlShipments?.shipment?.ship_to),
 		},
 	});
 
+	const [countries, setCountries] = useState<any>({});
+	const [cities, setCities] = useState<any[]>([]);
+
 	const onSubmit: SubmitHandler<TRecieverAddressFormDataLTL> = (data) => {
 		dispatch(updateField({ ship_to: data }));
 		nextStep();
+	};
+
+	const BACKEND_FULL_URL = `${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}`;
+
+	useEffect(() => {
+		const fetchCityData = async () => {
+			try {
+				const response = await axios.get(`${BACKEND_FULL_URL}/get/countrywise/city/info/get`);
+
+				if (response?.data?.success) {
+					setCountries(response?.data?.result[0]);
+				}
+			} catch (error) {
+				console.error(error);
+			}
+		};
+		fetchCityData();
+	}, []);
+
+	const handleStateChange = (event: ChangeEvent<HTMLSelectElement>) => {
+		event.preventDefault();
+		const value = event.target.value;
+		const result = countries?.city?.find((item: any) => item.value === value);
+		setCities(result?.citys);
+	};
+
+	const handleCityChange = (event: ChangeEvent<HTMLSelectElement>) => {
+		event.preventDefault();
+		const value = event.target.value;
+		const result = cities?.find((item) => item.city === value);
+
+		setValue('address.postal_code', result?.postalcode || '');
 	};
 
 	return (
@@ -54,7 +91,7 @@ const RecieverAddressFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; 
 				as="b"
 				fontSize={'1.25rem'}
 				letterSpacing={0.2}>
-				Receiver's Address
+				Dropoff Address
 			</Text>
 			<form
 				onSubmit={handleSubmit(onSubmit)}
@@ -130,25 +167,47 @@ const RecieverAddressFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; 
 				<Flex
 					gap={'3rem'}
 					mb={'3vh'}>
-					<FormControl id="address.state_province">
+					<FormControl
+						id="state_province"
+						mb="4">
 						<FormLabel fontWeight={'600'}>State/Province</FormLabel>
-						<Input
+						<Select
 							{...register('address.state_province')}
 							variant={'flushed'}
 							borderBottom={'1px solid #314866'}
 							transition={'all 0.30s ease-in-out;'}
+							placeholder="Select state"
 							_focusVisible={{ borderColor: '#002855', boxShadow: '0px 1px 0px 0px #002855 ' }}
-						/>
+							onChange={handleStateChange}>
+							{countries?.city?.map((state: any, index: number) => (
+								<option
+									key={index}
+									value={state?.value}>
+									{state?.city}
+								</option>
+							))}
+						</Select>
 					</FormControl>
-					<FormControl id="address.city_locality">
+					<FormControl
+						id="city_locality"
+						mb="4">
 						<FormLabel fontWeight={'600'}>City</FormLabel>
-						<Input
+						<Select
 							{...register('address.city_locality')}
 							variant={'flushed'}
 							borderBottom={'1px solid #314866'}
 							transition={'all 0.30s ease-in-out;'}
+							placeholder="Select city"
 							_focusVisible={{ borderColor: '#002855', boxShadow: '0px 1px 0px 0px #002855 ' }}
-						/>
+							onChange={handleCityChange}>
+							{cities?.map((item, index) => (
+								<option
+									key={index}
+									value={item.value}>
+									{item.city}
+								</option>
+							))}
+						</Select>
 					</FormControl>
 				</Flex>
 				<Flex gap={'3rem'}>
