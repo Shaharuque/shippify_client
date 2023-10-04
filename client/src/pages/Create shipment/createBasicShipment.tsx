@@ -12,7 +12,7 @@ const CreateBasicShipmentPage = () => {
 		setActiveStep(step);
 	};
 	return (
-		<Flex>
+		<Flex mt={'4rem'}>
 			<Box flex={0.8}>
 				<Center>
 					<MultiStepperForBasic

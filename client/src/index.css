@@ -64,3 +64,8 @@ h6 {
 	background-color: rgba(0, 0, 0, 0.5);
 	border-radius: 0.25em;
 }
+
+.active {
+	background-color: red;
+	color: blue;
+}

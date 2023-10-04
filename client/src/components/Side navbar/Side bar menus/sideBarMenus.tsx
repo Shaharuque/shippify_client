@@ -1,5 +1,5 @@
 import { Flex, Icon, Box, Text } from '@chakra-ui/react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { TMenuList, menuList } from './menuList';
 
 const SideBarMenus = ({ isExpanded }: { isExpanded: boolean }) => {
@@ -22,29 +22,30 @@ const SideBarMenus = ({ isExpanded }: { isExpanded: boolean }) => {
 				<Box
 					key={index}
 					style={boxStyles}
-					w={isExpanded ? '11rem' : '2.75rem'}
+					w={isExpanded ? '10vw' : '2vw'}
 					onMouseOver={(e) => (e.currentTarget.style.transform = 'scale(1.1)')}
 					onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}>
-					<Link to={menu.link}>
+					<NavLink to={menu.link}>
 						<Flex
-							gap={'.75rem'}
-							align={'center'}>
+							gap={'.5rem'}
+							align={'center'}
+							justify={isExpanded ? 'flex-start' : 'center'}>
 							<Icon
 								as={menu.icon}
-								boxSize={isExpanded ? '2rem' : '1.75rem'}
+								boxSize={'1vw'}
 								color={'cta'}
 							/>
 							{isExpanded ? (
 								<Text
-									fontSize={'1.25rem'}
+									fontSize={'14px'}
 									fontFamily={'Inter'}
 									fontWeight={'600'}
-									color={'#fff'}>
+									color={'black'}>
 									{menu.text}
 								</Text>
 							) : null}
 						</Flex>
-					</Link>
+					</NavLink>
 				</Box>
 			))}
 		</Flex>

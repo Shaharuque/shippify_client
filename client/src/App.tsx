@@ -3,14 +3,13 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import RegisterPage from './pages/Registration and setup/register.page';
 import LoginPage from './pages/Login/login.page';
 import PageNotFound from './components/Page not found/pageNotFound';
-import Navbar from './components/Navbar/navbar';
 import HomePage from './pages/Home/home.page';
 import DashboardPage from './pages/Dashboard/dashboard.page';
 import CreateBasicShipmentPage from './pages/Create shipment/createBasicShipment';
 import CreateLTLShipmentPage from './pages/Create shipment/createLTLShipment';
 import TrackingPage from './pages/Tracking/trackingPage';
 import SuccessFulPayment from './components/Payment/successFulPayment';
-import SideNavbar from './components/Side navbar/sideNavbar';
+import Layout from './components/Layout/layout';
 
 function App() {
 	return (
@@ -23,7 +22,7 @@ function App() {
 					path="/login"
 					element={<LoginPage />}></Route>
 
-				<Route element={<Navbar />}>
+				<Route element={<Layout />}>
 					<Route
 						path="/home"
 						element={<HomePage />}
@@ -49,16 +48,12 @@ function App() {
 						path="/tracking"
 						element={<TrackingPage />}
 					/>
-				</Route>
 
-				<Route
-					path="/stripe/payment/success"
-					element={<SuccessFulPayment />}
-				/>
-				<Route
-					path="/sidebar"
-					element={<SideNavbar />}
-				/>
+					<Route
+						path="/stripe/payment/success"
+						element={<SuccessFulPayment />}
+					/>
+				</Route>
 
 				<Route
 					path="*"

@@ -13,23 +13,23 @@ const LogoutButton = ({ isExpanded }: { isExpanded: boolean }) => {
 	return (
 		<Box
 			style={boxStyles}
-			w={isExpanded ? '11rem' : '2.75rem'}
+			w={isExpanded ? '10vw' : '2vw'}
 			onMouseOver={(e) => (e.currentTarget.style.transform = 'scale(1.1)')}
 			onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}>
 			<Flex
-				gap={'.75rem'}
+				gap={'.5rem'}
 				align={'center'}>
 				<Icon
 					as={TbLogout2}
-					boxSize={isExpanded ? '2rem' : '1.75rem'}
+					boxSize={'1vw'}
 					color={'cta'}
 				/>
 				{isExpanded ? (
 					<Text
-						fontSize={'1.25rem'}
+						fontSize={'14px'}
 						fontFamily={'Inter'}
 						fontWeight={'600'}
-						color={'#fff'}>
+						color={'black'}>
 						Logout
 					</Text>
 				) : null}
