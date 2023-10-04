@@ -19,10 +19,11 @@ export type TReceiverAddressFormData = {
 
 const ReceiverAddressForm = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () => void }) => {
 	const dispatch = useAppDispatch();
+	const reciever = useAppSelector((state: RootState) => state?.basicShipments?.ship_to);
 
 	const { handleSubmit, register, setValue } = useForm<TReceiverAddressFormData>({
 		defaultValues: {
-			...useAppSelector((state: RootState) => state?.basicShipments?.ship_to),
+			...reciever,
 		},
 	});
 
@@ -50,6 +51,11 @@ const ReceiverAddressForm = ({ nextStep, prevStep }: { nextStep: () => void; pre
 		};
 		fetchCityData();
 	}, []);
+
+	useEffect(() => {
+		setValue('state_province', reciever?.state_province);
+		setValue('city_locality', reciever?.city_locality);
+	}, [reciever]);
 
 	const handleStateChange = (event: ChangeEvent<HTMLSelectElement>) => {
 		event.preventDefault();

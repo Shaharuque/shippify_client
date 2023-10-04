@@ -48,10 +48,10 @@ const PaymentModal = ({ onClose, isOpen, total, insured_amount }: PaymentModalPr
 
 	useEffect(() => {
 		if (selectedOption) {
-			// const result = (total + 
+			// const result = (total +
 			// 	(total * ((selectedOption?.interest_rate/100)/12)*Number(selectedOption?.numberOfInstallments)
 			// ) / Number(selectedOption?.numberOfInstallments)).toFixed(2);
-			const result=((((selectedOption?.interest_rate/100)/12)*Number(selectedOption?.numberOfInstallments)*total+total)/Number(selectedOption?.numberOfInstallments)).toFixed(2);
+			const result = (((selectedOption?.interest_rate / 100 / 12) * Number(selectedOption?.numberOfInstallments) * total + total) / Number(selectedOption?.numberOfInstallments)).toFixed(2);
 			setPayable(Number(result));
 		}
 	}, [selectedOption]);
@@ -89,18 +89,6 @@ const PaymentModal = ({ onClose, isOpen, total, insured_amount }: PaymentModalPr
 				}
 			})
 			.catch((err) => console.log(err.message));
-
-		// dispatch(
-		// 	updatePayment({
-		// 		insurance_amount: insured_amount,
-		// 		bnpl: {
-		// 			net_payable: total,
-		// 			numberOfInstallments: selectedOption?.numberOfInstallments,
-		// 			first_payable: payable,
-		// 			currentDate: moment(new Date()).format('YYYY-MM-DD'),
-		// 		},
-		// 	})
-		// );
 	};
 
 	return (
@@ -116,12 +104,12 @@ const PaymentModal = ({ onClose, isOpen, total, insured_amount }: PaymentModalPr
 					<ModalBody>
 						<Flex
 							gap={'1rem'}
-							align={'center'}>
-							<Text fontWeight={'600'}>Installments:</Text>
+							align={'center'}
+							justify={'center'}>
+							<Text fontWeight={'600'}>No. of installments:</Text>
 							{installmentOptions?.map((option, index) => (
 								<Box
 									pos={'relative'}
-									mb={'1.5rem'}
 									key={index}
 									onClick={() => handleSelectInstallmentRate(option)}>
 									{option?.interest_rate === selectedOption?.interest_rate && (
@@ -129,16 +117,12 @@ const PaymentModal = ({ onClose, isOpen, total, insured_amount }: PaymentModalPr
 											src={checked}
 											color="green.500"
 											position="absolute"
-											top={2}
+											top={-2}
 											left={12}
 											boxSize={6}
 										/>
 									)}
-									<Box
-										textAlign={'center'}
-										fontWeight={'600'}>
-										{option?.numberOfInstallments}
-									</Box>
+
 									<Box
 										bg={'primary'}
 										borderRadius={'.5rem'}
@@ -148,13 +132,14 @@ const PaymentModal = ({ onClose, isOpen, total, insured_amount }: PaymentModalPr
 										textAlign={'center'}
 										border={'1px solid black'}
 										fontWeight={'600'}>
-										{option?.interest_rate}%
+										{option?.numberOfInstallments}
 									</Box>
 								</Box>
 							))}
 						</Flex>
 						{selectedOption !== null && (
 							<Box
+								mt={'1.5rem'}
 								overflowY={'scroll'}
 								h={'300px'}
 								css={{
@@ -166,6 +151,11 @@ const PaymentModal = ({ onClose, isOpen, total, insured_amount }: PaymentModalPr
 										borderRadius: '0.25em',
 									},
 								}}>
+								<Text
+									my={'1rem'}
+									fontWeight={'600'}>
+									Interest rate: {selectedOption?.interest_rate}% (annual)
+								</Text>
 								{[...Array(parseInt(selectedOption?.numberOfInstallments))].map((_, index) => {
 									const installmentDate = new Date();
 									installmentDate.setMonth(installmentDate.getMonth() + index);

@@ -1,7 +1,7 @@
 import { Badge, Box, Flex, Stack, Text } from '@chakra-ui/react';
 import moment from 'moment';
 import React from 'react';
-import { labelColorDictionary, labelDictionary } from '../../utils/labelDictionary';
+import { labelColorDictionary, labelDictionary } from '../../data/labelDictionary';
 
 interface TrackingItemProps {
 	item: any;

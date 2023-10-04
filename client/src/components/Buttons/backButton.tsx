@@ -1,12 +1,13 @@
-import { Button, Icon } from '@chakra-ui/react';
+import { Button, Flex, Icon, Text } from '@chakra-ui/react';
 import { FaArrowLeft } from 'react-icons/fa';
 
 type BackButtonProps = {
 	onClick: () => void;
 	width?: string;
+	text?: string;
 };
 
-const BackButton = ({ onClick, width }: BackButtonProps) => {
+const BackButton = ({ onClick, width, text }: BackButtonProps) => {
 	return (
 		<Button
 			type="button"
@@ -16,7 +17,12 @@ const BackButton = ({ onClick, width }: BackButtonProps) => {
 			p={'.5rem'}
 			w={width ? width : 'full'}
 			onClick={onClick}>
-			<Icon as={FaArrowLeft} />
+			<Flex
+				gap={'1rem'}
+				align={'center'}>
+				<Icon as={FaArrowLeft} />
+				{text && <Text>{text}</Text>}
+			</Flex>
 		</Button>
 	);
 };

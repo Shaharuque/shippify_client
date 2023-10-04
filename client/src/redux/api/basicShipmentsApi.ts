@@ -25,7 +25,17 @@ export const basicShipmentsApi = apiSlice.injectEndpoints({
 				},
 			}),
 		}),
+
+		fetchPredefinedBoxData: builder.query({
+			query: () => ({
+				url: `/custom-package-type/list`,
+				method: 'GET',
+				headers: {
+					'Content-type': 'application/json; charset=UTF-8',
+				},
+			}),
+		}),
 	}),
 });
 
-export const { useFetchRatesMutation, useFetchSingleShipmentMutation } = basicShipmentsApi;
+export const { useFetchRatesMutation, useFetchSingleShipmentMutation, useFetchPredefinedBoxDataQuery } = basicShipmentsApi;

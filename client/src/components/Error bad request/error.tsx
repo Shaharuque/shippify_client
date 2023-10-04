@@ -10,7 +10,6 @@ const Error = () => {
 			flexDirection={'column'}
 			gap={'1rem'}>
 			<Box
-				// boxShadow={'0px 1px 2px 2px darkgrey'}
 				boxSize={'30rem'}
 				borderRadius={'1rem'}>
 				<Image

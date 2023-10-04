@@ -10,6 +10,7 @@ import { insuranceTermsAndConditions } from '../../../data/inSuranceTerms';
 import { updateInsurance } from '../../../redux/features/insuranceSlice';
 import { useFetchQuoteMutation } from '../../../redux/api/ltlShipmentApi';
 import { updateLTLTotalCharge } from '../../../redux/features/ltlTotalChargeSlice';
+import addCommaToMonetaryValue from '../../../utils/addCommatoMonetaryValues';
 
 const InsuranceDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () => void }) => {
 	const dispatch = useAppDispatch();
@@ -21,6 +22,7 @@ const InsuranceDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void;
 	const [productValue, setProductValue] = useState(0);
 	const [agreedToTerms, setAgreedToTerms] = useState(false);
 	const [shipmentId, setShipmentId] = useState();
+	const [isLoading, setIsLoading] = useState(false);
 
 	useEffect(() => {
 		const token = localStorage.getItem('token');
@@ -45,10 +47,12 @@ const InsuranceDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void;
 	}, [ltlShipmentInfo, fetchQuote]);
 
 	const handleCheckInsurance = async () => {
+		const BASE_URL = `${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}`;
 		try {
+			setIsLoading(true);
 			const token = localStorage.getItem('token');
 			const response = await axios.post(
-				`http://192.168.68.89:5000/ltlShipment/calculate-ltlinsurance/${shipmentId}`,
+				`${BASE_URL}/ltlShipment/calculate-ltlinsurance/${shipmentId}`,
 				{ amount: productValue },
 				{
 					headers: {
@@ -59,6 +63,7 @@ const InsuranceDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void;
 			);
 
 			if (response?.data?.status === 'success') setInsuranceFee(response?.data?.data?.fee?.amount);
+			setIsLoading(false);
 		} catch (error) {
 			console.error('Error while fetching insurance rate:', error);
 		}
@@ -75,6 +80,18 @@ const InsuranceDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void;
 
 	const handlePurchaseInsurance = () => {
 		dispatch(updateInsurance({ already_purchased: false, product_value: productValue, insurance_amount: insuranceFee, terms_and_conditions: agreedToTerms }));
+		nextStep();
+	};
+
+	const handleAlreadyPurchased = () => {
+		dispatch(
+			updateInsurance({
+				already_purchased: true,
+				product_value: 0,
+				insurance_amount: 0,
+				terms_and_conditions: false,
+			})
+		);
 		nextStep();
 	};
 
@@ -122,7 +139,13 @@ const InsuranceDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void;
 					/>
 				</NumberInput>
 
-				<Button onClick={handleCheckInsurance}>Check Fee</Button>
+				<Button
+					isDisabled={!productValue || productValue <= 0}
+					onClick={handleCheckInsurance}
+					isLoading={isLoading}
+					loadingText="Getting best rates...">
+					Check Fee
+				</Button>
 			</Flex>
 
 			<Text
@@ -143,7 +166,7 @@ const InsuranceDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void;
 				<Text
 					fontWeight={'700'}
 					fontSize={'1.5rem'}>
-					{insuranceFee}
+					{addCommaToMonetaryValue(insuranceFee)}
 				</Text>
 			</Flex>
 
@@ -209,7 +232,7 @@ const InsuranceDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void;
 					width="8rem"></BackButton>
 				<Flex gap={'1rem'}>
 					<Button
-						onClick={() => nextStep()}
+						onClick={handleAlreadyPurchased}
 						w={'10rem'}
 						borderRadius={'2rem'}
 						p={'1rem'}>

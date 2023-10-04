@@ -6,6 +6,7 @@ import { IRateDetail } from '../../../redux/features/rateDetailsSlice';
 import { LuBadgeDollarSign } from 'react-icons/lu';
 import checked from '../../../assets/checked.png';
 import { formatDate } from '../../../utils/formatDate';
+import addCommaToMonetaryValue from '../../../utils/addCommatoMonetaryValues';
 
 const RateCard = ({ props, isSelected, onSelect }: { props: IRateDetail; isSelected: boolean; onSelect: (rateId: string) => void }) => {
 	const handleClick = () => {
@@ -84,7 +85,7 @@ const RateCard = ({ props, isSelected, onSelect }: { props: IRateDetail; isSelec
 							fontSize="lg"
 							fontWeight="bold"
 							textTransform={'uppercase'}>
-							{props?.shipping_amount?.amount} ({props?.shipping_amount?.currency})
+							{addCommaToMonetaryValue(props?.shipping_amount?.amount)} ({props?.shipping_amount?.currency})
 						</Text>
 					</Flex>
 					<Text

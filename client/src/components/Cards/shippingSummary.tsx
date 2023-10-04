@@ -4,6 +4,7 @@ import { RootState } from '../../redux/store';
 import { countryCodeDictionary } from '../../data/countryCodeDictionary';
 import { TPackageDetailsForm } from '../Basic shipment/multiStepperForBasic/packageDetailsForm';
 import { ICustomsItem } from '../Basic shipment/multiStepperForBasic/customsInfoForm';
+import getDimensionsText from '../../utils/getDimensionsText';
 
 const returnPolicyDictionary = {
 	treat_as_abandoned: 'Treat as abandoned',
@@ -103,9 +104,9 @@ const ShippingSummary = () => {
 									<Text fontSize="sm">
 										Weight: {item?.weight?.value} {item?.weight?.unit}
 									</Text>
-									<Text fontSize="sm">
-										Dimensions: {item?.dimensions?.length}x{item?.dimensions?.width}x{item?.dimensions?.height} {item?.dimensions?.unit}
-									</Text>
+									{/* <Text fontSize="sm">{item?.package_code ? `Code: ${item?.package_code} | Dimensions: ${item?.dimensions?.length}x${item?.dimensions?.width}x${item?.dimensions?.height} ${item?.dimensions?.unit}` : `Dimensions: ${item?.dimensions?.length}x${item?.dimensions?.width}x${item?.dimensions?.height} ${item?.dimensions?.unit}`}</Text> */}
+
+									<Text fontSize="sm">{getDimensionsText(item)}</Text>
 								</Box>
 							))}
 						</Box>

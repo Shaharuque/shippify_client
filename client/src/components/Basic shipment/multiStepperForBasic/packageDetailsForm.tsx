@@ -238,6 +238,7 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 								<NumberInput
 									precision={2}
 									max={70}
+									min={0}
 									onChange={() => setNumberInputChange(true)}>
 									<NumberInputField
 										{...register('dimensions.length')}
@@ -260,6 +261,7 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 								<NumberInput
 									precision={2}
 									max={70}
+									min={0}
 									onChange={() => setNumberInputChange(true)}>
 									<NumberInputField
 										{...register('dimensions.width')}
@@ -282,6 +284,7 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 								<NumberInput
 									precision={2}
 									max={70}
+									min={0}
 									onChange={() => setNumberInputChange(true)}>
 									<NumberInputField
 										{...register('dimensions.height')}
@@ -322,6 +325,7 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 								<NumberInput
 									precision={2}
 									max={150}
+									min={0}
 									onChange={() => setNumberInputChange(true)}>
 									<NumberInputField
 										{...register('weight.value')}

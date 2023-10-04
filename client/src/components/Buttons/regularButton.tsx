@@ -8,9 +8,11 @@ type RegularButtonProps = {
 	isDisabled?: boolean;
 	error_message?: string;
 	onHoverColor?: string;
+	isLoading?: boolean;
+	loadingText?: string;
 };
 
-const RegularButton = ({ text, width, onClick, isDisabled, error_message, onHoverColor }: RegularButtonProps) => {
+const RegularButton = ({ text, width, onClick, isDisabled, error_message, onHoverColor, isLoading, loadingText }: RegularButtonProps) => {
 	const [showErrorMessage, setShowErrorMessage] = useState(false);
 	const handleClick = () => {
 		if (!isDisabled && onClick) {
@@ -29,8 +31,9 @@ const RegularButton = ({ text, width, onClick, isDisabled, error_message, onHove
 				p={'.5rem'}
 				w={width ? width : 'full'}
 				onClick={handleClick}
+				isLoading={isLoading}
 				_hover={{ bg: onHoverColor }}>
-				{text}
+				{loadingText ? loadingText : text}
 			</Button>
 			{isDisabled && showErrorMessage && error_message ? (
 				<Text

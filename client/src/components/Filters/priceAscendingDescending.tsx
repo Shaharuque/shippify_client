@@ -17,8 +17,8 @@ const PriceAscendingDescendingFilter = ({ onChange }: PriceAscendingDescendingFi
 				border={'2px solid gray'}
 				_focusVisible={{ boxShadow: '0 0 2.5px #0E1420' }}>
 				<option value={''}>Select</option>
-				<option value={'price_asc'}>Ascending</option>
-				<option value={'price_desc'}>Descending</option>
+				<option value={'asc'}>Ascending</option>
+				<option value={'desc'}>Descending</option>
 			</Select>
 		</Box>
 	);

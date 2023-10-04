@@ -1,4 +1,4 @@
-import { Box, Button, Checkbox, Flex, FormControl, HStack, Heading, Icon, ListItem, NumberInput, NumberInputField, Text, UnorderedList } from '@chakra-ui/react';
+import { Box, Button, Checkbox, Flex, HStack, Heading, Icon, ListItem, NumberInput, NumberInputField, Text, UnorderedList } from '@chakra-ui/react';
 import { HiCurrencyDollar } from 'react-icons/hi';
 import BackButton from '../../Buttons/backButton';
 import { useEffect, useState } from 'react';
@@ -8,25 +8,29 @@ import RegularButton from '../../Buttons/regularButton';
 import axios from 'axios';
 import { insuranceTermsAndConditions } from '../../../data/inSuranceTerms';
 import { updateInsurance } from '../../../redux/features/insuranceSlice';
+import addCommaToMonetaryValue from '../../../utils/addCommatoMonetaryValues';
 
 const InsuranceDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () => void }) => {
 	const selectedRate = useAppSelector((state: RootState) => state?.selectedRate?.selectedRate);
 
 	const insuranceDetails = useAppSelector((state: RootState) => state?.insurance);
 	const shipmentId = useAppSelector((state: RootState) => state?.selectedRate?.shipmentId);
+	const previousProductValue = useAppSelector((state: RootState) => state.basicShipments);
 
 	const dispatch = useAppDispatch();
 
 	const [insuranceFee, setInsuranceFee] = useState(insuranceDetails?.insurance_amount || 0);
 	const [productValue, setProductValue] = useState(0);
 	const [agreedToTerms, setAgreedToTerms] = useState(false);
-	const previousProductValue = useAppSelector((state: RootState) => state.basicShipments);
+	const [isLoading, setIsLoading] = useState(false);
 
 	const handleCheckInsurance = async () => {
+		setIsLoading(true);
+		const BASE_URL = `${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}`;
 		try {
 			const token = localStorage.getItem('token');
 			const response = await axios.post(
-				`http://192.168.68.89:5000/shipment/calculate-insurance/${shipmentId}`,
+				`${BASE_URL}/shipment/calculate-insurance/${shipmentId}`,
 				{ amount: productValue },
 				{
 					headers: {
@@ -37,6 +41,7 @@ const InsuranceDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; pr
 			);
 
 			if (response?.data?.status === 'success') setInsuranceFee(response?.data?.data?.fee?.amount);
+			setIsLoading(false);
 		} catch (error) {
 			console.error('Error while fetching insurance rate:', error);
 		}
@@ -53,6 +58,18 @@ const InsuranceDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; pr
 
 	const handlePurchaseInsurance = () => {
 		dispatch(updateInsurance({ already_purchased: false, product_value: productValue, insurance_amount: insuranceFee, terms_and_conditions: agreedToTerms }));
+		nextStep();
+	};
+
+	const handleAlreadyPurchased = () => {
+		dispatch(
+			updateInsurance({
+				already_purchased: true,
+				product_value: 0,
+				insurance_amount: 0,
+				terms_and_conditions: false,
+			})
+		);
 		nextStep();
 	};
 
@@ -73,7 +90,7 @@ const InsuranceDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; pr
 		const postSelectedRateAndShipmentId = async () => {
 			try {
 				const payload = { shipmentId, selectedRate };
-				const response = await axios.patch(`${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}/shipment/select-rates`, payload, {
+				await axios.patch(`${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}/shipment/select-rates`, payload, {
 					headers: {
 						'Content-Type': 'application/json',
 						'x-auth-token': token,
@@ -129,7 +146,13 @@ const InsuranceDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; pr
 					/>
 				</NumberInput>
 
-				<Button onClick={handleCheckInsurance}>Check Fee</Button>
+				<Button
+					isDisabled={!productValue || productValue <= 0}
+					onClick={handleCheckInsurance}
+					isLoading={isLoading}
+					loadingText="Getting best rates...">
+					Check Fee
+				</Button>
 			</Flex>
 
 			<Text
@@ -150,12 +173,12 @@ const InsuranceDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; pr
 				<Text
 					fontWeight={'700'}
 					fontSize={'1.5rem'}>
-					{insuranceFee}
+					{addCommaToMonetaryValue(insuranceFee)}
 				</Text>
 			</Flex>
 
 			<Checkbox
-				colorScheme="green"
+				colorScheme="teal"
 				size={'md'}
 				alignItems={'center'}
 				fontWeight={'500'}
@@ -216,7 +239,7 @@ const InsuranceDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; pr
 					width="8rem"></BackButton>
 				<Flex gap={'1rem'}>
 					<Button
-						onClick={() => nextStep()}
+						onClick={handleAlreadyPurchased}
 						w={'10rem'}
 						borderRadius={'2rem'}
 						p={'1rem'}>

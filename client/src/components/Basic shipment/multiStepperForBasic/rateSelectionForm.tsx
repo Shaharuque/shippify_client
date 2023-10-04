@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { RootState } from '../../../redux/store';
 import { useFetchRatesMutation } from '../../../redux/api/basicShipmentsApi';
-import { Box, Flex } from '@chakra-ui/react';
+import { Box, Flex, Text } from '@chakra-ui/react';
 import { IRateDetail, updateRates } from '../../../redux/features/rateDetailsSlice';
 import RateCardList from './rateCardList';
 import SpinningLoader from '../../Loader/spinningLoader';
@@ -11,6 +11,7 @@ import PriceAscendingDescendingFilter from '../../Filters/priceAscendingDescendi
 import DeliveryDateFilter from '../../Filters/deliveryDate';
 import PriceRangeFilter from '../../Filters/priceRange';
 import { updateSelectedRate } from '../../../redux/features/selectedRateSlice';
+import NoDataFound from '../../No service available/noDataFound';
 // import { dummyRateCardData } from '../../../data/dummyRateCardsData';
 
 const RateSelectionForm = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () => void }) => {
@@ -19,8 +20,6 @@ const RateSelectionForm = ({ nextStep, prevStep }: { nextStep: () => void; prevS
 	const [fetchRates, { isLoading, isError }] = useFetchRatesMutation({ shipments: [shipmentInfo], token });
 	const [rates, setRates] = useState<IRateDetail[]>([]);
 	const [filterableRates, setFilterableRates] = useState<IRateDetail[]>([]);
-	// const [minRate, setMinRate] = useState(0);
-	// const [maxRate, setMaxRate] = useState(100);
 
 	const dispatch = useAppDispatch();
 
@@ -33,7 +32,7 @@ const RateSelectionForm = ({ nextStep, prevStep }: { nextStep: () => void; prevS
 				setFilterableRates(result?.data?.rateDetail?.rates);
 				dispatch(updateRates(result?.data?.rateDetail?.rates));
 				dispatch(updateSelectedRate({ shipmentId: result?.data?.data?._id }));
-				localStorage.setItem('shipmentId', result?.data?.data?._id)
+				localStorage.setItem('shipmentId', result?.data?.data?._id);
 			} catch (error) {
 				console.error(error);
 			}
@@ -41,21 +40,8 @@ const RateSelectionForm = ({ nextStep, prevStep }: { nextStep: () => void; prevS
 		fetchData();
 	}, [shipmentInfo, fetchRates]);
 
-	// useEffect(() => {
-	// 	const minShippingAmount = rates?.reduce((min, rate) => {
-	// 		const amount = rate.shipping_amount?.amount || 0;
-	// 		return amount < min ? amount : min;
-	// 	}, Number.MAX_SAFE_INTEGER);
-	// 	setMinRate(Math.floor(minShippingAmount));
-
-	// 	const maxShippingAmount = rates.reduce((max, rate) => {
-	// 		const amount = rate.shipping_amount?.amount || 0;
-	// 		return amount > max ? amount : max;
-	// 	}, 0);
-	// 	setMaxRate(Math.ceil(maxShippingAmount));
-	// }, [rates]);
-
 	const handlePriceFilterChange = (value: string) => {
+		console.log(value);
 		if (value === 'asc') {
 			setRates((prev) => Array.from(prev)?.sort((a: IRateDetail, b: IRateDetail) => a?.shipping_amount?.amount - b?.shipping_amount?.amount));
 		} else if (value === 'desc') {
@@ -92,28 +78,37 @@ const RateSelectionForm = ({ nextStep, prevStep }: { nextStep: () => void; prevS
 				</>
 			) : (
 				<Box>
-					<Flex
-						alignItems="flex-start"
-						gap={'5rem'}>
-						<Box w={'12rem'}>
-							<PriceRangeFilter
-								// minRate={minRate}
-								// maxRate={maxRate}
-								onRangeChange={handlePriceRangeFilterChange}
+					{!rates || rates.length === 0 ? (
+						<Flex
+							height="70vh"
+							direction={'column'}
+							justifyContent="center"
+							alignItems="center">
+							<NoDataFound
+								text="No rates available!"
+								backButton={prevStep}
 							/>
-							<PriceAscendingDescendingFilter onChange={handlePriceFilterChange} />
-							<DeliveryDateFilter onChange={handleDeliveryDateFilterChange} />
-						</Box>
+						</Flex>
+					) : (
+						<Flex
+							alignItems="flex-start"
+							gap={'5rem'}>
+							<Box w={'12rem'}>
+								<PriceRangeFilter onRangeChange={handlePriceRangeFilterChange} />
+								<PriceAscendingDescendingFilter onChange={handlePriceFilterChange} />
+								<DeliveryDateFilter onChange={handleDeliveryDateFilterChange} />
+							</Box>
 
-						<Box>
-							<RateCardList
-								rates={rates}
-								// rates={dummyRateCardData}
-								prevStep={prevStep}
-								nextStep={nextStep}
-							/>
-						</Box>
-					</Flex>
+							<Box>
+								<RateCardList
+									rates={rates}
+									// rates={dummyRateCardData}
+									prevStep={prevStep}
+									nextStep={nextStep}
+								/>
+							</Box>
+						</Flex>
+					)}
 				</Box>
 			)}
 		</>
