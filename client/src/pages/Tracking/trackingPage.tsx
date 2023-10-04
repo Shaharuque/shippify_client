@@ -21,7 +21,7 @@ const TrackingPage = () => {
 						<TrackingList />
 					</TabPanel>
 					<TabPanel>
-						<p>two!</p>
+						<p>LTL Shipments Table</p>
 					</TabPanel>
 				</TabPanels>
 			</Tabs>

@@ -28,7 +28,7 @@ const TrackingCard: React.FC<TrackingItemProps> = ({ item, clickedCard }) => {
 				<Stack
 					align={'center'}
 					w={'9vw'}>
-					<Text fontWeight="bold">Tracking Id</Text>
+					<Text fontWeight="bold">Tracking ID</Text>
 					<Text
 						fontSize="sm"
 						fontWeight={'bold'}>
