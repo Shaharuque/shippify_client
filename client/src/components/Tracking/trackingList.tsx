@@ -34,14 +34,15 @@ const TrackingList = () => {
 	const [tableData, setTableData] = useState([]);
 	const [shipmentStatus, setShipmentStatus] = useState('');
 	const [activeCard, setActiveCard] = useState('' as any);
+	const [tabListLoading, setTabListLoading] = useState(false);
 
 	useEffect(() => {
 		const token = localStorage.getItem('token');
 		const fetchTableData = async () => {
 			try {
-				const response = await axios.post(
-					`http://192.168.68.89:5000/shipment/sort-by-package-and-price`,
-					{ carrier_id: '', priceSort: '', weightSort: '', shipment_status: '' },
+				setTabListLoading(true);
+				const response = await axios.get(
+					`http://192.168.68.89:5000/shipment/without-received-shipments`,
 					{
 						headers: {
 							'Content-Type': 'application/json',
@@ -49,8 +50,9 @@ const TrackingList = () => {
 						},
 					}
 				);
-				console.log('result:', response.data);
+				//console.log('result:', response.data);
 				setTableData(response?.data?.result);
+				setTabListLoading(false);
 			} catch (error) {
 				console.log(error);
 			}
@@ -67,39 +69,56 @@ const TrackingList = () => {
 		fetchSingleShipment({ token, id: cardId });
 	};
 
+	console.log('active card', activeCard)
+
+
+
 	return (
 		<>
-			{dataLaoding ? (
-				<>
-					<SpinningLoader />
-				</>
-			) : (
-				<Flex px={'.5rem'}>
-					<Box
-						flex={0.7}
-						p={'.5rem'}
-						overflowY={'scroll'}
-						h={'75vh'}
-						justifyContent={'center'}>
-						{tableData?.map((item: any, index: number) => (
-							<TrackingCard
-								key={index}
-								item={item}
-								clickedCard={clickedCard}
-							/>
-						))}
-					</Box>
-					<Flex
-						justify={'center'}
-						flex={0.3}
-						p={'.5rem'}>
-						<TrackingSteppers
-							activeStep={labelStepDictionary[shipmentData?.data?.shipment_detail?.shipment_status]}
-							steps={status}
-						/>
-					</Flex>
+			<Flex px={'.5rem'}>
+				<Box
+					flex={0.7}
+					p={'.5rem'}
+					overflowY={'scroll'}
+					h={'75vh'}
+					justifyContent={'center'}>
+					{
+						tabListLoading ? <SpinningLoader /> :
+							tableData?.map((item: any, index: any) => {
+								return (
+									<TrackingCard
+										key={index}
+										item={item}
+										isActive={activeCard == item?._id}
+										clickedCard={clickedCard}
+									/>
+								);
+							})
+					}
+
+				</Box>
+				<Flex flex={0.3}>
+					{
+						activeCard &&
+						
+							<Box
+								p={'.5rem'}>
+								{dataLaoding ? (
+									<>
+										<SpinningLoader />
+									</>
+								) : (
+									<TrackingSteppers
+										activeStep={labelStepDictionary[shipmentData?.data?.shipment_detail?.shipment_status]}
+										steps={status}
+									/>
+								)}
+							</Box>
+						
+					}
+
 				</Flex>
-			)}
+			</Flex>
 		</>
 	);
 };

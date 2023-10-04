@@ -12,9 +12,9 @@ const ViewShipmentDetails = ({ shipmentData }) => {
 			<TabList
 				mb="1em"
 				border={'1px solid white'}
-				borderRadius={'1.5rem'}>
+				borderRadius={'2rem'}>
 				<Tab _selected={{ color: 'white', bg: 'cta' }}>Address</Tab>
-				<Tab _selected={{ color: 'white', bg: 'cta' }}>Delivery details</Tab>
+				<Tab _selected={{ color: 'white', bg: 'cta' }}>Delivery Details</Tab>
 				<Tab _selected={{ color: 'white', bg: 'cta' }}>Payment Details</Tab>
 			</TabList>
 			<TabPanels>
@@ -50,7 +50,7 @@ const ViewShipmentDetails = ({ shipmentData }) => {
 									<h1>{shipmentData?.shipment_detail?.ship_from?.name}</h1>
 								</div>
 								<div className="flex gap-2 ">
-									<h1>Phone No.:</h1>
+									<h1>Phone No:</h1>
 									<h1>{shipmentData?.shipment_detail?.ship_from?.phone}</h1>
 								</div>
 							</div>
