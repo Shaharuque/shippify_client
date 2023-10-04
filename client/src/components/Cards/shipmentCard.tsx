@@ -5,7 +5,7 @@ import stamps from '../../assets/stamps_com.png';
 import { LuBadgeDollarSign } from 'react-icons/lu';
 import moment from 'moment';
 import { useFetchSingleShipmentMutation } from '../../redux/api/basicShipmentsApi';
-import { labelDictionary } from '../../utils/labelDictionary';
+import { labelColorDictionary, labelDictionary } from '../../utils/labelDictionary';
 
 export interface IShipment {
 	shipment: any;
@@ -110,7 +110,7 @@ const ShipmentCard = ({ shipment, clickedCard }: IShipment) => {
 					w={'120px'}>
 					<Text fontWeight={'bold'}>Tracking Status</Text>
 					<Badge
-						colorScheme="pink"
+						colorScheme={labelColorDictionary[shipment?.shipment_detail?.shipment_status]}
 						borderRadius={'md'}
 						fontSize={'xs'}>
 						{labelDictionary[shipment?.shipment_detail?.shipment_status]}

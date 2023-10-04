@@ -21,6 +21,7 @@ const ViewShipmentDetails = ({ shipmentData }) => {
 				<TabPanel>
 					<div className=" font-sans">
 						<div className="bg-white mt-4 rounded p-3">
+							<h1 className='font-bold underline'>From</h1>
 							<div className="flex gap-2">
 								<h1>Company Name:</h1>
 								<h1 className="font-bold text-teal-700">{shipmentData?.shipment_detail?.ship_from?.company_name}</h1>
@@ -41,7 +42,7 @@ const ViewShipmentDetails = ({ shipmentData }) => {
 								<h1>Postal Code:</h1>
 								<h1 className="font-bold">{shipmentData?.shipment_detail?.ship_from?.postal_code}</h1>
 							</div>
-							<div className="border border-gray-200 rounded mt-3 p-2 bg-gray-400 text-white">
+							<div className="border border-[#437F8C] rounded mt-3 p-2 bg-[#437F8C] text-white shadow-md shadow-gray-600">
 								<div className="flex gap-2">
 									<h1>Name:</h1>
 									<h1>{shipmentData?.shipment_detail?.ship_from?.name}</h1>
@@ -53,10 +54,11 @@ const ViewShipmentDetails = ({ shipmentData }) => {
 							</div>
 						</div>
 						<div className="bg-white mt-4 rounded p-3">
-							<div className="flex gap-2">
+							{/* <div className="flex gap-2">
 								<h1>Company Name:</h1>
 								<h1 className="font-bold text-teal-700">{shipmentData?.shipment_detail?.ship_to?.company_name || 'N/A'}</h1>
-							</div>
+							</div> */}
+							<h1 className='font-bold underline'>To</h1>
 							<div className="flex gap-2">
 								<h1>Adress:</h1>
 								<h1 className="font-bold">{shipmentData?.shipment_detail?.ship_to?.address_line1}</h1>
@@ -73,14 +75,14 @@ const ViewShipmentDetails = ({ shipmentData }) => {
 								<h1>Postal Code:</h1>
 								<h1 className="font-bold">{shipmentData?.shipment_detail?.ship_to?.postal_code}</h1>
 							</div>
-							<div className="border border-gray-200 rounded mt-3 p-2 bg-gray-400 text-white">
+							<div className="border border-[#437F8C] rounded mt-3 p-2 bg-[#437F8C] text-white shadow-md shadow-gray-600">
 								<div className="flex gap-2">
 									<h1>Name:</h1>
-									<h1>{shipmentData?.shipment_detail?.ship_from?.name}</h1>
+									<h1>{shipmentData?.shipment_detail?.ship_to?.name}</h1>
 								</div>
 								<div className="flex gap-2 ">
-									<h1>Phone No.:</h1>
-									<h1>{shipmentData?.shipment_detail?.ship_from?.phone}</h1>
+									<h1>Phone No:</h1>
+									<h1>{shipmentData?.shipment_detail?.ship_to?.phone}</h1>
 								</div>
 							</div>
 						</div>

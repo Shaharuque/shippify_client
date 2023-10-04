@@ -33,6 +33,7 @@ const labelStepDictionary: { [key: string]: number } = {
 const TrackingList = () => {
 	const [tableData, setTableData] = useState([]);
 	const [shipmentStatus, setShipmentStatus] = useState('');
+	const [activeCard, setActiveCard] = useState('' as any);
 
 	useEffect(() => {
 		const token = localStorage.getItem('token');
@@ -62,6 +63,7 @@ const TrackingList = () => {
 
 	const clickedCard: any = (cardId: any) => {
 		console.log('clicked', cardId);
+		setActiveCard(cardId);
 		fetchSingleShipment({ token, id: cardId });
 	};
 

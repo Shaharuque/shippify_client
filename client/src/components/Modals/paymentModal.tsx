@@ -48,7 +48,10 @@ const PaymentModal = ({ onClose, isOpen, total, insured_amount }: PaymentModalPr
 
 	useEffect(() => {
 		if (selectedOption) {
-			const result = ((total + (total * selectedOption?.interest_rate) / 100) / Number(selectedOption?.numberOfInstallments)).toFixed(2);
+			// const result = (total + 
+			// 	(total * ((selectedOption?.interest_rate/100)/12)*Number(selectedOption?.numberOfInstallments)
+			// ) / Number(selectedOption?.numberOfInstallments)).toFixed(2);
+			const result=((((selectedOption?.interest_rate/100)/12)*Number(selectedOption?.numberOfInstallments)*total+total)/Number(selectedOption?.numberOfInstallments)).toFixed(2);
 			setPayable(Number(result));
 		}
 	}, [selectedOption]);
