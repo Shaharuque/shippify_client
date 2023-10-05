@@ -52,7 +52,9 @@ const RecentShipmentTable = () => {
 					</Table>
 				</TableContainer>
 			) : (
-				<NoDataFound text={'No data available'} />
+				<>
+					<NoDataFound text={'No data available'} />
+				</>
 			)}
 		</>
 	);
