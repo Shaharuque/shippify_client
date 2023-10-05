@@ -2,9 +2,9 @@ import { Tabs, TabList, TabPanels, Tab, TabPanel, Box, Heading, Text } from '@ch
 import { TPackageDetailsForm } from '../Basic shipment/multiStepperForBasic/packageDetailsForm';
 import moment from 'moment';
 
-const ViewShipmentDetails = ({ shipmentData }) => {
-	console.log('shipmentData', shipmentData);
-	console.log('shipmentData', shipmentData?.shipment_detail?.ship_from?.phone);
+const ViewShipmentDetails = ({ shipmentData }: { shipmentData: any }) => {
+	// console.log('shipmentData', shipmentData);
+	// console.log('shipmentData', shipmentData?.shipment_detail?.ship_from?.phone);
 	return (
 		<Tabs
 			isFitted
@@ -17,11 +17,12 @@ const ViewShipmentDetails = ({ shipmentData }) => {
 				<Tab _selected={{ color: 'white', bg: 'cta' }}>Delivery Details</Tab>
 				<Tab _selected={{ color: 'white', bg: 'cta' }}>Payment Details</Tab>
 			</TabList>
+
 			<TabPanels>
 				<TabPanel>
 					<div className=" font-sans">
 						<div className="bg-white mt-4 rounded p-3">
-						<div className="mb-2 bg-[#437F8C] text-white rounded-full px-4 py-2 inline-flex items-center">
+							<div className="mb-2 bg-[#437F8C] text-white rounded-full px-4 py-2 inline-flex items-center">
 								Sender
 							</div>
 							<div className="flex gap-2">
@@ -100,7 +101,7 @@ const ViewShipmentDetails = ({ shipmentData }) => {
 								textTransform="uppercase">
 								Packages Details
 							</Heading>
-							{shipmentData?.shipment_detail?.packages?.map((item: TPackageDetailsForm, index) => (
+							{shipmentData?.shipment_detail?.packages?.map((item: TPackageDetailsForm, index: number) => (
 								<Box key={index}>
 									<Text
 										pt="2"

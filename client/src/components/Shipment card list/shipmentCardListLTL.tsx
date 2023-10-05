@@ -1,12 +1,11 @@
-import ShipmentCard from '../Cards/shipmentCard';
 import { Flex, Stack, Text } from '@chakra-ui/react';
+import ShipmentCardLTL from '../Cards/shipmentCardLTL';
 
 export interface IShipment {
 	tableData: any;
-	clickedCard: (cardId: string) => void;
+	clickedCard: (cardId: any) => void;
 	activeCard: string;
 }
-
 const ShipmentCardList = ({ tableData, clickedCard, activeCard }: IShipment) => {
 	// console.log('tableData', tableData);
 
@@ -15,13 +14,23 @@ const ShipmentCardList = ({ tableData, clickedCard, activeCard }: IShipment) => 
 			{tableData && tableData?.length > 0 ? (
 				<Flex
 					flexWrap="wrap"
-					h={'75vh'}
+					gap={'1vw'}
+					// h={'73vh'}
 					mb={'2rem'}
-					overflowY={'scroll'}>
+					overflowY={'scroll'}
+					css={{
+						'&::-webkit-scrollbar': {
+							width: '0',
+						},
+						'&::-webkit-scrollbar-thumb': {
+							backgroundColor: 'rgba(0, 0, 0, 0.5)',
+							borderRadius: '0.25em',
+						},
+					}}>
 					{tableData?.map((shipment: any, index: number) => {
-						if (shipment.labelDetail) {
+						if (shipment.blockChainHash) {
 							return (
-								<ShipmentCard
+								<ShipmentCardLTL
 									clickedCard={clickedCard}
 									key={index}
 									shipment={shipment}

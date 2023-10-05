@@ -4,10 +4,12 @@ import fedex from '../../assets/fedex-express-6.svg';
 import stamps from '../../assets/stamps_com.png';
 import { LuBadgeDollarSign } from 'react-icons/lu';
 import moment from 'moment';
-import { labelColorDictionary, labelDictionary } from '../../data/labelDictionary';
+import { useFetchSingleShipmentMutation } from '../../redux/api/basicShipmentsApi';
+import { labelColorDictionary, labelDictionary } from '../../utils/labelDictionary';
 import { useDispatch } from 'react-redux';
-import { updateLabel } from '../../redux/features/labelSlice';
+import { updateBOL, updateLabel } from '../../redux/features/labelSlice';
 import { useNavigate } from 'react-router-dom';
+import { base64toBlob } from '../../utils/convertBase64toBlob';
 
 export interface IShipment {
 	shipment: any;
@@ -21,13 +23,15 @@ const ShipmentCard = ({ shipment, clickedCard, isActive }: IShipment) => {
 	// const currentDateTime = moment();
 	// const token = localStorage.getItem('token');
 
+	// console.log(shipment);
+
 	return (
 		<Box
 			onClick={() => clickedCard(shipment)}
 			borderWidth="1px"
 			borderRadius="lg"
 			p={useBreakpointValue({ base: 2, md: 4, lg: 6 })}
-			marginBottom={4}
+			// marginBottom={4}
 			bg="white"
 			boxShadow="lg"
 			w={'100%'}
@@ -59,6 +63,7 @@ const ShipmentCard = ({ shipment, clickedCard, isActive }: IShipment) => {
 						{shipment?.rateDetail?.service_type}
 					</Text>
 				</Stack>
+
 				<Stack
 					align={'center'}
 					w={'80px'}>
@@ -71,10 +76,22 @@ const ShipmentCard = ({ shipment, clickedCard, isActive }: IShipment) => {
 							color={'green.500'}
 							boxSize={'1.25rem'}
 						/>
-						<Text>{shipment?.rateDetail?.shipping_amount?.amount}</Text>
+						<Text>{shipment?.payment_detail?.net_payable}</Text>
 					</Stack>
 				</Stack>
+
 				<Stack
+					align={'center'}
+					w={'120px'}>
+					<Text fontWeight={'bold'}>Tracking Id</Text>
+					<Text
+						fontSize={'xs'}
+						fontWeight={'bold'}>
+						{shipment?.bolDetail?.pro_number}
+					</Text>
+				</Stack>
+
+				{/* <Stack
 					align={'center'}
 					w={'100px'}>
 					<Text
@@ -83,23 +100,14 @@ const ShipmentCard = ({ shipment, clickedCard, isActive }: IShipment) => {
 						Packages
 					</Text>
 					<Text fontSize={'sm'}>{shipment?.shipment_detail?.packages.length}</Text>
-				</Stack>
-				<Stack
-					align={'center'}
-					w={'120px'}>
-					<Text fontWeight={'bold'}>Tracking Id</Text>
-					<Text
-						fontSize={'xs'}
-						fontWeight={'bold'}>
-						{shipment?.labelDetail?.tracking_number}
-					</Text>
-				</Stack>
+				</Stack> */}
+
 				<Stack
 					align={'center'}
 					w={'100px'}>
 					<Text fontWeight={'bold'}>Source</Text>
 					<Text fontSize={'sm'}>
-						{shipment?.shipment_detail?.ship_from?.city_locality}, {shipment?.shipment_detail?.ship_from?.country_code}
+						{shipment?.shipment_detail?.shipment?.ship_from?.address?.city_locality}, {shipment?.shipment_detail?.shipment?.ship_from?.address?.country_code}
 					</Text>
 				</Stack>
 				<Stack
@@ -107,14 +115,14 @@ const ShipmentCard = ({ shipment, clickedCard, isActive }: IShipment) => {
 					w={'100px'}>
 					<Text fontWeight={'bold'}>Destination</Text>
 					<Text fontSize={'sm'}>
-						{shipment?.shipment_detail?.ship_to?.city_locality}, {shipment?.shipment_detail?.ship_to?.country_code}
+						{shipment?.shipment_detail?.shipment?.ship_to?.address?.city_locality}, {shipment?.shipment_detail?.shipment?.ship_to?.address?.country_code}
 					</Text>
 				</Stack>
 				<Stack
 					align={'center'}
 					w={'120px'}>
-					<Text fontWeight={'bold'}>Delivery Date</Text>
-					<Text fontSize={'sm'}>{moment(shipment?.rateDetail?.estimated_delivery_date)?.format('MM-DD-YYYY')}</Text>
+					<Text fontWeight={'bold'}>Pickup Date</Text>
+					<Text fontSize={'sm'}>{moment(shipment?.shipment_detail?.pickup_date)?.format('MM-DD-YYYY')}</Text>
 				</Stack>
 				<Stack
 					align={'center'}
@@ -133,13 +141,17 @@ const ShipmentCard = ({ shipment, clickedCard, isActive }: IShipment) => {
 					{/* <Text fontWeight={'bold'}>Label Detail</Text> */}
 					<Badge
 						onClick={() => {
-							dispatch(updateLabel(shipment?.labelDetail?.label_download?.pdf));
+							// const blob = base64toBlob(shipment?.bolDetail?.documents[0]?.image);
+							// const bolUrl = URL.createObjectURL(blob);
+							// console.log(blob);
+							dispatch(updateBOL(shipment?.bolDetail?.documents[0]?.image));
+							dispatch(updateLabel(''));
 							navigate('/pdf-viewer');
 						}}
 						// colorScheme={labelColorDictionary[shipment?.shipment_detail?.shipment_status]}
 						borderRadius={'md'}
 						fontSize={'xs'}>
-						{'Label Detail'}
+						{"BOL Detail"}
 					</Badge>
 				</Stack>
 			</Flex>

@@ -11,6 +11,7 @@ import TrackingPage from './pages/Tracking/trackingPage';
 import SuccessFulPayment from './components/Payment/successFulPayment';
 import Layout from './components/Layout/layout';
 import BlockChainTransactions from './pages/BlockChainTransactions/BlockChainTransactions';
+import PDFViewer from './pages/PDFViewer/PDFViewer';
 
 function App() {
 	return (
@@ -55,6 +56,11 @@ function App() {
 					<Route
 						path="/stripe/payment/success"
 						element={<SuccessFulPayment />}
+					/>
+
+					<Route
+						path="/pdf-viewer"
+						element={<PDFViewer />}
 					/>
 				</Route>
 
