@@ -27,8 +27,7 @@ const RegisterForm = ({ nextStep }: { nextStep: () => void }) => {
 		try {
 			const result = await signUp(values);
 			if (result?.data?.status === 'success') {
-				console.log('register form data', result?.data?.data);
-				localStorage.setItem('userTempData', JSON.stringify(result?.data));
+				localStorage.setItem('userData', JSON.stringify(values));
 
 				nextStep();
 			}

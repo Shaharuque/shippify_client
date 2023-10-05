@@ -1,35 +1,21 @@
 import { Box, Flex } from '@chakra-ui/react';
 
-type OnboardingSteppersProps = {
-	step: number;
-};
+const steps = [1, 2, 3, 4, 5];
 
-const OnboardingSteppers = ({ step }: OnboardingSteppersProps) => {
+const OnboardingSteppers = ({ activeStep }: { activeStep: number }) => {
 	return (
 		<Flex
 			gap={'1rem'}
 			align={'center'}
 			justify={'center'}>
-			<Box
-				bg={step === 1 ? 'cta' : '#E3F4ED'}
-				w={'5rem'}
-				h={'.55rem'}
-				borderRadius={'2rem'}></Box>
-			<Box
-				bg={step === 2 ? 'cta' : '#E3F4ED'}
-				w={'5rem'}
-				h={'.55rem'}
-				borderRadius={'2rem'}></Box>
-			<Box
-				bg={step === 3 ? 'cta' : '#E3F4ED'}
-				w={'5rem'}
-				h={'.55rem'}
-				borderRadius={'2rem'}></Box>
-			<Box
-				bg={step === 4 ? 'cta' : '#E3F4ED'}
-				w={'5rem'}
-				h={'.55rem'}
-				borderRadius={'2rem'}></Box>
+			{steps.map((step: number) => (
+				<Box
+					bg={step === activeStep ? 'cta' : '#E3F4ED'}
+					w={'5rem'}
+					h={'.55rem'}
+					borderRadius={'2rem'}
+				/>
+			))}
 		</Flex>
 	);
 };

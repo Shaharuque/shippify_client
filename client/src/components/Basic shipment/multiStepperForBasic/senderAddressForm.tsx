@@ -5,7 +5,8 @@ import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { updateField } from '../../../redux/features/basicShipmentsSlice';
 import { RootState } from '../../../redux/store';
 import { useEffect, useState } from 'react';
-import { profile } from '../../../services/apis/authApi';
+import { getAllWarehouses } from '../../../services/apis/setUpShipmentApi';
+import { WarehouseSetupFormData } from '../../Registration and setup components/Warehouse setup form/warehouseSetupForm';
 
 export type TSenderAddressFormData = {
 	name: string;
@@ -42,14 +43,14 @@ export interface IUserFullDetails {
 }
 
 const SenderAddressForm = ({ nextStep }: { nextStep: () => void }) => {
-	const token = localStorage.getItem('token');
 	const { handleSubmit, setValue, register } = useForm<TSenderAddressFormData>({
 		defaultValues: {
 			...useAppSelector((state: RootState) => state?.basicShipments?.ship_from),
 		},
 	});
 	const dispatch = useAppDispatch();
-	const [userData, setUserData] = useState<IUserFullDetails>();
+	const [warehouseDataList, setWarehouseDataList] = useState<WarehouseSetupFormData[]>([]);
+	const [warehouse, setWarehouse] = useState<WarehouseSetupFormData>();
 
 	const onSubmit: SubmitHandler<TSenderAddressFormData> = (data) => {
 		dispatch(updateField({ ship_from: data }));
@@ -57,28 +58,46 @@ const SenderAddressForm = ({ nextStep }: { nextStep: () => void }) => {
 	};
 
 	useEffect(() => {
-		const fetchUserData = async () => {
+		const fetchWarehouseData = async () => {
+			const token: string | null = localStorage.getItem('token');
 			try {
-				const result = await profile(token as string);
-				if (result?.data?.status === 'success') setUserData(result?.data?.data);
+				const result = await getAllWarehouses(token as string);
+
+				if (result?.data?.status === 'success') {
+					const warehouses = result?.data?.data;
+					setWarehouseDataList(warehouses);
+					setWarehouse(warehouses[0]);
+				}
 			} catch (error) {
 				console.error(error);
 			}
 		};
-		fetchUserData();
+		fetchWarehouseData();
 	}, []);
 
 	useEffect(() => {
-		if (userData && userData?.name.length > 0) {
-			setValue('name', userData?.name);
-			setValue('company_name', userData?.companyName);
-			setValue('address_line1', userData?.address?.address_line1);
-			setValue('city_locality', userData?.address?.city_locality);
-			setValue('state_province', userData?.address?.state_province);
-			setValue('postal_code', userData?.address?.postal_code);
-			setValue('country_code', userData?.address?.country_code);
+		if (warehouse && warehouse?.warehouse_name.length > 0) {
+			console.log('warehouse', warehouse?.warehouse_name);
+			const userData = localStorage.getItem('userData');
+			if (userData) {
+				const user = JSON.parse(userData);
+				setValue('name', user?.name);
+			}
+
+			setValue('company_name', warehouse?.origin_address?.company_name);
+			setValue('address_line1', warehouse?.origin_address?.address_line1);
+			setValue('city_locality', warehouse?.origin_address?.city_locality);
+			setValue('state_province', warehouse?.origin_address?.state_province);
+			setValue('postal_code', warehouse?.origin_address?.postal_code);
+			setValue('country_code', warehouse?.origin_address?.country_code);
+			setValue('country_code', warehouse?.origin_address?.country_code);
 		}
-	}, [userData]);
+	}, [warehouse]);
+
+	const handleWarehouseSelection = (value: string) => {
+		const result = warehouseDataList?.find((item) => item?.warehouse_name === value);
+		setWarehouse(result);
+	};
 
 	return (
 		<Box
@@ -100,6 +119,24 @@ const SenderAddressForm = ({ nextStep }: { nextStep: () => void }) => {
 				letterSpacing={0.2}>
 				Sender's Address
 			</Text>
+
+			<Select
+				onChange={(e) => handleWarehouseSelection(e.target.value)}
+				mt={'1rem'}
+				w={'15vw'}
+				placeholder="Select Address"
+				id="select_address"
+				variant={'flushed'}
+				borderBottom={'1px solid #314866'}
+				transition={'all 0.30s ease-in-out;'}>
+				{warehouseDataList?.map((item: WarehouseSetupFormData, index: number) => (
+					<option
+						key={index}
+						value={item.warehouse_name}>
+						{item.warehouse_name}
+					</option>
+				))}
+			</Select>
 			<form
 				onSubmit={handleSubmit(onSubmit)}
 				style={{ marginTop: '4vh' }}>

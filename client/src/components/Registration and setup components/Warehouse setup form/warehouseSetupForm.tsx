@@ -1,4 +1,4 @@
-import { Center, FormControl, InputGroup, InputLeftElement, Icon, Input, FormErrorMessage, Select, Flex } from '@chakra-ui/react';
+import { Center, FormControl, InputGroup, InputLeftElement, Icon, Input, FormErrorMessage, Select, Flex, Button } from '@chakra-ui/react';
 import { BiSolidCity } from 'react-icons/bi';
 import { BsPostcard } from 'react-icons/bs';
 import { FaRegAddressCard } from 'react-icons/fa';
@@ -8,6 +8,8 @@ import Greeting from '../../Greetings texts/greeting';
 import Logo from '../../Logo/logo';
 import { useForm } from 'react-hook-form';
 import FormHelperText from '../../Form helper text/formHelperText';
+import { useNavigate } from 'react-router-dom';
+import { setUpWarehouses } from '../../../services/apis/setupApi';
 
 export type WarehouseSetupFormData = {
 	warehouse_name: string;
@@ -26,22 +28,47 @@ export type WarehouseSetupFormData = {
 };
 
 const WarehouseSetupForm = ({ prevStep }: { prevStep: () => void }) => {
+	const navigate = useNavigate();
 	const {
 		handleSubmit,
 		register,
 		formState: { errors },
+		reset,
 	} = useForm<WarehouseSetupFormData>();
 
 	const onSubmit = async (values: WarehouseSetupFormData) => {
 		try {
-			// const token: any = localStorage.getItem('token');
+			const token: string | null = localStorage.getItem('token');
+			const userTempData = localStorage.getItem('userData');
+			if (userTempData && values?.origin_address) {
+				const user = JSON.parse(userTempData);
+				values.origin_address.name = user?.name;
+			}
+			const companyTempData = localStorage.getItem('companyTempData');
+			if (companyTempData && values?.origin_address) {
+				const company = JSON.parse(companyTempData);
+				values.origin_address.company_name = company?.companyName;
+				values.origin_address.phone = company?.companyPhone;
+			}
+
 			console.log('data from warehouse setup:', values);
 
-			// const result = await setUpCompanyAddress(data, token);
+			const result = await setUpWarehouses(values, token as string);
 
-			// if (result?.data?.status === 'success') {
-			// 	navigate('/home');
-			// }
+			if (result?.data?.status === 'success') {
+				// console.log('response from warehouse:', result?.data?.data);
+				reset({
+					warehouse_name: '',
+					origin_address: {
+						address_line1: '',
+						address_line2: '',
+						state_province: '',
+						city_locality: '',
+						postal_code: '',
+						country_code: '',
+					},
+				});
+			}
 		} catch (error) {
 			console.error('Error from warehouse setup form:', error);
 		}
@@ -186,15 +213,23 @@ const WarehouseSetupForm = ({ prevStep }: { prevStep: () => void }) => {
 
 				<Flex
 					gap={'1rem'}
-					mt={'3rem'}>
+					mt={'3rem'}
+					justify={'space-evenly'}>
 					<BackButton
 						onClick={() => prevStep()}
-						width="6rem"
+						width="8rem"
 					/>
+
 					<SubmitButton
 						text={'Submit'}
-						width="6rem"
+						width="8rem"
 					/>
+					<Button
+						onClick={() => navigate('/home')}
+						width="6rem"
+						bg={'none'}>
+						Skip
+					</Button>
 				</Flex>
 			</form>
 		</>

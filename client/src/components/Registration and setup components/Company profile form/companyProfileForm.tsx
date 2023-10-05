@@ -31,6 +31,8 @@ const CompanyProfileForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 			const result = await setUpCompany(values, token);
 
 			if (result?.data?.status === 'success') {
+				localStorage.setItem('companyTempData', JSON.stringify(values));
+
 				nextStep();
 			}
 		} catch (error) {
@@ -144,14 +146,15 @@ const CompanyProfileForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 				</FormControl>
 				<Flex
 					gap={'1rem'}
-					mt={'3rem'}>
+					mt={'3rem'}
+					justifyContent={'space-around'}>
 					<BackButton
 						onClick={handleBackButton}
-						width="6rem"
+						width="8rem"
 					/>
 					<SubmitButton
 						text={'Next'}
-						width="6rem"
+						width="8rem"
 					/>
 				</Flex>
 			</form>

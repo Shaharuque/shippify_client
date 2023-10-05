@@ -4,9 +4,9 @@ import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { RootState } from '../../../redux/store';
 import { updateField } from '../../../redux/features/ltlShipmentSlice';
 import { useEffect, useState } from 'react';
-import { IUserFullDetails } from '../../Basic shipment/multiStepperForBasic/senderAddressForm';
-import { profile } from '../../../services/apis/authApi';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { getAllWarehouses } from '../../../services/apis/setUpShipmentApi';
+import { WarehouseSetupFormData } from '../../Registration and setup components/Warehouse setup form/warehouseSetupForm';
 
 export type TSenderAddressFormDataLTL = {
 	contact: {
@@ -32,7 +32,8 @@ const SenderAddressFormLTL = ({ nextStep }: { nextStep: () => void }) => {
 		},
 	});
 
-	const [userData, setUserData] = useState<IUserFullDetails>();
+	const [warehouseDataList, setWarehouseDataList] = useState<WarehouseSetupFormData[]>([]);
+	const [warehouse, setWarehouse] = useState<WarehouseSetupFormData>();
 
 	const onSubmit: SubmitHandler<TSenderAddressFormDataLTL> = (data) => {
 		dispatch(updateField({ ship_from: data }));
@@ -40,30 +41,46 @@ const SenderAddressFormLTL = ({ nextStep }: { nextStep: () => void }) => {
 	};
 
 	useEffect(() => {
-		const token = localStorage.getItem('token');
-		const fetchUserData = async () => {
+		const fetchWarehouseData = async () => {
+			const token: string | null = localStorage.getItem('token');
 			try {
-				const result = await profile(token as string);
-				setUserData(result?.data?.data);
+				const result = await getAllWarehouses(token as string);
+
+				if (result?.data?.status === 'success') {
+					const warehouses = result?.data?.data;
+					setWarehouseDataList(warehouses);
+					setWarehouse(warehouses[0]);
+				}
 			} catch (error) {
 				console.error(error);
 			}
 		};
-		fetchUserData();
+		fetchWarehouseData();
 	}, []);
 
 	useEffect(() => {
-		if (userData && userData?.name.length > 0) {
-			setValue('contact.name', userData?.name);
-			setValue('contact.email', userData?.email);
-			setValue('address.company_name', userData?.companyName);
-			setValue('address.address_line1', userData?.address?.address_line1);
-			setValue('address.city_locality', userData?.address?.city_locality);
-			setValue('address.state_province', userData?.address?.state_province);
-			setValue('address.postal_code', userData?.address?.postal_code);
-			setValue('address.country_code', userData?.address?.country_code);
+		if (warehouse && warehouse?.warehouse_name.length > 0) {
+			console.log('warehouse', warehouse?.warehouse_name);
+			const userData = localStorage.getItem('userData');
+			if (userData) {
+				const user = JSON.parse(userData);
+				setValue('contact.name', user?.name);
+			}
+
+			setValue('address.company_name', warehouse?.origin_address?.company_name);
+			setValue('address.address_line1', warehouse?.origin_address?.address_line1);
+			setValue('address.city_locality', warehouse?.origin_address?.city_locality);
+			setValue('address.state_province', warehouse?.origin_address?.state_province);
+			setValue('address.postal_code', warehouse?.origin_address?.postal_code);
+			setValue('address.country_code', warehouse?.origin_address?.country_code);
+			setValue('address.country_code', warehouse?.origin_address?.country_code);
 		}
-	}, [userData]);
+	}, [warehouse]);
+
+	const handleWarehouseSelection = (value: string) => {
+		const result = warehouseDataList?.find((item) => item?.warehouse_name === value);
+		setWarehouse(result);
+	};
 
 	return (
 		<Box
@@ -86,6 +103,24 @@ const SenderAddressFormLTL = ({ nextStep }: { nextStep: () => void }) => {
 				letterSpacing={0.2}>
 				Pickup Address
 			</Text>
+
+			<Select
+				onChange={(e) => handleWarehouseSelection(e.target.value)}
+				mt={'1rem'}
+				w={'15vw'}
+				placeholder="Select Address"
+				id="select_address"
+				variant={'flushed'}
+				borderBottom={'1px solid #314866'}
+				transition={'all 0.30s ease-in-out;'}>
+				{warehouseDataList?.map((item: WarehouseSetupFormData, index: number) => (
+					<option
+						key={index}
+						value={item.warehouse_name}>
+						{item.warehouse_name}
+					</option>
+				))}
+			</Select>
 			<form
 				onSubmit={handleSubmit(onSubmit)}
 				style={{ marginTop: '4vh' }}>

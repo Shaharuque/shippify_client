@@ -6,7 +6,7 @@ export interface IShipment {
 	clickedCard: (cardId: any) => void;
 	activeCard: string;
 }
-const ShipmentCardList = ({ tableData, clickedCard,activeCard }: IShipment) => {
+const ShipmentCardList = ({ tableData, clickedCard, activeCard }: IShipment) => {
 	console.log('tableData', tableData);
 
 	return (
@@ -14,18 +14,9 @@ const ShipmentCardList = ({ tableData, clickedCard,activeCard }: IShipment) => {
 			{tableData && tableData?.length > 0 ? (
 				<Flex
 					flexWrap="wrap"
-					h={'800px'}
+					// h={'800px'}
 					mb={'2rem'}
-					overflowY={'scroll'}
-					css={{
-						'&::-webkit-scrollbar': {
-							width: '0',
-						},
-						'&::-webkit-scrollbar-thumb': {
-							backgroundColor: 'rgba(0, 0, 0, 0.5)',
-							borderRadius: '0.25em',
-						},
-					}}>
+					overflowY={'scroll'}>
 					{tableData?.map((shipment: any, index: number) => {
 						if (shipment.labelDetail) {
 							return (
