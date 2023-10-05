@@ -28,16 +28,19 @@ const NoDataFound = ({ text, backButton }: TNoDataFound) => {
 					boxSize={'2rem'}
 				/>
 			</Stack>
-			<Flex
-				w={'15rem'}
-				mt={'2rem'}
-				justify={'flex-end'}>
-				<BackButton
-					width="7rem"
-					text="Back"
-					onClick={backButton!}
-				/>
-			</Flex>
+
+			{backButton ? (
+				<Flex
+					w={'15rem'}
+					mt={'2rem'}
+					justify={'flex-end'}>
+					<BackButton
+						width="7rem"
+						text="Back"
+						onClick={backButton!}
+					/>
+				</Flex>
+			) : null}
 		</>
 	);
 };

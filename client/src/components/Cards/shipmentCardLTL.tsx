@@ -5,7 +5,7 @@ import stamps from '../../assets/stamps_com.png';
 import { LuBadgeDollarSign } from 'react-icons/lu';
 import moment from 'moment';
 import { useFetchSingleShipmentMutation } from '../../redux/api/basicShipmentsApi';
-import { labelColorDictionary, labelDictionary } from '../../utils/labelDictionary';
+import { labelColorDictionary, labelDictionary } from '../../data/labelDictionary';
 import { useDispatch } from 'react-redux';
 import { updateBOL, updateLabel } from '../../redux/features/labelSlice';
 import { useNavigate } from 'react-router-dom';
@@ -151,7 +151,7 @@ const ShipmentCard = ({ shipment, clickedCard, isActive }: IShipment) => {
 						// colorScheme={labelColorDictionary[shipment?.shipment_detail?.shipment_status]}
 						borderRadius={'md'}
 						fontSize={'xs'}>
-						{"BOL Detail"}
+						{'BOL Detail'}
 					</Badge>
 				</Stack>
 			</Flex>

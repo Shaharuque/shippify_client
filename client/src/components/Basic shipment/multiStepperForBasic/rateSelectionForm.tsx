@@ -95,7 +95,10 @@ const RateSelectionForm = ({ nextStep, prevStep }: { nextStep: () => void; prevS
 							gap={'5rem'}>
 							<Box w={'12rem'}>
 								<PriceRangeFilter onRangeChange={handlePriceRangeFilterChange} />
-								<PriceAscendingDescendingFilter onChange={handlePriceFilterChange} />
+								<PriceAscendingDescendingFilter
+									onChange={handlePriceFilterChange}
+									dataLoading={isLoading}
+								/>
 								<DeliveryDateFilter onChange={handleDeliveryDateFilterChange} />
 							</Box>
 
