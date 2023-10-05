@@ -3,7 +3,7 @@ import errorImage from './../../assets/Error.jpg';
 import BackButton from '../Buttons/backButton';
 import { useNavigate } from 'react-router-dom';
 
-const Error = () => {
+const Error = ({ backButton }: { backButton?: () => void }) => {
 	const navigate = useNavigate();
 	return (
 		<Center
@@ -19,7 +19,7 @@ const Error = () => {
 				/>
 			</Box>
 			<Box mt={'2rem'}>
-				<BackButton onClick={() => navigate(-1)}></BackButton>
+				<BackButton onClick={backButton ? backButton : () => navigate(-1)}></BackButton>
 			</Box>
 		</Center>
 	);

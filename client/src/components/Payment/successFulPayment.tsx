@@ -7,10 +7,14 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { IPaymentData } from '../../redux/features/paymentSlice';
 import { generateTransactionID } from '../../utils/randomTransactionIdGenerator';
+import DynamicProgressBar from '../Progress bar/dynamicProgressBar';
+import Error from '../Error bad request/error';
 
 const SuccessFulPayment = () => {
 	const navigate = useNavigate();
 	const [payment, setPayment] = useState<IPaymentData>();
+	const [error, setError] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 
 	const successTickLottieOptions = {
 		animationData: successTickLottie,
@@ -40,6 +44,7 @@ const SuccessFulPayment = () => {
 			const pickupDate = localStorage.getItem('pickup_date');
 
 			const purchaseBasicShipment = async (payload: any) => {
+				setIsLoading(true);
 				try {
 					const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}/shipment/parched-shipment/${shipmentId}`, payload, {
 						headers: {
@@ -48,12 +53,15 @@ const SuccessFulPayment = () => {
 						},
 					});
 					console.log('response from basic', response?.data);
+					if (response?.data?.status === 'success') setIsLoading(false);
 				} catch (error) {
 					console.error('Error', error);
+					setError(true);
 				}
 			};
 
 			const purchaseLTLShipment = async (payload: any) => {
+				setIsLoading(true);
 				try {
 					const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}/ltlShipment/parched-shipment/${shipmentId}`, payload, {
 						headers: {
@@ -61,9 +69,12 @@ const SuccessFulPayment = () => {
 							'x-auth-token': token,
 						},
 					});
-					console.log('response from basic', response?.data);
+					console.log('response from ltl', response?.data);
+					if (response?.data?.status === 'success') setIsLoading(false);
 				} catch (error) {
 					console.error('Error', error);
+					setError(true);
+					setIsLoading(false);
 				}
 			};
 			if (shipment === 'ltl') {
@@ -92,65 +103,83 @@ const SuccessFulPayment = () => {
 	}, [payment]);
 
 	return (
-		<Flex
-			h={'100vh'}
-			justifyContent="center"
-			alignItems="center"
-			bg={'linear-gradient(135deg, hsla(155, 44%, 92%, 1) 0%, hsla(191, 24%, 62%, 1) 100%)'}>
-			<Box
-				p="4"
-				maxW="md"
-				w="full"
-				borderWidth="1px"
-				borderRadius="lg"
-				boxShadow="lg"
-				bg="white"
-				textAlign="center">
-				<Center>
-					<Box
-						mb="4"
-						boxSize={'8rem'}>
-						{successTickLottieView}
-					</Box>
-				</Center>
-				<Text
-					fontWeight={'600'}
-					fontSize={'1.25rem'}
-					fontFamily={'Roboto'}
-					mb="4">
-					Your payment is done successfully!
-				</Text>
+		<>
+			{error ? (
 				<Flex
-					justify={'space-between'}
-					my={'4rem'}>
-					<VStack
-						fontWeight={'500'}
-						align="flex-start">
-						<Text>Paid amount</Text>
-						<Text>Transaction ID</Text>
-					</VStack>
+					h={'85vh'}
+					align={'center'}
+					justify={'center'}>
+					<Error />
+				</Flex>
+			) : (
+				<Flex
+					h={'100vh'}
+					justifyContent="center"
+					alignItems="center"
+					bg={'linear-gradient(135deg, hsla(155, 44%, 92%, 1) 0%, hsla(191, 24%, 62%, 1) 100%)'}>
+					<Box
+						p="4"
+						maxW="md"
+						w="full"
+						borderWidth="1px"
+						borderRadius="lg"
+						boxShadow="lg"
+						bg="white"
+						textAlign="center">
+						<Center>
+							<Box
+								mb="4"
+								boxSize={'8rem'}>
+								{successTickLottieView}
+							</Box>
+						</Center>
+						<Text
+							fontWeight={'600'}
+							fontSize={'1.25rem'}
+							fontFamily={'Roboto'}
+							mb="4">
+							Your payment is done successfully!
+						</Text>
+						<Flex
+							justify={'space-between'}
+							my={'4rem'}>
+							<VStack
+								fontWeight={'500'}
+								align="flex-start">
+								<Text>Paid amount</Text>
+								<Text>Transaction ID</Text>
+							</VStack>
 
-					<VStack
-						fontWeight={'500'}
-						align="flex-end">
-						<Text>{payment?.bnpl?.first_payable || payment?.normal_payment?.net_payable} (USD)</Text>
-						<Text letterSpacing={0.8}>{generateTransactionID()}</Text>
-					</VStack>
+							<VStack
+								fontWeight={'500'}
+								align="flex-end">
+								<Text>{payment?.bnpl?.first_payable || payment?.normal_payment?.net_payable} (USD)</Text>
+								<Text letterSpacing={0.8}>{generateTransactionID()}</Text>
+							</VStack>
+						</Flex>
+
+						<Box my={'1rem'}>
+							<DynamicProgressBar isLoading={isLoading} />
+						</Box>
+
+						<Flex
+							gap={'1rem'}
+							justify={'space-around'}>
+							<RegularButton
+								onClick={() => navigate('/shipment')}
+								text="Go to Shipment"
+								width="10rem"
+							/>
+							<RegularButton
+								onClick={() => navigate('/home')}
+								text="Go Home"
+								width="10rem"
+							/>
+						</Flex>
+					</Box>
 				</Flex>
-				<Flex gap={'1rem'}>
-					<RegularButton
-						onClick={() => console.log('Go to label creation!')}
-						text="Create label"
-						width="12rem"
-					/>
-					<RegularButton
-						onClick={() => navigate('/home')}
-						text="Go Home"
-						width="12rem"
-					/>
-				</Flex>
-			</Box>
-		</Flex>
+			)}
+		</>
 	);
 };
 

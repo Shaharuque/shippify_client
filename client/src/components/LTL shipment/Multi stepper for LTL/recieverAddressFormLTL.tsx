@@ -32,7 +32,8 @@ const RecieverAddressFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; 
 		},
 	});
 
-	const [countries, setCountries] = useState<any>({});
+	const [countries, setCountries] = useState<any[]>([]);
+	const [states, setStates] = useState<any[]>([]);
 	const [cities, setCities] = useState<any[]>([]);
 
 	const onSubmit: SubmitHandler<TRecieverAddressFormDataLTL> = (data) => {
@@ -48,7 +49,7 @@ const RecieverAddressFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; 
 				const response = await axios.get(`${BACKEND_FULL_URL}/get/countrywise/city/info/get`);
 
 				if (response?.data?.success) {
-					setCountries(response?.data?.result[0]);
+					setCountries(response?.data?.result);
 				}
 			} catch (error) {
 				console.error(error);
@@ -57,10 +58,18 @@ const RecieverAddressFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; 
 		fetchCityData();
 	}, []);
 
+	const handleCountryChange = (event: ChangeEvent<HTMLSelectElement>) => {
+		event.preventDefault();
+		const value = event.target.value;
+		const result = countries?.find((item: any) => item.value === value);
+
+		setStates(result?.city);
+	};
+
 	const handleStateChange = (event: ChangeEvent<HTMLSelectElement>) => {
 		event.preventDefault();
 		const value = event.target.value;
-		const result = countries?.city?.find((item: any) => item.value === value);
+		const result = states.find((item: any) => item.value === value);
 		setCities(result?.citys);
 	};
 
@@ -69,24 +78,15 @@ const RecieverAddressFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; 
 		const value = event.target.value;
 		const result = cities?.find((item) => item.city === value);
 
-		setValue('address.postal_code', result?.postalcode || '');
+		setValue('address.postal_code', result?.postalcode?.replace(/\s/g, '') || '');
 	};
 
 	return (
 		<Box
 			p=".25vw"
 			width={'40rem'}
-			h={'87vh'}
-			overflowY={'auto'}
-			css={{
-				'&::-webkit-scrollbar': {
-					width: '0',
-				},
-				'&::-webkit-scrollbar-thumb': {
-					backgroundColor: 'rgba(0, 0, 0, 0.5)',
-					borderRadius: '0.25em',
-				},
-			}}>
+			// h={'87vh'}
+			overflowY={'scroll'}>
 			<Text
 				as="b"
 				fontSize={'1.25rem'}
@@ -153,14 +153,15 @@ const RecieverAddressFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; 
 						<FormLabel fontWeight={'600'}>Country</FormLabel>
 						<Select
 							{...register('address.country_code')}
+							onChange={handleCountryChange}
 							variant={'flushed'}
 							borderBottom={'1px solid #314866'}
 							transition={'all 0.30s ease-in-out;'}
 							_focusVisible={{ borderColor: '#002855' }}>
 							<option value={'US'}>United State of America</option>
 							<option value={'CA'}>Canada</option>
-							<option value={'MX'}>Mexico</option>
-							<option value={'AU'}>Australia</option>
+							{/* <option value={'MX'}>Mexico</option>
+							<option value={'AU'}>Australia</option> */}
 						</Select>
 					</FormControl>
 				</Flex>
@@ -179,7 +180,7 @@ const RecieverAddressFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; 
 							placeholder="Select state"
 							_focusVisible={{ borderColor: '#002855', boxShadow: '0px 1px 0px 0px #002855 ' }}
 							onChange={handleStateChange}>
-							{countries?.city?.map((state: any, index: number) => (
+							{states?.map((state: any, index: number) => (
 								<option
 									key={index}
 									value={state?.value}>

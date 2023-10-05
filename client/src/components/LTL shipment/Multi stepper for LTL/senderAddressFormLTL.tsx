@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { getAllWarehouses } from '../../../services/apis/setUpShipmentApi';
 import { WarehouseSetupFormData } from '../../Registration and setup components/Warehouse setup form/warehouseSetupForm';
+import { countryCodeDictionary } from '../../../data/countryCodeDictionary';
 
 export type TSenderAddressFormDataLTL = {
 	contact: {
@@ -24,6 +25,12 @@ export type TSenderAddressFormDataLTL = {
 	};
 };
 
+const swappedCountryCodeDictionary: { [key: string]: string } = {};
+for (const key in countryCodeDictionary) {
+	const value = countryCodeDictionary[key];
+	swappedCountryCodeDictionary[value] = key;
+}
+
 const SenderAddressFormLTL = ({ nextStep }: { nextStep: () => void }) => {
 	const dispatch = useAppDispatch();
 	const { handleSubmit, register, setValue } = useForm<TSenderAddressFormDataLTL>({
@@ -36,8 +43,11 @@ const SenderAddressFormLTL = ({ nextStep }: { nextStep: () => void }) => {
 	const [warehouse, setWarehouse] = useState<WarehouseSetupFormData>();
 
 	const onSubmit: SubmitHandler<TSenderAddressFormDataLTL> = (data) => {
+		if (data && data.address && data.address.country_code) data.address.country_code = countryCodeDictionary[data.address.country_code];
+
 		dispatch(updateField({ ship_from: data }));
 		nextStep();
+		// console.log('data', data);
 	};
 
 	useEffect(() => {
@@ -60,20 +70,19 @@ const SenderAddressFormLTL = ({ nextStep }: { nextStep: () => void }) => {
 
 	useEffect(() => {
 		if (warehouse && warehouse?.warehouse_name.length > 0) {
-			console.log('warehouse', warehouse?.warehouse_name);
 			const userData = localStorage.getItem('userData');
 			if (userData) {
 				const user = JSON.parse(userData);
 				setValue('contact.name', user?.name);
-			}
 
-			setValue('address.company_name', warehouse?.origin_address?.company_name);
-			setValue('address.address_line1', warehouse?.origin_address?.address_line1);
-			setValue('address.city_locality', warehouse?.origin_address?.city_locality);
-			setValue('address.state_province', warehouse?.origin_address?.state_province);
-			setValue('address.postal_code', warehouse?.origin_address?.postal_code);
-			setValue('address.country_code', warehouse?.origin_address?.country_code);
-			setValue('address.country_code', warehouse?.origin_address?.country_code);
+				setValue('address.company_name', warehouse?.origin_address?.company_name || user?.companyName);
+				setValue('address.address_line1', warehouse?.origin_address?.address_line1);
+				setValue('address.city_locality', warehouse?.origin_address?.city_locality);
+				setValue('address.state_province', warehouse?.origin_address?.state_province);
+				setValue('address.postal_code', warehouse?.origin_address?.postal_code);
+				setValue('address.country_code', swappedCountryCodeDictionary[warehouse?.origin_address?.country_code]);
+				setValue('contact.phone_number', warehouse?.origin_address?.phone);
+			}
 		}
 	}, [warehouse]);
 
@@ -109,10 +118,12 @@ const SenderAddressFormLTL = ({ nextStep }: { nextStep: () => void }) => {
 				mt={'1rem'}
 				w={'15vw'}
 				placeholder="Select Address"
+				value={warehouse?.warehouse_name}
 				id="select_address"
 				variant={'flushed'}
 				borderBottom={'1px solid #314866'}
-				transition={'all 0.30s ease-in-out;'}>
+				transition={'all 0.30s ease-in-out;'}
+				_focusVisible={{ borderColor: '#002855' }}>
 				{warehouseDataList?.map((item: WarehouseSetupFormData, index: number) => (
 					<option
 						key={index}
@@ -177,19 +188,17 @@ const SenderAddressFormLTL = ({ nextStep }: { nextStep: () => void }) => {
 							_focusVisible={{ borderColor: '#002855', boxShadow: '0px 1px 0px 0px #002855 ' }}
 						/>
 					</FormControl>
-					<FormControl id="address.country_code">
+					<FormControl
+						id="address.country_code"
+						isReadOnly>
 						<FormLabel fontWeight={'600'}>Country</FormLabel>
-						<Select
+						<Input
 							{...register('address.country_code')}
 							variant={'flushed'}
 							borderBottom={'1px solid #314866'}
 							transition={'all 0.30s ease-in-out;'}
-							_focusVisible={{ borderColor: '#002855' }}>
-							<option value={'US'}>United State of America</option>
-							<option value={'CA'}>Canada</option>
-							<option value={'MX'}>Mexico</option>
-							<option value={'AU'}>Australia</option>
-						</Select>
+							_focusVisible={{ borderColor: '#002855', boxShadow: '0px 1px 0px 0px #002855 ' }}
+						/>
 					</FormControl>
 				</Flex>
 				<Flex

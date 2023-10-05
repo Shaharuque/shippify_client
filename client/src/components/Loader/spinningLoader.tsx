@@ -1,10 +1,10 @@
 import { Box, Flex } from '@chakra-ui/react';
 import './spinningLoader.styles.css';
 
-const SpinningLoader = () => {
+const SpinningLoader = ({ height }: { height?: string }) => {
 	return (
 		<Flex
-			height="70vh"
+			height={height || '70vh'}
 			justifyContent="center"
 			alignItems="center">
 			<Box className="loader" />

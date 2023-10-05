@@ -7,9 +7,13 @@ import { boxNameToImageDictionary } from '../../data/boxNameToImageDictionary';
 import { useFetchPredefinedBoxDataQuery } from '../../redux/api/basicShipmentsApi';
 import Error from '../Error bad request/error';
 import SpinningLoader from '../Loader/spinningLoader';
+import { useAppSelector } from '../../redux/hooks';
+import { RootState } from '../../redux/store';
 
 const PredefinedBoxes = ({ inputChanged, editModeOn, selectedCode, weightValue, onPredefinedBoxCodeSelect, onPredefinedUnitChange, onPredefinedSubmit, onPredefinedWeightChange, removePackage }: TPredefinedBoxesProps) => {
 	const { data, error, isLoading } = useFetchPredefinedBoxDataQuery();
+	const sender = useAppSelector((state: RootState) => state.basicShipments.ship_from);
+	const reciever = useAppSelector((state: RootState) => state.basicShipments.ship_to);
 
 	const [test, setTest] = useState<string | null>(null);
 	const [predefinedBoxes, setPredefinedBoxes] = useState<TPredefinedBox[]>([]);
@@ -30,7 +34,7 @@ const PredefinedBoxes = ({ inputChanged, editModeOn, selectedCode, weightValue, 
 			{error ? (
 				<Error />
 			) : isLoading ? (
-				<SpinningLoader />
+				<SpinningLoader height={sender?.country_code !== reciever?.country_code ? '40vh' : '70vh'} />
 			) : (
 				<Box>
 					<Flex

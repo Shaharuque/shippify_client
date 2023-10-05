@@ -1,5 +1,5 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { Box, FormControl, FormLabel, Input, Flex, Text, Select } from '@chakra-ui/react';
+import { Box, FormControl, FormLabel, Input, Flex, Text, Select, Icon } from '@chakra-ui/react';
 import SubmitButton from '../../Buttons/submitButton';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { updateField } from '../../../redux/features/basicShipmentsSlice';
@@ -7,6 +7,8 @@ import { RootState } from '../../../redux/store';
 import { useEffect, useState } from 'react';
 import { getAllWarehouses } from '../../../services/apis/setUpShipmentApi';
 import { WarehouseSetupFormData } from '../../Registration and setup components/Warehouse setup form/warehouseSetupForm';
+import { countryCodeDictionary } from '../../../data/countryCodeDictionary';
+import { FiAlertTriangle } from 'react-icons/fi';
 
 export type TSenderAddressFormData = {
 	name: string;
@@ -42,6 +44,12 @@ export interface IUserFullDetails {
 	_id: string;
 }
 
+const swappedCountryCodeDictionary: { [key: string]: string } = {};
+for (const key in countryCodeDictionary) {
+	const value = countryCodeDictionary[key];
+	swappedCountryCodeDictionary[value] = key;
+}
+
 const SenderAddressForm = ({ nextStep }: { nextStep: () => void }) => {
 	const { handleSubmit, setValue, register } = useForm<TSenderAddressFormData>({
 		defaultValues: {
@@ -53,6 +61,7 @@ const SenderAddressForm = ({ nextStep }: { nextStep: () => void }) => {
 	const [warehouse, setWarehouse] = useState<WarehouseSetupFormData>();
 
 	const onSubmit: SubmitHandler<TSenderAddressFormData> = (data) => {
+		if (data && data.country_code) data.country_code = countryCodeDictionary[data.country_code];
 		dispatch(updateField({ ship_from: data }));
 		nextStep();
 	};
@@ -77,20 +86,17 @@ const SenderAddressForm = ({ nextStep }: { nextStep: () => void }) => {
 
 	useEffect(() => {
 		if (warehouse && warehouse?.warehouse_name.length > 0) {
-			console.log('warehouse', warehouse?.warehouse_name);
 			const userData = localStorage.getItem('userData');
 			if (userData) {
 				const user = JSON.parse(userData);
 				setValue('name', user?.name);
+				setValue('company_name', warehouse?.origin_address?.company_name || user?.companyName);
+				setValue('address_line1', warehouse?.origin_address?.address_line1);
+				setValue('city_locality', warehouse?.origin_address?.city_locality);
+				setValue('state_province', warehouse?.origin_address?.state_province);
+				setValue('postal_code', warehouse?.origin_address?.postal_code);
+				setValue('country_code', swappedCountryCodeDictionary[warehouse?.origin_address?.country_code]);
 			}
-
-			setValue('company_name', warehouse?.origin_address?.company_name);
-			setValue('address_line1', warehouse?.origin_address?.address_line1);
-			setValue('city_locality', warehouse?.origin_address?.city_locality);
-			setValue('state_province', warehouse?.origin_address?.state_province);
-			setValue('postal_code', warehouse?.origin_address?.postal_code);
-			setValue('country_code', warehouse?.origin_address?.country_code);
-			setValue('country_code', warehouse?.origin_address?.country_code);
 		}
 	}, [warehouse]);
 
@@ -125,10 +131,12 @@ const SenderAddressForm = ({ nextStep }: { nextStep: () => void }) => {
 				mt={'1rem'}
 				w={'15vw'}
 				placeholder="Select Address"
+				value={warehouse?.warehouse_name}
 				id="select_address"
 				variant={'flushed'}
 				borderBottom={'1px solid #314866'}
-				transition={'all 0.30s ease-in-out;'}>
+				transition={'all 0.30s ease-in-out;'}
+				_focusVisible={{ borderColor: '#002855' }}>
 				{warehouseDataList?.map((item: WarehouseSetupFormData, index: number) => (
 					<option
 						key={index}
@@ -171,20 +179,17 @@ const SenderAddressForm = ({ nextStep }: { nextStep: () => void }) => {
 				<Flex
 					gap={'3rem'}
 					mb={'3vh'}>
-					<FormControl id="country_code">
+					<FormControl
+						id="country_code"
+						isReadOnly>
 						<FormLabel fontWeight={'600'}>Country</FormLabel>
-
-						<Select
+						<Input
 							{...register('country_code')}
 							variant={'flushed'}
 							borderBottom={'1px solid #314866'}
 							transition={'all 0.30s ease-in-out;'}
-							_focusVisible={{ borderColor: '#002855' }}>
-							<option value={'US'}>United State of America</option>
-							<option value={'CA'}>Canada</option>
-							<option value={'MX'}>Mexico</option>
-							<option value={'AU'}>Australia</option>
-						</Select>
+							_focusVisible={{ borderColor: '#002855', boxShadow: '0px 1px 0px 0px #002855 ' }}
+						/>
 					</FormControl>
 
 					<FormControl id="state_province">
@@ -239,8 +244,14 @@ const SenderAddressForm = ({ nextStep }: { nextStep: () => void }) => {
 							_focusVisible={{ borderColor: '#002855', boxShadow: '0px 1px 0px 0px #002855 ' }}
 						/>
 					</FormControl>
-					<FormControl id="phone">
-						<FormLabel fontWeight={'600'}>Phone</FormLabel>
+					<FormControl
+						id="phone"
+						isRequired>
+						<FormLabel
+							fontWeight={'600'}
+							requiredIndicator={<></>}>
+							Phone
+						</FormLabel>
 
 						<Input
 							{...register('phone')}

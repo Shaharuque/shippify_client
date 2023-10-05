@@ -31,7 +31,9 @@ const ShippingSummary = () => {
 		<Card
 			bg={'transparent'}
 			w={'50rem'}
-			boxShadow={'none'}>
+			boxShadow={'none'}
+			h={'75vh'}
+			overflowY={'scroll'}>
 			<CardHeader>
 				<Heading
 					fontStyle={'normal'}
@@ -93,7 +95,7 @@ const ShippingSummary = () => {
 								textTransform="uppercase">
 								Packages Details
 							</Heading>
-							{packages?.map((item: TPackageDetailsForm, index) => (
+							{packages?.map((item: TPackageDetailsForm, index: number) => (
 								<Box key={index}>
 									<Text
 										pt="2"
@@ -104,7 +106,6 @@ const ShippingSummary = () => {
 									<Text fontSize="sm">
 										Weight: {item?.weight?.value} {item?.weight?.unit}
 									</Text>
-									{/* <Text fontSize="sm">{item?.package_code ? `Code: ${item?.package_code} | Dimensions: ${item?.dimensions?.length}x${item?.dimensions?.width}x${item?.dimensions?.height} ${item?.dimensions?.unit}` : `Dimensions: ${item?.dimensions?.length}x${item?.dimensions?.width}x${item?.dimensions?.height} ${item?.dimensions?.unit}`}</Text> */}
 
 									<Text fontSize="sm">{getDimensionsText(item)}</Text>
 								</Box>

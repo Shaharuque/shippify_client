@@ -145,7 +145,7 @@ const PackageDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; p
 	const customDimensionFormValidator = () => {
 		const result = getValues('dimensions.height') === null || getValues('dimensions.width') === null || getValues('dimensions.length') === null || getValues('weight.value') === null || !numberInputChange || selectedPackageCode === null || getValues('quantity') === null;
 
-		console.log('validator', result);
+		// console.log('validator', result);
 		return result;
 	};
 
@@ -206,6 +206,7 @@ const PackageDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; p
 								<NumberInput onChange={() => setNumberInputChange(true)}>
 									<NumberInputField
 										id="quantity"
+										min={0}
 										{...register('quantity')}
 										border={'1px solid #314866'}
 										transition={'all 0.30s ease-in-out;'}

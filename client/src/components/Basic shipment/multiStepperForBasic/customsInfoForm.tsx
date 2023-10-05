@@ -2,6 +2,7 @@ import { Box, Flex, FormControl, Input, Select, Text, Button, HStack, FormLabel 
 import { Controller, SubmitHandler, useForm, useFieldArray } from 'react-hook-form';
 import { useAppDispatch } from '../../../redux/hooks';
 import { updateField } from '../../../redux/features/basicShipmentsSlice';
+import SubmitButton from '../../Buttons/submitButton';
 
 export type TCustomsDetailsForm = {
 	contents: 'merchandise' | 'gift' | 'returned_goods' | 'documents' | 'other';
@@ -28,8 +29,8 @@ const defaultCustomsValues: TCustomsDetailsForm = {
 	customs_items: [
 		{
 			harmonized_tariff_code: '0910.99.50',
-			country_of_manufacture: 'US',
-			country_of_origin: 'US',
+			country_of_manufacture: '',
+			country_of_origin: '',
 			description: '',
 			quantity: 0,
 			value: {
@@ -56,7 +57,7 @@ const CustomsInfoForm = () => {
 
 	return (
 		<Flex
-			mb={'1rem'}
+			mb={'2rem'}
 			direction={'column'}>
 			<Text
 				as="b"
@@ -233,7 +234,7 @@ const CustomsInfoForm = () => {
 				<Flex
 					justify={'flex-end'}
 					gap={'1rem'}>
-					<Button
+					{/* <Button
 						type="button"
 						bg={'cta'}
 						color={'primary'}
@@ -251,14 +252,12 @@ const CustomsInfoForm = () => {
 							})
 						}>
 						Add Customs Item
-					</Button>
+					</Button> */}
 
-					<Button
-						type="submit"
-						bg={'cta'}
-						color={'primary'}>
-						Submit
-					</Button>
+					<SubmitButton
+						text="Submit"
+						width="6rem"
+					/>
 				</Flex>
 			</form>
 		</Flex>

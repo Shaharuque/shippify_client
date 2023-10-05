@@ -27,7 +27,8 @@ const ReceiverAddressForm = ({ nextStep, prevStep }: { nextStep: () => void; pre
 		},
 	});
 
-	const [countries, setCountries] = useState<any>({});
+	const [countries, setCountries] = useState<any[]>([]);
+	const [states, setStates] = useState<any[]>([]);
 	const [cities, setCities] = useState<any[]>([]);
 
 	const onSubmit: SubmitHandler<TReceiverAddressFormData> = (data) => {
@@ -43,7 +44,8 @@ const ReceiverAddressForm = ({ nextStep, prevStep }: { nextStep: () => void; pre
 				const response = await axios.get(`${BACKEND_FULL_URL}/get/countrywise/city/info/get`);
 
 				if (response?.data?.success) {
-					setCountries(response?.data?.result[0]);
+					setCountries(response?.data?.result);
+					console.log('response from backend', response?.data?.result);
 				}
 			} catch (error) {
 				console.error(error);
@@ -52,15 +54,17 @@ const ReceiverAddressForm = ({ nextStep, prevStep }: { nextStep: () => void; pre
 		fetchCityData();
 	}, []);
 
-	useEffect(() => {
-		setValue('state_province', reciever?.state_province);
-		setValue('city_locality', reciever?.city_locality);
-	}, [reciever]);
+	const handleCountryChange = (event: ChangeEvent<HTMLSelectElement>) => {
+		event.preventDefault();
+		const value = event.target.value;
+		const result = countries?.find((item: any) => item.value === value);
+		setStates(result?.city);
+	};
 
 	const handleStateChange = (event: ChangeEvent<HTMLSelectElement>) => {
 		event.preventDefault();
 		const value = event.target.value;
-		const result = countries?.city?.find((item: any) => item.value === value);
+		const result = states.find((item: any) => item.value === value);
 		setCities(result?.citys);
 	};
 
@@ -104,6 +108,7 @@ const ReceiverAddressForm = ({ nextStep, prevStep }: { nextStep: () => void; pre
 						<FormLabel fontWeight={'600'}>Country</FormLabel>
 						<Select
 							{...register('country_code')}
+							onChange={handleCountryChange}
 							variant={'flushed'}
 							borderBottom={'1px solid #314866'}
 							transition={'all 0.30s ease-in-out;'}
@@ -132,7 +137,7 @@ const ReceiverAddressForm = ({ nextStep, prevStep }: { nextStep: () => void; pre
 							placeholder="Select state"
 							_focusVisible={{ borderColor: '#002855', boxShadow: '0px 1px 0px 0px #002855 ' }}
 							onChange={handleStateChange}>
-							{countries?.city?.map((state: any, index: number) => (
+							{states?.map((state: any, index: number) => (
 								<option
 									key={index}
 									value={state?.value}>
@@ -168,8 +173,13 @@ const ReceiverAddressForm = ({ nextStep, prevStep }: { nextStep: () => void; pre
 					mb={'2vw'}>
 					<FormControl
 						id="address_line1"
-						mb="4">
-						<FormLabel fontWeight={'600'}>Street Address</FormLabel>
+						mb="4"
+						isRequired>
+						<FormLabel
+							fontWeight={'600'}
+							requiredIndicator={<></>}>
+							Street Address
+						</FormLabel>
 						<Input
 							{...register('address_line1')}
 							variant={'flushed'}
@@ -181,7 +191,8 @@ const ReceiverAddressForm = ({ nextStep, prevStep }: { nextStep: () => void; pre
 
 					<FormControl
 						id="postal_code"
-						mb="4">
+						mb="4"
+						isReadOnly>
 						<FormLabel fontWeight={'600'}>Postal Code</FormLabel>
 
 						<Input

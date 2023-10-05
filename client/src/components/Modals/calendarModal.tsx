@@ -14,7 +14,8 @@ const CalendarModal = ({ onClose, isOpen, onDateSelect, value }: TCalendarModall
 	return (
 		<Modal
 			isOpen={isOpen}
-			onClose={onClose}>
+			onClose={onClose}
+			isCentered>
 			<ModalOverlay />
 			<ModalContent alignItems={'center'}>
 				<ModalHeader></ModalHeader>
