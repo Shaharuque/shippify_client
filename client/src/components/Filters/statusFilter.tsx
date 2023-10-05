@@ -3,8 +3,9 @@ import { Select, Box, Text } from '@chakra-ui/react';
 
 type statusFilterProps = {
 	onChange: (value: string) => void;
+	dataLoading: boolean;
 };
-const StausFilter = ({ onChange }: statusFilterProps) => {
+const StausFilter = ({ onChange,dataLoading }: statusFilterProps) => {
 	return (
 		<Box mb="4">
 			<Text
@@ -13,6 +14,7 @@ const StausFilter = ({ onChange }: statusFilterProps) => {
 				Status
 			</Text>
 			<Select
+				disabled={dataLoading ? true : false}
 				onChange={(e:any) => onChange(e.target.value)}
 				defaultValue={'asc'}
 				border={'2px solid gray'}

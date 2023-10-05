@@ -10,9 +10,10 @@ import { labelColorDictionary, labelDictionary } from '../../data/labelDictionar
 export interface IShipment {
 	shipment: any;
 	clickedCard: (cardId: any) => void;
+	isActive: boolean;
 }
 
-const ShipmentCard = ({ shipment, clickedCard }: IShipment) => {
+const ShipmentCard = ({ shipment, clickedCard,isActive }: IShipment) => {
 	const currentDateTime = moment();
 	const token = localStorage.getItem('token');
 
@@ -27,7 +28,13 @@ const ShipmentCard = ({ shipment, clickedCard }: IShipment) => {
 			boxShadow="lg"
 			w={'100%'}
 			h={'15vh'}
-			_hover={{ backgroundColor: '#e8edeb' }}>
+			_hover={{
+				backgroundColor: '#437F8C',
+				color: 'white',
+			}}
+			backgroundColor={isActive ? '#437F8C' : 'white'}
+			color={isActive ? 'white' : 'black'}
+			cursor={'pointer'}>
 			<Flex
 				gap={'1vw'}
 				align={'center'}

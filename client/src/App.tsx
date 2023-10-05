@@ -10,6 +10,7 @@ import CreateLTLShipmentPage from './pages/Create shipment/createLTLShipment';
 import TrackingPage from './pages/Tracking/trackingPage';
 import SuccessFulPayment from './components/Payment/successFulPayment';
 import Layout from './components/Layout/layout';
+import BlockChainTransactions from './pages/BlockChainTransactions/BlockChainTransactions';
 
 function App() {
 	return (
@@ -48,6 +49,8 @@ function App() {
 						path="/tracking"
 						element={<TrackingPage />}
 					/>
+
+					<Route path='/block-chain' element={<BlockChainTransactions></BlockChainTransactions>}></Route>
 
 					<Route
 						path="/stripe/payment/success"

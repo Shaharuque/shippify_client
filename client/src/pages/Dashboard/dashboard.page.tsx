@@ -7,6 +7,7 @@ import ShipmentCardList from '../../components/Shipment card list/shipmentCardLi
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useFetchSingleShipmentMutation } from '../../redux/api/basicShipmentsApi';
+import SpinningLoader from '../../components/Loader/spinningLoader';
 
 const DashboardPage = () => {
 	const [tableData, setTableData] = useState([]);
@@ -14,11 +15,15 @@ const DashboardPage = () => {
 	const [weight, setWeight] = useState('');
 	const [status, setStatus] = useState('');
 	const [cardClicked, setCardClicked] = useState(false);
+	const [dataLoading, setLoading] = useState(false);
+	const [activeCard, setActiveCard] = useState('' as any);
 
 	useEffect(() => {
 		const token = localStorage.getItem('token');
+		setCardClicked(false);
 		const fetchTableData = async () => {
 			try {
+				setLoading(true);
 				const response = await axios.post(
 					`http://192.168.68.89:5000/shipment/sort-by-package-and-price`,
 					{ carrier_id: '', priceSort: price, weightSort: weight, shipment_status: status },
@@ -31,6 +36,8 @@ const DashboardPage = () => {
 				);
 				console.log('result:', response.data);
 				setTableData(response?.data?.result);
+				setLoading(false);
+				
 			} catch (error) {
 				console.log(error);
 			}
@@ -48,10 +55,11 @@ const DashboardPage = () => {
 		console.log('clicked', cardId);
 		fetchSingleShipment({ token, id: cardId });
 		setCardClicked(true);
+		setActiveCard(cardId)
 	};
 
 	return (
-		<>
+		<div className='px-8 mt-20'>
 			<Flex
 				gap={'1vw'}
 				flexDirection={{ base: 'column', md: 'row' }}>
@@ -62,16 +70,19 @@ const DashboardPage = () => {
 						onChange={function (value: string): void {
 							setPrice(value);
 						}}
+						dataLoading={dataLoading}
 					/>
 					<WeightFilter
 						onChange={function (value: string): void {
 							setWeight(value);
 						}}
+						dataLoading={dataLoading}
 					/>
 					<StatusFilter
 						onChange={function (value: string): void {
 							setStatus(value);
 						}}
+						dataLoading={dataLoading}
 					/>
 				</Box>
 				<Box flex={0.55}>
@@ -83,10 +94,14 @@ const DashboardPage = () => {
 						Shipment History
 					</Heading>
 
-					<ShipmentCardList
-						clickedCard={clickedCard}
-						tableData={tableData}
-					/>
+					{
+						dataLoading ? <SpinningLoader /> :
+							<ShipmentCardList
+								activeCard={activeCard}
+								clickedCard={clickedCard}
+								tableData={tableData}
+							/>
+					}
 				</Box>
 				{cardClicked && (
 					<Box
@@ -96,7 +111,7 @@ const DashboardPage = () => {
 					</Box>
 				)}
 			</Flex>
-		</>
+		</div>
 	);
 };
 

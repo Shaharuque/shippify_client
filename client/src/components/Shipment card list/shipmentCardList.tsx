@@ -4,8 +4,9 @@ import { Flex, Stack, Text } from '@chakra-ui/react';
 export interface IShipment {
 	tableData: any;
 	clickedCard: (cardId: any) => void;
+	activeCard: string;
 }
-const ShipmentCardList = ({ tableData, clickedCard }: IShipment) => {
+const ShipmentCardList = ({ tableData, clickedCard,activeCard }: IShipment) => {
 	console.log('tableData', tableData);
 
 	return (
@@ -32,6 +33,7 @@ const ShipmentCardList = ({ tableData, clickedCard }: IShipment) => {
 									clickedCard={clickedCard}
 									key={index}
 									shipment={shipment}
+									isActive={activeCard == shipment?._id}
 								/>
 							);
 						} else {
