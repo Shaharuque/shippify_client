@@ -7,6 +7,7 @@ export const labelDictionary: { [key: string]: string } = {
 	pending: 'Pending',
 	in_transit: 'In Transit',
 	returned: 'Returned',
+	bol_purchased: 'BOL Purchased',
 };
 
 export const labelColorDictionary: { [key: string]: string } = {
@@ -18,4 +19,5 @@ export const labelColorDictionary: { [key: string]: string } = {
 	pending: 'yellow', // Yellow
 	in_transit: 'blue', // Dodger Blue
 	returned: 'purple', // Orange Red
+	bol_purchased: 'orange', // Orange
 };

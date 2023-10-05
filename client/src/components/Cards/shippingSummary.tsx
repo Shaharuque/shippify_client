@@ -28,6 +28,7 @@ const ShippingSummary = () => {
 	}
 
 	return (
+	
 		<Card
 			bg={'transparent'}
 			w={'50rem'}

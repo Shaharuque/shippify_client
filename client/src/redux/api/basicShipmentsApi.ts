@@ -26,6 +26,17 @@ export const basicShipmentsApi = apiSlice.injectEndpoints({
 			}),
 		}),
 
+		fetchSingleLtlShipment: builder.mutation({
+			query: ({ token, id }: { id: string; token: string }) => ({
+				url: `ltlShipment/ltl-shipment-detail/${id}`,
+				method: 'GET',
+				headers: {
+					'Content-type': 'application/json; charset=UTF-8',
+					'x-auth-token': token,
+				},
+			}),
+		}),
+
 		fetchPredefinedBoxData: builder.query({
 			query: () => ({
 				url: `/custom-package-type/list`,
@@ -38,4 +49,4 @@ export const basicShipmentsApi = apiSlice.injectEndpoints({
 	}),
 });
 
-export const { useFetchRatesMutation, useFetchSingleShipmentMutation, useFetchPredefinedBoxDataQuery } = basicShipmentsApi;
+export const { useFetchRatesMutation, useFetchSingleShipmentMutation, useFetchPredefinedBoxDataQuery,useFetchSingleLtlShipmentMutation } = basicShipmentsApi;
