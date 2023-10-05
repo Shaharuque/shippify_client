@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
 import { formatLabels } from '../../utils/formatLabels';
 import NoDataFound from '../No service available/noDataFound';
+import { Flex } from '@chakra-ui/react';
 
 type TPieData = {
 	count: number;
@@ -112,7 +113,12 @@ const PieChart = () => {
 					type="pie"
 				/>
 			) : (
-				<NoDataFound text="No data available!" />
+				<Flex
+					minH={'30vh'}
+					justify={'center'}
+					align={'center'}>
+					<NoDataFound text={'No data available'} />
+				</Flex>
 			)}
 		</>
 	);

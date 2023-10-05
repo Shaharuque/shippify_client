@@ -6,32 +6,31 @@ const DynamicProgressBar = ({ isLoading }: { isLoading: boolean }) => {
 	const [progressValue, setProgressValue] = useState(0);
 
 	useEffect(() => {
-		const progressInterval = setInterval(() => {
-			setProgressValue((prevValue) => {
-				if (prevValue < 100) {
-					return prevValue + 10;
-				}
+		if (isLoading) {
+			const progressInterval = setInterval(() => {
+				setProgressValue((prevValue) => {
+					if (prevValue < 100) {
+						return prevValue + 1;
+					}
+					clearInterval(progressInterval);
+					return prevValue;
+				});
+			}, 3000);
+
+			const texts = ['Getting ready...', 'Uploading data...', 'Generating hash...', 'Almost there...', 'Finalizing...', 'Completing...', 'Done!'];
+
+			let index = 0;
+			const textInterval = setInterval(() => {
+				setDisplayText(texts[index]);
+				index = (index + 1) % texts.length;
+			}, 15000);
+
+			return () => {
 				clearInterval(progressInterval);
-				return prevValue;
-			});
-		}, 2000);
-
-		const texts = ['Getting ready...', 'Uploading data...', 'Generating hash...', 'Almost there...', 'Finalizing...', 'Completing...', 'Done!'];
-
-		let index = 0;
-		const textInterval = setInterval(() => {
-			setDisplayText(texts[index]);
-			index = (index + 1) % texts.length;
-		}, 15000);
-
-		return () => {
-			clearInterval(progressInterval);
-			clearInterval(textInterval);
-		};
-	}, []);
-
-	useEffect(() => {
-		if (!isLoading) {
+				clearInterval(textInterval);
+			};
+		} else {
+			setProgressValue(100);
 			setDisplayText('Done!');
 		}
 	}, [isLoading]);

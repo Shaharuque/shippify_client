@@ -2,7 +2,13 @@ import { Text, Flex, Circle } from '@chakra-ui/react';
 import { TPackageDetailsForm } from '../Basic shipment/multiStepperForBasic/packageDetailsForm';
 import { TPackageDetailsFormLTL } from '../LTL shipment/Multi stepper for LTL/packageDetailsFormLTL';
 
-const PackageNumbers = ({ packages, onSelectPackage, selectedPackageIndex }: { packages: TPackageDetailsForm[] | TPackageDetailsFormLTL[]; onSelectPackage: (index: number) => void; selectedPackageIndex: number | null }) => {
+type TPackageNumberProps = {
+	packages: TPackageDetailsForm[] | TPackageDetailsFormLTL[];
+	onSelectPackage: (index: number) => void;
+	selectedPackageIndex: number | null;
+};
+
+const PackageNumbers = ({ packages, onSelectPackage, selectedPackageIndex }: TPackageNumberProps) => {
 	return (
 		<Flex
 			direction={'column'}

@@ -1,6 +1,5 @@
-import { Table, Thead, Tbody, Tr, Th, Td, TableCaption, TableContainer, Image, Stack, Text, Box } from '@chakra-ui/react';
+import { Table, Thead, Tbody, Tr, Th, Td, TableCaption, TableContainer, Flex } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-import noDataFound from '../../../assets/no-data-found.jpg';
 import NoDataFound from '../../No service available/noDataFound';
 
 const tableHeaders = ['From', 'To', 'Service'];
@@ -52,9 +51,12 @@ const RecentShipmentTable = () => {
 					</Table>
 				</TableContainer>
 			) : (
-				<>
+				<Flex
+					minH={'30vh'}
+					justify={'center'}
+					align={'center'}>
 					<NoDataFound text={'No data available'} />
-				</>
+				</Flex>
 			)}
 		</>
 	);
