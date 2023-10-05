@@ -1,3 +1,4 @@
+import LtlTrackingList from '../../components/Tracking/LtlTracking/LtlTrackingList';
 import TrackingList from '../../components/Tracking/trackingList';
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react';
 
@@ -21,7 +22,7 @@ const TrackingPage = () => {
 						<TrackingList />
 					</TabPanel>
 					<TabPanel>
-						<p>LTL Shipments Table</p>
+						<LtlTrackingList/>
 					</TabPanel>
 				</TabPanels>
 			</Tabs>
