@@ -12,7 +12,6 @@ const AnalyticsBox = () => {
 			<Box
 				bg={'#f1f1f1'}
 				p={'1vw'}
-				w={'100%'}
 				borderRadius={'1rem'}
 				flex={0.5}>
 				<TimeSeriesChart />
@@ -20,14 +19,7 @@ const AnalyticsBox = () => {
 			<Flex
 				gap={'1rem'}
 				flex={0.5}>
-				<Box
-					bg={'#f1f1f1'}
-					p={'1vw'}
-					w={'fit-content'}
-					borderRadius={'1rem'}
-					flex={0.5}>
-					<RecentShipmentTable />
-				</Box>
+
 				<Box
 					bg={'#f1f1f1'}
 					p={'1vw'}
@@ -36,6 +28,15 @@ const AnalyticsBox = () => {
 					flex={0.5}>
 					<PieChart />
 				</Box>
+				<Box
+					bg={'#f1f1f1'}
+					p={'1vw'}
+					w={'fit-content'}
+					borderRadius={'1rem'}
+					flex={0.5}>
+					<RecentShipmentTable />
+				</Box>
+
 			</Flex>
 		</Flex>
 	);

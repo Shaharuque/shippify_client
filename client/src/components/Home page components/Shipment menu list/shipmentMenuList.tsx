@@ -29,7 +29,7 @@ const ShipmentMenuList = () => {
 
 	return (
 		<Flex
-			p={'.25rem'}
+			marginLeft={{base:"10px", md:"80px"}}
 			flex={0.1}
 			direction={'column'}
 			align={'center'}
@@ -45,6 +45,13 @@ const ShipmentMenuList = () => {
 				<ShipmentMenu
 					title={'Create LTL Shipment'}
 					lottie={truckLottieView}
+				/>
+			</Box>
+
+			<Box onClick={() => navigate('/tracking')}>
+				<ShipmentMenu
+					title={'Track Shipment'}
+					lottie={trackingLottieView}
 				/>
 			</Box>
 
