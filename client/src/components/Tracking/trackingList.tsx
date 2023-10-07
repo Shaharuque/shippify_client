@@ -41,15 +41,12 @@ const TrackingList = () => {
 		const fetchTableData = async () => {
 			try {
 				setTabListLoading(true);
-				const response = await axios.get(
-					`http://192.168.68.89:5000/shipment/without-received-shipments`,
-					{
-						headers: {
-							'Content-Type': 'application/json',
-							'x-auth-token': token,
-						},
-					}
-				);
+				const response = await axios.get(`http://localhost:5000/shipment/without-received-shipments`, {
+					headers: {
+						'Content-Type': 'application/json',
+						'x-auth-token': token,
+					},
+				});
 				//console.log('result:', response.data);
 				setTableData(response?.data?.result);
 				setTabListLoading(false);
@@ -69,9 +66,7 @@ const TrackingList = () => {
 		fetchSingleShipment({ token, id: cardId });
 	};
 
-	console.log('active card', activeCard)
-
-
+	console.log('active card', activeCard);
 
 	return (
 		<>
@@ -82,41 +77,36 @@ const TrackingList = () => {
 					overflowY={'scroll'}
 					h={'75vh'}
 					justifyContent={'center'}>
-					{
-						tabListLoading ? <SpinningLoader /> :
-							tableData?.map((item: any, index: any) => {
-								return (
-									<TrackingCard
-										key={index}
-										item={item}
-										isActive={activeCard == item?._id}
-										clickedCard={clickedCard}
-									/>
-								);
-							})
-					}
-
+					{tabListLoading ? (
+						<SpinningLoader />
+					) : (
+						tableData?.map((item: any, index: any) => {
+							return (
+								<TrackingCard
+									key={index}
+									item={item}
+									isActive={activeCard == item?._id}
+									clickedCard={clickedCard}
+								/>
+							);
+						})
+					)}
 				</Box>
 				<Flex flex={0.3}>
-					{
-						activeCard &&
-						
-							<Box
-								p={'.5rem'}>
-								{dataLaoding ? (
-									<>
-										<SpinningLoader />
-									</>
-								) : (
-									<TrackingSteppers
-										activeStep={labelStepDictionary[shipmentData?.data?.shipment_detail?.shipment_status]}
-										steps={status}
-									/>
-								)}
-							</Box>
-						
-					}
-
+					{activeCard && (
+						<Box p={'.5rem'}>
+							{dataLaoding ? (
+								<>
+									<SpinningLoader />
+								</>
+							) : (
+								<TrackingSteppers
+									activeStep={labelStepDictionary[shipmentData?.data?.shipment_detail?.shipment_status]}
+									steps={status}
+								/>
+							)}
+						</Box>
+					)}
 				</Flex>
 			</Flex>
 		</>

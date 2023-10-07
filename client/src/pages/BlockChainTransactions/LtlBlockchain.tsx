@@ -6,150 +6,141 @@ import LtlCard from './Card/LtlCard';
 import LtlBlockChainModal from './Modal/LtlBlockChainModal';
 
 const status = [
-    // { title: 'Reached at Service Point', key: 'reached_at_service_point' },
-    { title: 'Pending', key: 'pending' },
-    { title: 'Label Purchased', key: 'label_purchased' },
-    { title: 'Dropped at Service Point', key: 'dropped_at_service_pointlabel_purchased' },
-    { title: 'In Transit', key: 'in_transit' },
-    { title: 'Dropped at Pickup Point', key: 'dropped_at_pickup_pointlabel_purchased' },
-    { title: 'Unknown', key: 'unknown' },
-    { title: 'Returned', key: 'returned' },
-    { title: 'Received', key: 'received' },
+	// { title: 'Reached at Service Point', key: 'reached_at_service_point' },
+	{ title: 'Pending', key: 'pending' },
+	{ title: 'Label Purchased', key: 'label_purchased' },
+	{ title: 'Dropped at Service Point', key: 'dropped_at_service_pointlabel_purchased' },
+	{ title: 'In Transit', key: 'in_transit' },
+	{ title: 'Dropped at Pickup Point', key: 'dropped_at_pickup_pointlabel_purchased' },
+	{ title: 'Unknown', key: 'unknown' },
+	{ title: 'Returned', key: 'returned' },
+	{ title: 'Received', key: 'received' },
 ];
 
 const labelStepDictionary: { [key: string]: number } = {
-    received: 8,
-    dropped_at_service_pointlabel_purchased: 3,
-    dropped_at_pickup_pointlabel_purchased: 5,
-    unknown: 6,
-    label_purchased: 2,
-    pending: 1,
-    in_transit: 4,
-    returned: 7,
+	received: 8,
+	dropped_at_service_pointlabel_purchased: 3,
+	dropped_at_pickup_pointlabel_purchased: 5,
+	unknown: 6,
+	label_purchased: 2,
+	pending: 1,
+	in_transit: 4,
+	returned: 7,
 };
 
 const LtlBlockchain = () => {
-    const [tableData, setTableData] = useState([]);
-    const [activeCard, setActiveCard] = useState('' as any);
-    const [loading, setLoading] = useState(false);
-    const [cardClicked, setCardClicked] = useState(false);
-    const token = localStorage.getItem('token');
-    const [blockData, setBlockData] = useState({});
-    const [transaction_hash, setTransaction_hash] = useState('');
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [hashLoading, setHashLoading] = useState(false)
+	const [tableData, setTableData] = useState([]);
+	const [activeCard, setActiveCard] = useState('' as any);
+	const [loading, setLoading] = useState(false);
+	const [cardClicked, setCardClicked] = useState(false);
+	const token = localStorage.getItem('token');
+	const [blockData, setBlockData] = useState({});
+	const [transaction_hash, setTransaction_hash] = useState('');
+	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [hashLoading, setHashLoading] = useState(false);
 
-    //modal
-    const { isOpen, onOpen, onClose } = useDisclosure()
+	//modal
+	const { isOpen, onOpen, onClose } = useDisclosure();
 
-    useEffect(() => {
-        setCardClicked(false);
-        const fetchTableData = async () => {
-            try {
-                setLoading(true);
-                const response = await axios.get(
-                    `http://192.168.68.89:5000/ltlShipment/my-shipment-list`,
-                    {
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'x-auth-token': token,
-                        },
-                    }
-                );
+	useEffect(() => {
+		setCardClicked(false);
+		const fetchTableData = async () => {
+			try {
+				setLoading(true);
+				const response = await axios.get(`http://localhost:5000/ltlShipment/my-shipment-list`, {
+					headers: {
+						'Content-Type': 'application/json',
+						'x-auth-token': token,
+					},
+				});
 
-                setTableData(response?.data?.data);
-                setLoading(false);
+				setTableData(response?.data?.data);
+				setLoading(false);
+			} catch (error) {
+				console.log(error);
+			}
+		};
+		fetchTableData();
+	}, []);
 
-            } catch (error) {
-                console.log(error);
-            }
-        };
-        fetchTableData();
-    }, []);
+	console.log('table data', tableData);
 
-    console.log('table data', tableData)
+	const clickedCard: any = (cardId: any) => {
+		console.log('clicked', cardId);
+		setActiveCard(cardId);
+		setTransaction_hash(cardId);
+		setIsModalOpen(true);
+	};
 
+	const closeModal = () => {
+		setIsModalOpen(false);
+		setActiveCard(null);
+	};
 
-    const clickedCard: any = (cardId: any) => {
-        console.log('clicked', cardId);
-        setActiveCard(cardId);
-        setTransaction_hash(cardId);
-        setIsModalOpen(true);
-    };
+	console.log('active card', activeCard);
 
-    const closeModal = () => {
-        setIsModalOpen(false);
-        setActiveCard(null);
-    };
+	// For Block chain Data
+	useEffect(() => {
+		setCardClicked(false);
+		setHashLoading(true);
+		const fetchBlockData = async () => {
+			try {
+				const response = await axios.get(`http://192.168.68.89:8000/get-detail/${transaction_hash}`, {
+					headers: {
+						'Content-Type': 'application/json',
+					},
+				});
 
-    console.log('active card', activeCard)
+				setBlockData(response?.data);
+				setHashLoading(false);
+			} catch (error) {
+				console.log(error);
+			}
+		};
+		fetchBlockData();
+	}, [transaction_hash]);
 
-    // For Block chain Data
-    useEffect(() => {
-        setCardClicked(false);
-        setHashLoading(true)
-        const fetchBlockData = async () => {
-            try {
-                const response = await axios.get(
-                    `http://192.168.68.89:8000/get-detail/${transaction_hash}`,
-                    {
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                    }
-                );
+	console.log('block data', blockData);
 
-                setBlockData(response?.data);
-                setHashLoading(false)
+	return (
+		<>
+			<Flex px={'.5rem'}>
+				<LtlBlockChainModal
+					hashLoading={hashLoading}
+					activeCard={activeCard}
+					blockData={blockData}
+					isOpen={isOpen}
+					onClose={onClose}
+				/>
 
-            } catch (error) {
-                console.log(error);
-            }
-        };
-        fetchBlockData();
-    }, [transaction_hash]);
-
-    console.log('block data', blockData)
-
-
-    return (
-        <>
-            <Flex px={'.5rem'}>
-                <LtlBlockChainModal hashLoading={hashLoading} activeCard={activeCard} blockData={blockData} isOpen={isOpen} onClose={onClose} />
-
-
-                <Box
-                    // flex={0.7}
-                    p={'.5rem'}
-                    overflowY={'scroll'}
-                    h={'75vh'}
-                    justifyContent={'center'}
-                >
-                    {
-                        loading ? <h1 className='text-teal-700 font-bold mt-[60px]'>Loading...</h1> :
-                            tableData?.map((item: any, index: any) => {
-                                return (
-                                    <LtlCard
-                                        key={index}
-                                        item={item}
-                                        isActive={activeCard == item?.dataAccessHash}
-                                        clickedCard={clickedCard}
-                                        onOpen={onOpen}
-                                    // isModalOpen={isOpen}
-                                    // closeModal={onClose}
-                                    />
-                                );
-                            })
-                    }
-
-
-
-
-                </Box>
-                {/* <Flex flex={0.3}>
+				<Box
+					// flex={0.7}
+					p={'.5rem'}
+					overflowY={'scroll'}
+					h={'75vh'}
+					justifyContent={'center'}>
+					{loading ? (
+						<h1 className="text-teal-700 font-bold mt-[60px]">Loading...</h1>
+					) : (
+						tableData?.map((item: any, index: any) => {
+							return (
+								<LtlCard
+									key={index}
+									item={item}
+									isActive={activeCard == item?.dataAccessHash}
+									clickedCard={clickedCard}
+									onOpen={onOpen}
+									// isModalOpen={isOpen}
+									// closeModal={onClose}
+								/>
+							);
+						})
+					)}
+				</Box>
+				{/* <Flex flex={0.3}>
 					{
 						activeCard &&
-						
+
 							<Box
 								p={'.5rem'}>
 								{dataLaoding ? (
@@ -163,13 +154,13 @@ const LtlBlockchain = () => {
 									/>
 								)}
 							</Box>
-						
+
 					}
 
 				</Flex> */}
-            </Flex>
-        </>
-    );
+			</Flex>
+		</>
+	);
 };
 
 export default LtlBlockchain;

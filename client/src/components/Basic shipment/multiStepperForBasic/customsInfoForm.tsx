@@ -59,12 +59,9 @@ const CustomsInfoForm = () => {
 	const [editMode, setEditMode] = useState(false);
 
 	const onSubmit: SubmitHandler<ICustomsItem> = (data) => {
-		//need to moodify data on submit.
-		// console.log('customs info:', data);
-		// console.log('custom_items', customItemsInfo);
-
 		if (customItemsInfo && customItemsInfo?.length > 0) {
 			if (editMode) {
+				CustomReset();
 				const updateCustomItems = [...customItemsInfo];
 				updateCustomItems[selectedCustomItemInfoIndex!] = data;
 				const newCustoms = { contents, non_delivery: returnPolicy, customs_items: updateCustomItems };
