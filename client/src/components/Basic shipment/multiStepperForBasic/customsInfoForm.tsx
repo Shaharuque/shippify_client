@@ -1,4 +1,4 @@
-import { Flex, FormControl, Input, Select, Text, Button, FormLabel, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, NumberInput } from '@chakra-ui/react';
+import { Flex, FormControl, Input, Select, Text, Button, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, NumberInput } from '@chakra-ui/react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { updateField } from '../../../redux/features/basicShipmentsSlice';
@@ -45,7 +45,7 @@ const defaultCustomsValues: TCustomsDetailsForm = {
 };
 
 const CustomsInfoForm = () => {
-	const { handleSubmit, reset, setValue, register, getValues } = useForm<ICustomsItem>({ defaultValues: { ...defaultCustomsValues?.customs_items[0] } });
+	const { handleSubmit, reset, setValue, register } = useForm<ICustomsItem>({ defaultValues: { ...defaultCustomsValues?.customs_items[0] } });
 	const customItemsInfo = useAppSelector((state: RootState) => state?.basicShipments?.customs?.customs_items);
 	const contentsFromStore = useAppSelector((state: RootState) => state?.basicShipments?.customs?.contents);
 	const returnPolicyFromStore = useAppSelector((state: RootState) => state?.basicShipments?.customs?.non_delivery);
@@ -82,21 +82,22 @@ const CustomsInfoForm = () => {
 	};
 
 	const handleSelectCustomItemInfo = (index: number) => {
+		const selectedItem = customItemsInfo![index];
+		setSelectedCustomItemInfoIndex(index);
+
 		console.log('index', index, selectedCustomItemInfoIndex);
-		if (selectedCustomItemInfoIndex !== index) {
-			setAddNew(true);
-			setEditMode(true);
-			setSelectedCustomItemInfoIndex(index);
-			const selectedItem = customItemsInfo![index];
-			console.log('selectedItem', selectedItem);
-			setValue('country_of_manufacture', selectedItem?.country_of_manufacture);
-			setValue('country_of_origin', selectedItem?.country_of_origin);
-			setValue('harmonized_tariff_code', selectedItem?.harmonized_tariff_code);
-			setValue('description', selectedItem?.description);
-			setValue('quantity', selectedItem?.quantity);
-			setValue('value.amount', selectedItem?.value?.amount);
-			setValue('value.currency', selectedItem?.value?.currency);
-		}
+
+		console.log('selectedItem', selectedItem);
+		setValue('country_of_manufacture', selectedItem?.country_of_manufacture);
+		setValue('country_of_origin', selectedItem?.country_of_origin);
+		setValue('harmonized_tariff_code', selectedItem?.harmonized_tariff_code);
+		setValue('description', selectedItem?.description);
+		setValue('quantity', selectedItem?.quantity);
+		setValue('value.amount', selectedItem?.value?.amount);
+		setValue('value.currency', selectedItem?.value?.currency);
+
+		setAddNew(true);
+		setEditMode(true);
 	};
 
 	const handleRemove = () => {
@@ -250,7 +251,9 @@ const CustomsInfoForm = () => {
 					gap={'1rem'}
 					mb={'1rem'}>
 					<FormControl mt={'1rem'}>
-						<NumberInput>
+						<NumberInput
+							min={0}
+							max={20000}>
 							<NumberInputField
 								{...register(`quantity`)}
 								border={'1px solid #314866'}
@@ -271,10 +274,10 @@ const CustomsInfoForm = () => {
 					<FormControl
 						mt={'1rem'}
 						isRequired>
-						<NumberInput>
+						<NumberInput
+							min={0}
+							max={20000}>
 							<NumberInputField
-								min={0}
-								max={200000}
 								border={'1px solid #314866'}
 								transition={'all 0.30s ease-in-out;'}
 								_focusVisible={{
@@ -313,12 +316,12 @@ const CustomsInfoForm = () => {
 				<Flex
 					justify={'space-between'}
 					align={'center'}
-					direction={'row-reverse'}>
+					direction={'row-reverse'}
+					mt={'2rem'}>
 					<Flex gap={'1rem'}>
 						<SubmitButton
 							text={editMode ? 'Update' : 'Add item'}
 							width="8rem"
-							isDisabled={getValues('value.amount') !== 0}
 						/>
 						<Button
 							onClick={handleRemove}
