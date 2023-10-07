@@ -134,7 +134,7 @@ const GroupedStackBar = () => {
   };
 
   return (
-    <div>
+    <div className=' border border-gray-300 rounded'>
       <ReactApexChart
         options={chartOptions}
         series={chartOptions.series}
