@@ -26,42 +26,40 @@ const ShipmentMenuList = () => {
 	const { View: parcelLottieView } = useLottie(parcelLottieOptions);
 	const { View: truckLottieView } = useLottie(truckLottieOptions);
 	const { View: trackingLottieView } = useLottie(trackingLottieOptions);
+	const { View: trackingLottieView2 } = useLottie(trackingLottieOptions);
 
 	return (
-		<Flex
-			marginLeft={{base:"10px", md:"80px"}}
-			flex={0.1}
-			direction={'column'}
-			align={'center'}
-			gap={'1rem'}>
-			<Box onClick={() => navigate('/create/basic')}>
+		<div className=''>
+
+			<div className='mb-20px' onClick={() => navigate('/financial/charts')}>
+				<ShipmentMenu
+					title={'Financial Analysis'}
+					lottie={trackingLottieView2}
+				/>
+			</div>
+			<div onClick={() => navigate('/create/basic')}>
 				<ShipmentMenu
 					title={'Create Basic Shipment'}
 					lottie={parcelLottieView}
 				/>
-			</Box>
+			</div>
 
-			<Box onClick={() => navigate('/create/ltl')}>
+			<div onClick={() => navigate('/create/ltl')}>
 				<ShipmentMenu
 					title={'Create LTL Shipment'}
 					lottie={truckLottieView}
 				/>
-			</Box>
+			</div>
 
-			<Box onClick={() => navigate('/tracking')}>
+			<div onClick={() => navigate('/tracking')}>
 				<ShipmentMenu
 					title={'Track Shipment'}
 					lottie={trackingLottieView}
 				/>
-			</Box>
+			</div>
 
-			<Box onClick={() => navigate('/tracking')}>
-				<ShipmentMenu
-					title={'Track Shipment'}
-					lottie={trackingLottieView}
-				/>
-			</Box>
-		</Flex>
+
+		</div>
 	);
 };
 

@@ -14,7 +14,7 @@ const TimeSeriesChart = () => {
 		const token = localStorage.getItem('token');
 		const fetchTimeSeriesChartData = async () => {
 			try {
-				const responseOne = await axios.get('http://192.168.68.89:5000/shipment/basic/chart/group/by/month', {
+				const responseOne = await axios.get('http://localhost:5000/shipment/basic/chart/group/by/month', {
 					headers: {
 						'Content-Type': 'application/json',
 						'x-auth-token': token,
@@ -24,7 +24,7 @@ const TimeSeriesChart = () => {
 				if (responseOne?.data?.status === 'success') setTotalShipping(populateMonthsForCharts(responseOne?.data?.data));
 
 				const responseTwo = await axios.post(
-					'http://192.168.68.89:5000/shipment/basic/failed',
+					'http://localhost:5000/shipment/basic/failed',
 					{
 						carrier_id: '',
 					},
@@ -39,7 +39,7 @@ const TimeSeriesChart = () => {
 				if (responseTwo?.data?.status === 'success') setFailedVolume(populateMonthsForCharts(responseTwo?.data?.data));
 
 				const responseThree = await axios.post(
-					'http://192.168.68.89:5000/shipment/basic/success',
+					'http://localhost:5000/shipment/basic/success',
 					{
 						carrier_id: '',
 					},
@@ -58,6 +58,7 @@ const TimeSeriesChart = () => {
 		};
 		fetchTimeSeriesChartData();
 	}, []);
+	
 	const series = [
 		{
 			name: 'Total shipment(monthly)',
@@ -134,16 +135,10 @@ const TimeSeriesChart = () => {
 					options={options}
 					series={series}
 					type="area"
-					width="100%"
+					// width="700px"
 				/>
 			) : (
 				<Stack align={'center'}>
-					<Image
-						src={noDataFound}
-						height={'25vh'}
-						w={'15vw'}
-						borderRadius={'1rem'}
-					/>
 					<Text
 						textAlign={'center'}
 						fontFamily={'Roboto'}

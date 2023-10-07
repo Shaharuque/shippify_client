@@ -6,11 +6,7 @@ import { LuBadgeDollarSign } from 'react-icons/lu';
 
 const StatCardList = () => {
 	return (
-		<Flex
-			flex={0.1}
-			direction={'column'}
-			align={'center'}
-			gap={'1rem'}>
+		<div>
 			<StatCards
 				title={'Total Shipment'}
 				value={18}
@@ -29,7 +25,7 @@ const StatCardList = () => {
 				icon={LuBadgeDollarSign}
 				color={'green.500'}
 			/>
-		</Flex>
+		</div>
 	);
 };
 

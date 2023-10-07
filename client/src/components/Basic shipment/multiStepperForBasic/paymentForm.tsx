@@ -47,7 +47,7 @@ const PaymentForm = ({ prevStep }: { prevStep: () => void }) => {
 			try {
 				if (userData) {
 					const user = JSON.parse(userData);
-					const response = await axios.post('http://192.168.68.89:4000/credit-score/eligibility', {
+					const response = await axios.post('http://localhost:4000/credit-score/eligibility', {
 						user_id: user?._id,
 						shipping_fee: total,
 					});

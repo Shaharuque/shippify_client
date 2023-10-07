@@ -48,7 +48,7 @@ const LtlBlockchain = () => {
             try {
                 setLoading(true);
                 const response = await axios.get(
-                    `http://192.168.68.89:5000/ltlShipment/my-shipment-list`,
+                    `http://localhost:5000/ltlShipment/my-shipment-list`,
                     {
                         headers: {
                             'Content-Type': 'application/json',
@@ -91,7 +91,7 @@ const LtlBlockchain = () => {
         const fetchBlockData = async () => {
             try {
                 const response = await axios.get(
-                    `http://192.168.68.89:8000/get-detail/${transaction_hash}`,
+                    `http://localhost:8000/get-detail/${transaction_hash}`,
                     {
                         headers: {
                             'Content-Type': 'application/json',

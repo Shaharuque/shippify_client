@@ -52,7 +52,7 @@ const BasicBlockchain = () => {
             try {
                 setLoading(true);
                 const response = await axios.post(
-                    `http://192.168.68.89:5000/shipment/sort-by-package-and-price`,
+                    `http://localhost:5000/shipment/sort-by-package-and-price`,
                     { carrier_id: '', priceSort: "", weightSort: "", shipment_status: "" },
                     {
                         headers: {
@@ -96,7 +96,7 @@ const BasicBlockchain = () => {
         const fetchBlockData = async () => {
             try {
                 const response = await axios.get(
-                    `http://192.168.68.89:8000/get-detail/${transaction_hash}`,
+                    `http://localhost:8000/get-detail/${transaction_hash}`,
                     {
                         headers: {
                             'Content-Type': 'application/json',

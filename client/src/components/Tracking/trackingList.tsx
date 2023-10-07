@@ -42,7 +42,7 @@ const TrackingList = () => {
 			try {
 				setTabListLoading(true);
 				const response = await axios.get(
-					`http://192.168.68.89:5000/shipment/without-received-shipments`,
+					`http://localhost:5000/shipment/without-received-shipments`,
 					{
 						headers: {
 							'Content-Type': 'application/json',

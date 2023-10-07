@@ -12,6 +12,7 @@ import SuccessFulPayment from './components/Payment/successFulPayment';
 import Layout from './components/Layout/layout';
 import BlockChainTransactions from './pages/BlockChainTransactions/BlockChainTransactions';
 import PDFViewer from './pages/PDFViewer/PDFViewer';
+import MainPage from './pages/FinancialCharts/MainPage';
 
 function App() {
 	return (
@@ -50,6 +51,8 @@ function App() {
 						path="/tracking"
 						element={<TrackingPage />}
 					/>
+
+					<Route path="/financial/charts" element={<MainPage></MainPage>}></Route>
 
 					<Route path='/block-chain' element={<BlockChainTransactions></BlockChainTransactions>}></Route>
 

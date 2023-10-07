@@ -36,7 +36,7 @@ const DashboardPage = () => {
 
 				setLoading(true);
 				const basicResponse = await axios.post(
-					`http://192.168.68.89:5000/shipment/sort-by-package-and-price`,
+					`http://localhost:5000/shipment/sort-by-package-and-price`,
 					{ carrier_id: '', priceSort: price, weightSort: weight, shipment_status: status },
 					{
 						headers: {
@@ -46,7 +46,7 @@ const DashboardPage = () => {
 					}
 				);
 				const ltlResponse = await axios.get(
-					`http://192.168.68.89:5000/ltlShipment/my-shipment-list`,
+					`http://localhost:5000/ltlShipment/my-shipment-list`,
 					{
 						headers: {
 							'Content-Type': 'application/json',
