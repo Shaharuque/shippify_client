@@ -5,6 +5,7 @@ import CompanyProfileForm from '../Company profile form/companyProfileForm';
 import AddressSetupForm from '../Address setup form/addressSetupForm';
 import OtpForm from '../Otp form/otpForm';
 import OnboardingSteppers from '../../Steppers/onboardingSteppers';
+import WarehouseSetupForm from '../Warehouse setup form/warehouseSetupForm';
 
 export default function MultistepRegistration() {
 	const [step, setStep] = useState(1);
@@ -39,11 +40,16 @@ export default function MultistepRegistration() {
 							nextStep={nextStep}
 							prevStep={prevStep}
 						/>
-					) : (
-						<AddressSetupForm prevStep={prevStep} />
-					)}
+					) : step === 4 ? (
+						<AddressSetupForm
+							prevStep={prevStep}
+							nextStep={nextStep}
+						/>
+					) : step === 5 ? (
+						<WarehouseSetupForm prevStep={prevStep} />
+					) : null}
 					<Box m={'2rem 0'}>
-						<OnboardingSteppers step={step} />
+						<OnboardingSteppers activeStep={step} />
 					</Box>
 				</Box>
 			</Flex>

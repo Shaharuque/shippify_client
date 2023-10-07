@@ -15,7 +15,7 @@ const Logo = ({ primaryColor, isExpanded }: TLogo) => {
 			justify={'center'}>
 			<Image
 				src={logo}
-				boxSize={'5rem'}></Image>
+				boxSize={'4rem'}></Image>
 			{isExpanded ? (
 				<Text
 					fontWeight={'700'}

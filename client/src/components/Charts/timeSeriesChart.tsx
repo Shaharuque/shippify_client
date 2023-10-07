@@ -2,8 +2,8 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Chart from 'react-apexcharts';
 import { populateMonthsForCharts } from '../../utils/populateMonthsForCharts';
-import { Stack, Image, Text } from '@chakra-ui/react';
-import noDataFound from '../../assets/no-data-found.jpg';
+import NoDataFound from '../No service available/noDataFound';
+import { Flex } from '@chakra-ui/react';
 
 const TimeSeriesChart = () => {
 	const [successVolume, setSuccessVolume] = useState<any[]>([]);
@@ -137,20 +137,12 @@ const TimeSeriesChart = () => {
 					width="100%"
 				/>
 			) : (
-				<Stack align={'center'}>
-					<Image
-						src={noDataFound}
-						height={'25vh'}
-						w={'15vw'}
-						borderRadius={'1rem'}
-					/>
-					<Text
-						textAlign={'center'}
-						fontFamily={'Roboto'}
-						fontWeight={'600'}>
-						No Data Available
-					</Text>
-				</Stack>
+				<Flex
+					minH={'30vh'}
+					justify={'center'}
+					align={'center'}>
+					<NoDataFound text={'No data available'} />
+				</Flex>
 			)}
 		</>
 	);

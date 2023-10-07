@@ -2,8 +2,6 @@ import { RangeSlider, RangeSliderTrack, RangeSliderFilledTrack, RangeSliderThumb
 import { useState } from 'react';
 
 type PriceRangeFilterProps = {
-	minRate?: number;
-	maxRate?: number;
 	onRangeChange: (value: number[]) => void;
 };
 

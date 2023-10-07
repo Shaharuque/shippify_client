@@ -20,8 +20,7 @@ export type AddressSetupFormData = {
 	postal_code: number;
 };
 
-const AddressSetupForm = ({ prevStep }: { prevStep: () => void }) => {
-	const navigate = useNavigate();
+const AddressSetupForm = ({ prevStep, nextStep }: { prevStep: () => void; nextStep: () => void }) => {
 	const {
 		handleSubmit,
 		register,
@@ -36,7 +35,7 @@ const AddressSetupForm = ({ prevStep }: { prevStep: () => void }) => {
 			const result = await setUpCompanyAddress(data, token);
 
 			if (result?.data?.status === 'success') {
-				navigate('/home');
+				nextStep();
 			}
 		} catch (error) {
 			console.error('Error from address setup form:', error);
@@ -165,14 +164,15 @@ const AddressSetupForm = ({ prevStep }: { prevStep: () => void }) => {
 
 				<Flex
 					gap={'1rem'}
-					mt={'3rem'}>
+					mt={'3rem'}
+					justify={'space-around'}>
 					<BackButton
 						onClick={() => prevStep()}
-						width="6rem"
+						width="8rem"
 					/>
 					<SubmitButton
 						text={'Submit'}
-						width="6rem"
+						width="8rem"
 					/>
 				</Flex>
 			</form>

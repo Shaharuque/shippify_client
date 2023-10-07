@@ -2,8 +2,8 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
 import { formatLabels } from '../../utils/formatLabels';
-import { Stack, Text, Image } from '@chakra-ui/react';
-import noDataFound from '../../assets/no-data-found.jpg';
+import NoDataFound from '../No service available/noDataFound';
+import { Flex } from '@chakra-ui/react';
 
 type TPieData = {
 	count: number;
@@ -113,19 +113,12 @@ const PieChart = () => {
 					type="pie"
 				/>
 			) : (
-				<Stack align={'center'}>
-					<Image
-						src={noDataFound}
-						boxSize={'16vw'}
-						borderRadius={'1rem'}
-					/>
-					<Text
-						textAlign={'center'}
-						fontFamily={'Roboto'}
-						fontWeight={'600'}>
-						No Data Available
-					</Text>
-				</Stack>
+				<Flex
+					minH={'30vh'}
+					justify={'center'}
+					align={'center'}>
+					<NoDataFound text={'No data available'} />
+				</Flex>
 			)}
 		</>
 	);

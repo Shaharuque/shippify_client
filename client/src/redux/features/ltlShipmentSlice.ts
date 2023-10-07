@@ -43,7 +43,7 @@ export const initialLTLShipmentState: ILTLShipment = {
 				city_locality: '',
 				state_province: '',
 				postal_code: '',
-				country_code: 'US',
+				country_code: '',
 			},
 		},
 		ship_to: {
@@ -58,7 +58,7 @@ export const initialLTLShipmentState: ILTLShipment = {
 				city_locality: '',
 				state_province: '',
 				postal_code: '',
-				country_code: 'US',
+				country_code: '',
 			},
 		},
 		packages: [],

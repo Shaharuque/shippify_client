@@ -12,129 +12,123 @@ import { TPackageDetailsForm } from "../Basic shipment/multiStepperForBasic/pack
 import moment from "moment";
 
 const ViewShipmentDetails = ({ shipmentData }: { shipmentData: any }) => {
-  console.log("shipmentData", shipmentData);
-  console.log("shipmentData", shipmentData?.shipment_detail?.ship_from?.phone);
-  return (
-    <Tabs isFitted variant="soft-rounded">
-      <TabList mb="1em" border={"1px solid white"} borderRadius={"1rem"}>
-        <Tab _selected={{ color: "white", bg: "cta" }}>Address</Tab>
-        <Tab _selected={{ color: "white", bg: "cta" }}>Delivery details</Tab>
-        <Tab _selected={{ color: "white", bg: "cta" }}>Payment Details</Tab>
-      </TabList>
-      <TabPanels>
-        <TabPanel>
-          <div className=" font-sans">
-            <div className="bg-white mt-4 rounded p-3">
-              <div className="flex gap-2">
-                <h1>Company Name:</h1>
-                <h1 className="font-bold text-teal-700">
-                  {shipmentData?.shipment_detail?.ship_from?.company_name}
-                </h1>
-              </div>
-              <div className="flex gap-2">
-                <h1>Adress:</h1>
-                <h1 className="font-bold">
-                  {shipmentData?.shipment_detail?.ship_from?.address_line1}
-                </h1>
-              </div>
-              <div className="flex gap-2">
-                <h1>State:</h1>
-                <h1 className="font-bold">
-                  {shipmentData?.shipment_detail?.ship_from?.state_province}
-                </h1>
-              </div>
-              <div className="flex gap-2">
-                <h1>City:</h1>
-                <h1 className="font-bold">
-                  {shipmentData?.shipment_detail?.ship_from?.city_locality}
-                </h1>
-              </div>
-              <div className="flex gap-2">
-                <h1>Postal Code:</h1>
-                <h1 className="font-bold">
-                  {shipmentData?.shipment_detail?.ship_from?.postal_code}
-                </h1>
-              </div>
-              <div className="border border-gray-200 rounded mt-3 p-2 bg-gray-400 text-white">
-                <div className="flex gap-2">
-                  <h1>Name:</h1>
-                  <h1>{shipmentData?.shipment_detail?.ship_from?.name}</h1>
-                </div>
-                <div className="flex gap-2 ">
-                  <h1>Phone No.:</h1>
-                  <h1>{shipmentData?.shipment_detail?.ship_from?.phone}</h1>
-                </div>
-              </div>
-            </div>
-            <div className="bg-white mt-4 rounded p-3">
-              <div className="flex gap-2">
-                <h1>Company Name:</h1>
-                <h1 className="font-bold text-teal-700">
-                  {shipmentData?.shipment_detail?.ship_to?.company_name ||
-                    "N/A"}
-                </h1>
-              </div>
-              <div className="flex gap-2">
-                <h1>Adress:</h1>
-                <h1 className="font-bold">
-                  {shipmentData?.shipment_detail?.ship_to?.address_line1}
-                </h1>
-              </div>
-              <div className="flex gap-2">
-                <h1>State:</h1>
-                <h1 className="font-bold">
-                  {shipmentData?.shipment_detail?.ship_to?.state_province}
-                </h1>
-              </div>
-              <div className="flex gap-2">
-                <h1>City:</h1>
-                <h1 className="font-bold">
-                  {shipmentData?.shipment_detail?.ship_to?.city_locality}
-                </h1>
-              </div>
-              <div className="flex gap-2">
-                <h1>Postal Code:</h1>
-                <h1 className="font-bold">
-                  {shipmentData?.shipment_detail?.ship_to?.postal_code}
-                </h1>
-              </div>
-              <div className="border border-gray-200 rounded mt-3 p-2 bg-gray-400 text-white">
-                <div className="flex gap-2">
-                  <h1>Name:</h1>
-                  <h1>{shipmentData?.shipment_detail?.ship_from?.name}</h1>
-                </div>
-                <div className="flex gap-2 ">
-                  <h1>Phone No.:</h1>
-                  <h1>{shipmentData?.shipment_detail?.ship_from?.phone}</h1>
-                </div>
-              </div>
-            </div>
-          </div>
-        </TabPanel>
-        <TabPanel>
-          <div className="bg-white rounded border-gray-200 p-3">
-            <Box flex={0.5}>
-              <Heading size="sm" textTransform="uppercase">
-                Packages Details
-              </Heading>
-              {shipmentData?.shipment_detail?.packages?.map(
-                (item: TPackageDetailsForm, index: string) => (
-                  <Box key={index}>
-                    <Text pt="2" fontSize="sm" fontWeight="600">
-                      Package {index + 1}
-                    </Text>
-                    <Text fontSize="sm">
-                      Weight: {item?.weight?.value} {item?.weight?.unit}
-                    </Text>
-                    <Text fontSize="sm">
-                      Dimensions: {item?.dimensions?.length}x
-                      {item?.dimensions?.width}x{item?.dimensions?.height}{" "}
-                      {item?.dimensions?.unit}
-                    </Text>
-                  </Box>
-                )
-              )}
-            </Box>
+
+	// console.log('shipmentData', shipmentData);
+	// console.log('shipmentData', shipmentData?.shipment_detail?.ship_from?.phone);
+	return (
+		<Tabs
+			isFitted
+			variant="soft-rounded">
+			<TabList
+				mb="1em"
+				border={'1px solid white'}
+				borderRadius={'2rem'}>
+				<Tab _selected={{ color: 'white', bg: 'cta' }}>Address</Tab>
+				<Tab _selected={{ color: 'white', bg: 'cta' }}>Delivery Details</Tab>
+				<Tab _selected={{ color: 'white', bg: 'cta' }}>Payment Details</Tab>
+			</TabList>
+
+			<TabPanels>
+				<TabPanel>
+					<div className=" font-sans">
+						<div className="bg-white mt-4 rounded p-3">
+							<div className="mb-2 bg-[#437F8C] text-white rounded-full px-4 py-2 inline-flex items-center">
+								Sender
+							</div>
+							<div className="flex gap-2">
+								<h1>Company Name:</h1>
+								<h1 className="font-bold text-teal-700">{shipmentData?.shipment_detail?.ship_from?.company_name}</h1>
+							</div>
+							<div className="flex gap-2">
+								<h1>Adress:</h1>
+								<h1 className="font-bold">{shipmentData?.shipment_detail?.ship_from?.address_line1}</h1>
+							</div>
+							<div className="flex gap-2">
+								<h1>State:</h1>
+								<h1 className="font-bold">{shipmentData?.shipment_detail?.ship_from?.state_province}</h1>
+							</div>
+							<div className="flex gap-2">
+								<h1>City:</h1>
+								<h1 className="font-bold">{shipmentData?.shipment_detail?.ship_from?.city_locality}</h1>
+							</div>
+							<div className="flex gap-2">
+								<h1>Postal Code:</h1>
+								<h1 className="font-bold">{shipmentData?.shipment_detail?.ship_from?.postal_code}</h1>
+							</div>
+							<div className="border border-[#437F8C] rounded mt-3 p-2 bg-[#437F8C] text-white shadow-md shadow-gray-600">
+								<div className="flex gap-2">
+									<h1>Name:</h1>
+									<h1>{shipmentData?.shipment_detail?.ship_from?.name}</h1>
+								</div>
+								<div className="flex gap-2 ">
+									<h1>Phone No:</h1>
+									<h1>{shipmentData?.shipment_detail?.ship_from?.phone}</h1>
+								</div>
+							</div>
+						</div>
+						<div className="bg-white mt-4 rounded p-3">
+							{/* <div className="flex gap-2">
+								<h1>Company Name:</h1>
+								<h1 className="font-bold text-teal-700">{shipmentData?.shipment_detail?.ship_to?.company_name || 'N/A'}</h1>
+							</div> */}
+							<div className="mb-2 bg-[#437F8C] text-white rounded-full px-4 py-2 inline-flex items-center">
+								Receiver
+							</div>
+							<div className="flex gap-2">
+								<h1>Adress:</h1>
+								<h1 className="font-bold">{shipmentData?.shipment_detail?.ship_to?.address_line1}</h1>
+							</div>
+							<div className="flex gap-2">
+								<h1>State:</h1>
+								<h1 className="font-bold">{shipmentData?.shipment_detail?.ship_to?.state_province}</h1>
+							</div>
+							<div className="flex gap-2">
+								<h1>City:</h1>
+								<h1 className="font-bold">{shipmentData?.shipment_detail?.ship_to?.city_locality}</h1>
+							</div>
+							<div className="flex gap-2">
+								<h1>Postal Code:</h1>
+								<h1 className="font-bold">{shipmentData?.shipment_detail?.ship_to?.postal_code}</h1>
+							</div>
+							<div className="border border-[#437F8C] rounded mt-3 p-2 bg-[#437F8C] text-white shadow-md shadow-gray-600">
+								<div className="flex gap-2">
+									<h1>Name:</h1>
+									<h1>{shipmentData?.shipment_detail?.ship_to?.name}</h1>
+								</div>
+								{/* <div className="flex gap-2 ">
+									<h1>Phone No:</h1>
+									<h1>{shipmentData?.shipment_detail?.ship_to?.phone}</h1>
+								</div> */}
+							</div>
+						</div>
+					</div>
+				</TabPanel>
+				<TabPanel>
+					<div className="bg-white rounded border-gray-200 p-3">
+						<Box flex={0.5}>
+							<Heading
+								size="sm"
+								textTransform="uppercase">
+								Packages Details
+							</Heading>
+							{shipmentData?.shipment_detail?.packages?.map((item: TPackageDetailsForm, index: number) => (
+								<Box key={index}>
+									<Text
+										pt="2"
+										fontSize="sm"
+										fontWeight="600">
+										Package {index + 1}
+									</Text>
+									<Text fontSize="sm">
+										Weight: {item?.weight?.value} {item?.weight?.unit}
+									</Text>
+									<Text fontSize="sm">
+										Dimensions: {item?.dimensions?.length}x{item?.dimensions?.width}x{item?.dimensions?.height} {item?.dimensions?.unit}
+									</Text>
+								</Box>
+							))}
+						</Box>
+
 
             <div className="mt-4">
               <Heading size="sm" textTransform="uppercase">

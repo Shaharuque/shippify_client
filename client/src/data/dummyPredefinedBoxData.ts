@@ -1,11 +1,51 @@
-import smallBox from '../../assets/carton-box-removebg-preview.png';
-import mediumBox from '../../assets/medium-box.png';
-import largeBox from '../../assets/large-box.png';
-import largerBox from '../../assets/larger-box.png';
+import smallBox from '../assets/carton-box-removebg-preview.png';
+import mediumBox from '../assets/medium-box.png';
+import largeBox from '../assets/large-box.png';
+import largerBox from '../assets/larger-box.png';
 
 export const dummyPredefinedBoxes = [
-	{ text: 'small box', dimensions: '4 X 10 X 1 inches', image: smallBox, code: 'zaber' },
-	{ text: 'medium box', dimensions: '6 X 12 X 3 inches', image: mediumBox, code: 'amin' },
-	{ text: 'large box', dimensions: '8 X 16 X 6 inches', image: largeBox, code: 'tonmoy' },
-	{ text: 'very large box', dimensions: '10 X 20 X 10 inches', image: largerBox, code: 'zakir' },
+	{
+		text: 'small box',
+		dimensions: {
+			length: 10,
+			width: 10,
+			height: 7,
+			unit: 'inch',
+		},
+		image: smallBox,
+		code: 'custom_laptop_box',
+	},
+	{
+		text: 'medium box',
+		dimensions: {
+			length: 13.25,
+			width: 11.5,
+			height: 3,
+			unit: 'inch',
+		},
+		image: mediumBox,
+		code: 'custom_medium_box',
+	},
+	{
+		text: 'large box',
+		dimensions: {
+			length: 18,
+			width: 13,
+			height: 3,
+			unit: 'inch',
+		},
+		image: largeBox,
+		code: 'custom_large_box',
+	},
+	{
+		text: 'very large box',
+		dimensions: {
+			length: 25,
+			width: 25,
+			height: 10,
+			unit: 'inch',
+		},
+		image: largerBox,
+		code: 'custom_very_large_box',
+	},
 ];

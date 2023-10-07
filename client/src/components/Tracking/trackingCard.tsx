@@ -1,14 +1,17 @@
 import { Badge, Box, Flex, Stack, Text } from '@chakra-ui/react';
 import moment from 'moment';
 import React from 'react';
-import { labelColorDictionary, labelDictionary } from '../../utils/labelDictionary';
+import { labelColorDictionary, labelDictionary } from '../../data/labelDictionary';
 
 interface TrackingItemProps {
 	item: any;
+	isActive: boolean;
 	clickedCard: (cardId: string) => void;
 }
 
-const TrackingCard: React.FC<TrackingItemProps> = ({ item, clickedCard }) => {
+const TrackingCard: React.FC<TrackingItemProps> = ({ item, clickedCard,isActive }) => {
+
+	const cardClassName = `border rounded p-4 ${isActive ? 'bg-red-200' : 'bg-green-400'}`;
 	return (
 		<Box
 			borderWidth="1px"
@@ -23,12 +26,14 @@ const TrackingCard: React.FC<TrackingItemProps> = ({ item, clickedCard }) => {
 				color: 'white',
 			}}
 			w={'52vw'}
-			onClick={() => clickedCard(item?._id)}>
+			onClick={() => clickedCard(item?._id)}
+			backgroundColor={isActive ? '#437F8C' : 'white'}
+			color={isActive ? 'white' : 'black'}>
 			<Flex gap={'2rem'}>
 				<Stack
 					align={'center'}
 					w={'9vw'}>
-					<Text fontWeight="bold">Tracking Id</Text>
+					<Text fontWeight="bold">Tracking ID</Text>
 					<Text
 						fontSize="sm"
 						fontWeight={'bold'}>

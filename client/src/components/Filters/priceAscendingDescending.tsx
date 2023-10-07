@@ -3,8 +3,9 @@ import { ChangeEvent } from 'react';
 
 type PriceAscendingDescendingFilterProp = {
 	onChange: (value: string) => void;
+	dataLoading: boolean;
 };
-const PriceAscendingDescendingFilter = ({ onChange }: PriceAscendingDescendingFilterProp) => {
+const PriceAscendingDescendingFilter = ({ onChange,dataLoading }: PriceAscendingDescendingFilterProp) => {
 	return (
 		<Box mb="4">
 			<Text
@@ -13,12 +14,13 @@ const PriceAscendingDescendingFilter = ({ onChange }: PriceAscendingDescendingFi
 				Price
 			</Text>
 			<Select
+				disabled={dataLoading ? true : false}
 				onChange={(v: ChangeEvent<HTMLSelectElement>) => onChange(v.target.value)}
 				border={'2px solid gray'}
 				_focusVisible={{ boxShadow: '0 0 2.5px #0E1420' }}>
 				<option value={''}>Select</option>
-				<option value={'price_asc'}>Ascending</option>
-				<option value={'price_desc'}>Descending</option>
+				<option value={'asc'}>Ascending</option>
+				<option value={'desc'}>Descending</option>
 			</Select>
 		</Box>
 	);

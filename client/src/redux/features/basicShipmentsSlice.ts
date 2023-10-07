@@ -19,7 +19,7 @@ export const initialShipmentsState: IBasicShipment = {
 		city_locality: '',
 		state_province: '',
 		postal_code: '',
-		country_code: 'US',
+		country_code: '',
 		phone: '',
 	},
 	ship_to: {
@@ -29,7 +29,7 @@ export const initialShipmentsState: IBasicShipment = {
 		city_locality: '',
 		state_province: '',
 		postal_code: '',
-		country_code: 'US',
+		country_code: '',
 	},
 	packages: [],
 };

@@ -29,7 +29,7 @@ const OtpForm = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () =>
 	};
 
 	const handleResetTimer = async () => {
-		const userTempData = localStorage.getItem('userTempData');
+		const userTempData = localStorage.getItem('userData');
 		if (userTempData) {
 			const user = JSON.parse(userTempData);
 			console.log('User from localstorage after resending OTP:', user);
@@ -91,15 +91,16 @@ const OtpForm = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () =>
 				</HStack>
 				<Flex
 					gap={'1rem'}
-					mt={'3rem'}>
+					mt={'3rem'}
+					justify={'space-around'}>
 					<BackButton
 						onClick={handleBackButton}
-						width="6rem"
+						width="8rem"
 					/>
 
 					<SubmitButton
 						text={'Verify'}
-						width="6rem"
+						width="8rem"
 					/>
 				</Flex>
 			</form>
