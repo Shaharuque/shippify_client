@@ -1,8 +1,18 @@
-import { Tabs, TabList, TabPanels, Tab, TabPanel, Box, Heading, Text } from '@chakra-ui/react';
-import { TPackageDetailsForm } from '../Basic shipment/multiStepperForBasic/packageDetailsForm';
-import moment from 'moment';
+import {
+  Tabs,
+  TabList,
+  TabPanels,
+  Tab,
+  TabPanel,
+  Box,
+  Heading,
+  Text,
+} from "@chakra-ui/react";
+import { TPackageDetailsForm } from "../Basic shipment/multiStepperForBasic/packageDetailsForm";
+import moment from "moment";
 
 const ViewShipmentDetails = ({ shipmentData }: { shipmentData: any }) => {
+
 	// console.log('shipmentData', shipmentData);
 	// console.log('shipmentData', shipmentData?.shipment_detail?.ship_from?.phone);
 	return (
@@ -119,71 +129,61 @@ const ViewShipmentDetails = ({ shipmentData }: { shipmentData: any }) => {
 							))}
 						</Box>
 
-						<div className="mt-4">
-							<Heading
-								size="sm"
-								textTransform="uppercase">
-								Estimated Delivery Date
-							</Heading>
-							<Text
-								fontSize="sm"
-								fontWeight={'700'}>
-								{moment(shipmentData?.rateDetail?.estimated_delivery_date).format('MMMM D, YYYY')}
-							</Text>
-						</div>
 
-						<div className="mt-4">
-							<Heading
-								size="sm"
-								textTransform="uppercase">
-								Tracking Number
-							</Heading>
-							<Text
-								fontSize="xs"
-								fontWeight={'700'}
-								color={'gray'}>
-								{shipmentData?.labelDetail?.tracking_number}
-							</Text>
-						</div>
-					</div>
-				</TabPanel>
-				<TabPanel>
-					<div className="bg-white rounded border-gray-200 p-3">
-						<Box>
-							<Heading
-								size="sm"
-								textTransform="uppercase">
-								Cost details
-							</Heading>
-							<Text
-								fontSize="sm"
-								m={'.2rem 0'}>
-								Shipping cost: {shipmentData?.labelDetail?.shipment_cost?.amount} ({shipmentData?.labelDetail?.shipment_cost?.currency})
-							</Text>
-							<Text
-								fontSize="sm"
-								m={'.2rem 0'}>
-								Other costs: {0} ({shipmentData?.labelDetail?.shipment_cost?.currency})
-							</Text>
-							<Text
-								fontSize="sm"
-								m={'.2rem 0'}>
-								Insurance: {shipmentData?.labelDetail?.insurance_cost?.amount} ({shipmentData?.labelDetail?.insurance_cost?.currency})
-							</Text>
-						</Box>
+            <div className="mt-4">
+              <Heading size="sm" textTransform="uppercase">
+                Estimated Delivery Date
+              </Heading>
+              <Text fontSize="sm" fontWeight={"700"}>
+                {moment(
+                  shipmentData?.rateDetail?.estimated_delivery_date
+                ).format("MMMM D, YYYY")}
+              </Text>
+            </div>
 
-						<Box ml="auto">
-							{/* <Heading
+            <div className="mt-4">
+              <Heading size="sm" textTransform="uppercase">
+                Tracking Number
+              </Heading>
+              <Text fontSize="xs" fontWeight={"700"} color={"gray"}>
+                {shipmentData?.labelDetail?.tracking_number}
+              </Text>
+            </div>
+          </div>
+        </TabPanel>
+        <TabPanel>
+          <div className="bg-white rounded border-gray-200 p-3">
+            <Box>
+              <Heading size="sm" textTransform="uppercase">
+                Cost details
+              </Heading>
+              <Text fontSize="sm" m={".2rem 0"}>
+                Shipping cost:{" "}
+                {shipmentData?.labelDetail?.shipment_cost?.amount} (
+                {shipmentData?.labelDetail?.shipment_cost?.currency})
+              </Text>
+              <Text fontSize="sm" m={".2rem 0"}>
+                Other costs: {0} (
+                {shipmentData?.labelDetail?.shipment_cost?.currency})
+              </Text>
+              <Text fontSize="sm" m={".2rem 0"}>
+                Insurance: {shipmentData?.labelDetail?.insurance_cost?.amount} (
+                {shipmentData?.labelDetail?.insurance_cost?.currency})
+              </Text>
+            </Box>
+
+            <Box ml="auto">
+              {/* <Heading
 								size="sm"
 								textTransform="uppercase">
 								Total: {total?.toFixed(2)} (usd)
 							</Heading> */}
-						</Box>
-					</div>
-				</TabPanel>
-			</TabPanels>
-		</Tabs>
-	);
+            </Box>
+          </div>
+        </TabPanel>
+      </TabPanels>
+    </Tabs>
+  );
 };
 
 export default ViewShipmentDetails;

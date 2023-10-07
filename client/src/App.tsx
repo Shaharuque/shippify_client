@@ -1,3 +1,4 @@
+
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import RegisterPage from './pages/Registration and setup/register.page';
@@ -13,63 +14,38 @@ import Layout from './components/Layout/layout';
 import BlockChainTransactions from './pages/BlockChainTransactions/BlockChainTransactions';
 import PDFViewer from './pages/PDFViewer/PDFViewer';
 
+
 function App() {
-	return (
-		<Router>
-			<Routes>
-				<Route
-					path="/register"
-					element={<RegisterPage />}></Route>
-				<Route
-					path="/login"
-					element={<LoginPage />}></Route>
+  return (
+    <Router>
+      <Routes>
+        <Route path="/register" element={<RegisterPage />}></Route>
+        <Route path="/login" element={<LoginPage />}></Route>
 
-				<Route element={<Layout />}>
-					<Route
-						path="/home"
-						element={<HomePage />}
-					/>
+        <Route element={<Navbar />}>
+          <Route path="/home" element={<HomePage />} />
 
-					<Route
-						path="/dashboard"
-						element={<DashboardPage />}
-					/>
 
-					<Route path="/create">
-						<Route
-							path="basic"
-							element={<CreateBasicShipmentPage />}
-						/>
-						<Route
-							path="ltl"
-							element={<CreateLTLShipmentPage />}
-						/>
-					</Route>
+          <Route path="/dashboard" element={<DashboardPage />} />
 
-					<Route
-						path="/tracking"
-						element={<TrackingPage />}
-					/>
+          <Route path="/create">
+            <Route path="basic" element={<CreateBasicShipmentPage />} />
+            <Route path="ltl" element={<CreateLTLShipmentPage />} />
+          </Route>
 
-					<Route path='/block-chain' element={<BlockChainTransactions></BlockChainTransactions>}></Route>
 
-					<Route
-						path="/stripe/payment/success"
-						element={<SuccessFulPayment />}
-					/>
+          <Route path="/tracking" element={<TrackingPage />} />
+          <Route path="/bnpl" element={<BNPL />} />
+        </Route>
 
-					<Route
-						path="/pdf-viewer"
-						element={<PDFViewer />}
-					/>
-				</Route>
+        <Route path="/stripe/payment/success" element={<SuccessFulPayment />} />
+        <Route path="/sidebar" element={<SideNavbar />} />
 
-				<Route
-					path="*"
-					element={<PageNotFound />}></Route>
-			</Routes>
-		</Router>
-	);
+
+        <Route path="*" element={<PageNotFound />}></Route>
+      </Routes>
+    </Router>
+  );
 }
 
 export default App;

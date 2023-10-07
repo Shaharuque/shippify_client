@@ -1,3 +1,4 @@
+
 import { Box, Flex, Heading } from '@chakra-ui/react';
 import PriceAscendingDescendingFilter from '../../components/Filters/priceAscendingDescending';
 import WeightFilter from '../../components/Filters/weightFilter';
