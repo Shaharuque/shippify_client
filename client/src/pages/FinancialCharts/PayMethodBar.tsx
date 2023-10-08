@@ -16,7 +16,7 @@ const PayMethodBar = () => {
 		const token = localStorage.getItem('token');
 		const fetchTimeSeriesChartData = async () => {
 			try {
-				const responseOne = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/shipment/each/month/normal/pay/count`, {
+				const responseOne = await axios.get('http://localhost:5000/shipment/each/month/normal/pay/count', {
 					headers: {
 						'Content-Type': 'application/json',
 						'x-auth-token': token,
@@ -25,7 +25,7 @@ const PayMethodBar = () => {
 
 				if (responseOne?.data?.status === 'success') setNormalPay(populateMonthsForCharts(responseOne?.data?.result));
 
-				const responseTwo = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/shipment/each/month/bnpl/pay/count`, {
+				const responseTwo = await axios.get('http://localhost:5000/shipment/each/month/bnpl/pay/count', {
 					headers: {
 						'Content-Type': 'application/json',
 						'x-auth-token': token,

@@ -99,7 +99,7 @@ const TimeSeriesChart = () => {
 				breakpoint: 1367,
 				options: {
 					chart: {
-						height: '200',
+						height: '300',
 					},
 				},
 			},
@@ -108,20 +108,20 @@ const TimeSeriesChart = () => {
 				breakpoint: 1921,
 				options: {
 					chart: {
-						height: '390',
+						height: '500',
 					},
 					title: {
-						text: 'Total shipment vs month',
-						align: 'center',
+						text: 'Shipment Volume',
+						align: 'left',
 						margin: 10,
 						offsetX: 0,
 						offsetY: 0,
 						floating: false,
 						style: {
-							fontSize: '16px',
+							fontSize: '14px',
 							fontWeight: 'bold',
 							fontFamily: undefined,
-							color: '#263238',
+							color: '#596469',
 						},
 					},
 				},

@@ -39,72 +39,33 @@ const PieChart = () => {
 	}, []);
 
 	const options = {
-		labels: labels,
-		legend: { position: 'right' as 'right' },
-
 		responsive: [
 			{
-				breakpoint: 1921,
+				breakpoint: 480, // Define the breakpoint where responsiveness should apply
 				options: {
-					chart: {
-						width: 550,
-						height: 300,
-					},
 					legend: {
-						position: 'right' as 'right',
-						fontSize: '16px',
-						horizontalAlign: 'center',
-						labels: {
-							colors: undefined,
-							useSeriesColors: false,
-						},
-						margin: 10,
-
-						height: 'auto',
-						itemMargin: {
-							horizontal: 0,
-							vertical: 10,
-						},
-					},
-
-					// title: {
-					// 	text: 'Shipment Status',
-					// 	align: 'center',
-					// 	offsetX: 35,
-					// 	offsetY: 0,
-					// 	floating: false,
-					// 	style: {
-					// 		fontSize: '14px',
-					// 		marginBottom:"20px",
-					// 		fontWeight: 'bold',
-					// 		fontFamily: undefined,
-					// 		color: '#263238',
-					// 	},
-					// },
-				},
-			},
-			{
-				breakpoint: 1367,
-				options: {
-					chart: {
-						width: 360,
-						height: 300,
-					},
-
-					legend: {
-						position: 'right' as 'right',
-						height: 0,
-						fontSize: '10px',
-						itemMargin: {
-							horizontal: 0,
-							vertical: 0,
-						},
+						position: 'bottom', // Change legend position for smaller screens
 					},
 				},
 			},
 		],
+		labels: labels,
+		legend: { position: 'right' as 'right' },
+		title: {
+			text: 'Shipment Status', // Add your desired title here
+			align: 'center',
+			margin: 10,
+			fontWeight: 200,
+			style: {
+				fontSize: '14px',
+				fontWeight: 'bold',
+				fontFamily: undefined,
+				color: '#596469',
+			},
+		},
 	};
 	const series = values;
+
 	return (
 		<>
 			{pieData && pieData.length > 0 ? (
@@ -114,12 +75,7 @@ const PieChart = () => {
 					type="pie"
 				/>
 			) : (
-				<Flex
-					minH={'30vh'}
-					justify={'center'}
-					align={'center'}>
-					<NoDataFound text={'No data available'} />
-				</Flex>
+				<NoDataFound text="No data available!" />
 			)}
 		</>
 	);

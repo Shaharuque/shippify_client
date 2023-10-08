@@ -7,31 +7,34 @@ type StatCardsProps = {
 	value: number;
 	icon: IconType;
 	color: string;
+	sign?: string;
+	bg?: string;
 };
-const StatCards = ({ title, value, icon, color }: StatCardsProps) => {
+const StatCards = ({ title, value, icon, color,sign,bg }: StatCardsProps) => {
 	return (
 		<Flex
 			direction={'column'}
 			// w={'16rem'}
-			bg={'#f1f1f1'}
-			_hover={{ backgroundColor: '#e8edeb', boxShadow: '0 4px 4px rgba(0, 0, 0, 0.1)' }}
-			p={'1rem'}
+			_hover={{ backgroundColor: '#e8edeb', boxShadow: '0 4px 4px rgba(0, 0, 0, 0.1)', color:'black' }}
+			p={'.75rem'}
 			borderRadius={'1rem'}
-			marginBottom={"20px"}>
-			<Flex justify={'space-between'}>
+			marginBottom={"20px"}
+			backgroundColor={bg}
+			color={'white'}>
+			<Flex justify={'space-between'} align={'center'}>
 				<Text
 					as="b"
-					fontSize={'1rem'}
+					fontSize={'.75rem'}
 					fontWeight={'600'}>
 					{title}
 				</Text>
 				<Circle
-					border={'.5px solid grey'}
-					p={'.5rem'}>
+					p={'.2rem'}
+					margin={'0 1rem'}>
 					<Icon
 						as={icon}
-						boxSize={'1.5rem'}
-						color={color}
+						boxSize={'1rem'}
+						
 					/>
 				</Circle>
 			</Flex>
@@ -39,7 +42,7 @@ const StatCards = ({ title, value, icon, color }: StatCardsProps) => {
 				as="b"
 				fontSize={'1rem'}
 				fontWeight={'600'}>
-				{formatMonetaryValue(value)}
+				{sign ? value + sign : value}
 			</Text>
 		</Flex>
 	);

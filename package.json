@@ -1,7 +1,0 @@
-{
-  "dependencies": {
-    "@react-pdf-viewer/core": "^3.12.0",
-    "antd": "^5.9.4",
-    "pdfjs-dist": "^3.4.120"
-  }
-}

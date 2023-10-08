@@ -10,7 +10,7 @@ type ShipmentMenuProps = {
 const ShipmentMenu = ({ title, lottie }: ShipmentMenuProps) => {
 	return (
 		<Flex
-			bg={'#f1f1f1 '}
+			bg={'white '}
 			_hover={{ backgroundColor: '#e8edeb ', boxShadow: '0 4px 4px rgba(0, 0, 0, 0.1)' }}
 			p={'1rem'}
 			borderRadius={'1rem'}
