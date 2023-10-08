@@ -39,7 +39,7 @@ const StatCardList = () => {
 
 	return (
 		<>
-			<div className='flex mb-[10px] gap-4'>
+			<div className='flex justify-around mb-[10px] gap-4'>
 				<StatCards
 					title={'Total Shipment'}
 					value={shipmentData?.totalbasicShipment}

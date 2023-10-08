@@ -14,7 +14,7 @@ const StatCards = ({ title, value, icon, color,sign,bg }: StatCardsProps) => {
 	return (
 		<Flex
 			direction={'column'}
-			// w={'16rem'}
+			w={'16rem'}
 			_hover={{ backgroundColor: '#e8edeb', boxShadow: '0 4px 4px rgba(0, 0, 0, 0.1)', color:'black' }}
 			p={'.75rem'}
 			borderRadius={'1rem'}

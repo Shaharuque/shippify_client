@@ -27,7 +27,7 @@ const HomePage = () => {
 				</div>
 
 				<div className='col-span-5'>
-					<div className=''>
+					<div>
 						<StatCardList />
 						<AnalyticsBox />
 						<div className='grid grid-cols-2 gap-4'>

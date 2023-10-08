@@ -3,6 +3,7 @@ import noDataFound from '../../../assets/no-data-found.jpg';
 import { Space, Table, Tag } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 interface DataType {
 	record: any;
@@ -99,8 +100,8 @@ const RecentShipmentTable = () => {
 			title: 'Paid',
 			dataIndex: 'payment',
 			key: 'payment',
-			render: (_, record) => <h1>{record?.payment_detail?.net_payable}$</h1>
-		},
+			render: (_, record) => <h1>{Number(record?.payment_detail?.net_payable).toFixed(2)}$</h1>
+		}
 		// {
 		// 	title: 'Tags',
 		// 	key: 'tags',
@@ -125,13 +126,18 @@ const RecentShipmentTable = () => {
 
 
 	return (
-		<div className='h-[38vh] overflow-x-scroll'>
+		<div className='h-[350px] 2xl:h-[450px] overflow-x-scroll bg-white rounded-md'>
+
 			<Table pagination={false} //pagination dekhatey chailey just 'true' korey dilei hobey
 				rowKey={(record) => record?._id} //record is kind of whole one data object and here we are assigning id as key
 				className='font-semibold'
 				bordered
 				columns={columns}
 				dataSource={shipmentData} />
+
+			<div className='flex justify-end mr-2'>
+				<Link to='/dashboard' className='bg-[#67a5c9] p-2 mt-2 rounded text-white'>See More...</Link>	
+			</div>	
 		</div>
 	);
 };
