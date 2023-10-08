@@ -86,9 +86,9 @@ const DashboardPage = () => {
 					<PriceAscendingDescendingFilter
 						onChange={function (value: string): void {
 							if (value === 'asc') {
-								setTableData((prev) => prev?.sort((a: any, b: any) => a?.rate_detail?.shipping_amount?.amount - b?.rate_detail?.shipping_amount?.amount));
-							} else {
-								setTableData((prev) => prev?.sort((a: any, b: any) => b?.rate_detail?.shipping_amount?.amount - a?.rate_detail?.shipping_amount?.amount));
+								setTableData((prev) => Array.from(prev)?.sort((a: any, b: any) => a?.rateDetail?.shipping_amount?.amount - b?.rateDetail?.shipping_amount?.amount));
+							} else if (value === 'desc') {
+								setTableData((prev) => Array.from(prev)?.sort((a: any, b: any) => b?.rateDetail?.shipping_amount?.amount - a?.rateDetail?.shipping_amount?.amount));
 							}
 							// setPrice(value);
 						}}
@@ -98,7 +98,7 @@ const DashboardPage = () => {
 						onChange={function (value: string): void {
 							if (value === 'asc') {
 								setTableData((prev) => Array.from(prev)?.sort((a: any, b: any) => a?.shipment_detail?.total_weight?.value - b?.shipment_detail?.total_weight?.value));
-							} else {
+							} else if (value === 'desc') {
 								setTableData((prev) => Array.from(prev)?.sort((a: any, b: any) => b?.shipment_detail?.total_weight?.value - a?.shipment_detail?.total_weight?.value));
 							}
 							// setWeight(value);
@@ -107,10 +107,11 @@ const DashboardPage = () => {
 					/>
 					<StatusFilter
 						onChange={function (value: string): void {
-							// console.log('value', value);
 							if (value === '') return;
-							let filterTableData = tableData;
-							filterTableData = Array.from(tableData)?.filter((shipment) => shipment?.shipment_status === reversedDictionary[value]);
+
+							const filterTableData = Array.from([...tableData])?.filter((shipment: any) => {
+								shipment?.shipment_status === reversedDictionary[value];
+							});
 							setTableData(filterTableData);
 							// setStatus(value);
 						}}

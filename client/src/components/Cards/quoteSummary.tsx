@@ -13,7 +13,8 @@ const QuoteSummary = () => {
 	const ltlShipmentInfo = useAppSelector((state: RootState) => state?.ltlShipments?.shipment);
 	const ltlShipmentCharges = useAppSelector((state: RootState) => state?.ltlTotalCharge);
 	const insuranceDetails = useAppSelector((state: RootState) => state?.insurance);
-	const total = Number(ltlShipmentCharges?.amount?.value) + Number(insuranceDetails?.insurance_amount);
+	const total_shipping_charge = Number(ltlShipmentCharges?.amount?.value) + Number(insuranceDetails?.insurance_amount);
+	const total = total_shipping_charge + total_shipping_charge * 0.1;
 
 	return (
 		<Card
@@ -125,6 +126,11 @@ const QuoteSummary = () => {
 							fontSize="sm"
 							m={'.2rem 0'}>
 							Insurance: {insuranceDetails?.insurance_amount} (USD)
+						</Text>
+						<Text
+							fontSize="sm"
+							m={'.2rem 0'}>
+							Platform fee: {total_shipping_charge} (usd)
 						</Text>
 					</Box>
 					<Box ml="auto">

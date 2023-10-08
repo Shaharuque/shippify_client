@@ -10,8 +10,10 @@ const PaymentDetailsLTL = ({ nextStep, prevStep }: { nextStep: () => void; prevS
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const ltlShipmentCharges = useAppSelector((state: RootState) => state?.ltlTotalCharge);
 	const insuranceDetails = useAppSelector((state: RootState) => state?.insurance);
-	const total_payment = Number(ltlShipmentCharges?.amount?.value) + Number(insuranceDetails?.insurance_amount);
-	const total = total_payment + total_payment * 0.1;
+
+	const total_shipping_charge = Number(ltlShipmentCharges?.amount?.value) + Number(insuranceDetails?.insurance_amount);
+	const total = total_shipping_charge + total_shipping_charge * 0.1;
+
 	const handleCheckout = () => {
 		localStorage.setItem(
 			'paymentDetails',

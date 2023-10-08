@@ -14,8 +14,8 @@ const PaymentForm = ({ prevStep }: { prevStep: () => void }) => {
 	const insuranceDetails = useAppSelector((state: RootState) => state?.insurance);
 	const [viewBNPLBtn, setViewBNPLBtn] = useState(false);
 
-	const total_payment = Number(selectedRate?.shipping_amount?.amount) + Number(selectedRate?.other_amount?.amount) + Number(insuranceDetails?.insurance_amount);
-	const total = total_payment + total_payment * 0.1;
+	const total_shipping_charge = Number(selectedRate?.shipping_amount?.amount) + Number(selectedRate?.other_amount?.amount) + Number(insuranceDetails?.insurance_amount);
+	const total = total_shipping_charge + total_shipping_charge * 0.1;
 
 	const handleNormalCheckout = () => {
 		localStorage.setItem(

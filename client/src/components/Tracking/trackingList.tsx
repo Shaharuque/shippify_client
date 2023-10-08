@@ -20,14 +20,14 @@ const status = [
 ];
 
 const labelStepDictionary: { [key: string]: number } = {
-	received: 8,
+	pending: 1,
+	label_purchased: 2,
 	dropped_at_service_pointlabel_purchased: 3,
+	in_transit: 4,
 	dropped_at_pickup_pointlabel_purchased: 5,
 	unknown: 6,
-	label_purchased: 2,
-	pending: 1,
-	in_transit: 4,
 	returned: 7,
+	received: 8,
 };
 
 const TrackingList = () => {
@@ -49,6 +49,8 @@ const TrackingList = () => {
 				});
 				//console.log('result:', response.data);
 				setTableData(response?.data?.result);
+				setActiveCard(response?.data?.result[0]?._id);
+				fetchSingleShipment({ token, id: response?.data?.result[0]?._id });
 				setTabListLoading(false);
 			} catch (error) {
 				console.log(error);
