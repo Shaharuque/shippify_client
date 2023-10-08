@@ -100,8 +100,14 @@ const RecieverAddressFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; 
 					<Flex
 						gap={'3rem'}
 						mb={'3vh'}>
-						<FormControl id="contact.name">
-							<FormLabel fontWeight={'600'}>Contact Name</FormLabel>
+						<FormControl
+							id="contact.name"
+							isRequired>
+							<FormLabel
+								fontWeight={'600'}
+								requiredIndicator={<></>}>
+								Contact Name
+							</FormLabel>
 							<Input
 								{...register('contact.name')}
 								variant={'flushed'}
@@ -111,8 +117,14 @@ const RecieverAddressFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; 
 							/>
 						</FormControl>
 
-						<FormControl id="contact.email">
-							<FormLabel fontWeight={'600'}>Contact Email</FormLabel>
+						<FormControl
+							id="contact.email"
+							isRequired>
+							<FormLabel
+								fontWeight={'600'}
+								requiredIndicator={<></>}>
+								Contact Email
+							</FormLabel>
 							<Input
 								{...register('contact.email')}
 								variant={'flushed'}
@@ -123,8 +135,14 @@ const RecieverAddressFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; 
 						</FormControl>
 					</Flex>
 					<Flex w={'15vw'}>
-						<FormControl id="contact.phone_number">
-							<FormLabel fontWeight={'600'}>Contact Number</FormLabel>
+						<FormControl
+							id="contact.phone_number"
+							isRequired>
+							<FormLabel
+								fontWeight={'600'}
+								requiredIndicator={<></>}>
+								Contact Number
+							</FormLabel>
 							<Input
 								{...register('contact.phone_number')}
 								variant={'flushed'}
@@ -139,8 +157,14 @@ const RecieverAddressFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; 
 				<Flex
 					gap={'3rem'}
 					mb={'3vh'}>
-					<FormControl id="address.company_name">
-						<FormLabel fontWeight={'600'}>Company Name</FormLabel>
+					<FormControl
+						id="address.company_name"
+						isRequired>
+						<FormLabel
+							fontWeight={'600'}
+							requiredIndicator={<></>}>
+							Company Name
+						</FormLabel>
 						<Input
 							{...register('address.company_name')}
 							variant={'flushed'}
@@ -149,8 +173,14 @@ const RecieverAddressFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; 
 							_focusVisible={{ borderColor: '#002855', boxShadow: '0px 1px 0px 0px #002855 ' }}
 						/>
 					</FormControl>
-					<FormControl id="address.country_code">
-						<FormLabel fontWeight={'600'}>Country</FormLabel>
+					<FormControl
+						id="address.country_code"
+						isRequired>
+						<FormLabel
+							fontWeight={'600'}
+							requiredIndicator={<></>}>
+							Country
+						</FormLabel>
 						<Select
 							{...register('address.country_code')}
 							onChange={handleCountryChange}
@@ -170,8 +200,13 @@ const RecieverAddressFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; 
 					mb={'3vh'}>
 					<FormControl
 						id="state_province"
-						mb="4">
-						<FormLabel fontWeight={'600'}>State/Province</FormLabel>
+						mb="4"
+						isRequired>
+						<FormLabel
+							fontWeight={'600'}
+							requiredIndicator={<></>}>
+							State/Province
+						</FormLabel>
 						<Select
 							{...register('address.state_province')}
 							variant={'flushed'}
@@ -191,8 +226,13 @@ const RecieverAddressFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; 
 					</FormControl>
 					<FormControl
 						id="city_locality"
-						mb="4">
-						<FormLabel fontWeight={'600'}>City</FormLabel>
+						mb="4"
+						isRequired>
+						<FormLabel
+							fontWeight={'600'}
+							requiredIndicator={<></>}>
+							City
+						</FormLabel>
 						<Select
 							{...register('address.city_locality')}
 							variant={'flushed'}
@@ -212,8 +252,14 @@ const RecieverAddressFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; 
 					</FormControl>
 				</Flex>
 				<Flex gap={'3rem'}>
-					<FormControl id="address.address_line1">
-						<FormLabel fontWeight={'600'}>Street</FormLabel>
+					<FormControl
+						id="address.address_line1"
+						isRequired>
+						<FormLabel
+							fontWeight={'600'}
+							requiredIndicator={<></>}>
+							Street
+						</FormLabel>
 						<Input
 							{...register('address.address_line1')}
 							variant={'flushed'}
@@ -223,8 +269,14 @@ const RecieverAddressFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; 
 						/>
 					</FormControl>
 
-					<FormControl id="address.postal_code">
-						<FormLabel fontWeight={'600'}>Postal Code</FormLabel>
+					<FormControl
+						id="address.postal_code"
+						isRequired>
+						<FormLabel
+							fontWeight={'600'}
+							requiredIndicator={<></>}>
+							Postal Code
+						</FormLabel>
 						<Input
 							{...register('address.postal_code')}
 							variant={'flushed'}

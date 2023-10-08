@@ -12,9 +12,8 @@ import SuccessFulPayment from './components/Payment/successFulPayment';
 import Layout from './components/Layout/layout';
 import BlockChainTransactions from './pages/BlockChainTransactions/BlockChainTransactions';
 import PDFViewer from './pages/PDFViewer/PDFViewer';
-import Navbar from './components/Navbar/navbar';
-import SideNavbar from './components/Side navbar/sideNavbar';
 import BNPL from './pages/BNPL/bnpl';
+import MainPage from './pages/FinancialCharts/MainPage';
 
 function App() {
 	return (
@@ -27,7 +26,7 @@ function App() {
 					path="/login"
 					element={<LoginPage />}></Route>
 
-				<Route element={<Navbar />}>
+				<Route element={<Layout />}>
 					<Route
 						path="/home"
 						element={<HomePage />}
@@ -53,20 +52,30 @@ function App() {
 						path="/tracking"
 						element={<TrackingPage />}
 					/>
+
+					<Route
+						path="/financial/charts"
+						element={<MainPage></MainPage>}></Route>
+
+					<Route
+						path="/block-chain"
+						element={<BlockChainTransactions></BlockChainTransactions>}></Route>
+
 					<Route
 						path="/bnpl"
 						element={<BNPL />}
 					/>
-				</Route>
 
-				<Route
-					path="/stripe/payment/success"
-					element={<SuccessFulPayment />}
-				/>
-				<Route
-					path="/sidebar"
-					element={<SideNavbar />}
-				/>
+					<Route
+						path="/stripe/payment/success"
+						element={<SuccessFulPayment />}
+					/>
+
+					<Route
+						path="/pdf-viewer"
+						element={<PDFViewer />}
+					/>
+				</Route>
 
 				<Route
 					path="*"

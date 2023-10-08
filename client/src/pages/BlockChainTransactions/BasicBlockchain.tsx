@@ -52,7 +52,7 @@ const BasicBlockchain = () => {
 			try {
 				setLoading(true);
 				const response = await axios.post(
-					`http://localhost:5000/shipment/sort-by-package-and-price`,
+					`${import.meta.env.VITE_BACKEND_URL}/shipment/sort-by-package-and-price`,
 					{ carrier_id: '', priceSort: '', weightSort: '', shipment_status: '' },
 					{
 						headers: {
@@ -93,7 +93,7 @@ const BasicBlockchain = () => {
 		setHashLoading(true);
 		const fetchBlockData = async () => {
 			try {
-				const response = await axios.get(`http://192.168.68.89:8000/get-detail/${transaction_hash}`, {
+				const response = await axios.get(`${import.meta.env.VITE_BLOCKCHAIN_URL}/get-detail/${transaction_hash}`, {
 					headers: {
 						'Content-Type': 'application/json',
 					},

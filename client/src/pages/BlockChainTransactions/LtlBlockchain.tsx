@@ -47,7 +47,7 @@ const LtlBlockchain = () => {
 		const fetchTableData = async () => {
 			try {
 				setLoading(true);
-				const response = await axios.get(`http://localhost:5000/ltlShipment/my-shipment-list`, {
+				const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/ltlShipment/my-shipment-list`, {
 					headers: {
 						'Content-Type': 'application/json',
 						'x-auth-token': token,
@@ -85,7 +85,7 @@ const LtlBlockchain = () => {
 		setHashLoading(true);
 		const fetchBlockData = async () => {
 			try {
-				const response = await axios.get(`http://192.168.68.89:8000/get-detail/${transaction_hash}`, {
+				const response = await axios.get(`${import.meta.env.VITE_BLOCKCHAIN_URL}/get-detail/${transaction_hash}`, {
 					headers: {
 						'Content-Type': 'application/json',
 					},

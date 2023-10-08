@@ -5,15 +5,27 @@ import AnalyticsBox from '../../components/Home page components/Analytics box/an
 
 const HomePage = () => {
 	return (
-		<Box p={'2rem 1rem 1rem 6rem'}>
-			<Flex
-				gap={'1rem'}
-				p={'1.5rem'}>
+		// <Box height={"100vh"}>
+		// 	<Flex
+		// 		gap={'1rem'}
+		// 		p={'1.5rem'}>
+		// 		<ShipmentMenuList />
+		// 		<AnalyticsBox />
+		// 		
+		// 	</Flex>
+		// </Box>
+		<div className='grid grid-cols-6 gap-5 p-5 lg:ml-[60px] 2xl:ml-[20px]'>
+			<div className='col-span-1'>
 				<ShipmentMenuList />
+			</div>
+
+			<div className='col-span-4'>
 				<AnalyticsBox />
+			</div>
+			<div className='col-span-1'>
 				<StatCardList />
-			</Flex>
-		</Box>
+			</div>
+		</div>
 	);
 };
 

@@ -7,8 +7,8 @@ export const populateMonthsForCharts = (data: any) => {
 	}
 
 	for (const item of data) {
-		const { count, month } = item;
-		monthCounts[month] += count;
+		const { count, month,totalPackages } = item;
+		monthCounts[month] += count || totalPackages;
 	}
 
 	const result = Object.keys(monthCounts).map((month) => ({

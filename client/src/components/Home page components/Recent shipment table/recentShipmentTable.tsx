@@ -1,64 +1,142 @@
-import { Table, Thead, Tbody, Tr, Th, Td, TableCaption, TableContainer, Flex } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-import NoDataFound from '../../No service available/noDataFound';
+import { Table } from 'antd';
+import type { ColumnsType } from 'antd/es/table';
+import axios from 'axios';
+
+interface DataType {
+	record: any;
+	key: string;
+	name: string;
+	age: number;
+	address: string;
+	tags: string[];
+}
 
 const tableHeaders = ['From', 'To', 'Service'];
 
 const RecentShipmentTable = () => {
 	const [shipmentData, setShipmentData] = useState([]);
+	const [lTLTableData, setLTLTableData] = useState([]);
+	const [Loading, setLoading] = useState(false);
+	const token = localStorage.getItem('token');
 
 	useEffect(() => {
-		setShipmentData([]);
+		try {
+			const fetchBasicShipmentData = async () => {
+				setLoading(true);
+				const basicResponse = await axios.post(
+					`${import.meta.env.VITE_BACKEND_URL}/shipment/sort-by-package-and-price`,
+					{ carrier_id: '', priceSort: '', weightSort: '', shipment_status: '' },
+					{
+						headers: {
+							'Content-Type': 'application/json',
+							'x-auth-token': token,
+						},
+					}
+				);
+				const ltlResponse = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/ltlShipment/my-shipment-list`, {
+					headers: {
+						'Content-Type': 'application/json',
+						'x-auth-token': token,
+					},
+				});
+				setShipmentData(basicResponse?.data?.result?.slice(0, 7));
+				setLTLTableData(ltlResponse?.data?.data);
+				setLoading(false);
+			};
+
+			fetchBasicShipmentData();
+		} catch (error) {
+			console.log(error);
+		}
 	}, []);
 
-	return (
-		<>
-			{shipmentData && shipmentData.length > 0 ? (
-				<TableContainer>
-					<Table
-						variant="striped"
-						colorScheme="grey">
-						<TableCaption placement="top">Recent Shipments</TableCaption>
+	const columns: ColumnsType<DataType> = [
+		{
+			title: 'Carrier',
+			dataIndex: 'name',
+			key: 'name',
+			render: (_, record) => <h1>{record?.labelDetail?.carrier_code}</h1>,
+		},
+		{
+			title: 'Service',
+			dataIndex: 'name',
+			key: 'name',
+			// ellipsis: true,
+			render: (_, record) => <h1 className=" break-words">{record?.labelDetail?.service_code}</h1>,
+		},
 
-						<Thead>
-							<Tr>
-								{tableHeaders.map((header, index) => (
-									<Th
-										key={index}
-										borderBottom={0}>
-										{header}
-									</Th>
-								))}
-							</Tr>
-						</Thead>
-						<Tbody>
-							<Tr>
-								<Td borderBottom={'0'}>CA, USA</Td>
-								<Td borderBottom={'0'}>TX, USA</Td>
-								<Td borderBottom={'0'}>DHL</Td>
-							</Tr>
-							<Tr>
-								<Td borderBottom={'0'}>CA, USA</Td>
-								<Td borderBottom={'0'}>TX, USA</Td>
-								<Td borderBottom={'0'}>DHL</Td>
-							</Tr>
-							<Tr>
-								<Td borderBottom={0}>CA, USA</Td>
-								<Td borderBottom={0}>TX, USA</Td>
-								<Td borderBottom={0}>DHL</Td>
-							</Tr>
-						</Tbody>
-					</Table>
-				</TableContainer>
-			) : (
-				<Flex
-					minH={'30vh'}
-					justify={'center'}
-					align={'center'}>
-					<NoDataFound text={'No data available'} />
-				</Flex>
-			)}
-		</>
+		{
+			title: 'From',
+			dataIndex: 'fromaddress',
+			key: 'fromaddress',
+			render: (_, record) => (
+				<h1 className="text-center">
+					{record?.shipment_detail?.ship_from?.city_locality}, {record?.shipment_detail?.ship_from?.country_code}
+				</h1>
+			),
+		},
+		{
+			title: 'To',
+			dataIndex: 'toadress',
+			key: 'toadress',
+			render: (_, record) => (
+				<h1 className="text-center">
+					{record?.shipment_detail?.ship_to?.city_locality}, {record?.shipment_detail?.ship_to?.country_code}
+				</h1>
+			),
+		},
+		{
+			title: 'Shipping Rate',
+			dataIndex: 'rate',
+			key: 'rate',
+			render: (_, record) => <h1 className="text-center">{record?.rateDetail?.shipping_amount?.amount}$</h1>,
+		},
+		{
+			title: 'Insurance',
+			dataIndex: 'insurance',
+			key: 'insurance',
+			render: (_, record) => <h1 className="text-center">{record?.insurance_detail?.fee?.amount}$</h1>,
+		},
+		{
+			title: 'Paid',
+			dataIndex: 'payment',
+			key: 'payment',
+			render: (_, record) => <h1>{record?.payment_detail?.net_payable}$</h1>,
+		},
+		// {
+		// 	title: 'Tags',
+		// 	key: 'tags',
+		// 	dataIndex: 'tags',
+		// 	render: (_, { tags }) => (
+		// 		<>
+		// 			{tags.map((tag) => {
+		// 				let color = tag.length > 5 ? 'geekblue' : 'green';
+		// 				if (tag === 'loser') {
+		// 					color = 'volcano';
+		// 				}
+		// 				return (
+		// 					<Tag color={color} key={tag}>
+		// 						{tag.toUpperCase()}
+		// 					</Tag>
+		// 				);
+		// 			})}
+		// 		</>
+		// 	),
+		// }
+	];
+
+	return (
+		<div className="h-[38vh] overflow-x-scroll">
+			<Table
+				pagination={false} //pagination dekhatey chailey just 'true' korey dilei hobey
+				rowKey={(record) => record?._id} //record is kind of whole one data object and here we are assigning id as key
+				className="font-semibold"
+				bordered
+				columns={columns}
+				dataSource={shipmentData}
+			/>
+		</div>
 	);
 };
 

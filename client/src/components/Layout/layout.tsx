@@ -11,6 +11,7 @@ const Layout = () => {
 			<Box
 				w={'100vw'}
 				h={'100vh'}
+				overflow={'scroll'}
 				bg={'linear-gradient(135deg, hsla(155, 44%, 92%, 1) 0%, hsla(191, 24%, 62%, 1) 100%)'}>
 				<Outlet />
 			</Box>

@@ -171,7 +171,6 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 
 		dispatch(updateField({ packages: updatedPackages }));
 		CustomReset();
-		setSelectedPredefinedBoxCode(null);
 	};
 
 	return (

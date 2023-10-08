@@ -48,7 +48,7 @@ const PieChart = () => {
 				options: {
 					chart: {
 						width: 550,
-						height: 400,
+						height: 300,
 					},
 					legend: {
 						position: 'right' as 'right',
@@ -67,35 +67,36 @@ const PieChart = () => {
 						},
 					},
 
-					title: {
-						text: 'Shipment status',
-						align: 'center',
-						margin: 20,
-						offsetX: 35,
-						offsetY: 0,
-						floating: false,
-						style: {
-							fontSize: '14px',
-							fontWeight: 'bold',
-							fontFamily: undefined,
-							color: '#263238',
-						},
-					},
+					// title: {
+					// 	text: 'Shipment Status',
+					// 	align: 'center',
+					// 	offsetX: 35,
+					// 	offsetY: 0,
+					// 	floating: false,
+					// 	style: {
+					// 		fontSize: '14px',
+					// 		marginBottom:"20px",
+					// 		fontWeight: 'bold',
+					// 		fontFamily: undefined,
+					// 		color: '#263238',
+					// 	},
+					// },
 				},
 			},
 			{
 				breakpoint: 1367,
 				options: {
 					chart: {
-						width: 350,
+						width: 360,
+						height: 300,
 					},
 
 					legend: {
-						position: 'bottom' as 'bottom',
-						height: 60,
-						fontSize: '12px',
+						position: 'right' as 'right',
+						height: 0,
+						fontSize: '10px',
 						itemMargin: {
-							horizontal: 8,
+							horizontal: 0,
 							vertical: 0,
 						},
 					},

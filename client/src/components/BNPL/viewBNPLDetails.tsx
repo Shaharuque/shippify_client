@@ -31,21 +31,21 @@ const CreditScoreCard = () => {
     const fetchTableData = async () => {
       try {
         const response = await axios
-          .post(
-            `http://localhost:3000/credit-score/`,
-            {
-              user_id: "123",
-            },
-            {
-              headers: {
-                "Content-Type": "application/json",
-                "x-auth-token": token,
-              },
-            }
-          )
-          .then((data) => {
-            setTableData(data?.data);
-          });
+									.post(
+										`${import.meta.env.VITE_BNPL_URL}/credit-score/`,
+										{
+											user_id: '123',
+										},
+										{
+											headers: {
+												'Content-Type': 'application/json',
+												'x-auth-token': token,
+											},
+										}
+									)
+									.then((data) => {
+										setTableData(data?.data);
+									});
       } catch (error) {
         console.log(error);
       }
@@ -118,7 +118,7 @@ const CreditScoreCard = () => {
                 <Text fontSize="sm">No of Defaults</Text>
               </Box>
             </Box>
-            {/* 
+            {/*
             <div className="mt-4">
               <Heading size="sm" textTransform="uppercase">
                 Estimated Delivery Date

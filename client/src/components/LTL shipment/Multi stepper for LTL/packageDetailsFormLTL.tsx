@@ -106,31 +106,30 @@ const PackageDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; p
 	};
 
 	const handlePackageTypeCode = (code: string | null) => {
+		if (!numberInputChange) CustomReset();
 		if (selectedPackageCode === code) setSelectedPackageCode(null);
 		else setSelectedPackageCode(code);
 	};
 
 	const handleSelectPackage = (index: number) => {
-		if (selectedPackageIndex !== index) {
-			reset(defaultValues);
-			setSelectedPackageIndex(index);
-			setEditMode(true);
-			setNumberInputChange(false);
-			const selectedPackage = packages[index];
-			console.log('selected package:', selectedPackage);
+		reset(defaultValues);
+		setSelectedPackageIndex(index);
+		setEditMode(true);
+		setNumberInputChange(false);
+		const selectedPackage = packages[index];
+		console.log('selected package:', selectedPackage);
 
-			setValue('quantity', selectedPackage?.quantity);
-			setValue('dimensions.length', selectedPackage?.dimensions?.length);
-			setValue('dimensions.width', selectedPackage?.dimensions?.width);
-			setValue('dimensions.height', selectedPackage?.dimensions?.height);
-			setValue('dimensions.unit', selectedPackage?.dimensions?.unit);
-			setValue('weight.value', selectedPackage?.weight?.value);
-			setValue('weight.unit', selectedPackage?.weight?.unit);
-			setValue('nmfc_code', selectedPackage?.nmfc_code);
-			setSwitchValue(selectedPackage?.stackable);
-			setHazardousMaterialsValue(selectedPackage?.hazardous_materials);
-			setSelectedPackageCode(selectedPackage?.code);
-		}
+		setValue('quantity', selectedPackage?.quantity);
+		setValue('dimensions.length', selectedPackage?.dimensions?.length);
+		setValue('dimensions.width', selectedPackage?.dimensions?.width);
+		setValue('dimensions.height', selectedPackage?.dimensions?.height);
+		setValue('dimensions.unit', selectedPackage?.dimensions?.unit);
+		setValue('weight.value', selectedPackage?.weight?.value);
+		setValue('weight.unit', selectedPackage?.weight?.unit);
+		setValue('nmfc_code', selectedPackage?.nmfc_code);
+		setSwitchValue(selectedPackage?.stackable);
+		setHazardousMaterialsValue(selectedPackage?.hazardous_materials);
+		setSelectedPackageCode(selectedPackage?.code);
 	};
 
 	const CustomReset = () => {
@@ -143,7 +142,9 @@ const PackageDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; p
 	};
 
 	const customDimensionFormValidator = () => {
-		const result = getValues('dimensions.height') === null || getValues('dimensions.width') === null || getValues('dimensions.length') === null || getValues('weight.value') === null || !numberInputChange || selectedPackageCode === null || getValues('quantity') === null;
+		// const result = getValues('dimensions.height') === null || getValues('dimensions.width') === null || getValues('dimensions.length') === null || getValues('weight.value') === null || selectedPackageCode === null || getValues('quantity') === null;
+
+		const result = !numberInputChange || selectedPackageCode === null;
 
 		// console.log('validator', result);
 		return result;
@@ -151,7 +152,6 @@ const PackageDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; p
 
 	const handleRemoveButton = () => {
 		const updatedPackages = packages.filter((_, index) => index !== selectedPackageIndex);
-
 		dispatch(updateField({ packages: updatedPackages }));
 		CustomReset();
 	};
@@ -243,9 +243,7 @@ const PackageDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; p
 									))}
 								</Select>
 							</FormControl>
-							<FormControl
-								mt={'2rem'}
-								isReadOnly>
+							<FormControl mt={'2rem'}>
 								<Input
 									id="nmfc_code"
 									{...register('nmfc_code')}
@@ -436,7 +434,6 @@ const PackageDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; p
 										text="Remove"
 										width="6rem"
 										onHoverColor="#DC143C"
-										// isDisabled={!editMode}
 										onClick={handleRemoveButton}
 									/>
 								) : null}
@@ -446,7 +443,6 @@ const PackageDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; p
 										text="Add new"
 										width="6rem"
 										onClick={CustomReset}
-										// isDisabled={!editMode}
 									/>
 								) : null}
 							</Flex>

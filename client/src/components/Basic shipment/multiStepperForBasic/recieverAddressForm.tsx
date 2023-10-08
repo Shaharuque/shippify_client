@@ -92,8 +92,14 @@ const ReceiverAddressForm = ({ nextStep, prevStep }: { nextStep: () => void; pre
 				<Flex
 					gap={'3rem'}
 					mb={'2vw'}>
-					<FormControl id="name">
-						<FormLabel fontWeight={'600'}>Name</FormLabel>
+					<FormControl
+						id="name"
+						isRequired>
+						<FormLabel
+							fontWeight={'600'}
+							requiredIndicator={<></>}>
+							Name
+						</FormLabel>
 						<Input
 							{...register('name')}
 							variant={'flushed'}
@@ -104,8 +110,13 @@ const ReceiverAddressForm = ({ nextStep, prevStep }: { nextStep: () => void; pre
 					</FormControl>
 					<FormControl
 						id="country_code"
-						mb="4">
-						<FormLabel fontWeight={'600'}>Country</FormLabel>
+						mb="4"
+						isRequired>
+						<FormLabel
+							fontWeight={'600'}
+							requiredIndicator={<></>}>
+							Country
+						</FormLabel>
 						<Select
 							{...register('country_code')}
 							onChange={handleCountryChange}
@@ -116,8 +127,8 @@ const ReceiverAddressForm = ({ nextStep, prevStep }: { nextStep: () => void; pre
 							placeholder="Select country">
 							<option value={'US'}>United State of America</option>
 							<option value={'CA'}>Canada</option>
-							<option value={'MX'}>Mexico</option>
-							<option value={'AU'}>Australia</option>
+							{/* <option value={'MX'}>Mexico</option>
+							<option value={'AU'}>Australia</option> */}
 						</Select>
 					</FormControl>
 				</Flex>
@@ -127,8 +138,13 @@ const ReceiverAddressForm = ({ nextStep, prevStep }: { nextStep: () => void; pre
 					mb={'2vw'}>
 					<FormControl
 						id="state_province"
-						mb="4">
-						<FormLabel fontWeight={'600'}>State/Province</FormLabel>
+						mb="4"
+						isRequired>
+						<FormLabel
+							fontWeight={'600'}
+							requiredIndicator={<></>}>
+							State/Province
+						</FormLabel>
 						<Select
 							{...register('state_province')}
 							variant={'flushed'}
@@ -148,8 +164,13 @@ const ReceiverAddressForm = ({ nextStep, prevStep }: { nextStep: () => void; pre
 					</FormControl>
 					<FormControl
 						id="city_locality"
-						mb="4">
-						<FormLabel fontWeight={'600'}>City</FormLabel>
+						mb="4"
+						isRequired>
+						<FormLabel
+							fontWeight={'600'}
+							requiredIndicator={<></>}>
+							City
+						</FormLabel>
 						<Select
 							{...register('city_locality')}
 							variant={'flushed'}
@@ -192,12 +213,15 @@ const ReceiverAddressForm = ({ nextStep, prevStep }: { nextStep: () => void; pre
 					<FormControl
 						id="postal_code"
 						mb="4"
-						isReadOnly>
-						<FormLabel fontWeight={'600'}>Postal Code</FormLabel>
+						isRequired>
+						<FormLabel
+							fontWeight={'600'}
+							requiredIndicator={<></>}>
+							Postal Code
+						</FormLabel>
 
 						<Input
 							{...register('postal_code')}
-							isReadOnly
 							variant={'flushed'}
 							borderBottom={'1px solid #314866'}
 							transition={'all 0.30s ease-in-out;'}

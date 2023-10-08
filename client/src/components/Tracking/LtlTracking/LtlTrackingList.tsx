@@ -40,7 +40,7 @@ const LtlTrackingList = () => {
 		const fetchTableData = async () => {
 			try {
 				setTabListLoading(true);
-				const response = await axios.get(`http://localhost:5000/ltlShipment//without-received-ltl-shipments`, {
+				const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/ltlShipment//without-received-ltl-shipments`, {
 					headers: {
 						'Content-Type': 'application/json',
 						'x-auth-token': token,

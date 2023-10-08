@@ -61,7 +61,6 @@ const CustomsInfoForm = () => {
 	const onSubmit: SubmitHandler<ICustomsItem> = (data) => {
 		if (customItemsInfo && customItemsInfo?.length > 0) {
 			if (editMode) {
-				CustomReset();
 				const updateCustomItems = [...customItemsInfo];
 				updateCustomItems[selectedCustomItemInfoIndex!] = data;
 				const newCustoms = { contents, non_delivery: returnPolicy, customs_items: updateCustomItems };
@@ -79,12 +78,12 @@ const CustomsInfoForm = () => {
 	};
 
 	const handleSelectCustomItemInfo = (index: number) => {
+		CustomReset();
+		setAddNew(true);
+		setEditMode(true);
 		const selectedItem = customItemsInfo![index];
 		setSelectedCustomItemInfoIndex(index);
 
-		console.log('index', index, selectedCustomItemInfoIndex);
-
-		console.log('selectedItem', selectedItem);
 		setValue('country_of_manufacture', selectedItem?.country_of_manufacture);
 		setValue('country_of_origin', selectedItem?.country_of_origin);
 		setValue('harmonized_tariff_code', selectedItem?.harmonized_tariff_code);
@@ -92,9 +91,6 @@ const CustomsInfoForm = () => {
 		setValue('quantity', selectedItem?.quantity);
 		setValue('value.amount', selectedItem?.value?.amount);
 		setValue('value.currency', selectedItem?.value?.currency);
-
-		setAddNew(true);
-		setEditMode(true);
 	};
 
 	const handleRemove = () => {
@@ -106,6 +102,7 @@ const CustomsInfoForm = () => {
 
 	const CustomReset = () => {
 		reset({ ...defaultCustomsValues?.customs_items[0] });
+		// reset({ ...defaultCustomsValues?.customs_items[0], quantity: null, value: { amount: null, currency: '' } });
 		setSelectedCustomItemInfoIndex(null);
 		setAddNew(false);
 		setEditMode(false);

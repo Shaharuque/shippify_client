@@ -5,13 +5,14 @@ import PaymentModal from '../../Modals/paymentModal';
 import axios from 'axios';
 import { useAppSelector } from '../../../redux/hooks';
 import { RootState } from '../../../redux/store';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 const PaymentForm = ({ prevStep }: { prevStep: () => void }) => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const selectedRate = useAppSelector((state: any) => state?.selectedRate?.selectedRate);
 	const shipmentId = useAppSelector((state: any) => state?.selectedRate?.shipmentId);
 	const insuranceDetails = useAppSelector((state: RootState) => state?.insurance);
+	const [viewBNPLBtn, setViewBNPLBtn] = useState(false);
 
 	const total = Number(selectedRate?.shipping_amount?.amount) + Number(selectedRate?.other_amount?.amount) + Number(insuranceDetails?.insurance_amount);
 
@@ -41,24 +42,24 @@ const PaymentForm = ({ prevStep }: { prevStep: () => void }) => {
 	};
 
 	useEffect(() => {
-		const fetchCreditScoreData = async () => {
+		const fetchCreditOptions = async () => {
 			const userData = localStorage.getItem('userData');
 
 			try {
 				if (userData) {
 					const user = JSON.parse(userData);
-					const response = await axios.post('http://192.168.68.76:4000/credit-score/eligibility', {
+					const response = await axios.post(`${import.meta.env.VITE_BNPL_URL}/credit-score/eligibility`, {
 						user_id: user?._id,
-						shipping_fee: total,
 					});
-					console.log('response', response?.data);
+					console.log('response', response?.data?.allowed);
+					setViewBNPLBtn(response?.data?.allowed);
 				}
 			} catch (error) {
 				console.error('Error while fetching data:', error);
 			}
 		};
-		fetchCreditScoreData();
-	}, [total]);
+		fetchCreditOptions();
+	}, []);
 
 	return (
 		<Box
@@ -91,7 +92,7 @@ const PaymentForm = ({ prevStep }: { prevStep: () => void }) => {
 				<Flex
 					gap={'1rem'}
 					justify={'flex-end'}>
-					<Button onClick={onOpen}>BNPL</Button>
+					{viewBNPLBtn && <Button onClick={onOpen}>BNPL</Button>}
 					<Button onClick={handleNormalCheckout}>Pay now</Button>
 				</Flex>
 			</Flex>

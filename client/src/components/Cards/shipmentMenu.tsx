@@ -14,10 +14,13 @@ const ShipmentMenu = ({ title, lottie }: ShipmentMenuProps) => {
 			_hover={{ backgroundColor: '#e8edeb ', boxShadow: '0 4px 4px rgba(0, 0, 0, 0.1)' }}
 			p={'1rem'}
 			borderRadius={'1rem'}
-			w={'15rem'}
-			gap={'2rem'}
+			// w={'15rem'}
+			gap={'.75rem'}
 			direction={'column'}
-			pos={'relative'}>
+			pos={'relative'}
+			marginBottom={'10px'}
+			justify={'center'}
+			>
 			<Tooltip label="Hello">
 				<Box
 					pos={'absolute'}
@@ -28,18 +31,25 @@ const ShipmentMenu = ({ title, lottie }: ShipmentMenuProps) => {
 			</Tooltip>
 
 			<Center>
-				<Box boxSize={'5rem'}>{lottie}</Box>
+				<Box boxSize={'3rem'}>{lottie}</Box>
 			</Center>
 
 			<Center>
 				<Text
 					as="b"
-					fontSize={'1.15rem'}
+					fontSize={'0.75rem'}
 					fontWeight={'600'}>
 					{title}
 				</Text>
 			</Center>
 		</Flex>
+	// 	<>
+	// 	<div>
+	// 		<div className='h-[120px]'>
+	// 			{lottie}
+	// 		</div>
+	// 	</div>
+	// </>
 	);
 };
 

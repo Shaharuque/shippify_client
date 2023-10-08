@@ -33,7 +33,7 @@ const PaymentModal = ({ onClose, isOpen, total, insured_amount }: PaymentModalPr
 			try {
 				if (userData) {
 					const user = JSON.parse(userData);
-					const response = await axios.post('http://192.168.68.76:4000/credit-score/credit-options', {
+					const response = await axios.post(`${import.meta.env.VITE_BNPL_URL}/credit-score/credit-options`, {
 						user_id: user?._id,
 					});
 					console.log('response', response?.data);

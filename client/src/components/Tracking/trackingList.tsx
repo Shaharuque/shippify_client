@@ -41,7 +41,7 @@ const TrackingList = () => {
 		const fetchTableData = async () => {
 			try {
 				setTabListLoading(true);
-				const response = await axios.get(`http://localhost:5000/shipment/without-received-shipments`, {
+				const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/shipment/without-received-shipments`, {
 					headers: {
 						'Content-Type': 'application/json',
 						'x-auth-token': token,

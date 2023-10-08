@@ -15,6 +15,7 @@
 		"@emotion/styled": "^11.11.0",
 		"@reduxjs/toolkit": "^1.9.5",
 		"@types/react-redux": "^7.1.26",
+		"antd": "^5.9.4",
 		"apexcharts": "^3.42.0",
 		"axios": "^1.5.0",
 		"dotenv": "^16.3.1",

@@ -35,7 +35,7 @@ const DashboardPage = () => {
 
 				setLoading(true);
 				const basicResponse = await axios.post(
-					`http://localhost:5000/shipment/sort-by-package-and-price`,
+					`${import.meta.env.VITE_BACKEND_URL}/shipment/sort-by-package-and-price`,
 					{ carrier_id: '', priceSort: price, weightSort: weight, shipment_status: status },
 					{
 						headers: {
@@ -44,7 +44,7 @@ const DashboardPage = () => {
 						},
 					}
 				);
-				const ltlResponse = await axios.get(`http://localhost:5000/ltlShipment/my-shipment-list`, {
+				const ltlResponse = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/ltlShipment/my-shipment-list`, {
 					headers: {
 						'Content-Type': 'application/json',
 						'x-auth-token': token,
