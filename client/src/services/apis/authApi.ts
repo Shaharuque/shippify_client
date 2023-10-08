@@ -4,7 +4,7 @@ import { axiosInstance } from '../axios';
 
 export const signUp = async (data: LoginFormData) => {
 	try {
-		return axiosInstance.post(`${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}/user/registration-request`, data, {
+		return axiosInstance.post(`${import.meta.env.VITE_BACKEND_URL}/user/registration-request`, data, {
 			headers: { 'Content-Type': 'application/json' },
 		});
 	} catch (error) {
@@ -14,7 +14,7 @@ export const signUp = async (data: LoginFormData) => {
 
 export const sendOTP = async (data: OtpFormData) => {
 	try {
-		return axiosInstance.post(`${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}/user/registration-confirm`, data, {
+		return axiosInstance.post(`${import.meta.env.VITE_BACKEND_URL}/user/registration-confirm`, data, {
 			headers: { 'Content-Type': 'application/json' },
 		});
 	} catch (error) {
@@ -24,7 +24,7 @@ export const sendOTP = async (data: OtpFormData) => {
 
 export const signIn = async (data: LoginFormData) => {
 	try {
-		return axiosInstance.post(`${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}/user/login`, data, {
+		return axiosInstance.post(`${import.meta.env.VITE_BACKEND_URL}/user/login`, data, {
 			headers: { 'Content-Type': 'application/json' },
 		});
 	} catch (error) {
@@ -34,7 +34,7 @@ export const signIn = async (data: LoginFormData) => {
 
 export const profile = async (token: string) => {
 	try {
-		return axiosInstance.get(`${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}/user/data`, {
+		return axiosInstance.get(`${import.meta.env.VITE_BACKEND_URL}/user/data`, {
 			headers: { 'Content-Type': 'application/json', 'x-auth-token': token },
 		});
 	} catch (error) {

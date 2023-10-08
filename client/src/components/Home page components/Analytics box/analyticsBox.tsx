@@ -1,23 +1,19 @@
-import { Box, Flex, Text } from '@chakra-ui/react';
 import TimeSeriesChart from '../../Charts/timeSeriesChart';
-import RecentShipmentTable from '../Recent shipment table/recentShipmentTable';
 import PieChart from '../../Charts/pieChart';
-import { GrStatusInfo } from 'react-icons/gr';
-import DoenutChat from '../../Charts/doenutChat';
+import DoenutChat from '../../Charts/DoenutChat';
 
 const AnalyticsBox = () => {
 	return (
-
 		<div>
-			<div className='grid grid-cols-5 gap-2 mb-[20px]'>
-				<div className='col-span-3 bg-white rounded p-4'>
+			<div className="grid grid-cols-5 gap-2 mb-[20px]">
+				<div className="col-span-3 bg-white rounded p-4">
 					<TimeSeriesChart />
 				</div>
-				<div className='col-span-2'>
-					<div className='mb-2 bg-white py-2 rounded'>
+				<div className="col-span-2">
+					<div className="mb-2 bg-white py-2 rounded">
 						<DoenutChat></DoenutChat>
 					</div>
-					<div className='bg-white rounded p-4'>
+					<div className="bg-white rounded p-4">
 						<PieChart />
 					</div>
 
@@ -34,7 +30,6 @@ const AnalyticsBox = () => {
 				</div> */}
 				</div>
 			</div>
-
 		</div>
 	);
 };
