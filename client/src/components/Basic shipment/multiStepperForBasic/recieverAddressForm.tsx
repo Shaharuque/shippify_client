@@ -36,15 +36,21 @@ const ReceiverAddressForm = ({ nextStep, prevStep }: { nextStep: () => void; pre
 		nextStep();
 	};
 
-	const BACKEND_FULL_URL = `${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}`;
-
 	useEffect(() => {
 		const fetchCityData = async () => {
 			try {
-				const response = await axios.get(`${BACKEND_FULL_URL}/get/countrywise/city/info/get`);
+				const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/get/countrywise/city/info/get`, {
+					headers: {
+						'Content-Type': 'application/json',
+					},
+				});
 
 				if (response?.data?.success) {
 					setCountries(response?.data?.result);
+					console.log(response?.data?.result);
+					// const result = countries?.find((item: any) => item.value === response?.data?.result[0]?.value);
+					setStates(response?.data?.result[0]?.city);
+
 					console.log('response from backend', response?.data?.result);
 				}
 			} catch (error) {
@@ -120,6 +126,7 @@ const ReceiverAddressForm = ({ nextStep, prevStep }: { nextStep: () => void; pre
 						<Select
 							{...register('country_code')}
 							onChange={handleCountryChange}
+							defaultValue={''}
 							variant={'flushed'}
 							borderBottom={'1px solid #314866'}
 							transition={'all 0.30s ease-in-out;'}

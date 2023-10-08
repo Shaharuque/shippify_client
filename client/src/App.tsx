@@ -62,7 +62,7 @@ function App() {
 						element={<BlockChainTransactions></BlockChainTransactions>}></Route>
 
 					<Route
-						path="/bnpl"
+						path="/payment"
 						element={<BNPL />}
 					/>
 

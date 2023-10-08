@@ -14,7 +14,8 @@ const PaymentForm = ({ prevStep }: { prevStep: () => void }) => {
 	const insuranceDetails = useAppSelector((state: RootState) => state?.insurance);
 	const [viewBNPLBtn, setViewBNPLBtn] = useState(false);
 
-	const total = Number(selectedRate?.shipping_amount?.amount) + Number(selectedRate?.other_amount?.amount) + Number(insuranceDetails?.insurance_amount);
+	const total_payment = Number(selectedRate?.shipping_amount?.amount) + Number(selectedRate?.other_amount?.amount) + Number(insuranceDetails?.insurance_amount);
+	const total = total_payment + total_payment * 0.1;
 
 	const handleNormalCheckout = () => {
 		localStorage.setItem(
@@ -30,7 +31,7 @@ const PaymentForm = ({ prevStep }: { prevStep: () => void }) => {
 		localStorage.setItem('shipmentId', shipmentId);
 		localStorage.setItem('shipmentType', 'basic');
 		axios
-			.post(`${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}/payment/create-checkout-session`, {
+			.post(`${import.meta.env.VITE_BACKEND_URL}/payment/create-checkout-session`, {
 				payment: { currency: selectedRate?.shipping_amount?.currency, rate: Number(selectedRate?.shipping_amount?.amount)?.toFixed(2), insurance: Number(insuranceDetails?.insurance_amount)?.toFixed(2), other_amount: Number(selectedRate?.other_amount?.amount)?.toFixed(2), date: selectedRate?.estimated_delivery_date },
 			})
 			.then((response) => {
@@ -62,17 +63,7 @@ const PaymentForm = ({ prevStep }: { prevStep: () => void }) => {
 	}, []);
 
 	return (
-		<Box
-			overflowY={'scroll'}
-			css={{
-				'&::-webkit-scrollbar': {
-					width: '0',
-				},
-				'&::-webkit-scrollbar-thumb': {
-					backgroundColor: 'rgba(0, 0, 0, 0.5)',
-					borderRadius: '0.25em',
-				},
-			}}>
+		<Box overflowY={'scroll'}>
 			<ShippingSummary />
 			<PaymentModal
 				isOpen={isOpen}

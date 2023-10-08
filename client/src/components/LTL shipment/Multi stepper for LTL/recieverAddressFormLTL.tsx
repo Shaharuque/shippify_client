@@ -41,7 +41,7 @@ const RecieverAddressFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; 
 		nextStep();
 	};
 
-	const BACKEND_FULL_URL = `${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}`;
+	const BACKEND_FULL_URL = `${import.meta.env.VITE_BACKEND_URL}`;
 
 	useEffect(() => {
 		const fetchCityData = async () => {
@@ -50,6 +50,7 @@ const RecieverAddressFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; 
 
 				if (response?.data?.success) {
 					setCountries(response?.data?.result);
+					setStates(response?.data?.result[0]?.city);
 				}
 			} catch (error) {
 				console.error(error);

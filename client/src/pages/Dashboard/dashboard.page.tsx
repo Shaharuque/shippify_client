@@ -6,11 +6,14 @@ import ViewShipmentDetails from '../../components/Cards/viewShipmentDetails';
 import ShipmentCardList from '../../components/Shipment card list/shipmentCardList';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useFetchSingleShipmentMutation } from '../../redux/api/basicShipmentsApi';
 import SpinningLoader from '../../components/Loader/spinningLoader';
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react';
 import ShipmentCardListLTL from '../../components/Shipment card list/shipmentCardListLTL';
 import ViewLtlShipmentDetails from '../../components/Cards/ViewLtlShipmentDetails';
+import { reverseLabelDictionary } from '../../utils/reverseDictionary';
+import { labelDictionary } from '../../data/labelDictionary';
+
+const reversedDictionary = reverseLabelDictionary(labelDictionary);
 
 const DashboardPage = () => {
 	const [tableData, setTableData] = useState([] as any[]); // basic shipment data
@@ -82,19 +85,34 @@ const DashboardPage = () => {
 					style={{ width: '250px' }}>
 					<PriceAscendingDescendingFilter
 						onChange={function (value: string): void {
-							setPrice(value);
+							if (value === 'asc') {
+								setTableData((prev) => prev?.sort((a: any, b: any) => a?.rate_detail?.shipping_amount?.amount - b?.rate_detail?.shipping_amount?.amount));
+							} else {
+								setTableData((prev) => prev?.sort((a: any, b: any) => b?.rate_detail?.shipping_amount?.amount - a?.rate_detail?.shipping_amount?.amount));
+							}
+							// setPrice(value);
 						}}
 						dataLoading={dataLoading}
 					/>
 					<WeightFilter
 						onChange={function (value: string): void {
-							setWeight(value);
+							if (value === 'asc') {
+								setTableData((prev) => Array.from(prev)?.sort((a: any, b: any) => a?.shipment_detail?.total_weight?.value - b?.shipment_detail?.total_weight?.value));
+							} else {
+								setTableData((prev) => Array.from(prev)?.sort((a: any, b: any) => b?.shipment_detail?.total_weight?.value - a?.shipment_detail?.total_weight?.value));
+							}
+							// setWeight(value);
 						}}
 						dataLoading={dataLoading}
 					/>
 					<StatusFilter
 						onChange={function (value: string): void {
-							setStatus(value);
+							// console.log('value', value);
+							if (value === '') return;
+							let filterTableData = tableData;
+							filterTableData = Array.from(tableData)?.filter((shipment) => shipment?.shipment_status === reversedDictionary[value]);
+							setTableData(filterTableData);
+							// setStatus(value);
 						}}
 						dataLoading={dataLoading}
 					/>
@@ -124,7 +142,6 @@ const DashboardPage = () => {
 						}}>
 						<TabList
 							mb={'1rem'}
-							// w={'80rem'}
 							border={'1px solid white'}
 							borderRadius={'1.5rem'}>
 							<Tab _selected={{ color: 'white', bg: 'cta' }}>Basic Shipments </Tab>
@@ -132,10 +149,11 @@ const DashboardPage = () => {
 						</TabList>
 
 						<TabPanels>
-							{/* basic shipment  */}
 							<TabPanel>
 								{dataLoading ? (
-									<SpinningLoader />
+									<Box w={'50rem'}>
+										<SpinningLoader />
+									</Box>
 								) : (
 									<ShipmentCardList
 										activeCard={activeCard?._id}
@@ -145,7 +163,6 @@ const DashboardPage = () => {
 								)}
 							</TabPanel>
 
-							{/* ltl shipment */}
 							<TabPanel>
 								{dataLoading ? (
 									<SpinningLoader />

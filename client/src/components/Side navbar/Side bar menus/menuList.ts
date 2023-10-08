@@ -17,8 +17,7 @@ export const menuList: TMenuList[] = [
 	{ link: '/', icon: RxDashboard, text: 'Dashboard' },
 	{ link: '/dashboard', icon: FaShippingFast, text: 'Shipment' },
 	{ link: '/tracking', icon: LuTimer, text: 'Tracking' },
-	{ link: '/', icon: AiOutlineFileDone, text: 'Insurance' },
+	// { link: '/', icon: AiOutlineFileDone, text: 'Insurance' },
 	{ link: '/payment', icon: MdOutlinePayment, text: 'Payment' },
-	{ link: '/block-chain', icon: MdOutlinePayment, text: 'Blockchain Contacts' },
+	{ link: '/block-chain', icon: AiOutlineFileDone, text: 'Blockchain Contacts' },
 ];
-

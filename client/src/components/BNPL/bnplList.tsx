@@ -10,42 +10,34 @@ import CreditScoreCard from './viewBNPLDetails';
 
 const BNPLList = ({ timeBracket }: { timeBracket: String }) => {
 	const [tableData, setTableData] = useState([]);
-
+	const [shipmentStatus, setShipmentStatus] = useState('');
 	const endDate = getDatetime(timeBracket as string);
-
+	const [fetchSingleShipment, { data: shipmentData, isLoading: dataLaoding }] = useFetchSingleShipmentMutation();
+	// console.log(tableData);
 	useEffect(() => {
 		const token = localStorage.getItem('token');
 		const fetchTableData = async () => {
 			try {
-				await axios
-					.post(
-						`${import.meta.env.VITE_BNPL_URL}/order/upcoming-payments/user-id`,
-						{
-							user_id: '123',
+				const response = await axios.get(
+					`${import.meta.env.VITE_BACKEND_URL}/payment/order/upcoming-payments/user-id`,
+
+					{
+						headers: {
+							'Content-Type': 'application/json',
+							'x-auth-token': token,
 						},
-						{
-							headers: {
-								'Content-Type': 'application/json',
-								'x-auth-token': token,
-							},
-						}
-					)
-					.then((data) => {
-						setTableData(data?.data);
-					});
+					}
+				);
+				if (response?.data) setTableData(response?.data);
 			} catch (error) {
 				console.log(error);
 			}
 		};
 		fetchTableData();
 	}, []);
-
-	console.log(tableData);
-	const token = localStorage.getItem('token');
-	const [fetchSingleShipment, { data: shipmentData, isLoading: dataLaoding }] = useFetchSingleShipmentMutation();
-
 	const clickedCard: any = (cardId: any) => {
 		console.log('clicked', cardId);
+		const token = localStorage.getItem('token');
 		fetchSingleShipment({ token, id: cardId });
 	};
 

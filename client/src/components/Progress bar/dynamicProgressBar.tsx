@@ -17,7 +17,7 @@ const DynamicProgressBar = ({ isLoading }: { isLoading: boolean }) => {
 				});
 			}, 3000);
 
-			const texts = ['Getting ready...', 'Uploading data...', 'Generating hash...', 'Almost there...', 'Finalizing...', 'Completing...', 'Done!'];
+			const texts = ['Getting ready with blockchain...', 'Uploading data...', 'Generating hash...', 'Almost there...', 'Finalizing...', 'Completing...', 'Done!'];
 
 			let index = 0;
 			const textInterval = setInterval(() => {

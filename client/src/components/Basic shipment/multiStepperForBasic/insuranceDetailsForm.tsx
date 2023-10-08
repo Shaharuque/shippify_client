@@ -28,7 +28,7 @@ const InsuranceDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; pr
 
 	const handleCheckInsurance = async () => {
 		setIsLoading(true);
-		const BASE_URL = `${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}`;
+		const BASE_URL = `${import.meta.env.VITE_BACKEND_URL}`;
 		try {
 			const token = localStorage.getItem('token');
 			const response = await axios.post(
@@ -93,7 +93,7 @@ const InsuranceDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; pr
 		const postSelectedRateAndShipmentId = async () => {
 			try {
 				const payload = { shipmentId, selectedRate };
-				await axios.patch(`${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}/shipment/select-rates`, payload, {
+				await axios.patch(`${import.meta.env.VITE_BACKEND_URL}/shipment/select-rates`, payload, {
 					headers: {
 						'Content-Type': 'application/json',
 						'x-auth-token': token,
@@ -114,7 +114,7 @@ const InsuranceDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; pr
 					h={'80vh'}
 					justify={'center'}
 					align={'center'}>
-					<Error />
+					<Error backButton={prevStep} />
 				</Flex>
 			) : (
 				<Flex

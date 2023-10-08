@@ -46,7 +46,7 @@ const SuccessFulPayment = () => {
 			const purchaseBasicShipment = async (payload: any) => {
 				setIsLoading(true);
 				try {
-					const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}/shipment/parched-shipment/${shipmentId}`, payload, {
+					const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/shipment/parched-shipment/${shipmentId}`, payload, {
 						headers: {
 							'Content-Type': 'application/json',
 							'x-auth-token': token,
@@ -63,7 +63,7 @@ const SuccessFulPayment = () => {
 			const purchaseLTLShipment = async (payload: any) => {
 				setIsLoading(true);
 				try {
-					const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}/ltlShipment/parched-shipment/${shipmentId}`, payload, {
+					const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/ltlShipment/parched-shipment/${shipmentId}`, payload, {
 						headers: {
 							'Content-Type': 'application/json',
 							'x-auth-token': token,
@@ -166,7 +166,7 @@ const SuccessFulPayment = () => {
 							gap={'1rem'}
 							justify={'space-around'}>
 							<RegularButton
-								onClick={() => navigate('/shipment')}
+								onClick={() => navigate('/dashboard')}
 								text="Go to Shipment"
 								width="10rem"
 							/>

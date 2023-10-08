@@ -5,7 +5,7 @@ import { axiosInstance } from '../axios';
 
 export const setUpCompany = async (data: CompanyProfileFormData, token: string) => {
 	try {
-		return axiosInstance.patch(`${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}/user/update`, data, {
+		return axiosInstance.patch(`${import.meta.env.VITE_BACKEND_URL}/user/update`, data, {
 			headers: { 'Content-Type': 'application/json', 'x-auth-token': `${token}` },
 		});
 	} catch (error) {
@@ -15,7 +15,7 @@ export const setUpCompany = async (data: CompanyProfileFormData, token: string) 
 
 export const setUpCompanyAddress = async (data: { address: AddressSetupFormData }, token: string) => {
 	try {
-		return axiosInstance.patch(`${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}/user/update`, data, {
+		return axiosInstance.patch(`${import.meta.env.VITE_BACKEND_URL}/user/update`, data, {
 			headers: { 'Content-Type': 'application/json', 'x-auth-token': `${token}` },
 		});
 	} catch (error) {
@@ -25,7 +25,7 @@ export const setUpCompanyAddress = async (data: { address: AddressSetupFormData 
 
 export const setUpWarehouses = async (data: WarehouseSetupFormData, token: string) => {
 	try {
-		return axiosInstance.post(`${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}/warehouse/create`, data, {
+		return axiosInstance.post(`${import.meta.env.VITE_BACKEND_URL}/warehouse/create`, data, {
 			headers: { 'Content-Type': 'application/json', 'x-auth-token': `${token}` },
 		});
 	} catch (error) {
