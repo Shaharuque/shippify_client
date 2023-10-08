@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
 import { populateMonthsForCharts } from '../../utils/populateMonthsForCharts';
 
@@ -11,7 +11,7 @@ const ChartForBoxAnalysis = () => {
 		const token = localStorage.getItem('token');
 		const fetchTimeSeriesChartData = async () => {
 			try {
-				const responseOne = await axios.get('http://localhost:5000/shipment/each/month/package/number', {
+				const responseOne = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/shipment/each/month/package/number`, {
 					headers: {
 						'Content-Type': 'application/json',
 						'x-auth-token': token,
@@ -20,7 +20,7 @@ const ChartForBoxAnalysis = () => {
 
 				if (responseOne?.data?.status === 'success') SetPackageCount(populateMonthsForCharts(responseOne?.data?.result));
 
-				const responseTwo = await axios.get('http://localhost:5000/ltlShipment/each/month/package/number', {
+				const responseTwo = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/ltlShipment/each/month/package/number`, {
 					headers: {
 						'Content-Type': 'application/json',
 						'x-auth-token': token,
@@ -40,7 +40,7 @@ const ChartForBoxAnalysis = () => {
 
 	const doubleBarChartOptions = {
 		chart: {
-			type: 'bar',
+			type: 'bar' as 'bar',
 		},
 		xaxis: {
 			categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
@@ -83,7 +83,7 @@ const ChartForBoxAnalysis = () => {
 						height: '390',
 					},
 					title: {
-						text: 'Total shipment vs month',
+						text: 'Total shipment',
 						align: 'center',
 						margin: 10,
 						offsetX: 0,

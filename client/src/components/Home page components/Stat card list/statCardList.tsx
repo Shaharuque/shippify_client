@@ -1,14 +1,12 @@
-import { Flex, Spinner } from '@chakra-ui/react';
 import StatCards from '../../Cards/statCards';
 import { RiShipLine } from 'react-icons/ri';
 import { TbPackageOff } from 'react-icons/tb';
 import { LuBadgeDollarSign } from 'react-icons/lu';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import SpinningLoader from '../../Loader/spinningLoader';
 
 const StatCardList = () => {
-	const [shipmentData, setShipmentData] = useState({});
+	const [shipmentData, setShipmentData] = useState({} as any);
 	const [loading, setLoading] = useState(false);
 	const token = localStorage.getItem('token');
 
@@ -16,15 +14,12 @@ const StatCardList = () => {
 		try {
 			const fetchBasicShipmentData = async () => {
 				setLoading(true);
-				const basicResponse = await axios.get(
-					`http://localhost:5000/shipment/info/about/shipment`,
-					{
-						headers: {
-							'Content-Type': 'application/json',
-							'x-auth-token': token,
-						},
-					}
-				);
+				const basicResponse = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/shipment/info/about/shipment`, {
+					headers: {
+						'Content-Type': 'application/json',
+						'x-auth-token': token,
+					},
+				});
 				setLoading(false);
 				setShipmentData(basicResponse?.data);
 			};
@@ -35,11 +30,11 @@ const StatCardList = () => {
 		}
 	}, []);
 
-	console.log(shipmentData?.totalbasicShipment)
+	console.log(shipmentData?.totalbasicShipment);
 
 	return (
 		<>
-			<div className='flex mb-[10px] gap-4'>
+			<div className="flex mb-[10px] gap-4">
 				<StatCards
 					title={'Total Shipment'}
 					value={shipmentData?.totalbasicShipment}
@@ -77,7 +72,6 @@ const StatCardList = () => {
 					bg={'gray'}
 				/>
 			</div>
-
 		</>
 	);
 };
