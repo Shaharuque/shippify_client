@@ -13,12 +13,12 @@ const AnalyticsBox = () => {
 				<div className='col-span-3 bg-white rounded p-4'>
 					<TimeSeriesChart />
 				</div>
-				<div className='col-span-2'>
-					<div className='mb-2 bg-white py-2 rounded'>
-						<DoenutChat></DoenutChat>
+				<div className='col-span-2 flex flex-col justify-center'>
+					<div className='bg-white rounded p-4 mb-2'>
+						<DoenutChat />
 					</div>
 					<div className='bg-white rounded p-4'>
-						<PieChart />
+						<DoenutChat />
 					</div>
 
 					{/* <div className='bg-white rounded p-2'>

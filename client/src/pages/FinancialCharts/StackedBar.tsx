@@ -48,7 +48,7 @@ const StackedBar = () => {
 
     return (
         <div className="bar  border border-gray-300 rounded">
-            <h1 className="graph-box bg-gradient-to-b from-teal-400 to-blue-900 py-1 mb-0 text-center text-white">
+            <h1 className="graph-box bg-[#3A9BA5] py-1 mb-0 text-center text-white">
                 Total Shipment vs Month
             </h1>
             <Bar

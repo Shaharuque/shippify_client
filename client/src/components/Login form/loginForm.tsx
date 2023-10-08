@@ -90,6 +90,7 @@ const LoginForm = () => {
 							</InputLeftElement>
 							<Input
 								id="password"
+								type="password"
 								placeholder="Password"
 								_placeholder={{ color: '#808080' }}
 								border={'1px solid'}

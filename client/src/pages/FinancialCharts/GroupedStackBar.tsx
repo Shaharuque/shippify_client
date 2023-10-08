@@ -55,19 +55,19 @@ const GroupedStackBar = () => {
     series: [
       {
         name: 'Box1',
-        data: [12, 18, 5, 4, 4, 4],
+        data: [0, 0, 0, 0, 0, 4,1,5,8,5,6,12],
       },
       {
         name: 'Box2',
-        data: [11, 10, 5, 4, 4, 4],
+        data: [0, 0, 0, 0, 0, 1,5,8,5,6,12],
       },
       {
         name: 'Box3',
-        data: [21, 8, 9, 4, 4, 4],
+        data: [21, 8, 9, 4, 4, 1,5,8,5,6,12],
       },
       {
         name: 'Box4',
-        data: [17, 18, 7, 4, 4, 4],
+        data: [17, 18, 7, 4, 4,,1,5,8,5,6,12],
       },
     ],
     chart: {
@@ -135,6 +135,9 @@ const GroupedStackBar = () => {
 
   return (
     <div className=' border border-gray-300 rounded'>
+      <h1 className="graph-box bg-[#3A9BA5] py-1 mb-0 text-center text-white">
+        Usage of boxes
+      </h1>
       <ReactApexChart
         options={chartOptions}
         series={chartOptions.series}

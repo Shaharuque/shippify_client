@@ -53,7 +53,7 @@ const PayMethodBar = () => {
   const chartOptions = {
     series: [
       {
-        name: 'Stripe',
+        name: 'Full Payment',
         data: [...normalPay?.map((item) => item.count)],
       },
       {
@@ -86,7 +86,7 @@ const PayMethodBar = () => {
         breakpoint: 1921,
         options: {
           chart: {
-            height: '300',
+            height: '350',
           },
         },
       },
@@ -119,8 +119,8 @@ const PayMethodBar = () => {
 
   return (
     <div className='border border-gray-300 rounded'>
-      <h1 className="graph-box bg-gradient-to-b from-teal-400 to-blue-900 py-1 mb-0 text-center text-white">
-        Pay Methods vs Month
+      <h1 className="graph-box bg-[#3A9BA5] py-1 mb-0 text-center text-white">
+        Payment Methods
       </h1>
       <ReactApexChart
         options={chartOptions}

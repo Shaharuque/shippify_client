@@ -51,8 +51,8 @@ const MixedChart = () => {
 
     return (
         <div className="bar border border-gray-300 rounded">
-            <h1 className="graph-box bg-gradient-to-b from-teal-400 to-blue-900 py-1 mb-0 text-center text-white">
-                Total Shipment vs Month
+            <h1 className="graph-box bg-[#3A9BA5] py-1 mb-0 text-center text-white">
+                Total Payment
             </h1>
             <Bar
                 className="chart p-2"
@@ -85,9 +85,6 @@ const MixedChart = () => {
                     ],
                 }}
                 options={{
-                    responsive: true, // Make the chart responsive
-                    maintainAspectRatio: false, // Allow aspect ratio to be determined by container size
-                    // ...other options...
                     tooltips: {
                         mode: "index",
                         callbacks: {

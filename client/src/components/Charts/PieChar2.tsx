@@ -9,7 +9,7 @@ type TPieData = {
   status: string;
 };
 
-const PieChart = () => {
+const PieChat2 = () => {
   const [labels, setLabels] = useState<string[]>([]);
   const [values, setValues] = useState<number[]>([]);
   const [pieData, setPieData] = useState<TPieData[]>([]);
@@ -53,7 +53,7 @@ const PieChart = () => {
 						height: '200',
 					},
 					title: {
-						text: 'Basic Shipment Status',
+						text: 'LTL Shipment Status',
 						align: 'left',
 						margin: 10,
 						offsetX: 0,
@@ -80,7 +80,7 @@ const PieChart = () => {
     labels: labels,
     legend: { position: 'right' as 'right' },
     title: {
-      text: 'Basic Shipment Status', // Add your desired title here
+      text: 'Shipment Status', // Add your desired title here
       align: 'center',
       margin: 10,
 	  fontWeight: 200,
@@ -105,4 +105,4 @@ const PieChart = () => {
   );
 };
 
-export default PieChart;
+export default PieChat2;

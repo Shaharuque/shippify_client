@@ -86,7 +86,7 @@ const ChartForBoxAnalysis = () => {
         breakpoint: 1921,
         options: {
           chart: {
-            height: '300',
+            height: '350',
           },
         },
       },
@@ -97,8 +97,8 @@ const ChartForBoxAnalysis = () => {
 
   return (
     <div className='rounded border border-gray-400'>
-      <h1 className="graph-box bg-gradient-to-b from-teal-400 to-blue-900 py-1 mb-0 text-center text-white">
-        Shipments by Box Type
+      <h1 className="graph-box bg-[#3A9BA5] py-1 mb-0 text-center text-white">
+        Shipments
       </h1>
       <ReactApexChart
         options={doubleBarChartOptions}
