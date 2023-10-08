@@ -72,16 +72,25 @@ const PayMethodBar = () => {
         enabled: true
       }
     },
-    responsive: [{
-      breakpoint: 480,
-      options: {
-        legend: {
-          position: 'bottom',
-          offsetX: -10,
-          offsetY: 0
-        }
-      }
-    }],
+    responsive: [
+      {
+        breakpoint: 1367,
+        options: {
+          chart: {
+            height: '250',
+          },
+        },
+      },
+
+      {
+        breakpoint: 1921,
+        options: {
+          chart: {
+            height: '300',
+          },
+        },
+      },
+    ],
     plotOptions: {
       bar: {
         horizontal: false,

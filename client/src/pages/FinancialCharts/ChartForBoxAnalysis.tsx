@@ -86,7 +86,7 @@ const ChartForBoxAnalysis = () => {
         breakpoint: 1921,
         options: {
           chart: {
-            height: '390',
+            height: '300',
           },
         },
       },

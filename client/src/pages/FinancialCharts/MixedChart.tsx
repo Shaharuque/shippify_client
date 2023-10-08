@@ -85,6 +85,9 @@ const MixedChart = () => {
                     ],
                 }}
                 options={{
+                    responsive: true, // Make the chart responsive
+                    maintainAspectRatio: false, // Allow aspect ratio to be determined by container size
+                    // ...other options...
                     tooltips: {
                         mode: "index",
                         callbacks: {

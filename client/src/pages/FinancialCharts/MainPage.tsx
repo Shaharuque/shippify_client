@@ -15,11 +15,11 @@ const MainPage = () => {
 
     return (
         <>
-            <div className='bg-white ml-[100px] mr-[30px] rounded mt-5'>
+            <div className='bg-white ml-[100px] 2xl:ml-[120px] mr-[30px] rounded mt-5'>
                 <h1 className='font-bold p-2'>Financial Dashboard</h1>
             </div>
 
-            <div className='grid grid-cols-2 gap-[50px] h-[100vh]  pl-[100px] pr-[30px] py-[30px] overflow-scroll'>
+            <div className='grid grid-cols-2  gap-[20px] h-[100vh] pl-[100px] 2xl:pl-[120px] pr-[30px] py-[30px] overflow-scroll'>
                 <div className='bg-white rounded-md p-2'>
                     <ChartForBoxAnalysis></ChartForBoxAnalysis>
                 </div>

@@ -108,7 +108,7 @@ const TimeSeriesChart = () => {
 				breakpoint: 1921,
 				options: {
 					chart: {
-						height: '390',
+						height: '500',
 					},
 					title: {
 						text: 'Shipment Volume',
