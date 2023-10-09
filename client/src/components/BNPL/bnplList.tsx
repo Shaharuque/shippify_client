@@ -18,16 +18,12 @@ const BNPLList = ({ timeBracket }: { timeBracket: String }) => {
 		const token = localStorage.getItem('token');
 		const fetchTableData = async () => {
 			try {
-				const response = await axios.get(
-					`${import.meta.env.VITE_BACKEND_URL}/payment/order/upcoming-payments/user-id`,
-
-					{
-						headers: {
-							'Content-Type': 'application/json',
-							'x-auth-token': token,
-						},
-					}
-				);
+				const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/payment/order/upcoming-payments/user-id`, {
+					headers: {
+						'Content-Type': 'application/json',
+						'x-auth-token': token,
+					},
+				});
 				if (response?.data) setTableData(response?.data);
 			} catch (error) {
 				console.log(error);

@@ -51,6 +51,7 @@ const PaymentForm = ({ prevStep }: { prevStep: () => void }) => {
 					const user = JSON.parse(userData);
 					const response = await axios.post(`${import.meta.env.VITE_BNPL_URL}/credit-score/eligibility`, {
 						user_id: user?._id,
+						shipping_fee: total,
 					});
 					console.log('response', response?.data?.allowed);
 					setViewBNPLBtn(response?.data?.allowed);
