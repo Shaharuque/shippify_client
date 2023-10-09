@@ -1,4 +1,4 @@
-import { Button, VStack, Text } from '@chakra-ui/react';
+import { Button, VStack, Text, Spinner } from '@chakra-ui/react';
 
 type SubmitButtonProps = {
 	text: string;
@@ -6,9 +6,10 @@ type SubmitButtonProps = {
 	isDisabled?: boolean;
 	error_message?: string;
 	showErrorMessage?: boolean;
+	isLoading?: boolean;
 };
 
-const SubmitButton = ({ text, width, isDisabled, error_message, showErrorMessage }: SubmitButtonProps) => {
+const SubmitButton = ({ text, width, isDisabled, error_message, showErrorMessage, isLoading }: SubmitButtonProps) => {
 	return (
 		<VStack>
 			<Button
@@ -18,8 +19,9 @@ const SubmitButton = ({ text, width, isDisabled, error_message, showErrorMessage
 				borderRadius={'2rem'}
 				p={'.5rem'}
 				w={width ? width : 'full'}
-				isDisabled={isDisabled}>
-				{text}
+				isDisabled={isDisabled}
+				gap={'1rem'}>
+				{text} {isLoading && <Spinner />}
 			</Button>
 			{isDisabled && showErrorMessage ? (
 				<Text
