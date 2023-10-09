@@ -130,7 +130,7 @@ const BasicBlockchain = () => {
 					{loading ? (
 						<h1 className="text-teal-700 font-bold mt-[60px]">Loading...</h1>
 					) : (
-						tableData?.slice(5)?.map((item: any, index: any) => {
+						tableData?.map((item: any, index: any) => {
 							return (
 								<BlockChainCard
 									key={index}

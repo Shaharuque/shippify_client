@@ -24,7 +24,7 @@ const BNPLList = ({ timeBracket }: { timeBracket: String }) => {
 						'x-auth-token': token,
 					},
 				});
-				if (response?.data) setTableData(response?.data);
+				if (response?.data) setTableData(response?.data?.data);
 			} catch (error) {
 				console.log(error);
 			}

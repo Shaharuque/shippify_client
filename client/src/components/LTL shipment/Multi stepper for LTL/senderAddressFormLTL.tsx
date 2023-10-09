@@ -178,7 +178,7 @@ const SenderAddressFormLTL = ({ nextStep }: { nextStep: () => void }) => {
 							/>
 						</FormControl>
 					</Flex>
-					<Flex w={'18vw'}>
+					<Flex w={'15vw'}>
 						<FormControl
 							id="contact.phone_number"
 							isRequired

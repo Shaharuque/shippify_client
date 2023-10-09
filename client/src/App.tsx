@@ -14,11 +14,15 @@ import BlockChainTransactions from './pages/BlockChainTransactions/BlockChainTra
 import PDFViewer from './pages/PDFViewer/PDFViewer';
 import BNPL from './pages/BNPL/bnpl';
 import MainPage from './pages/FinancialCharts/MainPage';
+import LandingPage from './pages/Landing/landing.page';
 
 function App() {
 	return (
 		<Router>
 			<Routes>
+				<Route
+					path="/"
+					element={<LandingPage />}></Route>
 				<Route
 					path="/register"
 					element={<RegisterPage />}></Route>

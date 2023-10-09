@@ -14,7 +14,8 @@ const QuoteSummary = () => {
 	const ltlShipmentCharges = useAppSelector((state: RootState) => state?.ltlTotalCharge);
 	const insuranceDetails = useAppSelector((state: RootState) => state?.insurance);
 	const total_shipping_charge = Number(ltlShipmentCharges?.amount?.value) + Number(insuranceDetails?.insurance_amount);
-	const total = total_shipping_charge + total_shipping_charge * 0.1;
+	const platform_fee = total_shipping_charge * 0.1;
+	const total = total_shipping_charge + platform_fee;
 
 	return (
 		<Card

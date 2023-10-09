@@ -65,6 +65,12 @@ h6 {
 	border-radius: 0.25em;
 }
 
+.custom-input {
+	border: 1px solid #314866;
+	transition: all 0.3s ease-in-out;
+}
 
-
-
+.custom-input:focus {
+	border-color: #002855;
+	box-shadow: 0 0 3px #002855;
+}

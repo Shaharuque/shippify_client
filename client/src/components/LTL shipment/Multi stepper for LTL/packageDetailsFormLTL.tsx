@@ -79,7 +79,6 @@ const PackageDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; p
 		if (selectedPackageCode) data.code = selectedPackageCode;
 		data.stackable = switchValue;
 		data.hazardous_materials = hazardousMaterialsValue;
-
 		console.log('data:', data);
 
 		if (editMode) {
@@ -120,6 +119,7 @@ const PackageDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; p
 		console.log('selected package:', selectedPackage);
 
 		setValue('quantity', selectedPackage?.quantity);
+		setValue('description', selectedPackage?.description);
 		setValue('dimensions.length', selectedPackage?.dimensions?.length);
 		setValue('dimensions.width', selectedPackage?.dimensions?.width);
 		setValue('dimensions.height', selectedPackage?.dimensions?.height);
@@ -133,7 +133,7 @@ const PackageDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; p
 	};
 
 	const CustomReset = () => {
-		reset(defaultValues);
+		reset();
 		setSelectedPackageIndex(null);
 		setEditMode(false);
 		setSelectedPackageCode(null);
@@ -203,23 +203,23 @@ const PackageDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; p
 							align={'center'}>
 							<FormControl isRequired>
 								<FormLabel>Quantity:</FormLabel>
-								<NumberInput onChange={() => setNumberInputChange(true)}>
-									<NumberInputField
+								<div onChange={() => setNumberInputChange(true)}>
+									<input
 										id="quantity"
 										min={0}
 										{...register('quantity')}
-										border={'1px solid #314866'}
-										transition={'all 0.30s ease-in-out;'}
-										_focusVisible={{
-											borderColor: '#002855',
-											boxShadow: '0 0 3px #002855 ',
+										style={{
+											border: '1px solid #002855',
+											transition: 'all 0.30s ease-in-out',
+											borderRadius: '0.35rem',
+											padding: '0.4em 0.6em',
+											outline: 'none',
+											boxShadow: '0 0 3px rgba(0, 40, 85, 0.1)',
+											backgroundColor: 'transparent',
+											width: '100%',
 										}}
 									/>
-									<NumberInputStepper>
-										<NumberIncrementStepper />
-										<NumberDecrementStepper />
-									</NumberInputStepper>
-								</NumberInput>
+								</div>
 							</FormControl>
 
 							<FormControl isRequired>
@@ -269,71 +269,70 @@ const PackageDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; p
 							gap={'1rem'}
 							align={'center'}>
 							<FormControl isRequired>
-								<NumberInput
-									precision={2}
-									max={1000}
-									onChange={() => setNumberInputChange(true)}>
-									<NumberInputField
-										{...register('dimensions.length')}
+								<div onChange={() => setNumberInputChange(true)}>
+									<input
+										id="dimensions.length"
+										type="number"
+										min="0"
 										placeholder="Length"
-										border={'1px solid #314866'}
-										transition={'all 0.30s ease-in-out;'}
-										_focusVisible={{
-											borderColor: '#002855',
-											boxShadow: '0 0 3px #002855 ',
+										{...register('dimensions.length')}
+										style={{
+											border: '1px solid #002855',
+											borderRadius: '0.35rem',
+											padding: '0.4em 0.6em',
+											outline: 'none',
+											boxShadow: '0 0 3px rgba(0, 40, 85, 0.1)',
+											backgroundColor: 'transparent',
+											width: '100%',
 										}}
 									/>
-									<NumberInputStepper>
-										<NumberIncrementStepper />
-										<NumberDecrementStepper />
-									</NumberInputStepper>
-								</NumberInput>
+								</div>
 							</FormControl>
 							x
 							<FormControl isRequired>
-								<NumberInput
-									precision={2}
-									max={1000}
-									onChange={() => setNumberInputChange(true)}>
-									<NumberInputField
-										{...register('dimensions.width')}
+								<div onChange={() => setNumberInputChange(true)}>
+									<input
+										id="dimensions.width"
+										type="number"
+										min="0"
 										placeholder="Width"
-										border={'1px solid #314866'}
-										transition={'all 0.30s ease-in-out;'}
-										_focusVisible={{
-											borderColor: '#002855',
-											boxShadow: '0 0 3px #002855 ',
+										{...register('dimensions.width')}
+										style={{
+											border: '1px solid #314866',
+											transition: 'all 0.30s ease-in-out',
+											borderRadius: '0.35rem',
+											padding: '0.4em 0.6em',
+											outline: 'none',
+											boxShadow: '0 0 3px rgba(0, 40, 85, 0.1)',
+											backgroundColor: 'transparent',
+											width: '100%',
 										}}
 									/>
-									<NumberInputStepper>
-										<NumberIncrementStepper />
-										<NumberDecrementStepper />
-									</NumberInputStepper>
-								</NumberInput>
+								</div>
 							</FormControl>
 							x
 							<FormControl isRequired>
-								<NumberInput
-									precision={2}
-									max={1000}
-									onChange={() => setNumberInputChange(true)}>
-									<NumberInputField
-										{...register('dimensions.height')}
+								<div onChange={() => setNumberInputChange(true)}>
+									<input
+										id="dimensions.height"
+										type="number"
+										min="0"
 										placeholder="Height"
-										border={'1px solid #314866'}
-										transition={'all 0.30s ease-in-out;'}
-										_focusVisible={{
-											borderColor: '#002855',
-											boxShadow: '0 0 3px #002855 ',
+										{...register('dimensions.height')}
+										style={{
+											border: '1px solid #314866',
+											transition: 'all 0.30s ease-in-out',
+											borderRadius: '0.35rem',
+											padding: '0.4em 0.6em',
+											outline: 'none',
+											boxShadow: '0 0 3px rgba(0, 40, 85, 0.1)',
+											backgroundColor: 'transparent',
+											width: '100%',
 										}}
 									/>
-									<NumberInputStepper>
-										<NumberIncrementStepper />
-										<NumberDecrementStepper />
-									</NumberInputStepper>
-								</NumberInput>
+								</div>
 							</FormControl>
-							<FormControl>
+							<FormControl isRequired>
 								<Select
 									{...register('dimensions.unit')}
 									border={'1px solid #314866'}
@@ -356,26 +355,26 @@ const PackageDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; p
 							alignItems={'center'}
 							m={'.5rem 0'}>
 							<FormControl isRequired>
-								<NumberInput
-									precision={2}
-									min={150}
-									max={1000}
-									onChange={() => setNumberInputChange(true)}>
-									<NumberInputField
-										{...register('weight.value')}
+								<div onChange={() => setNumberInputChange(true)}>
+									<input
+										id="weight.value"
+										type="number"
+										min="150"
+										max="1000"
 										placeholder="Weight"
-										border={'1px solid #314866'}
-										transition={'all 0.30s ease-in-out;'}
-										_focusVisible={{
-											borderColor: '#002855',
-											boxShadow: '0 0 3px #002855 ',
+										{...register('weight.value')}
+										style={{
+											border: '1px solid #314866',
+											transition: 'all 0.30s ease-in-out',
+											borderRadius: '0.35rem',
+											padding: '0.4em 0.6em',
+											outline: 'none',
+											boxShadow: '0 0 3px rgba(0, 40, 85, 0.1)',
+											backgroundColor: 'transparent',
+											width: '100%',
 										}}
 									/>
-									<NumberInputStepper>
-										<NumberIncrementStepper />
-										<NumberDecrementStepper />
-									</NumberInputStepper>
-								</NumberInput>
+								</div>
 							</FormControl>
 							<FormControl>
 								<Select

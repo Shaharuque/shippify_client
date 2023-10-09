@@ -15,7 +15,8 @@ const PaymentForm = ({ prevStep }: { prevStep: () => void }) => {
 	const [viewBNPLBtn, setViewBNPLBtn] = useState(false);
 
 	const total_shipping_charge = Number(selectedRate?.shipping_amount?.amount) + Number(selectedRate?.other_amount?.amount) + Number(insuranceDetails?.insurance_amount);
-	const total = total_shipping_charge + total_shipping_charge * 0.1;
+	const platform_fee = total_shipping_charge * 0.1;
+	const total = total_shipping_charge + platform_fee;
 
 	const handleNormalCheckout = () => {
 		localStorage.setItem(

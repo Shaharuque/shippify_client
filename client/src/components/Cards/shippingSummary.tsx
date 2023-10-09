@@ -20,7 +20,8 @@ const ShippingSummary = () => {
 	const insuranceDetails = useAppSelector((state: RootState) => state?.insurance);
 
 	const total_shipping_charge = Number(selectedRate?.shipping_amount?.amount) + Number(selectedRate?.other_amount?.amount) + Number(insuranceDetails?.insurance_amount);
-	const total = total_shipping_charge + total_shipping_charge * 0.1;
+	const platform_fee = total_shipping_charge * 0.1;
+	const total = total_shipping_charge + platform_fee;
 
 	const swappedCountryCodeDictionary: { [key: string]: string } = {};
 	for (const key in countryCodeDictionary) {
@@ -172,7 +173,7 @@ const ShippingSummary = () => {
 						<Text
 							fontSize="sm"
 							m={'.2rem 0'}>
-							Platform fee: {total_shipping_charge} (usd)
+							Platform fee: {platform_fee?.toFixed(2)} (usd)
 						</Text>
 					</Box>
 
