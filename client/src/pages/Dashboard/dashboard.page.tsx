@@ -30,6 +30,7 @@ const DashboardPage = () => {
 	const [activeCard, setActiveCard] = useState('' as any); // active shipment data
 	const [tabIndex, setTabIndex] = useState(0); // active tab 0 | 1
 
+	console.log('Test')
 	useEffect(() => {
 		const token = localStorage.getItem('token');
 		setCardClicked(false);
