@@ -5,15 +5,18 @@ import PaymentModal from '../../Modals/paymentModal';
 import axios from 'axios';
 import { useAppSelector } from '../../../redux/hooks';
 import { RootState } from '../../../redux/store';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 const PaymentForm = ({ prevStep }: { prevStep: () => void }) => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const selectedRate = useAppSelector((state: any) => state?.selectedRate?.selectedRate);
 	const shipmentId = useAppSelector((state: any) => state?.selectedRate?.shipmentId);
 	const insuranceDetails = useAppSelector((state: RootState) => state?.insurance);
+	const [viewBNPLBtn, setViewBNPLBtn] = useState(false);
 
-	const total = Number(selectedRate?.shipping_amount?.amount) + Number(selectedRate?.other_amount?.amount) + Number(insuranceDetails?.insurance_amount);
+	const total_shipping_charge = Number(selectedRate?.shipping_amount?.amount) + Number(selectedRate?.other_amount?.amount) + Number(insuranceDetails?.insurance_amount);
+	const platform_fee = total_shipping_charge * 0.1;
+	const total = total_shipping_charge + platform_fee;
 
 	const handleNormalCheckout = () => {
 		localStorage.setItem(
@@ -29,7 +32,7 @@ const PaymentForm = ({ prevStep }: { prevStep: () => void }) => {
 		localStorage.setItem('shipmentId', shipmentId);
 		localStorage.setItem('shipmentType', 'basic');
 		axios
-			.post(`${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}/payment/create-checkout-session`, {
+			.post(`${import.meta.env.VITE_BACKEND_URL}/payment/create-checkout-session`, {
 				payment: { currency: selectedRate?.shipping_amount?.currency, rate: Number(selectedRate?.shipping_amount?.amount)?.toFixed(2), insurance: Number(insuranceDetails?.insurance_amount)?.toFixed(2), other_amount: Number(selectedRate?.other_amount?.amount)?.toFixed(2), date: selectedRate?.estimated_delivery_date },
 			})
 			.then((response) => {
@@ -41,37 +44,28 @@ const PaymentForm = ({ prevStep }: { prevStep: () => void }) => {
 	};
 
 	useEffect(() => {
-		const fetchCreditScoreData = async () => {
+		const fetchCreditOptions = async () => {
 			const userData = localStorage.getItem('userData');
 
 			try {
 				if (userData) {
 					const user = JSON.parse(userData);
-					const response = await axios.post('http://localhost:4000/credit-score/eligibility', {
+					const response = await axios.post(`${import.meta.env.VITE_BNPL_URL}/credit-score/eligibility`, {
 						user_id: user?._id,
 						shipping_fee: total,
 					});
-					console.log('response', response?.data);
+					console.log('response', response?.data?.allowed);
+					setViewBNPLBtn(response?.data?.allowed);
 				}
 			} catch (error) {
 				console.error('Error while fetching data:', error);
 			}
 		};
-		fetchCreditScoreData();
-	}, [total]);
+		fetchCreditOptions();
+	}, []);
 
 	return (
-		<Box
-			overflowY={'scroll'}
-			css={{
-				'&::-webkit-scrollbar': {
-					width: '0',
-				},
-				'&::-webkit-scrollbar-thumb': {
-					backgroundColor: 'rgba(0, 0, 0, 0.5)',
-					borderRadius: '0.25em',
-				},
-			}}>
+		<Box overflowY={'scroll'}>
 			<ShippingSummary />
 			<PaymentModal
 				isOpen={isOpen}
@@ -91,7 +85,7 @@ const PaymentForm = ({ prevStep }: { prevStep: () => void }) => {
 				<Flex
 					gap={'1rem'}
 					justify={'flex-end'}>
-					<Button onClick={onOpen}>BNPL</Button>
+					{viewBNPLBtn && <Button onClick={onOpen}>BNPL</Button>}
 					<Button onClick={handleNormalCheckout}>Pay now</Button>
 				</Flex>
 			</Flex>

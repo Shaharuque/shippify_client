@@ -3,46 +3,40 @@ import { useEffect, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
 import { formatLabels } from '../../utils/formatLabels';
 import NoDataFound from '../No service available/noDataFound';
+import { Flex } from '@chakra-ui/react';
 
 type TPieData = {
-  count: number;
-  status: string;
+	count: number;
+	status: string;
 };
 
 const PieChart = () => {
-  const [labels, setLabels] = useState<string[]>([]);
-  const [values, setValues] = useState<number[]>([]);
-  const [pieData, setPieData] = useState<TPieData[]>([]);
+	const [labels, setLabels] = useState<string[]>([]);
+	const [values, setValues] = useState<number[]>([]);
+	const [pieData, setPieData] = useState<TPieData[]>([]);
 
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    const fetchPieChartData = async () => {
-      try {
-        const result = await axios.get(
-          `${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}/shipment/basic/pie/chart/group/by/shipping/status`,
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              'x-auth-token': token,
-            },
-          }
-        );
+	useEffect(() => {
+		const token = localStorage.getItem('token');
+		const fetchPieChartData = async () => {
+			try {
+				const result = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/shipment/basic/pie/chart/group/by/shipping/status`, {
+					headers: {
+						'Content-Type': 'application/json',
+						'x-auth-token': token,
+					},
+				});
 
-        const filteredData = result?.data?.data.filter(
-          (item: TPieData) => item.status !== 'pending'
-        );
-        setPieData(filteredData);
-        const formattedLabels = formatLabels(
-          filteredData.map((item: TPieData) => item.status)
-        );
-        setLabels(formattedLabels);
-        setValues(filteredData.map((item: TPieData) => item.count));
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchPieChartData();
-  }, []);
+				const filteredData = result?.data?.data.filter((item: TPieData) => item.status !== 'pending');
+				setPieData(filteredData);
+				const formattedLabels = formatLabels(filteredData.map((item: TPieData) => item.status));
+				setLabels(formattedLabels);
+				setValues(filteredData.map((item: TPieData) => item.count));
+			} catch (error) {
+				console.log(error);
+			}
+		};
+		fetchPieChartData();
+	}, []);
 
   const options = {
     responsive: [
@@ -94,15 +88,19 @@ const PieChart = () => {
   };
   const series = values;
 
-  return (
-    <>
-      {pieData && pieData.length > 0 ? (
-        <ReactApexChart options={options} series={series} type="pie" />
-      ) : (
-        <NoDataFound text="No data available!" />
-      )}
-    </>
-  );
+	return (
+		<>
+			{pieData && pieData.length > 0 ? (
+				<ReactApexChart
+					options={options}
+					series={series}
+					type="pie"
+				/>
+			) : (
+				<NoDataFound text="No data available!" />
+			)}
+		</>
+	);
 };
 
 export default PieChart;

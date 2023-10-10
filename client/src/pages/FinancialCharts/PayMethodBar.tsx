@@ -4,47 +4,41 @@ import ReactApexChart from 'react-apexcharts';
 import { countDifferentSizeBoxes } from '../../utils/countDifferentSizeBoxs';
 import { populateMonthsForCharts } from '../../utils/populateMonthsForCharts';
 
-
-
 const PayMethodBar = () => {
-  const [shipmentData, setShipmentData] = useState([]);
-  const [lTLTableData, setLTLTableData] = useState([]);
-  const [Loading, setLoading] = useState(false);
-  const token = localStorage.getItem('token');
-  const [normalPay, setNormalPay] = useState<any[]>([]);
-  const [bnplPay, setBnplPay] = useState<any[]>([]);
+	const [shipmentData, setShipmentData] = useState([]);
+	const [lTLTableData, setLTLTableData] = useState([]);
+	const [Loading, setLoading] = useState(false);
+	const token = localStorage.getItem('token');
+	const [normalPay, setNormalPay] = useState<any[]>([]);
+	const [bnplPay, setBnplPay] = useState<any[]>([]);
 
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    const fetchTimeSeriesChartData = async () => {
-      try {
-        const responseOne = await axios.get('http://localhost:5000/shipment/each/month/normal/pay/count', {
-          headers: {
-            'Content-Type': 'application/json',
-            'x-auth-token': token,
-          },
-        });
+	useEffect(() => {
+		const token = localStorage.getItem('token');
+		const fetchTimeSeriesChartData = async () => {
+			try {
+				const responseOne = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/shipment/each/month/normal/pay/count`, {
+					headers: {
+						'Content-Type': 'application/json',
+						'x-auth-token': token,
+					},
+				});
 
-        if (responseOne?.data?.status === 'success') setNormalPay(populateMonthsForCharts(responseOne?.data?.result));
+				if (responseOne?.data?.status === 'success') setNormalPay(populateMonthsForCharts(responseOne?.data?.result));
 
-        const responseTwo = await axios.get(
-          'http://localhost:5000/shipment/each/month/bnpl/pay/count',
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              'x-auth-token': token,
-            },
-          }
-        );
+				const responseTwo = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/shipment/each/month/bnpl/pay/count`, {
+					headers: {
+						'Content-Type': 'application/json',
+						'x-auth-token': token,
+					},
+				});
 
-        if (responseTwo?.data?.status === 'success') setBnplPay(populateMonthsForCharts(responseTwo?.data?.result));
-
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-    fetchTimeSeriesChartData();
-  }, []);
+				if (responseTwo?.data?.status === 'success') setBnplPay(populateMonthsForCharts(responseTwo?.data?.result));
+			} catch (error) {
+				console.error('Error fetching data:', error);
+			}
+		};
+		fetchTimeSeriesChartData();
+	}, []);
 
 
 

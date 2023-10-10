@@ -7,44 +7,40 @@ import { populateMonthsForCharts } from '../../utils/populateMonthsForCharts';
 Chart.register(...registerables);
 
 const StackedBar = () => {
-    const [packageCount, SetPackageCount] = useState<any[]>([]);
-    const [ltlPackageCount, setLtlPackageCount] = useState<any[]>([]);
+	const [packageCount, SetPackageCount] = useState<any[]>([]);
+	const [ltlPackageCount, setLtlPackageCount] = useState<any[]>([]);
 
-    useEffect(() => {
-        const token = localStorage.getItem('token');
-        const fetchTimeSeriesChartData = async () => {
-            try {
-                const responseOne = await axios.get('http://localhost:5000/shipment/each/month/package/number', {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'x-auth-token': token,
-                    },
-                });
+	useEffect(() => {
+		const token = localStorage.getItem('token');
+		const fetchTimeSeriesChartData = async () => {
+			try {
+				const responseOne = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/shipment/each/month/package/number`, {
+					headers: {
+						'Content-Type': 'application/json',
+						'x-auth-token': token,
+					},
+				});
 
-                if (responseOne?.data?.status === 'success') {
-                    SetPackageCount(populateMonthsForCharts(responseOne?.data?.result));
-                }
+				if (responseOne?.data?.status === 'success') {
+					SetPackageCount(populateMonthsForCharts(responseOne?.data?.result));
+				}
 
-                const responseTwo = await axios.get(
-                    'http://localhost:5000/ltlShipment/each/month/package/number',
-                    {
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'x-auth-token': token,
-                        },
-                    }
-                );
+				const responseTwo = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/ltlShipment/each/month/package/number`, {
+					headers: {
+						'Content-Type': 'application/json',
+						'x-auth-token': token,
+					},
+				});
 
-                if (responseTwo?.data?.status === 'success') {
-                    setLtlPackageCount(populateMonthsForCharts(responseTwo?.data?.result))
-                };
-
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        };
-        fetchTimeSeriesChartData();
-    }, []);
+				if (responseTwo?.data?.status === 'success') {
+					setLtlPackageCount(populateMonthsForCharts(responseTwo?.data?.result));
+				}
+			} catch (error) {
+				console.error('Error fetching data:', error);
+			}
+		};
+		fetchTimeSeriesChartData();
+	}, []);
 
     return (
         <div className="bar  border border-gray-300 rounded">

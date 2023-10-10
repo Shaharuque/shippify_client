@@ -12,12 +12,17 @@ import SuccessFulPayment from './components/Payment/successFulPayment';
 import Layout from './components/Layout/layout';
 import BlockChainTransactions from './pages/BlockChainTransactions/BlockChainTransactions';
 import PDFViewer from './pages/PDFViewer/PDFViewer';
+import BNPL from './pages/BNPL/bnpl';
 import MainPage from './pages/FinancialCharts/MainPage';
+import LandingPage from './pages/Landing/landing.page';
 
 function App() {
 	return (
 		<Router>
 			<Routes>
+				<Route
+					path="/"
+					element={<LandingPage />}></Route>
 				<Route
 					path="/register"
 					element={<RegisterPage />}></Route>
@@ -52,9 +57,18 @@ function App() {
 						element={<TrackingPage />}
 					/>
 
-					<Route path="/financial/charts" element={<MainPage></MainPage>}></Route>
+					<Route
+						path="/financial/charts"
+						element={<MainPage></MainPage>}></Route>
 
-					<Route path='/block-chain' element={<BlockChainTransactions></BlockChainTransactions>}></Route>
+					<Route
+						path="/block-chain"
+						element={<BlockChainTransactions></BlockChainTransactions>}></Route>
+
+					<Route
+						path="/payment"
+						element={<BNPL />}
+					/>
 
 					<Route
 						path="/stripe/payment/success"
@@ -69,7 +83,8 @@ function App() {
 
 				<Route
 					path="*"
-					element={<PageNotFound />}></Route>
+					element={<PageNotFound />}
+				/>
 			</Routes>
 		</Router>
 	);

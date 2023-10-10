@@ -171,7 +171,6 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 
 		dispatch(updateField({ packages: updatedPackages }));
 		CustomReset();
-		setSelectedPredefinedBoxCode(null);
 	};
 
 	return (
@@ -179,16 +178,7 @@ const PackageDetailsForm = ({ nextStep, prevStep }: { nextStep: () => void; prev
 			p={'.25vw'}
 			w={'40rem'}
 			overflowY={'scroll'}
-			h={'800px'}
-			css={{
-				'&::-webkit-scrollbar': {
-					width: '0',
-				},
-				'&::-webkit-scrollbar-thumb': {
-					backgroundColor: 'rgba(0, 0, 0, 0.5)',
-					borderRadius: '0.25em',
-				},
-			}}>
+			h={'75vh'}>
 			{sender?.country_code !== reciever?.country_code ? <CustomsInfoForm /> : null}
 			<PackageNumbers
 				packages={packages}

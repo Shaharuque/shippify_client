@@ -5,6 +5,7 @@ import parcelLottie from '../../../assets/Parcel.json';
 import trackingLottie from '../../../assets/Tracking-2.json';
 import { useLottie } from 'lottie-react';
 import { useNavigate } from 'react-router-dom';
+import chartLottie from '../../../assets/Chart.json';
 
 const ShipmentMenuList = () => {
 	const navigate = useNavigate();
@@ -23,18 +24,24 @@ const ShipmentMenuList = () => {
 		loop: true,
 	};
 
+	const chartLottieOptions = {
+		animationData: chartLottie,
+		loop: true,
+	};
+
 	const { View: parcelLottieView } = useLottie(parcelLottieOptions);
 	const { View: truckLottieView } = useLottie(truckLottieOptions);
 	const { View: trackingLottieView } = useLottie(trackingLottieOptions);
-	const { View: trackingLottieView2 } = useLottie(trackingLottieOptions);
+	const { View: chartLottieView } = useLottie(chartLottieOptions);
 
 	return (
-		<div className=''>
-
-			<div className='mb-20px' onClick={() => navigate('/financial/charts')}>
+		<div className="">
+			<div
+				className="mb-20px"
+				onClick={() => navigate('/financial/charts')}>
 				<ShipmentMenu
 					title={'Financial Analysis'}
-					lottie={trackingLottieView2}
+					lottie={chartLottieView}
 				/>
 			</div>
 			<div onClick={() => navigate('/create/basic')}>
@@ -57,8 +64,6 @@ const ShipmentMenuList = () => {
 					lottie={trackingLottieView}
 				/>
 			</div>
-
-
 		</div>
 	);
 };

@@ -1,53 +1,49 @@
-import React, { useEffect, useState } from 'react';
-import { Bar } from "react-chartjs-2";
-import { Chart, registerables } from "chart.js";
+import { useEffect, useState } from 'react';
+import { Bar } from 'react-chartjs-2';
+import { Chart, registerables } from 'chart.js';
 Chart.register(...registerables);
 import axios from 'axios';
 import { populateMonthsForCharts } from '../../utils/populateMonthsForCharts';
 
 const MixedChart = () => {
-    const [packageCount, SetPackageCount] = useState<any[]>([]);
-    const [ltlPackageCount, setLtlPackageCount] = useState<any[]>([]);
-    const [totalPaidByMonth, setTotalPaidByMonth] = useState<any[]>([]);
+	const [packageCount, SetPackageCount] = useState<any[]>([]);
+	const [ltlPackageCount, setLtlPackageCount] = useState<any[]>([]);
+	const [totalPaidByMonth, setTotalPaidByMonth] = useState<any[]>([]);
 
-    useEffect(() => {
-        const token = localStorage.getItem('token');
-        const fetchTimeSeriesChartData = async () => {
-            try {
-                const responseOne = await axios.get('http://localhost:5000/shipment/each/month/package/number', {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'x-auth-token': token,
-                    },
-                });
+	useEffect(() => {
+		const token = localStorage.getItem('token');
+		const fetchTimeSeriesChartData = async () => {
+			try {
+				const responseOne = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/shipment/each/month/package/number`, {
+					headers: {
+						'Content-Type': 'application/json',
+						'x-auth-token': token,
+					},
+				});
 
-                if (responseOne?.data?.status === 'success') {
-                    SetPackageCount(populateMonthsForCharts(responseOne?.data?.result));
-                    setTotalPaidByMonth(populateMonthsForCharts(responseOne?.data?.totalPaidAmountByMonth));
-                }
+				if (responseOne?.data?.status === 'success') {
+					SetPackageCount(populateMonthsForCharts(responseOne?.data?.result));
+					setTotalPaidByMonth(populateMonthsForCharts(responseOne?.data?.totalPaidAmountByMonth));
+				}
 
-                const responseTwo = await axios.get(
-                    'http://localhost:5000/ltlShipment/each/month/package/number',
-                    {
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'x-auth-token': token,
-                        },
-                    }
-                );
+				const responseTwo = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/ltlShipment/each/month/package/number`, {
+					headers: {
+						'Content-Type': 'application/json',
+						'x-auth-token': token,
+					},
+				});
 
-                if (responseTwo?.data?.status === 'success') {
-                    setLtlPackageCount(populateMonthsForCharts(responseTwo?.data?.result))
-                };
+				if (responseTwo?.data?.status === 'success') {
+					setLtlPackageCount(populateMonthsForCharts(responseTwo?.data?.result));
+				}
+			} catch (error) {
+				console.error('Error fetching data:', error);
+			}
+		};
+		fetchTimeSeriesChartData();
+	}, []);
 
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        };
-        fetchTimeSeriesChartData();
-    }, []);
-
-    console.log(totalPaidByMonth)
+	console.log(totalPaidByMonth);
 
     return (
         <div className="bar border border-gray-300 rounded">

@@ -1,3 +1,4 @@
+
 import { Badge, Box, Flex, Icon, Image, Stack, Text, useBreakpointValue } from '@chakra-ui/react';
 import ups from '../../assets/ups.svg';
 import fedex from '../../assets/fedex-express-6.svg';
@@ -145,6 +146,7 @@ const ShipmentCard = ({ shipment, clickedCard, isActive }: IShipment) => {
 			</Flex>
 		</Box>
 	);
+
 };
 
 export default ShipmentCard;

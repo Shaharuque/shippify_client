@@ -3,9 +3,9 @@ import { ChangeEvent } from 'react';
 
 type PriceAscendingDescendingFilterProp = {
 	onChange: (value: string) => void;
-	dataLoading: boolean;
+	dataLoading?: boolean;
 };
-const PriceAscendingDescendingFilter = ({ onChange,dataLoading }: PriceAscendingDescendingFilterProp) => {
+const PriceAscendingDescendingFilter = ({ onChange, dataLoading }: PriceAscendingDescendingFilterProp) => {
 	return (
 		<Box mb="4">
 			<Text

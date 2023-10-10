@@ -11,20 +11,20 @@ const ViewShipmentDetails = ({ shipmentData }: { shipmentData: any }) => {
 			variant="soft-rounded">
 			<TabList
 				mb="1em"
+				mt={'2.5rem'}
 				border={'1px solid white'}
-				borderRadius={'2rem'}>
+				borderRadius={'2rem'}
+				h={'4.5vh'}>
 				<Tab _selected={{ color: 'white', bg: 'cta' }}>Address</Tab>
-				<Tab _selected={{ color: 'white', bg: 'cta' }}>Delivery Details</Tab>
-				<Tab _selected={{ color: 'white', bg: 'cta' }}>Payment Details</Tab>
+				<Tab _selected={{ color: 'white', bg: 'cta' }}>Delivery</Tab>
+				<Tab _selected={{ color: 'white', bg: 'cta' }}>Payment</Tab>
 			</TabList>
 
 			<TabPanels>
 				<TabPanel>
 					<div className=" font-sans">
 						<div className="bg-white mt-4 rounded p-3">
-							<div className="mb-2 bg-[#437F8C] text-white rounded-full px-4 py-2 inline-flex items-center">
-								Sender
-							</div>
+							<div className="mb-2 bg-[#437F8C] text-white rounded-full px-4 py-2 inline-flex items-center">Sender</div>
 							<div className="flex gap-2">
 								<h1>Company Name:</h1>
 								<h1 className="font-bold text-teal-700">{shipmentData?.shipment_detail?.ship_from?.company_name}</h1>
@@ -61,9 +61,7 @@ const ViewShipmentDetails = ({ shipmentData }: { shipmentData: any }) => {
 								<h1>Company Name:</h1>
 								<h1 className="font-bold text-teal-700">{shipmentData?.shipment_detail?.ship_to?.company_name || 'N/A'}</h1>
 							</div> */}
-							<div className="mb-2 bg-[#437F8C] text-white rounded-full px-4 py-2 inline-flex items-center">
-								Receiver
-							</div>
+							<div className="mb-2 bg-[#437F8C] text-white rounded-full px-4 py-2 inline-flex items-center">Receiver</div>
 							<div className="flex gap-2">
 								<h1>Adress:</h1>
 								<h1 className="font-bold">{shipmentData?.shipment_detail?.ship_to?.address_line1}</h1>

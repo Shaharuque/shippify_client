@@ -6,7 +6,7 @@ export type TLogo = {
 	isExpanded?: boolean;
 };
 
-const Logo = ({ primaryColor, isExpanded }: TLogo) => {
+const Logo = ({ primaryColor, isExpanded = true }: TLogo) => {
 	return (
 		<Flex
 			align={'center'}

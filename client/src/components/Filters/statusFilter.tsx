@@ -1,11 +1,10 @@
 import { Select, Box, Text } from '@chakra-ui/react';
 
-
 type statusFilterProps = {
 	onChange: (value: string) => void;
-	dataLoading: boolean;
+	dataLoading?: boolean;
 };
-const StausFilter = ({ onChange,dataLoading }: statusFilterProps) => {
+const StausFilter = ({ onChange, dataLoading }: statusFilterProps) => {
 	return (
 		<Box mb="4">
 			<Text
@@ -15,7 +14,7 @@ const StausFilter = ({ onChange,dataLoading }: statusFilterProps) => {
 			</Text>
 			<Select
 				disabled={dataLoading ? true : false}
-				onChange={(e:any) => onChange(e.target.value)}
+				onChange={(e: any) => onChange(e.target.value)}
 				defaultValue={'asc'}
 				border={'2px solid gray'}
 				_focusVisible={{ boxShadow: '0 0 2.5px #0E1420' }}>
@@ -23,9 +22,9 @@ const StausFilter = ({ onChange,dataLoading }: statusFilterProps) => {
 				<option value={'label_purchased'}>Label Purchased</option>
 				<option value={'in_transit'}>In Transit</option>
 				<option value={'received'}>Received</option>
-				<option value={'dropped_at_service_point'}>Dropped At Service Point</option>
-				<option value={'reached_at_service_point'}>Reached At Service Point</option>
-				<option value={'unknown'}>Lost</option>
+				<option value={'dropped_at_service_point'}>Dropped at Service Point</option>
+				<option value={'reached_at_service_point'}>Reached at Service Point</option>
+				<option value={'unknown'}>Unknown</option>
 				<option value={'returned'}>Returned</option>
 			</Select>
 		</Box>

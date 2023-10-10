@@ -25,7 +25,7 @@ const ShipmentCardList = ({ tableData, clickedCard, activeCard }: IShipment) => 
 									clickedCard={clickedCard}
 									key={index}
 									shipment={shipment}
-									isActive={activeCard == shipment?._id}
+									isActive={activeCard === shipment?._id}
 								/>
 							);
 						} else {

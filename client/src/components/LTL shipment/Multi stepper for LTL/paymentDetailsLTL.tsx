@@ -1,7 +1,6 @@
 import BackButton from '../../Buttons/backButton';
 import { Box, Button, Flex, useDisclosure } from '@chakra-ui/react';
 import QuoteSummary from '../../Cards/quoteSummary';
-import RegularButton from '../../Buttons/regularButton';
 import { useAppSelector } from '../../../redux/hooks';
 import { RootState } from '../../../redux/store';
 import PaymentModal from '../../Modals/paymentModal';
@@ -11,7 +10,10 @@ const PaymentDetailsLTL = ({ nextStep, prevStep }: { nextStep: () => void; prevS
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const ltlShipmentCharges = useAppSelector((state: RootState) => state?.ltlTotalCharge);
 	const insuranceDetails = useAppSelector((state: RootState) => state?.insurance);
-	const total = Number(ltlShipmentCharges?.amount?.value) + Number(insuranceDetails?.insurance_amount);
+
+	const total_shipping_charge = Number(ltlShipmentCharges?.amount?.value) + Number(insuranceDetails?.insurance_amount);
+	const platform_fee = total_shipping_charge * 0.1;
+	const total = total_shipping_charge + platform_fee;
 
 	const handleCheckout = () => {
 		localStorage.setItem(
@@ -27,7 +29,7 @@ const PaymentDetailsLTL = ({ nextStep, prevStep }: { nextStep: () => void; prevS
 		localStorage.setItem('shipmentId', ltlShipmentCharges?.shipmentId);
 		localStorage.setItem('shipmentType', 'ltl');
 		axios
-			.post(`${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}/payment/create-checkout-session`, {
+			.post(`${import.meta.env.VITE_BACKEND_URL}/payment/create-checkout-session`, {
 				payment: { currency: ltlShipmentCharges?.amount?.currency, rate: ltlShipmentCharges?.amount?.value, insurance: insuranceDetails?.insurance_amount, other_amount: 0, date: new Date().toISOString() },
 			})
 			.then((response) => {

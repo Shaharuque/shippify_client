@@ -50,7 +50,7 @@ const InsuranceDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void;
 	}, [ltlShipmentInfo, fetchQuote]);
 
 	const handleCheckInsurance = async () => {
-		const BASE_URL = `${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}`;
+		const BASE_URL = `${import.meta.env.VITE_BACKEND_URL}`;
 		try {
 			setIsLoading(true);
 			const token = localStorage.getItem('token');

@@ -1,5 +1,5 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { Box, FormControl, FormLabel, Input, Flex, Text, Select, Icon } from '@chakra-ui/react';
+import { Box, FormControl, FormLabel, FormErrorMessage, Input, Flex, Text, Select } from '@chakra-ui/react';
 import SubmitButton from '../../Buttons/submitButton';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { updateField } from '../../../redux/features/basicShipmentsSlice';
@@ -8,7 +8,6 @@ import { useEffect, useState } from 'react';
 import { getAllWarehouses } from '../../../services/apis/setUpShipmentApi';
 import { WarehouseSetupFormData } from '../../Registration and setup components/Warehouse setup form/warehouseSetupForm';
 import { countryCodeDictionary } from '../../../data/countryCodeDictionary';
-import { FiAlertTriangle } from 'react-icons/fi';
 
 export type TSenderAddressFormData = {
 	name: string;
@@ -51,7 +50,12 @@ for (const key in countryCodeDictionary) {
 }
 
 const SenderAddressForm = ({ nextStep }: { nextStep: () => void }) => {
-	const { handleSubmit, setValue, register } = useForm<TSenderAddressFormData>({
+	const {
+		handleSubmit,
+		setValue,
+		register,
+		formState: { errors },
+	} = useForm<TSenderAddressFormData>({
 		defaultValues: {
 			...useAppSelector((state: RootState) => state?.basicShipments?.ship_from),
 		},
@@ -151,8 +155,14 @@ const SenderAddressForm = ({ nextStep }: { nextStep: () => void }) => {
 				<Flex
 					gap={'3rem'}
 					mb={'3vh'}>
-					<FormControl id="name">
-						<FormLabel fontWeight={'600'}>Contact Name</FormLabel>
+					<FormControl
+						id="name"
+						isRequired>
+						<FormLabel
+							fontWeight={'600'}
+							requiredIndicator={<></>}>
+							Contact Name
+						</FormLabel>
 
 						<Input
 							{...register('name')}
@@ -163,8 +173,14 @@ const SenderAddressForm = ({ nextStep }: { nextStep: () => void }) => {
 						/>
 					</FormControl>
 
-					<FormControl id="company_name">
-						<FormLabel fontWeight={'600'}>Company Name</FormLabel>
+					<FormControl
+						id="company_name"
+						isRequired>
+						<FormLabel
+							fontWeight={'600'}
+							requiredIndicator={<></>}>
+							Company Name
+						</FormLabel>
 
 						<Input
 							{...register('company_name')}
@@ -181,8 +197,12 @@ const SenderAddressForm = ({ nextStep }: { nextStep: () => void }) => {
 					mb={'3vh'}>
 					<FormControl
 						id="country_code"
-						isReadOnly>
-						<FormLabel fontWeight={'600'}>Country</FormLabel>
+						isRequired>
+						<FormLabel
+							fontWeight={'600'}
+							requiredIndicator={<></>}>
+							Country
+						</FormLabel>
 						<Input
 							{...register('country_code')}
 							variant={'flushed'}
@@ -192,8 +212,14 @@ const SenderAddressForm = ({ nextStep }: { nextStep: () => void }) => {
 						/>
 					</FormControl>
 
-					<FormControl id="state_province">
-						<FormLabel fontWeight={'600'}>State/Province</FormLabel>
+					<FormControl
+						id="state_province"
+						isRequired>
+						<FormLabel
+							fontWeight={'600'}
+							requiredIndicator={<></>}>
+							State/Province
+						</FormLabel>
 
 						<Input
 							{...register('state_province')}
@@ -207,8 +233,14 @@ const SenderAddressForm = ({ nextStep }: { nextStep: () => void }) => {
 				<Flex
 					gap={'3rem'}
 					mb={'3vh'}>
-					<FormControl id="city_locality">
-						<FormLabel fontWeight={'600'}>City</FormLabel>
+					<FormControl
+						id="city_locality"
+						isRequired>
+						<FormLabel
+							fontWeight={'600'}
+							requiredIndicator={<></>}>
+							City
+						</FormLabel>
 
 						<Input
 							{...register('city_locality')}
@@ -218,8 +250,14 @@ const SenderAddressForm = ({ nextStep }: { nextStep: () => void }) => {
 							_focusVisible={{ borderColor: '#002855', boxShadow: '0px 1px 0px 0px #002855 ' }}
 						/>
 					</FormControl>
-					<FormControl id="address_line1">
-						<FormLabel fontWeight={'600'}>Street</FormLabel>
+					<FormControl
+						id="address_line1"
+						isRequired>
+						<FormLabel
+							fontWeight={'600'}
+							requiredIndicator={<></>}>
+							Street
+						</FormLabel>
 
 						<Input
 							{...register('address_line1')}
@@ -233,8 +271,14 @@ const SenderAddressForm = ({ nextStep }: { nextStep: () => void }) => {
 				<Flex
 					gap={'3rem'}
 					mb={'3vh'}>
-					<FormControl id="postal_code">
-						<FormLabel fontWeight={'600'}>Postal Code</FormLabel>
+					<FormControl
+						id="postal_code"
+						isRequired>
+						<FormLabel
+							fontWeight={'600'}
+							requiredIndicator={<></>}>
+							Postal Code
+						</FormLabel>
 
 						<Input
 							{...register('postal_code')}
@@ -246,7 +290,8 @@ const SenderAddressForm = ({ nextStep }: { nextStep: () => void }) => {
 					</FormControl>
 					<FormControl
 						id="phone"
-						isRequired>
+						isRequired
+						isInvalid={!!errors.phone}>
 						<FormLabel
 							fontWeight={'600'}
 							requiredIndicator={<></>}>
@@ -254,12 +299,19 @@ const SenderAddressForm = ({ nextStep }: { nextStep: () => void }) => {
 						</FormLabel>
 
 						<Input
-							{...register('phone')}
+							{...register('phone', {
+								required: 'Phone number is required',
+								pattern: {
+									value: /^\d{3}-\d{3}-\d{4}$/,
+									message: 'Invalid number! Must have 10 digit format!',
+								},
+							})}
 							variant={'flushed'}
 							borderBottom={'1px solid #314866'}
 							transition={'all 0.30s ease-in-out;'}
 							_focusVisible={{ borderColor: '#002855', boxShadow: '0px 1px 0px 0px #002855 ' }}
 						/>
+						{errors.phone && <FormErrorMessage>{errors.phone.message}</FormErrorMessage>}
 					</FormControl>
 				</Flex>
 

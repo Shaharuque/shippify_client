@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
-import noDataFound from '../../../assets/no-data-found.jpg';
-import { Space, Table, Tag } from 'antd';
+import { Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
@@ -16,7 +15,6 @@ interface DataType {
 
 const tableHeaders = ['From', 'To', 'Service'];
 
-
 const RecentShipmentTable = () => {
 	const [shipmentData, setShipmentData] = useState([]);
 	const [lTLTableData, setLTLTableData] = useState([]);
@@ -28,8 +26,8 @@ const RecentShipmentTable = () => {
 			const fetchBasicShipmentData = async () => {
 				setLoading(true);
 				const basicResponse = await axios.post(
-					`http://localhost:5000/shipment/sort-by-package-and-price`,
-					{ carrier_id: '', priceSort: "", weightSort: "", shipment_status: "" },
+					`${import.meta.env.VITE_BACKEND_URL}/shipment/sort-by-package-and-price`,
+					{ carrier_id: '', priceSort: '', weightSort: '', shipment_status: '' },
 					{
 						headers: {
 							'Content-Type': 'application/json',
@@ -37,15 +35,12 @@ const RecentShipmentTable = () => {
 						},
 					}
 				);
-				const ltlResponse = await axios.get(
-					`http://localhost:5000/ltlShipment/my-shipment-list`,
-					{
-						headers: {
-							'Content-Type': 'application/json',
-							'x-auth-token': token,
-						},
-					}
-				);
+				const ltlResponse = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/ltlShipment/my-shipment-list`, {
+					headers: {
+						'Content-Type': 'application/json',
+						'x-auth-token': token,
+					},
+				});
 				setShipmentData(basicResponse?.data?.result?.slice(0, 7));
 				setLTLTableData(ltlResponse?.data?.data);
 				setLoading(false);
@@ -71,7 +66,7 @@ const RecentShipmentTable = () => {
 			ellipsis: true,
 			render: (_,record) => <h1 className=' break-words'>{record?.labelDetail?.service_code?.slice(0,8)}...</h1>
 		},
-		
+
 		{
 			title: 'From',
 			dataIndex: 'fromaddress',
@@ -88,13 +83,13 @@ const RecentShipmentTable = () => {
 			title: 'Shipping Rate',
 			dataIndex: 'rate',
 			key: 'rate',
-			render: (_, record) => <h1 className='text-center'>{record?.rateDetail?.shipping_amount?.amount}$</h1>
+			render: (_, record) => <h1 className="text-center">{record?.rateDetail?.shipping_amount?.amount}$</h1>,
 		},
 		{
 			title: 'Insurance',
 			dataIndex: 'insurance',
 			key: 'insurance',
-			render: (_, record) => <h1 className='text-center'>{record?.insurance_detail?.fee?.amount}$</h1>
+			render: (_, record) => <h1 className="text-center">{record?.insurance_detail?.fee?.amount}$</h1>,
 		},
 		{
 			title: 'Paid',
@@ -124,13 +119,12 @@ const RecentShipmentTable = () => {
 		// }
 	];
 
-
 	return (
 		<div className='h-[350px] 2xl:h-[450px] overflow-x-scroll bg-white rounded-md'>
 
 			<Table pagination={false} //pagination dekhatey chailey just 'true' korey dilei hobey
 				rowKey={(record) => record?._id} //record is kind of whole one data object and here we are assigning id as key
-				className='font-semibold'
+				className="font-semibold"
 				bordered
 				columns={columns}
 				dataSource={shipmentData} />

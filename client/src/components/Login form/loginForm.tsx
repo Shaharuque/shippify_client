@@ -9,6 +9,7 @@ import Greeting from '../Greetings texts/greeting';
 import { signIn } from '../../services/apis/authApi';
 import FormHelperText from '../Form helper text/formHelperText';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 export type LoginFormData = {
 	email: string;
@@ -22,14 +23,18 @@ const LoginForm = () => {
 		register,
 		formState: { errors },
 	} = useForm<LoginFormData>();
+	const [isLoading, setIsLoading] = useState(false);
 
 	const onSubmit = async (values: LoginFormData) => {
 		try {
+			setIsLoading(true);
 			const result = await signIn(values);
 			if (result?.data?.status === 'success') {
 				localStorage.setItem('token', result?.data?.token);
 				localStorage.setItem('userData', JSON.stringify(result?.data?.data));
+
 				navigate('/home');
+				setIsLoading(true);
 			}
 		} catch (error) {
 			console.error('Error message from login form:', error);
@@ -107,7 +112,10 @@ const LoginForm = () => {
 						Forgot Password?
 					</Text>
 					<Box mt={'2rem'}>
-						<SubmitButton text={'Sign In'} />
+						<SubmitButton
+							text={'Sign In'}
+							isLoading={isLoading}
+						/>
 					</Box>
 				</form>
 				<>

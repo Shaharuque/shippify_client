@@ -46,7 +46,7 @@ const SuccessFulPayment = () => {
 			const purchaseBasicShipment = async (payload: any) => {
 				setIsLoading(true);
 				try {
-					const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}/shipment/parched-shipment/${shipmentId}`, payload, {
+					const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/shipment/parched-shipment/${shipmentId}`, payload, {
 						headers: {
 							'Content-Type': 'application/json',
 							'x-auth-token': token,
@@ -63,7 +63,7 @@ const SuccessFulPayment = () => {
 			const purchaseLTLShipment = async (payload: any) => {
 				setIsLoading(true);
 				try {
-					const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}/ltlShipment/parched-shipment/${shipmentId}`, payload, {
+					const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/ltlShipment/parched-shipment/${shipmentId}`, payload, {
 						headers: {
 							'Content-Type': 'application/json',
 							'x-auth-token': token,
@@ -106,14 +106,14 @@ const SuccessFulPayment = () => {
 		<>
 			{error ? (
 				<Flex
-					h={'85vh'}
+					h={'80vh'}
 					align={'center'}
 					justify={'center'}>
 					<Error />
 				</Flex>
 			) : (
 				<Flex
-					h={'100vh'}
+					h={'90vh'}
 					justifyContent="center"
 					alignItems="center"
 					bg={'linear-gradient(135deg, hsla(155, 44%, 92%, 1) 0%, hsla(191, 24%, 62%, 1) 100%)'}>

@@ -33,7 +33,7 @@ const PaymentModal = ({ onClose, isOpen, total, insured_amount }: PaymentModalPr
 			try {
 				if (userData) {
 					const user = JSON.parse(userData);
-					const response = await axios.post('http://localhost:4000/credit-score/credit-options', {
+					const response = await axios.post(`${import.meta.env.VITE_BNPL_URL}/credit-score/credit-options`, {
 						user_id: user?._id,
 					});
 					console.log('response', response?.data);
@@ -77,7 +77,7 @@ const PaymentModal = ({ onClose, isOpen, total, insured_amount }: PaymentModalPr
 		);
 
 		axios
-			.post(`${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}/payment/create-checkout-session`, {
+			.post(`${import.meta.env.VITE_BACKEND_URL}/payment/create-checkout-session`, {
 				payment: { currency: 'USD', rate: payable, insurance: 0, other_amount: 0, date: new Date().toISOString },
 			})
 			.then((response) => {

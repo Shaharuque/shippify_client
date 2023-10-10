@@ -2,7 +2,6 @@ import { Box, Flex } from '@chakra-ui/react';
 import ShipmentMenuList from '../../components/Home page components/Shipment menu list/shipmentMenuList';
 import StatCardList from '../../components/Home page components/Stat card list/statCardList';
 import AnalyticsBox from '../../components/Home page components/Analytics box/analyticsBox';
-import DoenutChat from '../../components/Charts/doenutChat';
 import PieChart from '../../components/Charts/pieChart';
 import PieChat2 from '../../components/Charts/PieChar2';
 
