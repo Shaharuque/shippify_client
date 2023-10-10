@@ -5,11 +5,13 @@ import { useAppSelector } from '../../../redux/hooks';
 import { RootState } from '../../../redux/store';
 import PaymentModal from '../../Modals/paymentModal';
 import axios from 'axios';
+import { useEffect, useState } from 'react';
 
 const PaymentDetailsLTL = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () => void }) => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const ltlShipmentCharges = useAppSelector((state: RootState) => state?.ltlTotalCharge);
 	const insuranceDetails = useAppSelector((state: RootState) => state?.insurance);
+	const [viewBNPLBtn, setViewBNPLBtn] = useState(false);
 
 	const total_shipping_charge = Number(ltlShipmentCharges?.amount?.value) + Number(insuranceDetails?.insurance_amount);
 	const platform_fee = total_shipping_charge * 0.1;
@@ -40,6 +42,27 @@ const PaymentDetailsLTL = ({ nextStep, prevStep }: { nextStep: () => void; prevS
 			.catch((err) => console.log(err.message));
 	};
 
+	useEffect(() => {
+		const fetchCreditOptions = async () => {
+			const userData = localStorage.getItem('userData');
+
+			try {
+				if (userData) {
+					const user = JSON.parse(userData);
+					const response = await axios.post(`${import.meta.env.VITE_BNPL_URL}/credit-score/eligibility`, {
+						user_id: user?._id,
+						shipping_fee: total,
+					});
+					console.log('response', response?.data?.allowed);
+					setViewBNPLBtn(response?.data?.allowed);
+				}
+			} catch (error) {
+				console.error('Error while fetching data:', error);
+			}
+		};
+		fetchCreditOptions();
+	}, []);
+
 	return (
 		<Box>
 			<QuoteSummary />
@@ -61,7 +84,7 @@ const PaymentDetailsLTL = ({ nextStep, prevStep }: { nextStep: () => void; prevS
 				<Flex
 					gap={'1rem'}
 					justify={'flex-end'}>
-					<Button onClick={onOpen}>Pay later</Button>
+					{viewBNPLBtn && <Button onClick={onOpen}>Pay later</Button>}
 					<Button onClick={handleCheckout}>Pay now</Button>
 				</Flex>
 			</Flex>
