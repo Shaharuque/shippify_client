@@ -48,9 +48,9 @@ const LtlTrackingList = () => {
 				});
 				//console.log('result:', response.data);
 				setTableData(response?.data?.result);
-				setTabListLoading(false);
 				setActiveCard(response?.data?.result[0]?._id);
 				fetchSingleShipment({ token, id: response?.data?.result[0]?._id });
+				setTabListLoading(false);
 			} catch (error) {
 				console.log(error);
 			}
@@ -67,8 +67,7 @@ const LtlTrackingList = () => {
 		fetchSingleShipment({ token, id: cardId });
 	};
 
-	console.log('active card', activeCard);
-	console.log('table Data', tableData);
+	// console.log('active card status', shipmentData?.data?.shipment_status);
 
 	return (
 		<>
@@ -103,7 +102,7 @@ const LtlTrackingList = () => {
 								</>
 							) : (
 								<LtlTrackingStepper
-									activeStep={labelStepDictionary[shipmentData?.data?.shipment_detail?.shipment_status]}
+									activeStep={labelStepDictionary[shipmentData?.data?.shipment_status]}
 									steps={status}
 								/>
 							)}

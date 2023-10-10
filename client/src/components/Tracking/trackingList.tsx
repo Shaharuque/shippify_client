@@ -68,7 +68,7 @@ const TrackingList = () => {
 		fetchSingleShipment({ token, id: cardId });
 	};
 
-	console.log('active card', activeCard);
+	// console.log('active card status', shipmentData?.data?.shipment_detail?.shipment_status);
 
 	return (
 		<>
