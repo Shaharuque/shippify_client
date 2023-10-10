@@ -85,7 +85,7 @@ const PaymentForm = ({ prevStep }: { prevStep: () => void }) => {
 				<Flex
 					gap={'1rem'}
 					justify={'flex-end'}>
-					{viewBNPLBtn && <Button onClick={onOpen}>BNPL</Button>}
+					{viewBNPLBtn && <Button onClick={onOpen}>Pay later</Button>}
 					<Button onClick={handleNormalCheckout}>Pay now</Button>
 				</Flex>
 			</Flex>
