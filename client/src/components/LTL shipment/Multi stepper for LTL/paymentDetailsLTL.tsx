@@ -61,7 +61,7 @@ const PaymentDetailsLTL = ({ nextStep, prevStep }: { nextStep: () => void; prevS
 				<Flex
 					gap={'1rem'}
 					justify={'flex-end'}>
-					<Button onClick={onOpen}>BNPL</Button>
+					<Button onClick={onOpen}>Pay later</Button>
 					<Button onClick={handleCheckout}>Pay now</Button>
 				</Flex>
 			</Flex>

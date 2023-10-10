@@ -1,4 +1,4 @@
-import { Badge, Box, Flex, Stack, Text } from '@chakra-ui/react';
+import { Badge, Box, Button, Flex, Stack, Text } from '@chakra-ui/react';
 import moment from 'moment';
 import React from 'react';
 
@@ -15,7 +15,8 @@ const BNPLCard: React.FC<TrackingItemProps> = ({ item, clickedCard }: { item: IU
 		<Box
 			borderWidth="1px"
 			borderRadius="lg"
-			p={4}
+			px={8}
+			py={4}
 			marginBottom={4}
 			bg="white"
 			boxShadow="lg"
@@ -26,7 +27,9 @@ const BNPLCard: React.FC<TrackingItemProps> = ({ item, clickedCard }: { item: IU
 			}}
 			w={'min-content'}
 			onClick={() => clickedCard(item?._id)}>
-			<Flex gap={'2rem'}>
+			<Flex
+				gap={'2rem'}
+				align={'center'}>
 				<Stack
 					align={'center'}
 					w={'9vw'}>
@@ -70,11 +73,13 @@ const BNPLCard: React.FC<TrackingItemProps> = ({ item, clickedCard }: { item: IU
 
 				<Stack
 					align={'center'}
-					w={'8vw'}
+					w={'5vw'}
 					whiteSpace={'nowrap'}>
 					<Text fontWeight="bold">Defaults</Text>
 					<Text fontSize="sm">{item?.payments.defaults.toString()}</Text>
 				</Stack>
+
+				<Button borderRadius={'1rem'}>Pay now</Button>
 			</Flex>
 		</Box>
 	);
