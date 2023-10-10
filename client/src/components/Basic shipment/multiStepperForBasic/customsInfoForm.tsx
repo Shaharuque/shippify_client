@@ -102,7 +102,7 @@ const CustomsInfoForm = () => {
 
 	const CustomReset = () => {
 		reset({ ...defaultCustomsValues?.customs_items[0] });
-		// reset({ ...defaultCustomsValues?.customs_items[0], quantity: null, value: { amount: null, currency: '' } });
+
 		setSelectedCustomItemInfoIndex(null);
 		setAddNew(false);
 		setEditMode(false);
@@ -173,12 +173,16 @@ const CustomsInfoForm = () => {
 					<FormControl
 						mt={'1rem'}
 						isRequired>
-						<Input
-							border={'1px solid #314866'}
-							transition={'all 0.30s ease-in-out;'}
-							_focusVisible={{
-								borderColor: '#002855',
-								boxShadow: '0 0 3px #002855 ',
+						<input
+							style={{
+								border: '1px solid #002855',
+								transition: 'all 0.30s ease-in-out',
+								borderRadius: '0.35rem',
+								padding: '0.4em 0.6em',
+								outline: 'none',
+								boxShadow: '0 0 3px rgba(0, 40, 85, 0.1)',
+								backgroundColor: 'transparent',
+								width: '100%',
 							}}
 							{...register('description')}
 							type="text"
@@ -245,48 +249,47 @@ const CustomsInfoForm = () => {
 					gap={'1rem'}
 					mb={'1rem'}>
 					<FormControl mt={'1rem'}>
-						<NumberInput
-							min={0}
-							max={20000}>
-							<NumberInputField
-								{...register(`quantity`)}
-								border={'1px solid #314866'}
-								transition={'all 0.30s ease-in-out;'}
-								_focusVisible={{
-									borderColor: '#002855',
-									boxShadow: '0 0 3px #002855 ',
-								}}
+						<div>
+							<input
+								type="number"
+								min="0"
+								max="20000"
 								placeholder="Quantity"
+								{...register('quantity')}
+								style={{
+									border: '1px solid #314866',
+									transition: 'all 0.30s ease-in-out',
+									borderRadius: '0.35rem',
+									padding: '0.4em 0.6em',
+									outline: 'none',
+									boxShadow: '0 0 3px rgba(0, 40, 85, 0.1)',
+									backgroundColor: 'transparent',
+									width: '100%',
+								}}
 							/>
-							<NumberInputStepper>
-								<NumberIncrementStepper />
-								<NumberDecrementStepper />
-							</NumberInputStepper>
-						</NumberInput>
+						</div>
 					</FormControl>
 
 					<FormControl
 						mt={'1rem'}
 						isRequired>
-						<NumberInput
-							min={0}
-							max={20000}>
-							<NumberInputField
-								border={'1px solid #314866'}
-								transition={'all 0.30s ease-in-out;'}
-								_focusVisible={{
-									borderColor: '#002855',
-									boxShadow: '0 0 3px #002855 ',
-								}}
-								{...register(`value.amount`)}
+						<div>
+							<input
 								type="text"
-								placeholder={'Price'}
+								placeholder="Price"
+								{...register('value.amount')}
+								style={{
+									border: '1px solid #314866',
+									transition: 'all 0.30s ease-in-out',
+									borderRadius: '0.35rem',
+									padding: '0.4em 0.6em',
+									outline: 'none',
+									boxShadow: '0 0 3px rgba(0, 40, 85, 0.1)',
+									backgroundColor: 'transparent',
+									width: '100%',
+								}}
 							/>
-							<NumberInputStepper>
-								<NumberIncrementStepper />
-								<NumberDecrementStepper />
-							</NumberInputStepper>
-						</NumberInput>
+						</div>
 					</FormControl>
 
 					<FormControl

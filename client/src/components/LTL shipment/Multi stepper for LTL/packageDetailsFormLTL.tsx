@@ -144,10 +144,9 @@ const PackageDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void; p
 	const customDimensionFormValidator = () => {
 		// const result = getValues('dimensions.height') === null || getValues('dimensions.width') === null || getValues('dimensions.length') === null || getValues('weight.value') === null || selectedPackageCode === null || getValues('quantity') === null;
 
-		const result = !numberInputChange || selectedPackageCode === null;
+		return !numberInputChange || selectedPackageCode === null || getValues('dimensions') === null;
 
 		// console.log('validator', result);
-		return result;
 	};
 
 	const handleRemoveButton = () => {
