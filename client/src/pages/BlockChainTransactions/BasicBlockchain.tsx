@@ -93,7 +93,7 @@ const BasicBlockchain = () => {
 		setHashLoading(true);
 		const fetchBlockData = async () => {
 			try {
-				const response = await axios.get(`${import.meta.env.VITE_BLOCKCHAIN_URL}/get-detail/${transaction_hash}`, {
+				const response = await axios.get(`http://localhost:8000/get-detail/${transaction_hash}`, {
 					headers: {
 						'Content-Type': 'application/json',
 					},
