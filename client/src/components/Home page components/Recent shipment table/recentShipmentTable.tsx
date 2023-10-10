@@ -68,21 +68,21 @@ const RecentShipmentTable = () => {
 			title: 'Service',
 			dataIndex: 'name',
 			key: 'name',
-			// ellipsis: true,
-			render: (_,record) => <h1 className=' break-words'>{record?.labelDetail?.service_code}</h1>
+			ellipsis: true,
+			render: (_,record) => <h1 className=' break-words'>{record?.labelDetail?.service_code?.slice(0,8)}...</h1>
 		},
 		
 		{
 			title: 'From',
 			dataIndex: 'fromaddress',
 			key: 'fromaddress',
-			render: (_, record) => <h1 className='text-center'>{record?.shipment_detail?.ship_from?.city_locality}, {record?.shipment_detail?.ship_from?.country_code}</h1>
+			render: (_, record) => <h1 className='text-center'>{record?.shipment_detail?.ship_from?.city_locality?.slice(0,8)}...</h1>
 		},
 		{
 			title: 'To',
 			dataIndex: 'toadress',
 			key: 'toadress',
-			render: (_, record) => <h1 className='text-center'>{record?.shipment_detail?.ship_to?.city_locality}, {record?.shipment_detail?.ship_to?.country_code}</h1>
+			render: (_, record) => <h1 className='text-center'>{record?.shipment_detail?.ship_to?.city_locality?.slice(0,8)}...</h1>
 		},
 		{
 			title: 'Shipping Rate',

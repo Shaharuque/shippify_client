@@ -73,7 +73,7 @@ const BlockChainModal = ({ isOpen, onClose, blockData, activeCard, hashLoading }
                                                     )
                                                 })
                                                 :
-                                                'N/A'
+                                                <Text fontWeight={"bold"} marginLeft={'5px'}> {Number(blockData?.data?.netPayable).toFixed(2)}$</Text>
                                         }
                                     </Flex>
 

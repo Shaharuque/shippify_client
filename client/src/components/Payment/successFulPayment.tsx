@@ -166,7 +166,7 @@ const SuccessFulPayment = () => {
 							gap={'1rem'}
 							justify={'space-around'}>
 							<RegularButton
-								onClick={() => navigate('/shipment')}
+								onClick={() => navigate('/dashboard')}
 								text="Go to Shipment"
 								width="10rem"
 							/>
