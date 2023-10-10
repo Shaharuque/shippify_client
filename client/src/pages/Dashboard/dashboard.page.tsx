@@ -112,6 +112,7 @@ const DashboardPage = () => {
 					/>
 					<StatusFilter
 						onChange={(value: string): void => {
+							if (value === '') return;
 							const filteredTableData = filterTableData.filter((shipment: any) => {
 								return shipment?.shipment_detail?.shipment_status === value;
 							});

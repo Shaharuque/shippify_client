@@ -5,7 +5,7 @@ import moment from 'moment';
 const ViewShipmentDetails = ({ shipmentData }: { shipmentData: any }) => {
 	// console.log('shipmentData', shipmentData);
 	// console.log('shipmentData', shipmentData?.shipment_detail?.ship_from?.phone);
-	const total_shipping_charge = Number(shipmentData?.labelDetail?.shipment_cost?.amount) + Number(shipmentData?.labelDetail?.insurance_cost?.amount);
+	const total_shipping_charge = Number(shipmentData?.labelDetail?.shipment_cost?.amount) + Number(shipmentData?.insurance_detail?.amount);
 	const platform_fee = total_shipping_charge * 0.1;
 	const total = total_shipping_charge + platform_fee;
 	return (
@@ -169,7 +169,7 @@ const ViewShipmentDetails = ({ shipmentData }: { shipmentData: any }) => {
 							<Text
 								fontSize="sm"
 								m={'.2rem 0'}>
-								Insurance: {shipmentData?.labelDetail?.insurance_cost?.amount} ({shipmentData?.labelDetail?.insurance_cost?.currency})
+								Insurance: {shipmentData?.insurance_detail?.amount} (usd)
 							</Text>
 							<Text
 								fontSize="sm"
@@ -178,13 +178,16 @@ const ViewShipmentDetails = ({ shipmentData }: { shipmentData: any }) => {
 							</Text>
 						</Box>
 
-						<Box ml="auto">
-							<Heading
-								size="sm"
-								textTransform="uppercase">
-								Total: {total?.toFixed(2)} (usd)
-							</Heading>
-						</Box>
+						{total > 0 && (
+							<Box ml="auto">
+								<Heading
+									size="sm"
+									textTransform="uppercase">
+									Total: {total?.toFixed(2)} (usd)
+								</Heading>
+							</Box>
+						)}
+
 						{shipmentData?.shipment_detail?.shipment_status === 'unknown' && (
 							<Box mt={'2rem'}>
 								<Button> Claim insurance</Button>

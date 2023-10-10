@@ -194,42 +194,46 @@ const ViewLtlShipmentDetails = ({ shipmentData }: { shipmentData: any }) => {
 									</div>
 								</Box>
 							))}
+							{total && total > 0 ? (
+								<Box
+									style={{
+										borderBottom: '1px solid gray',
+										marginBottom: '10px',
+									}}>
+									<div className="flex gap-2">
+										<h1>Cost Type:</h1>
+										<Text
+											fontSize="sm"
+											m={'.2rem 0'}>
+											Platform fee:
+										</Text>
+									</div>
+									<div className="flex gap-2">
+										<h1>Description:</h1>
+										<Text
+											fontSize="sm"
+											m={'.2rem 0'}>
+											10% incurred on total shipping charges
+										</Text>
+									</div>
+									<div className="flex gap-2">
+										<h1>Amount:</h1>
+										<p className="font-bold text-teal-700">{platform_fee} (usd)</p>
+									</div>
+								</Box>
+							) : null}
+						</Box>
 
-							<Box
-								style={{
-									borderBottom: '1px solid gray',
-									marginBottom: '10px',
-								}}>
-								<div className="flex gap-2">
-									<h1>Cost Type:</h1>
-									<Text
-										fontSize="sm"
-										m={'.2rem 0'}>
-										Platform fee:
-									</Text>
-								</div>
-								<div className="flex gap-2">
-									<h1>Description:</h1>
-									<Text
-										fontSize="sm"
-										m={'.2rem 0'}>
-										10% incurred on total shipping charges
-									</Text>
-								</div>
-								<div className="flex gap-2">
-									<h1>Amount:</h1>
-									<p className="font-bold text-teal-700">{platform_fee} (usd)</p>
-								</div>
+						{total > 0 && (
+							<Box ml="auto">
+								<Heading
+									size="sm"
+									textTransform="uppercase">
+									Total: {total?.toFixed(2)} (usd)
+								</Heading>
 							</Box>
-						</Box>
+						)}
 
-						<Box ml="auto">
-							<Heading
-								size="sm"
-								textTransform="uppercase">
-								Total: {total?.toFixed(2)} (usd)
-							</Heading>
-						</Box>
 						{shipmentData?.shipment_detail?.shipment_status && (
 							<Box mt={'2rem'}>
 								<Button>Claim insurance</Button>
