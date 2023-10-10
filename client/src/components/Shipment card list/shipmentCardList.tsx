@@ -15,7 +15,7 @@ const ShipmentCardList = ({ tableData, clickedCard, activeCard }: IShipment) => 
 			{tableData && tableData?.length > 0 ? (
 				<Flex
 					flexWrap="wrap"
-					h={'75vh'}
+					h={'fit-content'}
 					mb={'2rem'}
 					overflowY={'scroll'}>
 					{tableData?.map((shipment: any, index: number) => {

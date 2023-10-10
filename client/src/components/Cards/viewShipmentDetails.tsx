@@ -1,10 +1,13 @@
-import { Tabs, TabList, TabPanels, Tab, TabPanel, Box, Heading, Text } from '@chakra-ui/react';
+import { Tabs, TabList, TabPanels, Tab, TabPanel, Box, Heading, Text, Button } from '@chakra-ui/react';
 import { TPackageDetailsForm } from '../Basic shipment/multiStepperForBasic/packageDetailsForm';
 import moment from 'moment';
 
 const ViewShipmentDetails = ({ shipmentData }: { shipmentData: any }) => {
 	// console.log('shipmentData', shipmentData);
 	// console.log('shipmentData', shipmentData?.shipment_detail?.ship_from?.phone);
+	const total_shipping_charge = Number(shipmentData?.labelDetail?.shipment_cost?.amount) + Number(shipmentData?.labelDetail?.insurance_cost?.amount);
+	const platform_fee = total_shipping_charge * 0.1;
+	const total = total_shipping_charge + platform_fee;
 	return (
 		<Tabs
 			isFitted
@@ -168,15 +171,25 @@ const ViewShipmentDetails = ({ shipmentData }: { shipmentData: any }) => {
 								m={'.2rem 0'}>
 								Insurance: {shipmentData?.labelDetail?.insurance_cost?.amount} ({shipmentData?.labelDetail?.insurance_cost?.currency})
 							</Text>
+							<Text
+								fontSize="sm"
+								m={'.2rem 0'}>
+								Platform fee: {platform_fee} ({shipmentData?.labelDetail?.insurance_cost?.currency})
+							</Text>
 						</Box>
 
 						<Box ml="auto">
-							{/* <Heading
+							<Heading
 								size="sm"
 								textTransform="uppercase">
 								Total: {total?.toFixed(2)} (usd)
-							</Heading> */}
+							</Heading>
 						</Box>
+						{shipmentData?.shipment_detail?.shipment_status === 'unknown' && (
+							<Box mt={'2rem'}>
+								<Button> Claim insurance</Button>
+							</Box>
+						)}
 					</div>
 				</TabPanel>
 			</TabPanels>

@@ -1,4 +1,4 @@
-import { Tabs, TabList, TabPanels, Tab, TabPanel, Box, Heading, Text } from '@chakra-ui/react';
+import { Tabs, TabList, TabPanels, Tab, TabPanel, Box, Heading, Text, Button } from '@chakra-ui/react';
 import moment from 'moment';
 
 const ViewLtlShipmentDetails = ({ shipmentData }: { shipmentData: any }) => {
@@ -6,6 +6,12 @@ const ViewLtlShipmentDetails = ({ shipmentData }: { shipmentData: any }) => {
 	deliveryDate.setDate(deliveryDate.getDate() + shipmentData?.shipment_detail?.estimated_delivery_days);
 	// console.log('shipmentData', shipmentData);
 	// console.log('shipmentData', shipmentData?.shipment_detail?.ship_from?.phone);
+	const total_shipping_charge = shipmentData?.shipment_detail?.charges?.reduce((total: number, item: { amount: { value: number; currency: string } }) => {
+		return total + (Number(item?.amount?.value) || 0);
+	}, 0);
+	const platform_fee = total_shipping_charge * 0.1;
+	const total = platform_fee + total_shipping_charge;
+
 	return (
 		<Tabs
 			isFitted
@@ -188,15 +194,47 @@ const ViewLtlShipmentDetails = ({ shipmentData }: { shipmentData: any }) => {
 									</div>
 								</Box>
 							))}
+
+							<Box
+								style={{
+									borderBottom: '1px solid gray',
+									marginBottom: '10px',
+								}}>
+								<div className="flex gap-2">
+									<h1>Cost Type:</h1>
+									<Text
+										fontSize="sm"
+										m={'.2rem 0'}>
+										Platform fee:
+									</Text>
+								</div>
+								<div className="flex gap-2">
+									<h1>Description:</h1>
+									<Text
+										fontSize="sm"
+										m={'.2rem 0'}>
+										10% incurred on total shipping charges
+									</Text>
+								</div>
+								<div className="flex gap-2">
+									<h1>Amount:</h1>
+									<p className="font-bold text-teal-700">{platform_fee} (usd)</p>
+								</div>
+							</Box>
 						</Box>
 
 						<Box ml="auto">
-							{/* <Heading
+							<Heading
 								size="sm"
 								textTransform="uppercase">
 								Total: {total?.toFixed(2)} (usd)
-							</Heading> */}
+							</Heading>
 						</Box>
+						{shipmentData?.shipment_detail?.shipment_status && (
+							<Box mt={'2rem'}>
+								<Button>Claim insurance</Button>
+							</Box>
+						)}
 					</div>
 				</TabPanel>
 			</TabPanels>
