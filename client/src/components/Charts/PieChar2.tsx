@@ -18,15 +18,12 @@ const PieChat2 = () => {
     const token = localStorage.getItem('token');
     const fetchPieChartData = async () => {
       try {
-        const result = await axios.get(
-          `${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT}/shipment/basic/pie/chart/group/by/shipping/status`,
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              'x-auth-token': token,
-            },
-          }
-        );
+        const result =  await axios.get(`${import.meta.env.VITE_BACKEND_URL}/shipment/basic/pie/chart/group/by/shipping/status`, {
+					headers: {
+						'Content-Type': 'application/json',
+						'x-auth-token': token,
+					},
+				});
 
         const filteredData = result?.data?.data.filter(
           (item: TPieData) => item.status !== 'pending'

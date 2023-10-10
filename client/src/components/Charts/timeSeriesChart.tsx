@@ -2,7 +2,8 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Chart from 'react-apexcharts';
 import { populateMonthsForCharts } from '../../utils/populateMonthsForCharts';
-import { Stack, Image, Text } from '@chakra-ui/react';
+import { Stack, Image, Text, Flex } from '@chakra-ui/react';
+import NoDataFound from '../No service available/noDataFound';
 
 const TimeSeriesChart = () => {
 	const [successVolume, setSuccessVolume] = useState<any[]>([]);
