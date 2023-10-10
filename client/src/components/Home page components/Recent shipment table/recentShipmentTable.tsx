@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 interface DataType {
 	record: any;
@@ -62,29 +63,21 @@ const RecentShipmentTable = () => {
 			title: 'Service',
 			dataIndex: 'name',
 			key: 'name',
-			// ellipsis: true,
-			render: (_, record) => <h1 className=" break-words">{record?.labelDetail?.service_code}</h1>,
+			ellipsis: true,
+			render: (_,record) => <h1 className=' break-words'>{record?.labelDetail?.service_code?.slice(0,8)}...</h1>
 		},
 
 		{
 			title: 'From',
 			dataIndex: 'fromaddress',
 			key: 'fromaddress',
-			render: (_, record) => (
-				<h1 className="text-center">
-					{record?.shipment_detail?.ship_from?.city_locality}, {record?.shipment_detail?.ship_from?.country_code}
-				</h1>
-			),
+			render: (_, record) => <h1 className='text-center'>{record?.shipment_detail?.ship_from?.city_locality?.slice(0,8)}...</h1>
 		},
 		{
 			title: 'To',
 			dataIndex: 'toadress',
 			key: 'toadress',
-			render: (_, record) => (
-				<h1 className="text-center">
-					{record?.shipment_detail?.ship_to?.city_locality}, {record?.shipment_detail?.ship_to?.country_code}
-				</h1>
-			),
+			render: (_, record) => <h1 className='text-center'>{record?.shipment_detail?.ship_to?.city_locality?.slice(0,8)}...</h1>
 		},
 		{
 			title: 'Shipping Rate',
@@ -102,8 +95,8 @@ const RecentShipmentTable = () => {
 			title: 'Paid',
 			dataIndex: 'payment',
 			key: 'payment',
-			render: (_, record) => <h1>{record?.payment_detail?.net_payable}$</h1>,
-		},
+			render: (_, record) => <h1>{Number(record?.payment_detail?.net_payable).toFixed(2)}$</h1>
+		}
 		// {
 		// 	title: 'Tags',
 		// 	key: 'tags',
@@ -127,15 +120,18 @@ const RecentShipmentTable = () => {
 	];
 
 	return (
-		<div className="h-[38vh] overflow-x-scroll">
-			<Table
-				pagination={false} //pagination dekhatey chailey just 'true' korey dilei hobey
+		<div className='h-[350px] 2xl:h-[450px] overflow-x-scroll bg-white rounded-md'>
+
+			<Table pagination={false} //pagination dekhatey chailey just 'true' korey dilei hobey
 				rowKey={(record) => record?._id} //record is kind of whole one data object and here we are assigning id as key
 				className="font-semibold"
 				bordered
 				columns={columns}
-				dataSource={shipmentData}
-			/>
+				dataSource={shipmentData} />
+
+			<div className='flex justify-end mr-2'>
+				<Link to='/dashboard' className='bg-[#67a5c9] p-2 mt-2 rounded text-white'>See More...</Link>	
+			</div>	
 		</div>
 	);
 };

@@ -2,6 +2,8 @@ import { Box, Flex } from '@chakra-ui/react';
 import ShipmentMenuList from '../../components/Home page components/Shipment menu list/shipmentMenuList';
 import StatCardList from '../../components/Home page components/Stat card list/statCardList';
 import AnalyticsBox from '../../components/Home page components/Analytics box/analyticsBox';
+import PieChart from '../../components/Charts/pieChart';
+import PieChat2 from '../../components/Charts/PieChar2';
 
 const HomePage = () => {
 	return (
@@ -24,13 +26,20 @@ const HomePage = () => {
 				</div>
 
 				<div className='col-span-5'>
-					<div className=''>
+					<div>
 						<StatCardList />
 						<AnalyticsBox />
+						<div className='grid grid-cols-2 gap-4'>
+							<div className='bg-white p-4 rounded'>
+								<PieChart />
+							</div>
+							<div className='bg-white p-4 rounded'>
+								<PieChat2/>
+							</div>
+						</div>
 					</div>
 
 				</div>
-
 			</div>
 		</>
 

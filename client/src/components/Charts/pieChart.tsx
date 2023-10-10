@@ -38,33 +38,55 @@ const PieChart = () => {
 		fetchPieChartData();
 	}, []);
 
-	const options = {
-		responsive: [
-			{
-				breakpoint: 480, // Define the breakpoint where responsiveness should apply
+  const options = {
+    responsive: [
+      {
+				breakpoint: 1921,
 				options: {
-					legend: {
-						position: 'bottom', // Change legend position for smaller screens
+					chart: {
+						height: '200',
+					},
+					title: {
+						text: 'Basic Shipment Status',
+						align: 'left',
+						margin: 10,
+						offsetX: 0,
+						offsetY: 0,
+						floating: false,
+						style: {
+							fontSize: '14px',
+							fontWeight: 'bold',
+							fontFamily: undefined,
+							color: '#596469',
+						},
 					},
 				},
 			},
-		],
-		labels: labels,
-		legend: { position: 'right' as 'right' },
-		title: {
-			text: 'Shipment Status', // Add your desired title here
-			align: 'center',
-			margin: 10,
-			fontWeight: 200,
-			style: {
-				fontSize: '14px',
-				fontWeight: 'bold',
-				fontFamily: undefined,
-				color: '#596469',
-			},
-		},
-	};
-	const series = values;
+      {
+        breakpoint: 480, // Define the breakpoint where responsiveness should apply
+        options: {
+          legend: {
+            position: 'bottom', // Change legend position for smaller screens
+          },
+        },
+      },
+    ],
+    labels: labels,
+    legend: { position: 'right' as 'right' },
+    title: {
+      text: 'Basic Shipment Status', // Add your desired title here
+      align: 'center',
+      margin: 10,
+	  fontWeight: 200,
+	  style: {
+		fontSize: '14px',
+		fontWeight: 'bold',
+		fontFamily: undefined,
+		color: '#596469',
+	},
+    },
+  };
+  const series = values;
 
 	return (
 		<>

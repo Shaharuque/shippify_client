@@ -35,6 +35,7 @@ const InsuranceDetailsFormLTL = ({ nextStep, prevStep }: { nextStep: () => void;
 				const response = await fetchQuote({ data: ltlShipmentInfo, token });
 				console.log('response:', response);
 				if (response?.data?.status === 'success') {
+					console.log('response:', response?.data?.data?._id)
 					setShipmentId(response?.data?.data?._id);
 					localStorage.setItem('shipmentId', response?.data?.data?._id);
 					dispatch(updateLTLTotalCharge({ amount: response?.data?.data?.shipment_detail?.charges[4]?.amount, shipmentId: response?.data?.data?._id }));

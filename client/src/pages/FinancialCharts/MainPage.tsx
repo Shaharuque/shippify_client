@@ -75,7 +75,7 @@ const MainPage = () => {
                 </div>
 
                 <div className='bg-white rounded-md p-2'>
-                    <StackedBar></StackedBar>
+                    <GroupedStackBar></GroupedStackBar>
                 </div>
 
             </div>

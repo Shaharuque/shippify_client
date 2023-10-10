@@ -2,13 +2,14 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Chart from 'react-apexcharts';
 import { populateMonthsForCharts } from '../../utils/populateMonthsForCharts';
+import { Stack, Image, Text, Flex } from '@chakra-ui/react';
 import NoDataFound from '../No service available/noDataFound';
-import { Flex } from '@chakra-ui/react';
 
 const TimeSeriesChart = () => {
 	const [successVolume, setSuccessVolume] = useState<any[]>([]);
 	const [totalShipping, setTotalShipping] = useState<any[]>([]);
 	const [failedVolume, setFailedVolume] = useState<any[]>([]);
+	const [transitVolume, setTransitVolume] = useState<any[]>([]);
 
 	useEffect(() => {
 		const token = localStorage.getItem('token');
@@ -52,6 +53,17 @@ const TimeSeriesChart = () => {
 				);
 
 				if (responseThree?.data?.status === 'success') setSuccessVolume(populateMonthsForCharts(responseThree?.data?.data));
+
+				const responseFour = await axios.get(
+					'http://localhost:5000/shipment/basic/intransit',
+					{
+						headers: {
+							'Content-Type': 'application/json',
+							'x-auth-token': token,
+						},
+					}
+				);
+				if (responseFour?.data?.status === 'success') setTransitVolume(populateMonthsForCharts(responseFour?.data?.data));
 			} catch (error) {
 				console.error('Error fetching data:', error);
 			}
@@ -61,16 +73,20 @@ const TimeSeriesChart = () => {
 
 	const series = [
 		{
-			name: 'Total shipment(monthly)',
+			name: 'Total shipment',
 			data: [...totalShipping?.map((item) => item.count)],
 		},
 		{
-			name: 'Failed shipment(monthly)',
+			name: 'Failed shipment',
 			data: [...failedVolume?.map((item) => item.count)],
 		},
 		{
-			name: 'Successful shipment(monthly)',
+			name: 'Successful shipment',
 			data: [...successVolume?.map((item) => item.count)],
+		},
+		{
+			name: 'In-Transit',
+			data: [...transitVolume?.map((item) => item.count)],
 		},
 	];
 
@@ -108,7 +124,7 @@ const TimeSeriesChart = () => {
 				breakpoint: 1921,
 				options: {
 					chart: {
-						height: '500',
+						height: '400',
 					},
 					title: {
 						text: 'Shipment Volume',
