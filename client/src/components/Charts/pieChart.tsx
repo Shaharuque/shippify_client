@@ -53,7 +53,7 @@ const PieChart = () => {
 						height: '200',
 					},
 					title: {
-						text: 'Basic Shipment Status nb ',
+						text: 'Basic Shipment Status',
 						align: 'left',
 						margin: 10,
 						offsetX: 0,

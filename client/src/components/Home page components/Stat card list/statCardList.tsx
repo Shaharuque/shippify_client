@@ -45,7 +45,7 @@ const StatCardList = () => {
 					value={shipmentData?.totalbasicShipment}
 					icon={RiShipLine}
 					color={'secondary'}
-					bg={'lightBlue'}
+					bg={'black'}
 				/>
 				<StatCards
 					title={'Total Insured'}
@@ -63,11 +63,11 @@ const StatCardList = () => {
 				/>
 				<StatCards
 					title={'Total Spent'}
-					value={shipmentData?.totalPaidAmount}
+					value={Number(shipmentData?.totalPaidAmount).toFixed(2)}
 					sign={'$'}
 					icon={LuBadgeDollarSign}
 					color={'green.500'}
-					bg={'pink'}
+					bg={'brown'}
 				/>
 				<StatCards
 					title={'Total Spent'}
