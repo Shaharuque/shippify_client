@@ -164,7 +164,8 @@ const SuccessFulPayment = () => {
 
 						<Flex
 							gap={'1rem'}
-							justify={'space-around'}>
+							justify={'space-around'}
+							mt={'2rem'}>
 							<RegularButton
 								onClick={() => navigate('/dashboard')}
 								text="Go to Shipment"
