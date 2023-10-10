@@ -49,6 +49,8 @@ const LtlTrackingList = () => {
 				//console.log('result:', response.data);
 				setTableData(response?.data?.result);
 				setTabListLoading(false);
+				setActiveCard(response?.data?.result[0]?._id);
+				fetchSingleShipment({ token, id: response?.data?.result[0]?._id });
 			} catch (error) {
 				console.log(error);
 			}
