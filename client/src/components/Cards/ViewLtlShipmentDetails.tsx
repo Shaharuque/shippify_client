@@ -1,5 +1,4 @@
 import { Tabs, TabList, TabPanels, Tab, TabPanel, Box, Heading, Text } from '@chakra-ui/react';
-import { TPackageDetailsForm } from '../Basic shipment/multiStepperForBasic/packageDetailsForm';
 import moment from 'moment';
 
 const ViewLtlShipmentDetails = ({ shipmentData }: { shipmentData: any }) => {
