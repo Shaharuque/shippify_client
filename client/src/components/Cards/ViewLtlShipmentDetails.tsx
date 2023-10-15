@@ -1,5 +1,6 @@
 import { Tabs, TabList, TabPanels, Tab, TabPanel, Box, Heading, Text, Button } from '@chakra-ui/react';
 import moment from 'moment';
+import { Link } from 'react-router-dom';
 
 const ViewLtlShipmentDetails = ({ shipmentData }: { shipmentData: any }) => {
 	const deliveryDate = new Date(`${shipmentData?.shipment_detail?.shipment?.pickup_date}`);
@@ -150,6 +151,10 @@ const ViewLtlShipmentDetails = ({ shipmentData }: { shipmentData: any }) => {
 								color={'gray'}>
 								{shipmentData?.bolDetail?.pro_number}
 							</Text>
+
+							<div className='bg-[#437F8C] rounded p-2 text-white mt-2 text-center'>
+								<Link to='/tracking'>Go Tracking!</Link>
+							</div>
 						</div>
 					</div>
 				</TabPanel>

@@ -1,6 +1,7 @@
 import { Tabs, TabList, TabPanels, Tab, TabPanel, Box, Heading, Text, Button } from '@chakra-ui/react';
 import { TPackageDetailsForm } from '../Basic shipment/multiStepperForBasic/packageDetailsForm';
 import moment from 'moment';
+import { Link } from 'react-router-dom';
 
 const ViewShipmentDetails = ({ shipmentData }: { shipmentData: any }) => {
 	// console.log('shipmentData', shipmentData);
@@ -145,6 +146,10 @@ const ViewShipmentDetails = ({ shipmentData }: { shipmentData: any }) => {
 								color={'gray'}>
 								{shipmentData?.labelDetail?.tracking_number}
 							</Text>
+
+							<div className='bg-[#437F8C] rounded p-2 text-white mt-2 text-center'>
+								<Link to='/tracking'>Go Tracking!</Link>
+							</div>
 						</div>
 					</div>
 				</TabPanel>

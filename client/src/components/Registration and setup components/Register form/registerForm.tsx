@@ -113,6 +113,7 @@ const RegisterForm = ({ nextStep }: { nextStep: () => void }) => {
 						</InputLeftElement>
 						<Input
 							id="password"
+							type="password"
 							placeholder="Password"
 							_placeholder={{ color: '#808080' }}
 							border={'1px solid'}
@@ -131,6 +132,7 @@ const RegisterForm = ({ nextStep }: { nextStep: () => void }) => {
 						</InputLeftElement>
 						<Input
 							id="confirmPassword"
+							type="password"
 							placeholder="Confirm Password"
 							_placeholder={{ color: '#808080' }}
 							border={'1px solid'}
